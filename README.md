@@ -1,5 +1,7 @@
 # WSDOT Milepost Map App
 
+[![Node.js CI](https://github.com/WSDOT-GIS/wsdot-mp-map/actions/workflows/node.js.yml/badge.svg)](https://github.com/WSDOT-GIS/wsdot-mp-map/actions/workflows/node.js.yml)
+
 ## Goals
 
 * UI needs to be simple. Similar features in Geoportal are more complicated to use due to Geoportal's other features.
