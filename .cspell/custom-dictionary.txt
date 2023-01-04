@@ -2,3 +2,4 @@
 Avenir
 Geoportal
 SRMP
+Vite
