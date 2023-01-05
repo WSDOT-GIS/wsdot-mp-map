@@ -10,17 +10,17 @@
 
 ### Location
 
-* Click on map and get SR & SRMP
-* Search: Get location by inputting SR and SRMP
-* Generate link to SR, SRMP location. Link will open this app at that location.
+* [x] Click on map and get SR & SRMP
+* [ ] Search: Get location by inputting SR and SRMP
+* [ ] Generate link to SR, SRMP location. Link will open this app at that location.
 
 #### Required info for each location
 
-* State Route ID
-* Milepost (SRMP)
-* Is route Increase or Decrease?
-* Lat./Long.
-* Which ______ is the point in?
-  * County
-  * Township
-  * Range
+* [x] State Route ID
+* [x] Milepost (SRMP)
+* [x] Is route Increase or Decrease?
+* [x] Lat./Long.
+* [ ] Which ______ is the point in?
+  * [ ] County
+  * [ ] Township
+  * [ ] Range
