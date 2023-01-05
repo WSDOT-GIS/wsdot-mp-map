@@ -1,21 +1,24 @@
-type AuthorityUppercase = "EPSG";
+export type AuthorityUppercase = "EPSG" | "ESRI";
 export type Authority = AuthorityUppercase | Lowercase<AuthorityUppercase>;
 
-type UncertaintyName = "u" | "U";
-type CrsName = "crs" | "CRS";
+export type UncertaintyName = "u" | "U";
+export type CrsName = "crs" | "CRS";
 
-type KeyValuePair =
-  | `${CrsName}=${Authority}`
+export type Crs = `${Authority}:${number}`;
+
+export type KeyValuePair =
+  | `${CrsName}=${Crs}`
   | `${UncertaintyName}=${number}`
   | `${string}=${string}`;
 
-type KeyValuePairWithSemicolonPrefix = `;${KeyValuePair}`;
+export type KeyValuePairWithSemicolonPrefix = `;${KeyValuePair}`;
 
-type CoordinateList = `${number},${number}${
-  /* optional altitude */ `,${number}` | ""
+export type CoordinateList = `${number},${number}${
+  // optional altitude
+  `,${number}` | ""
 }`;
 
-type BareGeoUri =
+export type BareGeoUri =
   | `geo:${CoordinateList}`
   | `geo:${CoordinateList}${KeyValuePairWithSemicolonPrefix}`
   | `geo:${CoordinateList}${KeyValuePairWithSemicolonPrefix}${KeyValuePairWithSemicolonPrefix}`
@@ -62,7 +65,7 @@ type BareGeoUri =
  */
 export type GeoUriString = `${BareGeoUri}${`?${string}` | ""}`;
 
-type GeoUrlSearchParameters = Record<string, string> & {
+export type GeoUrlSearchParameters = Record<string, string> & {
   /**
    * Used for address query
    */
@@ -73,7 +76,7 @@ type GeoUrlSearchParameters = Record<string, string> & {
   z?: number;
 };
 
-interface GeoUrlOptions {
+export interface GeoUrlOptions {
   /** Latitude */
   x: number;
   /** Longitude */
@@ -84,68 +87,78 @@ interface GeoUrlOptions {
    * Coordinate Reference system.
    * Not needed for 4326
    */
-  crs?: `${Authority}:${number}`;
+  crs?: Crs;
   /**
    * uncertainty
    */
   uncertainty?: number;
   /** Label  */
   label?: string;
+  /**
+   * Additional search parameters
+   */
   search?: GeoUrlSearchParameters;
 }
 
+export function createGeoUriString(options: GeoUrlOptions) {
+  const { x, y, altitude } = options;
+
+  /**
+   * Create a mapping for additional,
+   * semicolon separated parameters.
+   */
+  const argsMap = new Map<string, string>();
+  if (options.crs) {
+    argsMap.set("crs", options.crs);
+  }
+  if (options.uncertainty) {
+    argsMap.set("u", options.uncertainty.toString());
+  }
+
+  /**
+   * Enumerate over the items in the Map and yield
+   * "key=value" strings.
+   * @param map - A Map.
+   */
+  function* enumerateMapAsKeyEqualsValueStrings<K, V>(map: Map<K, V>) {
+    for (const keyValuePair of map) {
+      yield keyValuePair.join("=");
+    }
+  }
+
+  // Create array of coordinates, optionally including altitude if provided.
+  const coords = altitude
+    ? ([y, x, altitude] as [number, number, number])
+    : ([y, x] as [number, number]);
+
+  // Construct the URL.
+  let url = `geo:${coords.join(",")}`;
+
+  // Add additional URL parameters if they have been provided.
+  if (argsMap.size > 0) {
+    url = [url, ...enumerateMapAsKeyEqualsValueStrings(argsMap)].join();
+  }
+
+  // Add the optional label if present.
+  if (options.label) {
+    url += `(${options.label})`;
+  }
+
+  // Add search parameters if provided.
+  if (options.search) {
+    const search = new URLSearchParams(options.search);
+    url = [url, search].join("?");
+  }
+
+  return url as GeoUriString;
+}
+
 /**
- * Extension of {@link URL} class with additional
- * features for
+ * An object representing a GeoURI
  */
 export class GeoUrl extends URL {
   constructor(options: GeoUrlOptions) {
-    const { x, y, altitude } = options;
-
-    const argsMap = new Map<string, string>();
-    if (options.crs) {
-      argsMap.set("crs", options.crs);
-    }
-    if (options.uncertainty) {
-      argsMap.set("u", options.uncertainty.toString());
-    }
-
-    /**
-     * Enumerate over the items in the Map and yield
-     * "key=value" strings.
-     * @param map - A Map.
-     */
-    function* enumerateMapAsKeyEqualsValueStrings<K, V>(map: Map<K, V>) {
-      for (const keyValuePair of map) {
-        yield keyValuePair.join("=");
-      }
-    }
-
-    // Create array of coordinates, optionally including altitude if provided.
-    const coords = altitude
-      ? ([y, x, altitude] as [number, number, number])
-      : ([y, x] as [number, number]);
-
-    // Construct the URL.
-    let url = `geo:${coords.join(",")}`;
-
-    // Add additional URL parameters if they have been provided.
-    if (argsMap.size > 0) {
-      url = [url, ...enumerateMapAsKeyEqualsValueStrings(argsMap)].join();
-    }
-
-    // Add the optional label if present.
-    if (options.label) {
-      url += `(${options.label})`;
-    }
-
-    // Add search parameters if provided.
-    if (options.search) {
-      const search = new URLSearchParams(options.search);
-      url = [url, search].join("?");
-    }
-
-    super(url);
+    super(createGeoUriString(options));
   }
 
   toString(): GeoUriString {
