@@ -1,5 +1,6 @@
 # Custom Dictionary Words
 Avenir
+EPSG
 Geoportal
 latlng
 SRMP
