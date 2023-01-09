@@ -164,7 +164,7 @@ export class GeoUrl extends URL {
   altitude?: number;
   crs?: Crs;
   uncertainty?: number;
-  label?: string;
+  // label?: string;
 
   constructor(options: GeoUrlOptions) {
     super(createGeoUriString(options));
@@ -173,7 +173,7 @@ export class GeoUrl extends URL {
     this.altitude = options.altitude;
     this.crs = options.crs;
     this.uncertainty = options.uncertainty;
-    this.label = options.label;
+    // this.label = options.label;
   }
 
   toString(): GeoUriString {
