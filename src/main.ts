@@ -3,68 +3,36 @@ import {
   tileLayer,
   LatLngBounds,
   marker,
-  type LatLngTuple,
+  popup,
 } from "leaflet";
 import {
   type IFindNearestRouteLocationParameters,
-  type IRouteLocation,
   RouteLocator,
 } from "wsdot-elc";
 import "leaflet/dist/leaflet.css";
 import "./style.css";
-import { elcSoeUrl } from "./elc";
-
-interface IPointGeometry {
-  x: number;
-  y: number;
-}
-
-interface PointRouteLocation extends IRouteLocation {
-  RouteGeometry: IPointGeometry
-}
-
-function isPointGeometry(geometry: any): geometry is IPointGeometry {
-  console.group(`Entering ${isPointGeometry.name}…`);
-  for (const name of ["x", "y"]) {
-    console.log(
-      `Checking to see if object has a ${name} property that is a number…`
-    );
-    if (
-      !(Object.hasOwn(geometry, name) && typeof geometry[name] === "number")
-    ) {
-      console.warn(`mismatch: ${geometry}`, geometry);
-      console.groupEnd();
-      return false;
-    }
-  }
-  console.groupEnd();
-  return true;
-}
-
-function isPointRouteLocation(routeLocation: IRouteLocation): routeLocation is PointRouteLocation {
-  return isPointGeometry(routeLocation.RouteGeometry);
-}
-
-function convertToLtLng(geometry: IPointGeometry): LatLngTuple {
-  return [geometry.y, geometry.x];
-}
+import PointRouteLocation from "./PointRouteLocation";
 
 function createPopup(routeLocation: PointRouteLocation) {
+  const content = createPopupContent(routeLocation);
+  const thePopup = popup({
+    content,
+  });
 
-  const [x, y] = [routeLocation.RouteGeometry.x, routeLocation.RouteGeometry.y];
-  return `${routeLocation.Route}${routeLocation.Decrease ? " (Decrease)" : ""}@${routeLocation.Srmp
-    }${routeLocation.Back ? "B" : ""} (${x}, ${y})`;
+  return thePopup;
 }
 
-function createMarker(routeLocation: IRouteLocation) {
-  if (!isPointRouteLocation(routeLocation)) {
-    throw new TypeError("Must be point route location")
-  }
+function createPopupContent(routeLocation: PointRouteLocation) {
+  const [x, y] = routeLocation.routeGeometryXY;
+  return `${routeLocation.Route}${routeLocation.Decrease ? " (Decrease)" : ""}@${routeLocation.Srmp}${routeLocation.Back ? "B" : ""} (${x}, ${y})`;
+}
+
+function createMarker(routeLocation: PointRouteLocation) {
   const popup = createPopup(routeLocation);
 
-  const outputMarker = marker(convertToLtLng(routeLocation.RouteGeometry))
-    .bindPopup(popup)
-    .openPopup();
+  const latLng = routeLocation.leafletLatLngLiteral;
+  const outputMarker = marker(latLng).bindPopup(popup);
+
   return outputMarker;
 }
 
@@ -73,7 +41,7 @@ const waExtent = new LatLngBounds([
   [49.05, -124.79],
 ]);
 
-const rl = new RouteLocator(elcSoeUrl.toString());
+const rl = new RouteLocator("https://data.wsdot.wa.gov/arcgis/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe");
 
 const theMap = map("map", {
   maxBounds: waExtent,
@@ -108,6 +76,8 @@ theMap.on("click", async (e) => {
 
   for (const result of results) {
     console.log(`elcResult ${JSON.stringify(result, undefined, 4)}`);
-    createMarker(result).addTo(theMap);
+    const prl = new PointRouteLocation(result);
+    const marker = createMarker(prl)
+    marker.addTo(theMap);
   }
 });
