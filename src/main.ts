@@ -12,6 +12,7 @@ import {
 import "leaflet/dist/leaflet.css";
 import "./style.css";
 import PointRouteLocation from "./PointRouteLocation";
+import { GeoUrl } from "./GeoUri";
 
 function createPopup(routeLocation: PointRouteLocation) {
   const content = createPopupContent(routeLocation);
@@ -24,7 +25,27 @@ function createPopup(routeLocation: PointRouteLocation) {
 
 function createPopupContent(routeLocation: PointRouteLocation) {
   const [x, y] = routeLocation.routeGeometryXY;
-  return `${routeLocation.Route}${routeLocation.Decrease ? " (Decrease)" : ""}@${routeLocation.Srmp}${routeLocation.Back ? "B" : ""} (${x}, ${y})`;
+  const route = `${routeLocation.Route}${routeLocation.Decrease ? " (Decrease)" : ""}`
+  const srmp = `${routeLocation.Srmp}${routeLocation.Back ? "B" : ""}`
+  const label = `${route}@${srmp}`;
+  const geoUri = new GeoUrl({
+    x,
+    y,
+  });
+  const frag = document.createDocumentFragment();
+  const srmpDiv = document.createElement("div");
+  srmpDiv.innerText = label;
+  frag.appendChild(srmpDiv);
+  const geoDiv = document.createElement("div");
+  frag.appendChild(geoDiv);
+  const a = document.createElement("a");
+  a.href = geoUri.toString();
+  a.textContent = geoUri.toString();
+  a.target = "_blank";
+  geoDiv.appendChild(a);
+  const output = document.createElement("div");
+  output.appendChild(frag);
+  return output;
 }
 
 function createMarker(routeLocation: PointRouteLocation) {

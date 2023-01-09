@@ -1,3 +1,5 @@
+import { LatLngTuple } from "leaflet";
+
 export type AuthorityUppercase = "EPSG" | "ESRI";
 export type Authority = AuthorityUppercase | Lowercase<AuthorityUppercase>;
 
@@ -157,11 +159,38 @@ export function createGeoUriString(options: GeoUrlOptions) {
  * An object representing a GeoURI
  */
 export class GeoUrl extends URL {
+  x: number;
+  y: number;
+  altitude?: number;
+  crs?: Crs;
+  uncertainty?: number;
+  label?: string;
+
   constructor(options: GeoUrlOptions) {
     super(createGeoUriString(options));
+    this.x = options.x;
+    this.y = options.y;
+    this.altitude = options.altitude;
+    this.crs = options.crs;
+    this.uncertainty = options.uncertainty;
+    this.label = options.label;
   }
 
   toString(): GeoUriString {
     return super.toString() as GeoUriString;
   }
+
+  
+  public get latLngTuple() : LatLngTuple {
+    return [this.y, this.x];
+  }
+
+  
+  public get xyTuple() : [number, number] {
+    return [this.x, this.y];
+  }
+  
+  
 }
+
+export default GeoUrl;
