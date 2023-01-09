@@ -6,10 +6,13 @@ export type Authority = AuthorityUppercase | Lowercase<AuthorityUppercase>;
 export type UncertaintyName = "u" | "U";
 export type CrsName = "crs" | "CRS";
 
-export type Crs = `${Authority}:${number}`;
+export type CoordinateReferenceSystem = `${Authority}:${number}`;
+
+export const crsRe = /^(?<authority>\w{4}):(?<wkid>\d+)$/i;
+
 
 export type KeyValuePair =
-  | `${CrsName}=${Crs}`
+  | `${CrsName}=${CoordinateReferenceSystem}`
   | `${UncertaintyName}=${number}`
   | `${string}=${string}`;
 
@@ -89,17 +92,19 @@ export interface GeoUrlOptions {
    * Coordinate Reference system.
    * Not needed for 4326
    */
-  crs?: Crs;
+  crs?: CoordinateReferenceSystem;
   /**
    * uncertainty
    */
   uncertainty?: number;
-  /** Label  */
-  label?: string;
   /**
    * Additional search parameters
    */
   search?: GeoUrlSearchParameters;
+}
+
+export function isCrs(input: string): input is CoordinateReferenceSystem {
+  return !!input && crsRe.test(input);
 }
 
 export function createGeoUriString(options: GeoUrlOptions) {
@@ -141,11 +146,6 @@ export function createGeoUriString(options: GeoUrlOptions) {
     url = [url, ...enumerateMapAsKeyEqualsValueStrings(argsMap)].join();
   }
 
-  // Add the optional label if present.
-  if (options.label) {
-    url += `(${options.label})`;
-  }
-
   // Add search parameters if provided.
   if (options.search) {
     const search = new URLSearchParams(options.search);
@@ -162,9 +162,8 @@ export class GeoUrl extends URL {
   x: number;
   y: number;
   altitude?: number;
-  crs?: Crs;
+  crs?: CoordinateReferenceSystem;
   uncertainty?: number;
-  // label?: string;
 
   constructor(options: GeoUrlOptions) {
     super(createGeoUriString(options));
@@ -173,7 +172,6 @@ export class GeoUrl extends URL {
     this.altitude = options.altitude;
     this.crs = options.crs;
     this.uncertainty = options.uncertainty;
-    // this.label = options.label;
   }
 
   toString(): GeoUriString {

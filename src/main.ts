@@ -38,14 +38,25 @@ function createPopupContent(routeLocation: PointRouteLocation) {
   frag.appendChild(srmpDiv);
   const geoDiv = document.createElement("div");
   frag.appendChild(geoDiv);
-  const a = document.createElement("a");
-  a.href = geoUri.toString();
-  a.textContent = geoUri.toString();
-  a.target = "_blank";
+  const a = createGeoUriAnchor(geoUri);
   geoDiv.appendChild(a);
   const output = document.createElement("div");
   output.appendChild(frag);
   return output;
+}
+
+/**
+ * Creates an HTML anchor element (<a>) for a GeoURI.
+ * @param geoUri - GeoURI.
+ * @param label - Label for the GeoURI.
+ * @returns An HTML Anchor element.
+ */
+function createGeoUriAnchor(geoUri: GeoUrl, label?: string) {
+  const a = document.createElement("a");
+  a.href = geoUri.toString();
+  a.textContent = label ?? geoUri.toString();
+  a.target = "_blank";
+  return a;
 }
 
 function createMarker(routeLocation: PointRouteLocation) {
