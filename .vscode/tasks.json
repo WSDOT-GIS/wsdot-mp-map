@@ -1,44 +1,56 @@
 {
-	"version": "2.0.0",
-	"tasks": [
-		{
-			"label": "build",
-			"detail": "tsc && vite build",
-			"icon": {
-				"id": "package",
-				"color": "terminal.ansiGreen"
-			},
-			"type": "npm",
-			"script": "build",
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			},
-			"problemMatcher": [
-				"$tsc"
-			]
-		},
-		{
-			"label": "vite dev",
-			"detail": "vite",
-			"icon": {
-				"id": "tools",
-				"color": "terminal.ansiCyan"
-			},
-			"type": "npm",
-			"script": "dev",
-			"problemMatcher": []
-		},
-		{
-			"label": "vite preview",
-			"detail": "vite preview",
-			"icon": {
-				"id": "browser",
-				"color": "terminal.ansiMagenta"
-			},
-			"type": "npm",
-			"script": "preview",
-			"problemMatcher": []
-		}
-	]
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build",
+      "detail": "tsc && vite build",
+      "icon": {
+        "id": "package",
+        "color": "terminal.ansiGreen"
+      },
+      "type": "npm",
+      "script": "build",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": ["$tsc"]
+    },
+    {
+      "label": "vite dev",
+      "detail": "vite",
+      "icon": {
+        "id": "tools",
+        "color": "terminal.ansiCyan"
+      },
+      "type": "npm",
+      "script": "dev",
+      "problemMatcher": []
+    },
+    {
+      "label": "vite preview",
+      "detail": "vite preview",
+      "icon": {
+        "id": "browser",
+        "color": "terminal.ansiMagenta"
+      },
+      "type": "npm",
+      "script": "preview",
+      "problemMatcher": []
+    },
+    {
+      "label": "TypeScript: Watch",
+      "detail": "Starts TypeScript file watcher",
+      "type": "typescript",
+      "isBackground": true,
+      "icon": {
+        "id": "eye-watch",
+        "color": "terminal.ansiCyan"
+      },
+      "tsconfig": "tsconfig.json",
+      "option": "watch",
+      "problemMatcher": ["$tsc-watch"],
+      "group": "build"
+    }
+  ]
 }

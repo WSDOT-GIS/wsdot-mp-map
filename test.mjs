@@ -4,4 +4,4 @@
 
 import process from "node:process";
 
-process.exitCode = 0
+process.exitCode = 0;

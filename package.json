@@ -8,11 +8,34 @@
     "build": "tsc && vite build",
     "prepare": "npm run build",
     "preview": "npm run build && vite preview",
+    "lint": "eslint . --fix",
+    "prettier": "prettier . --write",
     "test": "node test.mjs"
   },
   "devDependencies": {
+    "@fontsource/overpass": "^4.5.10",
+    "@types/leaflet": "^1.9.0",
+    "@typescript-eslint/eslint-plugin": "^5.48.1",
+    "@typescript-eslint/parser": "^5.48.1",
+    "eslint-config-prettier": "^8.6.0",
+    "leaflet": "^1.9.3",
+    "prettier": "^2.8.2",
     "typescript": "^4.9.4",
     "vite": "^4.0.4",
-    "vitest": "^0.27.0"
-  }
+    "vitest": "^0.26.3",
+    "wsdot-elc": "^4.0.0-0",
+    "wsdot-route-utils": "^3.0.0"
+  },
+  "description": "Simple map for locating milepost data on WSDOT routes",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WSDOT-GIS/wsdot-mp-map.git"
+  },
+  "author": "Jeff Jacobson",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/WSDOT-GIS/wsdot-mp-map/issues"
+  },
+  "homepage": "https://github.com/WSDOT-GIS/wsdot-mp-map#readme"
 }
