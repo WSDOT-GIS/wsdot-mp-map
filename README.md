@@ -12,6 +12,7 @@
 
 * [x] Click on map and get SR & SRMP
 * [ ] Search: Get location by inputting SR and SRMP
+* [x] Popup contains [GeoURI].
 * [ ] Generate link to SR, SRMP location. Link will open this app at that location.
 
 #### Required info for each location
@@ -24,3 +25,5 @@
   * [ ] County
   * [ ] Township
   * [ ] Range
+
+[GeoURI]:https://geouri.org/

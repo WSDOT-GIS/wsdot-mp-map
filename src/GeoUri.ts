@@ -1,20 +1,14 @@
 import { LatLngTuple } from "leaflet";
 
-export type AuthorityUppercase = "EPSG" | "ESRI";
-export type Authority = AuthorityUppercase | Lowercase<AuthorityUppercase>;
-
 export type UncertaintyName = "u" | "U";
 export type CrsName = "crs" | "CRS";
-
-export type CoordinateReferenceSystem = `${Authority}:${number}`;
-
-export const crsRe = /^(?<authority>\w{4}):(?<wkid>\d+)$/i;
-
+export const enum CrsLabel {
+  wgs84 = "wgs84",
+}
 
 export type KeyValuePair =
-  | `${CrsName}=${CoordinateReferenceSystem}`
+  | `${CrsName}=${CrsLabel}`
   | `${UncertaintyName}=${number}`
-  | `${string}=${string}`;
 
 export type KeyValuePairWithSemicolonPrefix = `;${KeyValuePair}`;
 
@@ -23,63 +17,19 @@ export type CoordinateList = `${number},${number}${
   `,${number}` | ""
 }`;
 
-export type BareGeoUri =
-  | `geo:${CoordinateList}`
-  | `geo:${CoordinateList}${KeyValuePairWithSemicolonPrefix}`
-  | `geo:${CoordinateList}${KeyValuePairWithSemicolonPrefix}${KeyValuePairWithSemicolonPrefix}`
-  | `geo:${CoordinateList}${KeyValuePairWithSemicolonPrefix}${KeyValuePairWithSemicolonPrefix}${KeyValuePairWithSemicolonPrefix}`;
-
 /**
  * A [GeoURI](https://geouri.org)
  *
  * @see {@link https://geouri.org GeoURI}
- *
- * Examples from [RFC 5870](https://www.rfc-editor.org/rfc/rfc5870)
- * > * `geo:323482,4306480;crs=EPSG:32618;u=20`
- * > * `geo:37.786971,-122.399677;crs=Moon-2011;u=35`
- * > * `geo:323482,4306480;CRS=epsg:32718;U=20;mapcolors=for_daltonic`
- *
- * From [Android Developers > Docs > Guides > Common Intents](https://developer.android.com/guide/components/intents-common#Maps)
- *
- * > * `geo:latitude,longitude`
- * >
- * >     Show the map at the given longitude and latitude.
- * >
- * >     Example: `geo:47.6,-122.3`
- * >
- * > * `geo:latitude,longitude?z=zoom`
- * >
- * >     Show the map at the given longitude and latitude at a certain zoom level. A zoom level of 1 shows the whole Earth, centered at the given lat,lng. The highest (closest) zoom level is 23.
- * >
- * >     Example: `geo:47.6,-122.3?z=11`
- * >
- * > * `geo:0,0?q=lat,lng(label)`
- * >
- * >     Show the map at the given longitude and latitude with a string label.
- * >
- * >     Example: `geo:0,0?q=34.99,-106.61(Treasure)`
- * >
- * > * `geo:0,0?q=my+street+address`
- * >
- * >     Show the location for "my street address" (may be a specific address or location query).
- * >
- * >     Example: `geo:0,0?q=1600+Amphitheatre+Parkway%2C+CA`
- * >
- * >
- * >     Note: All strings passed in the geo URI must be encoded. For example, the string `1st & Pike, Seattle` should become `1st%20%26%20Pike%2C%20Seattle`. Spaces in the string can be encoded with `%20` or replaced with the plus sign (`+`).
  */
-export type GeoUriString = `${BareGeoUri}${`?${string}` | ""}`;
+export type GeoUriString =
+  | `geo:${CoordinateList}`
+  | `geo:${CoordinateList}${KeyValuePairWithSemicolonPrefix}`
+  | `geo:${CoordinateList}${KeyValuePairWithSemicolonPrefix}${KeyValuePairWithSemicolonPrefix}`
+  // | `geo:${CoordinateList}${KeyValuePairWithSemicolonPrefix}${KeyValuePairWithSemicolonPrefix}${KeyValuePairWithSemicolonPrefix}`;
 
-export type GeoUrlSearchParameters = Record<string, string> & {
-  /**
-   * Used for address query
-   */
-  q?: string;
-  /**
-   * Zoom level
-   */
-  z?: number;
-};
+
+
 
 export interface GeoUrlOptions {
   /** Latitude */
@@ -91,20 +41,20 @@ export interface GeoUrlOptions {
   /**
    * Coordinate Reference system.
    * Not needed for 4326
+   * @see {@link https://www.rfc-editor.org/rfc/rfc5870#section-3.4.1 3.4.1. Coordinate Reference System Identification}
    */
-  crs?: CoordinateReferenceSystem;
+  crs?: CrsLabel;
   /**
-   * uncertainty
+   * @see {@link https://www.rfc-editor.org/rfc/rfc5870#section-3.4.3}
+   * > The 'u' ("uncertainty") parameter indicates the amount of uncertainty in the location as a value in meters.  Where a 'geo' URI is used to identify the location of a particular object, \<uval\> indicates the uncertainty with which the identified location of the subject is known.
+   * >
+   * > The 'u' parameter is optional and it can appear only once.  If it is not specified, this indicates that uncertainty is unknown or unspecified.  If the intent is to indicate a specific point in space, \<uval\> MAY be set to zero.  Zero uncertainty and absent uncertainty are never the same thing.
+   * >
+   * > The single uncertainty value is applied to all dimensions given in the URI.
+   * >
+   * > Note: The number of digits of the values in \<coordinates\> MUST NOT be interpreted as an indication to the level of uncertainty.
    */
-  uncertainty?: number;
-  /**
-   * Additional search parameters
-   */
-  search?: GeoUrlSearchParameters;
-}
-
-export function isCrs(input: string): input is CoordinateReferenceSystem {
-  return !!input && crsRe.test(input);
+  uncertaintyInMeters?: number;
 }
 
 export function createGeoUriString(options: GeoUrlOptions) {
@@ -118,8 +68,8 @@ export function createGeoUriString(options: GeoUrlOptions) {
   if (options.crs) {
     argsMap.set("crs", options.crs);
   }
-  if (options.uncertainty) {
-    argsMap.set("u", options.uncertainty.toString());
+  if (options.uncertaintyInMeters) {
+    argsMap.set("u", options.uncertaintyInMeters.toString());
   }
 
   /**
@@ -146,12 +96,6 @@ export function createGeoUriString(options: GeoUrlOptions) {
     url = [url, ...enumerateMapAsKeyEqualsValueStrings(argsMap)].join();
   }
 
-  // Add search parameters if provided.
-  if (options.search) {
-    const search = new URLSearchParams(options.search);
-    url = [url, search].join("?");
-  }
-
   return url as GeoUriString;
 }
 
@@ -162,7 +106,7 @@ export class GeoUrl extends URL {
   x: number;
   y: number;
   altitude?: number;
-  crs?: CoordinateReferenceSystem;
+  crs?: CrsLabel;
   uncertainty?: number;
 
   constructor(options: GeoUrlOptions) {
@@ -171,24 +115,20 @@ export class GeoUrl extends URL {
     this.y = options.y;
     this.altitude = options.altitude;
     this.crs = options.crs;
-    this.uncertainty = options.uncertainty;
+    this.uncertainty = options.uncertaintyInMeters;
   }
 
   toString(): GeoUriString {
     return super.toString() as GeoUriString;
   }
 
-  
-  public get latLngTuple() : LatLngTuple {
+  public get latLngTuple(): LatLngTuple {
     return [this.y, this.x];
   }
 
-  
-  public get xyTuple() : [number, number] {
+  public get xyTuple(): [number, number] {
     return [this.x, this.y];
   }
-  
-  
 }
 
 export default GeoUrl;
