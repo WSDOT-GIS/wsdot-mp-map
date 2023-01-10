@@ -1,97 +1,84 @@
 :root {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
+  --gray-100: #1d252d; /* 29,37,45 */
+  --gray-80: #4a5157; /* 74,81,87 */
+  --gray-60: #777c81; /* 119,124,129 */
+  --gray-40: #a5a8ab; /* 165,168,171 */
+  --gray-20: #d2d3d5; /* 210,211,213 */
+  --gray-10: #e8e9ea; /* 232,233,234 */
+  --gray-5: #f4f4f5; /* 244,244,255 */
+  --white: #ffffff; /* 255,255,255 */
+  --success-100-percent: #28a745; /* 40,167,69 */
+  --error-100-percent: #dc3545; /* 220,53,69 */
+  --warning-100-percent: #ffc107; /* 255,193,7 */
+  --visited-100-percent: #59315f; /* 89,49,95 */
+  --primary-brand-100-percent: #7b5f; /* 0,123,95 */
+  --primary-brand-80-percent: #33957f; /* 51,149,127 */
+  --primary-brand-60-percent: #66b09f; /* 102,176,159 */
+  --primary-brand-40-percent: #99cabf; /* 153,202,191 */
+  --light-accent-100-percent: #97d700; /* 151,215,0 */
+  --light-accent-softened: #adc86d; /* 173,200,109 */
+  --dark-accent-100-percent: #5151; /* 0,81,81 */
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  --Base17: 6.866rem; /* 68.66px B (18px) */
+  --Base16: 6.104rem; /* 61.04px A (16px) */
+  --Base15: 5.493rem; /* 54.93px B (18px) */
+  --Base14: 4.883rem; /*  48.83px A (16px) */
+  --Base13: 4.395rem; /* 43.95px B (18px) */
+  --Base12: 3.906rem; /* 39.06px A (16px) */
+  --Base11: 3.516rem; /* 35.16px B (18px) */
+  --Base10: 3.125rem; /* 31.25px A (16px) */
+  --Base9: 2.813rem; /* 28.13px B (18px) */
+  --Base8: 2.5rem; /* 25.00px A (16px) */
+  --Base7: 2.25rem; /* 22.50px B (18px) */
+  --Base6: 2rem; /* 20.00px A (16px) */
+  --Base5: 1.8rem; /* 18.00px B (18px) */
+  --Base4: 1.6rem; /* 16.00px A (16px) */
+  --Base3: 1.44rem; /* 14.40px B (18px) */
+  --Base2: 1.28rem; /* 12.80px A (16px) */
+  --Base1: 1.152rem; /* 11.52px B (18px) */
+  --Base0: 1rem; /* 10.00px A (16px) */
+  --Base-1: 0.922rem; /* 9.22px B (18px) */
+  --Base-2: 0.819rem; /* 8.19px A (16px) */
+  --Base-3: 0.737rem; /* 7.37px B (18px) */
+  --Base-4: 0.655rem; /* 6.55px A (16px) */
+  --Base-5: 0.59rem; /* 5.90px B (18px) */
+  --Base-6: 0.524rem; /* 5.24px A (16px) */
+  --Base-7: 0.472rem; /* 4.72px B (18px) */
+  --Base-8: 0.419rem; /* 4.19px A (16px) */
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+  --highway-sign-bg: #01735c;
+  --highway-sign-text: #ffffff;
 }
 
 body {
+  padding: 0;
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+}
+html,
+body,
+#map {
+  height: 100%;
+  width: 100vw;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/* 
+Using BEM (block -> element -> modifier) naming convention: 
+https://getbem.com 
+*/
+
+.mp-sign-icon {
+  background-color: var(--highway-sign-bg);
+  border: 1em var(--highway-sign-text);
+  color: var(--highway-sign-text);
+  font-family: "Overpass";
 }
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+.mp-sign-icon__mp-text {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vanilla:hover {
-  filter: drop-shadow(0 0 2em #3178c6aa);
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.mp-sign-icon__mile-label {
+  writing-mode: horizontal-tb;
+  text-transform: capitalize;
 }
