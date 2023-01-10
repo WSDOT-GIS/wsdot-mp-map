@@ -1,9 +1,4 @@
-import {
-  map as createMap,
-  marker,
-  popup,
-  tileLayer,
-} from "leaflet";
+import { map as createMap, marker, popup, tileLayer } from "leaflet";
 import { GeoUrl } from "./GeoUri";
 import type PointRouteLocation from "./PointRouteLocation";
 import { createProgressMarker } from "./ProgressMarker";
