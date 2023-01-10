@@ -1,5 +1,5 @@
 import { latLng, LatLng, LatLngLiteral, LatLngTuple } from "leaflet";
-import { type IRouteLocation } from "wsdot-elc";
+import type { IRouteLocation } from "wsdot-elc";
 
 export interface IPointGeometry {
   x: number;
@@ -75,7 +75,7 @@ export function convertToLatLngTuple(input: Iterable<number>): LatLngTuple {
     throw new TypeError("Input must be an iterable with at least two numbers");
   }
 
-  const [a, ] = input;
+  const [a] = input;
 
   let x: number;
   let y: number;
@@ -90,8 +90,6 @@ export function convertToLatLngTuple(input: Iterable<number>): LatLngTuple {
 
   return [y, x];
 }
-
-
 
 export default class PointRouteLocation implements IPointRouteLocation {
   //#region Property definition

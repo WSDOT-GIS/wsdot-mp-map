@@ -1,25 +1,22 @@
 import {
-  divIcon,
   geoJSON,
-  LatLng,
   LatLngBounds,
   map as createMap,
   marker,
   popup,
   tileLayer,
 } from "leaflet";
-import {
-  RouteLocator,
-  type IFindNearestRouteLocationParameters,
-} from "wsdot-elc";
 import { RouteDescription } from "wsdot-route-utils";
 import { GeoUrl } from "./GeoUri";
 import PointRouteLocation, { isPointGeometry } from "./PointRouteLocation";
+import { createProgressMarker } from "./ProgressMarker";
 
 // CSS and font import
 import "@fontsource/overpass";
 import "leaflet/dist/leaflet.css";
 import "./style.css";
+import { waExtent } from "./constants";
+import { callElc } from "./elc";
 
 /**
  * Creates a Leaflet popup for a route location.
@@ -90,7 +87,7 @@ function createGeoUriElements(x: number, y: number) {
  * @param label - Text for the GeoURI anchor.
  * @returns An HTML Anchor element.
  */
-function createGeoUriAnchor(geoUri: GeoUrl, label: string = "Geo URI") {
+function createGeoUriAnchor(geoUri: GeoUrl, label = "Geo URI") {
   const a = document.createElement("a");
   a.href = geoUri.toString();
   a.textContent = label ?? geoUri.toString();
@@ -113,17 +110,6 @@ function createMarker(routeLocation: PointRouteLocation) {
   return outputMarker;
 }
 
-/**
- * The extent of WA as defined by [EPSG:1416](https://epsg.io/1416-area)
- */
-const waExtent = new LatLngBounds([
-  [45.54, -116.91],
-  [49.05, -124.79],
-]);
-
-const elcUrl =
-  "https://data.wsdot.wa.gov/arcgis/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe";
-
 const theMap = createMap("map", {
   maxBounds: waExtent,
 }).fitBounds(waExtent);
@@ -142,23 +128,12 @@ const srmpLayer = geoJSON([], {
   },
 }).addTo(theMap);
 
-const gpsWkid = 4326;
-
 theMap.on("click", async (e) => {
   console.log(`user clicked on ${e.latlng}`, e);
   const { latlng } = e;
   let results: PointRouteLocation[] | null = null;
 
-  const progElement = document.createElement("progress");
-  progElement.textContent = "Getting milepost…";
-
-  const progressIcon = divIcon({
-    html: progElement,
-  });
-
-  const progressMarker = marker(latlng, {
-    icon: progressIcon,
-  }).addTo(theMap);
+  const progressMarker = createProgressMarker(latlng).addTo(theMap);
 
   try {
     results = await callElc(latlng);
@@ -175,27 +150,9 @@ theMap.on("click", async (e) => {
 
   if (results) {
     for (const result of results) {
-      console.log(`elcResult ${JSON.stringify(result, undefined, 4)}`);
+      console.debug("elcResult", result);
       const marker = createMarker(result);
       marker.addTo(theMap);
     }
   }
 });
-
-async function callElc(latlng: LatLng) {
-  const coords = [latlng.lng, latlng.lat];
-  const params: IFindNearestRouteLocationParameters = {
-    coordinates: coords,
-    inSR: gpsWkid,
-    outSR: gpsWkid,
-    referenceDate: new Date(),
-    searchRadius: 200,
-  };
-
-  console.log(`elc parameters: ${JSON.stringify(params, undefined, 4)}`);
-
-  const rl = new RouteLocator(elcUrl);
-
-  const results = await rl.findNearestRouteLocations(params);
-  return results.map((r) => new PointRouteLocation(r));
-}

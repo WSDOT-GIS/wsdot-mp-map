@@ -1,4 +1,4 @@
-import { LatLngTuple } from "leaflet";
+import type { LatLngTuple } from "leaflet";
 
 export type UncertaintyName = "u" | "U";
 export type CrsName = "crs" | "CRS";
@@ -26,10 +26,6 @@ export type GeoUriString =
   | `geo:${CoordinateList}`
   | `geo:${CoordinateList}${KeyValuePairWithSemicolonPrefix}`
   | `geo:${CoordinateList}${KeyValuePairWithSemicolonPrefix}${KeyValuePairWithSemicolonPrefix}`
-  // | `geo:${CoordinateList}${KeyValuePairWithSemicolonPrefix}${KeyValuePairWithSemicolonPrefix}${KeyValuePairWithSemicolonPrefix}`;
-
-
-
 
 export interface GeoUrlOptions {
   /** Latitude */
@@ -57,6 +53,11 @@ export interface GeoUrlOptions {
   uncertaintyInMeters?: number;
 }
 
+/**
+ * Constructs a GeoURI.
+ * @param options - Provides values.
+ * @returns A GeoURI string.
+ */
 export function createGeoUriString(options: GeoUrlOptions) {
   const { x, y, altitude } = options;
 
@@ -118,6 +119,9 @@ export class GeoUrl extends URL {
     this.uncertainty = options.uncertaintyInMeters;
   }
 
+  /**
+   * @inheritdoc
+   */
   toString(): GeoUriString {
     return super.toString() as GeoUriString;
   }
