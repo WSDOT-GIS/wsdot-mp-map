@@ -1,19 +1,23 @@
 import {
-  map,
-  tileLayer,
-  LatLngBounds,
-  marker,
-  popup,
+  geoJSON, LatLngBounds, map as createMap, marker,
+  popup, tileLayer
 } from "leaflet";
 import {
-  type IFindNearestRouteLocationParameters,
-  RouteLocator,
+  RouteLocator, type IFindNearestRouteLocationParameters
 } from "wsdot-elc";
+import { GeoUrl } from "./GeoUri";
+import PointRouteLocation from "./PointRouteLocation";
+
+// CSS and font import
+import "@fontsource/overpass";
 import "leaflet/dist/leaflet.css";
 import "./style.css";
-import PointRouteLocation from "./PointRouteLocation";
-import { GeoUrl } from "./GeoUri";
 
+/**
+ * Creates a Leaflet popup for a route location.
+ * @param routeLocation - route location
+ * @returns - a leaflet popup
+ */
 function createPopup(routeLocation: PointRouteLocation) {
   const content = createPopupContent(routeLocation);
   const thePopup = popup({
@@ -23,10 +27,18 @@ function createPopup(routeLocation: PointRouteLocation) {
   return thePopup;
 }
 
+const anchorTarget = "_blank";
+/**
+ * Creates the HTML content for a Leaflet popup.
+ * @param routeLocation - a route location
+ * @returns - An HTML element.
+ */
 function createPopupContent(routeLocation: PointRouteLocation) {
   const [x, y] = routeLocation.routeGeometryXY;
-  const route = `${routeLocation.Route}${routeLocation.Decrease ? " (Decrease)" : ""}`
-  const srmp = `${routeLocation.Srmp}${routeLocation.Back ? "B" : ""}`
+  const route = `${routeLocation.Route}${
+    routeLocation.Decrease ? " (Decrease)" : ""
+  }`;
+  const srmp = `${routeLocation.Srmp}${routeLocation.Back ? "B" : ""}`;
   const label = `${route}@${srmp}`;
   const geoUri = new GeoUrl({
     x,
@@ -38,8 +50,19 @@ function createPopupContent(routeLocation: PointRouteLocation) {
   frag.appendChild(srmpDiv);
   const geoDiv = document.createElement("div");
   frag.appendChild(geoDiv);
+
   const a = createGeoUriAnchor(geoUri);
   geoDiv.appendChild(a);
+
+  const geoUriHelpAnchor = document.createElement("a");
+  geoUriHelpAnchor.href = "https://geouri.org/about/";
+  geoUriHelpAnchor.textContent = "(What is this?)";
+  geoUriHelpAnchor.target = anchorTarget;
+
+  geoDiv.appendChild(document.createTextNode(" "));
+
+  geoDiv.appendChild(geoUriHelpAnchor);
+
   const output = document.createElement("div");
   output.appendChild(frag);
   return output;
@@ -48,34 +71,45 @@ function createPopupContent(routeLocation: PointRouteLocation) {
 /**
  * Creates an HTML anchor element (<a>) for a GeoURI.
  * @param geoUri - GeoURI.
- * @param label - Label for the GeoURI.
+ * @param label - Text for the GeoURI anchor.
  * @returns An HTML Anchor element.
  */
-function createGeoUriAnchor(geoUri: GeoUrl, label?: string) {
+function createGeoUriAnchor(geoUri: GeoUrl, label: string = "Geo URI") {
   const a = document.createElement("a");
   a.href = geoUri.toString();
   a.textContent = label ?? geoUri.toString();
-  a.target = "_blank";
+  a.target = anchorTarget;
   return a;
 }
 
+/**
+ * Creates a marker for a route location.
+ * @param routeLocation - route location
+ * @returns A leaflet marker
+ */
 function createMarker(routeLocation: PointRouteLocation) {
   const popup = createPopup(routeLocation);
 
   const latLng = routeLocation.leafletLatLngLiteral;
+  // TODO: Marker should show the milepost number on it.
   const outputMarker = marker(latLng).bindPopup(popup);
 
   return outputMarker;
 }
 
+/**
+ * The extent of WA as defined by [EPSG:1416](https://epsg.io/1416-area)
+ */
 const waExtent = new LatLngBounds([
   [45.54, -116.91],
   [49.05, -124.79],
 ]);
 
-const rl = new RouteLocator("https://data.wsdot.wa.gov/arcgis/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe");
+const rl = new RouteLocator(
+  "https://data.wsdot.wa.gov/arcgis/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe"
+);
 
-const theMap = map("map", {
+const theMap = createMap("map", {
   maxBounds: waExtent,
 }).fitBounds(waExtent);
 
@@ -85,7 +119,7 @@ tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
 }).addTo(theMap);
 
-// document.body.querySelectorAll("a[href^='https://leafletjs.com'] .leaflet-attribution-flag")
+const srmpLayer = geoJSON([], {}).addTo(theMap);
 
 const gpsWkid = 4326;
 
@@ -109,7 +143,7 @@ theMap.on("click", async (e) => {
   for (const result of results) {
     console.log(`elcResult ${JSON.stringify(result, undefined, 4)}`);
     const prl = new PointRouteLocation(result);
-    const marker = createMarker(prl)
+    const marker = createMarker(prl);
     marker.addTo(theMap);
   }
 });

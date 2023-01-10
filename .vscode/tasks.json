@@ -44,6 +44,7 @@
 			"label": "TypeScript: Watch",
 			"detail": "Starts TypeScript file watcher",
 			"type": "typescript",
+			"isBackground": true,
 			"icon": {
 				"id": "eye-watch",
 				"color": "terminal.ansiCyan"
@@ -54,19 +55,6 @@
 				"$tsc-watch"
 			],
 			"group": "build"
-		},
-		{
-			"label": "ts + vite watch",
-			"detail": "Starts file watching for both TypeScrpt and Vite",
-			"icon": {
-				"id": "multiple-windows",
-				"color": "terminal.ansiGreen"
-			},
-			"dependsOn":[
-				"TypeScript: Watch",
-				"vite dev"
-			],
-			"dependsOrder": "parallel"
 		}
 	]
 }
