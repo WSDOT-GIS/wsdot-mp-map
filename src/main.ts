@@ -1,12 +1,20 @@
 import {
-  geoJSON, LatLngBounds, map as createMap, marker,
-  popup, tileLayer
+  divIcon,
+  geoJSON,
+  LatLng,
+  LatLngBounds,
+  map as createMap,
+  marker,
+  popup,
+  tileLayer,
 } from "leaflet";
 import {
-  RouteLocator, type IFindNearestRouteLocationParameters
+  RouteLocator,
+  type IFindNearestRouteLocationParameters,
 } from "wsdot-elc";
+import { RouteDescription } from "wsdot-route-utils";
 import { GeoUrl } from "./GeoUri";
-import PointRouteLocation from "./PointRouteLocation";
+import PointRouteLocation, { isPointGeometry } from "./PointRouteLocation";
 
 // CSS and font import
 import "@fontsource/overpass";
@@ -40,10 +48,7 @@ function createPopupContent(routeLocation: PointRouteLocation) {
   }`;
   const srmp = `${routeLocation.Srmp}${routeLocation.Back ? "B" : ""}`;
   const label = `${route}@${srmp}`;
-  const geoUri = new GeoUrl({
-    x,
-    y,
-  });
+
   const frag = document.createDocumentFragment();
   const srmpDiv = document.createElement("div");
   srmpDiv.innerText = label;
@@ -51,13 +56,7 @@ function createPopupContent(routeLocation: PointRouteLocation) {
   const geoDiv = document.createElement("div");
   frag.appendChild(geoDiv);
 
-  const a = createGeoUriAnchor(geoUri);
-  geoDiv.appendChild(a);
-
-  const geoUriHelpAnchor = document.createElement("a");
-  geoUriHelpAnchor.href = "https://geouri.org/about/";
-  geoUriHelpAnchor.textContent = "(What is this?)";
-  geoUriHelpAnchor.target = anchorTarget;
+  const geoUriHelpAnchor = createGeoUriElements(x, y);
 
   geoDiv.appendChild(document.createTextNode(" "));
 
@@ -66,6 +65,23 @@ function createPopupContent(routeLocation: PointRouteLocation) {
   const output = document.createElement("div");
   output.appendChild(frag);
   return output;
+}
+
+function createGeoUriElements(x: number, y: number) {
+  const frag = document.createDocumentFragment();
+  const geoUri = new GeoUrl({
+    x,
+    y,
+  });
+  const a = createGeoUriAnchor(geoUri);
+
+  const geoUriHelpAnchor = document.createElement("a");
+  geoUriHelpAnchor.href = "https://geouri.org/about/";
+  geoUriHelpAnchor.textContent = "(What is this?)";
+  geoUriHelpAnchor.target = anchorTarget;
+
+  frag.append(a, document.createTextNode(" "), geoUriHelpAnchor);
+  return frag;
 }
 
 /**
@@ -105,9 +121,8 @@ const waExtent = new LatLngBounds([
   [49.05, -124.79],
 ]);
 
-const rl = new RouteLocator(
-  "https://data.wsdot.wa.gov/arcgis/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe"
-);
+const elcUrl =
+  "https://data.wsdot.wa.gov/arcgis/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe";
 
 const theMap = createMap("map", {
   maxBounds: waExtent,
@@ -119,13 +134,56 @@ tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
 }).addTo(theMap);
 
-const srmpLayer = geoJSON([], {}).addTo(theMap);
+const srmpLayer = geoJSON([], {
+  onEachFeature(feature, layer) {
+    if (!isPointGeometry(feature)) {
+      return;
+    }
+  },
+}).addTo(theMap);
 
 const gpsWkid = 4326;
 
 theMap.on("click", async (e) => {
   console.log(`user clicked on ${e.latlng}`, e);
-  const coords = [e.latlng.lng, e.latlng.lat];
+  const { latlng } = e;
+  let results: PointRouteLocation[] | null = null;
+
+  const progElement = document.createElement("progress");
+  progElement.textContent = "Getting milepost…";
+
+  const progressIcon = divIcon({
+    html: progElement,
+  });
+
+  const progressMarker = marker(latlng, {
+    icon: progressIcon,
+  }).addTo(theMap);
+
+  try {
+    results = await callElc(latlng);
+  } catch (elcErr) {
+    console.error(`ELC Error at ${latlng}`, {
+      "Leaflet mouse event": e,
+      "ELC Error": elcErr,
+    });
+  } finally {
+    progressMarker.remove();
+  }
+
+  // TODO: Identify county, etc. using https://data.wsdot.wa.gov/arcgis/rest/services/DataLibrary/DataLibrary/MapServer/identify
+
+  if (results) {
+    for (const result of results) {
+      console.log(`elcResult ${JSON.stringify(result, undefined, 4)}`);
+      const marker = createMarker(result);
+      marker.addTo(theMap);
+    }
+  }
+});
+
+async function callElc(latlng: LatLng) {
+  const coords = [latlng.lng, latlng.lat];
   const params: IFindNearestRouteLocationParameters = {
     coordinates: coords,
     inSR: gpsWkid,
@@ -136,14 +194,8 @@ theMap.on("click", async (e) => {
 
   console.log(`elc parameters: ${JSON.stringify(params, undefined, 4)}`);
 
+  const rl = new RouteLocator(elcUrl);
+
   const results = await rl.findNearestRouteLocations(params);
-
-  // TODO: Identify county, etc. using https://data.wsdot.wa.gov/arcgis/rest/services/DataLibrary/DataLibrary/MapServer/identify
-
-  for (const result of results) {
-    console.log(`elcResult ${JSON.stringify(result, undefined, 4)}`);
-    const prl = new PointRouteLocation(result);
-    const marker = createMarker(prl);
-    marker.addTo(theMap);
-  }
-});
+  return results.map((r) => new PointRouteLocation(r));
+}
