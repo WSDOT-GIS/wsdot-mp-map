@@ -1,14 +1,11 @@
 import {
-  geoJSON,
-  LatLngBounds,
   map as createMap,
   marker,
   popup,
   tileLayer,
 } from "leaflet";
-import { RouteDescription } from "wsdot-route-utils";
 import { GeoUrl } from "./GeoUri";
-import PointRouteLocation, { isPointGeometry } from "./PointRouteLocation";
+import type PointRouteLocation from "./PointRouteLocation";
 import { createProgressMarker } from "./ProgressMarker";
 
 // CSS and font import
@@ -118,14 +115,6 @@ tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
   maxZoom: 19,
   attribution:
     '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-}).addTo(theMap);
-
-const srmpLayer = geoJSON([], {
-  onEachFeature(feature, layer) {
-    if (!isPointGeometry(feature)) {
-      return;
-    }
-  },
 }).addTo(theMap);
 
 theMap.on("click", async (e) => {
