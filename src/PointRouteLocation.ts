@@ -52,7 +52,10 @@ export interface IPointRouteLocation extends IRouteLocation {
   RouteGeometry: IPointGeometry;
 }
 
-export function isPointGeometry(geometry: any): geometry is IPointGeometry {
+export function isPointGeometry(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  geometry: any
+): geometry is IPointGeometry {
   console.group(`Entering ${isPointGeometry.name}…`);
   for (const name of ["x", "y"]) {
     console.log(
@@ -170,6 +173,7 @@ export default class PointRouteLocation implements IPointRouteLocation {
   }
 
   public static isPointRouteLocation(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     routeLocation: any
   ): routeLocation is IPointRouteLocation {
     return (

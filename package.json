@@ -8,6 +8,8 @@
     "build": "tsc && vite build",
     "prepare": "npm run build",
     "preview": "npm run build && vite preview",
+    "lint": "eslint . --fix",
+    "prettier": "prettier . --write",
     "test": "node test.mjs"
   },
   "devDependencies": {

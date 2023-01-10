@@ -8,7 +8,7 @@ export const enum CrsLabel {
 
 export type KeyValuePair =
   | `${CrsName}=${CrsLabel}`
-  | `${UncertaintyName}=${number}`
+  | `${UncertaintyName}=${number}`;
 
 export type KeyValuePairWithSemicolonPrefix = `;${KeyValuePair}`;
 
@@ -25,7 +25,7 @@ export type CoordinateList = `${number},${number}${
 export type GeoUriString =
   | `geo:${CoordinateList}`
   | `geo:${CoordinateList}${KeyValuePairWithSemicolonPrefix}`
-  | `geo:${CoordinateList}${KeyValuePairWithSemicolonPrefix}${KeyValuePairWithSemicolonPrefix}`
+  | `geo:${CoordinateList}${KeyValuePairWithSemicolonPrefix}${KeyValuePairWithSemicolonPrefix}`;
 
 export interface GeoUrlOptions {
   /** Latitude */

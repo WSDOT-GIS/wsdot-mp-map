@@ -46,15 +46,17 @@
   --Base-7: 0.472rem; /* 4.72px B (18px) */
   --Base-8: 0.419rem; /* 4.19px A (16px) */
 
-  --highway-sign-bg: #01735C;
-  --highway-sign-text: #FFFFFF;
+  --highway-sign-bg: #01735c;
+  --highway-sign-text: #ffffff;
 }
 
 body {
   padding: 0;
   margin: 0;
 }
-html, body, #map {
+html,
+body,
+#map {
   height: 100%;
   width: 100vw;
 }
@@ -68,7 +70,7 @@ https://getbem.com
   background-color: var(--highway-sign-bg);
   border: 1em var(--highway-sign-text);
   color: var(--highway-sign-text);
-  font-family: 'Overpass';
+  font-family: "Overpass";
 }
 
 .mp-sign-icon__mp-text {
