@@ -67,18 +67,34 @@ https://getbem.com
 */
 
 .mp-sign-icon {
-  background-color: var(--highway-sign-bg);
   border: 1em var(--highway-sign-text);
   color: var(--highway-sign-text);
   font-family: "Overpass";
+  text-align: center;
+  display: table;
+  background-color: var(--highway-sign-bg);
+  border: var(--highway-sign-text) 1px solid;
+  border-radius: 0.2rem;
+  padding: 0.1rem 0.2rem 0 0.2rem;
+}
+
+.mp-sign-icon > div {
+  width: min-content;
+  height: min-content;
+  align-items: center;
+  text-align: center;
 }
 
 .mp-sign-icon__mp-text {
-  writing-mode: vertical-rl;
+  display: block;
+  /* writing-mode: vertical-rl;
   text-orientation: upright;
+  letter-spacing: -0.23rem;
+  word-spacing: -0.23rem; */
 }
 
 .mp-sign-icon__mile-label {
   writing-mode: horizontal-tb;
-  text-transform: capitalize;
+  text-transform: uppercase;
+  display: none;
 }
