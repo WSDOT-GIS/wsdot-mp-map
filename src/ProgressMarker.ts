@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { divIcon, marker, type DivIcon, type MarkerOptions } from "leaflet";
 
 /**
@@ -8,7 +9,8 @@ import { divIcon, marker, type DivIcon, type MarkerOptions } from "leaflet";
  * @returns
  */
 export function createProgressMarker(...args: Parameters<typeof marker>) {
-  let [latlng, options] = args;
+  const [latlng] = args;
+  let [, options] = args;
   const progElement = document.createElement("progress");
   progElement.textContent = "Getting milepost…";
 

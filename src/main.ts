@@ -1,9 +1,4 @@
-import {
-  map as createMap,
-  marker,
-  popup,
-  tileLayer,
-} from "leaflet";
+import { map as createMap, marker, popup, tileLayer } from "leaflet";
 import { GeoUrl } from "./GeoUri";
 import type PointRouteLocation from "./PointRouteLocation";
 import { createProgressMarker } from "./ProgressMarker";
@@ -14,6 +9,7 @@ import "leaflet/dist/leaflet.css";
 import "./style.css";
 import { waExtent } from "./constants";
 import { callElc } from "./elc";
+import { createMilepostIcon, getMilepostFromRouteLocation } from "./MilepostIcon";
 
 /**
  * Creates a Leaflet popup for a route location.
@@ -100,9 +96,15 @@ function createGeoUriAnchor(geoUri: GeoUrl, label = "Geo URI") {
 function createMarker(routeLocation: PointRouteLocation) {
   const popup = createPopup(routeLocation);
 
+  const mp = getMilepostFromRouteLocation(routeLocation)
+
+  const mpIcon = createMilepostIcon(mp);
+
   const latLng = routeLocation.leafletLatLngLiteral;
   // TODO: Marker should show the milepost number on it.
-  const outputMarker = marker(latLng).bindPopup(popup);
+  const outputMarker = marker(latLng, {
+    icon: mpIcon
+  }).bindPopup(popup);
 
   return outputMarker;
 }
