@@ -59,7 +59,16 @@
         "color": "terminal.ansiYellow"
       },
       "type": "shell",
-      "command": "dotnet serve --directory dist --gzip --brotli --cors --open-browser",
+      "command": "dotnet serve",
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared",
+        "close": true,
+        "showReuseMessage": true,
+        "clear": false
+      },
       "problemMatcher": []
     }
   ]

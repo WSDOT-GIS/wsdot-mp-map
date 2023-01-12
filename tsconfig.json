@@ -16,5 +16,8 @@
     "skipLibCheck": true,
     "importsNotUsedAsValues": "error"
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": [
+    "tools"
+  ]
 }
