@@ -1,24 +1,39 @@
-import { map as createMap, marker, popup, tileLayer } from "leaflet";
+import {
+  // Rename so map variable can use this name.
+  // Rename the rest to match, and to make
+  // their purpose more clear.
+  map as createMap,
+  marker as createMarker,
+  popup as createPopup,
+  tileLayer as createTileLayer,
+} from "leaflet";
 import { GeoUrl } from "./GeoUri";
 import type PointRouteLocation from "./PointRouteLocation";
 import { createProgressMarker } from "./ProgressMarker";
 
-// CSS and font import
+// #region CSS and font import
+// Import the Overpass font
+// (https://overpassfont.org/)
 import "@fontsource/overpass";
 import "leaflet/dist/leaflet.css";
 import "./style.css";
+// #endregion
 import { waExtent } from "./constants";
 import { callElc } from "./elc";
-import { createMilepostIcon, getMilepostFromRouteLocation } from "./MilepostIcon";
+import {
+  createMilepostIcon,
+  getMilepostFromRouteLocation,
+} from "./MilepostIcon";
+import { customizeAttribution } from "./attributeCustomization";
 
 /**
  * Creates a Leaflet popup for a route location.
  * @param routeLocation - route location
  * @returns - a leaflet popup
  */
-function createPopup(routeLocation: PointRouteLocation) {
+function createMilepostPopup(routeLocation: PointRouteLocation) {
   const content = createPopupContent(routeLocation);
-  const thePopup = popup({
+  const thePopup = createPopup({
     content,
   });
 
@@ -48,28 +63,33 @@ function createPopupContent(routeLocation: PointRouteLocation) {
 
   const geoUriHelpAnchor = createGeoUriElements(x, y);
 
-  geoDiv.appendChild(document.createTextNode(" "));
-
-  geoDiv.appendChild(geoUriHelpAnchor);
+  geoDiv.append(" ", geoUriHelpAnchor);
 
   const output = document.createElement("div");
   output.appendChild(frag);
   return output;
 }
 
+/**
+ * Creates a document fragment with a {@link https://geouri.org Geo URI} link
+ * along with an explanation of what a Geo URI is.
+ * @param x - Longitude
+ * @param y - Latitude
+ * @returns A document fragment with a {@link https://geouri.org Geo URI} link
+ */
 function createGeoUriElements(x: number, y: number) {
   const frag = document.createDocumentFragment();
-  const geoUri = new GeoUrl({
-    x,
-    y,
-  });
+  // Create the GeoUrl object.
+  const geoUri = new GeoUrl({ x, y });
   const a = createGeoUriAnchor(geoUri);
 
+  // Create the link to GeoURI.org "About" page.
   const geoUriHelpAnchor = document.createElement("a");
   geoUriHelpAnchor.href = "https://geouri.org/about/";
   geoUriHelpAnchor.textContent = "(What is this?)";
   geoUriHelpAnchor.target = anchorTarget;
 
+  // Append all elements to the document fragment.
   frag.append(a, document.createTextNode(" "), geoUriHelpAnchor);
   return frag;
 }
@@ -93,27 +113,29 @@ function createGeoUriAnchor(geoUri: GeoUrl, label = "Geo URI") {
  * @param routeLocation - route location
  * @returns A leaflet marker
  */
-function createMarker(routeLocation: PointRouteLocation) {
-  const popup = createPopup(routeLocation);
+function createMilepostMarker(routeLocation: PointRouteLocation) {
+  const popup = createMilepostPopup(routeLocation);
 
-  const mp = getMilepostFromRouteLocation(routeLocation)
+  const mp = getMilepostFromRouteLocation(routeLocation);
 
   const mpIcon = createMilepostIcon(mp);
 
   const latLng = routeLocation.leafletLatLngLiteral;
   // TODO: Marker should show the milepost number on it.
-  const outputMarker = marker(latLng, {
-    icon: mpIcon
+  const outputMarker = createMarker(latLng, {
+    icon: mpIcon,
   }).bindPopup(popup);
 
   return outputMarker;
 }
 
-const theMap = createMap("map", {
+export const theMap = createMap("map", {
   maxBounds: waExtent,
 }).fitBounds(waExtent);
 
-tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+customizeAttribution(theMap);
+
+createTileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
   maxZoom: 19,
   attribution:
     '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
@@ -142,7 +164,7 @@ theMap.on("click", async (e) => {
   if (results) {
     for (const result of results) {
       console.debug("elcResult", result);
-      const marker = createMarker(result);
+      const marker = createMilepostMarker(result);
       marker.addTo(theMap);
     }
   }
