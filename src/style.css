@@ -110,14 +110,8 @@ https://getbem.com
 }
 
 .leaflet-control-attribution__wsdot-logo {
-  width: 0.7rem;
-  height: 0.7rem;
+  width: 4em;
+  height: auto;
   padding: 0;
   margin: 0;
-  vertical-align: middle;
-}
-
-.leaflet-logo {
-  width: 1vw;
-  height: auto;
 }

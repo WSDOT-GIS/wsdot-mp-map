@@ -3,27 +3,9 @@ import type {
   // with JavaScript's built-in Map class.
   Map as LeafletMap,
 } from "leaflet";
-import { siLeaflet, type SimpleIcon } from "simple-icons";
 import { theMap } from "./main";
 
 const wsdotLogoAttributionClass = "leaflet-control-attribution__wsdot-logo";
-
-function convertSimpleIconToSvgElement(
-  simpleIcon: SimpleIcon,
-  domParser?: DOMParser
-) {
-  if (!domParser) {
-    domParser = new DOMParser();
-  }
-
-  const { svg, hex } = simpleIcon;
-  const dom = domParser.parseFromString(svg, "image/svg+xml");
-  const rootNode = dom.documentElement;
-  // set the path's color.
-  rootNode.querySelector("path")?.setAttribute("fill", `#${hex}`);
-  rootNode.classList.add("leaflet-logo");
-  return document.adoptNode(rootNode);
-}
 
 /**
  * Customizes the map's attribution control.
@@ -32,10 +14,7 @@ function convertSimpleIconToSvgElement(
  */
 export function customizeAttribution(map: LeafletMap) {
   const { prefix } = map.attributionControl.options;
-  console.group("attribution prefix modification");
-  console.debug("map prefix", prefix);
   if (typeof prefix !== "string") {
-    console.groupEnd();
     return;
   }
 
@@ -44,12 +23,8 @@ export function customizeAttribution(map: LeafletMap) {
   const query = ".leaflet-attribution-flag";
   const element = theDom.querySelector(query);
   if (!element) {
-    console.groupEnd();
     return;
   }
-
-  const leafletIcon = convertSimpleIconToSvgElement(siLeaflet);
-  element.replaceWith(leafletIcon);
 
   // Add WSDOT link and separator
 
@@ -60,12 +35,8 @@ export function customizeAttribution(map: LeafletMap) {
 
   theDom.body.prepend(wsdotLogoAnchor, " ", separator, " ");
 
-  console.debug("post cleanup", theDom);
-  console.debug("inner html", theDom.body.innerHTML);
-
   theMap.attributionControl.setPrefix(theDom.body.innerHTML);
 
-  console.groupEnd();
   return theMap;
 
   /**
@@ -75,10 +46,10 @@ export function customizeAttribution(map: LeafletMap) {
    */
   function createWsdotLogoImg(...classes: string[]) {
     const a = document.createElement("a");
-    a.href = "https://wsdot.wa.gov/"
-    a.target = "_blank"
+    a.href = "https://wsdot.wa.gov/";
+    a.target = "_blank";
     const wsdotImg = theDom.createElement("img");
-    wsdotImg.src = "/wsdot-logo.svg";
+    wsdotImg.src = "/wsdot-acronym-logo.svg";
     wsdotImg.alt = "WSDOT Logo";
     wsdotImg.classList.add(...classes);
     a.append(wsdotImg);
