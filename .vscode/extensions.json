@@ -1,3 +1,6 @@
 {
-  "recommendations": ["zixuanchen.vitest-explorer"]
+  "recommendations": [
+    "zixuanchen.vitest-explorer",
+    "sandipchitale.vscode-mdn-reference"
+  ]
 }
