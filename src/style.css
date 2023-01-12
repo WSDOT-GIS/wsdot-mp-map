@@ -70,12 +70,14 @@ https://getbem.com
   border: 1em var(--highway-sign-text);
   color: var(--highway-sign-text);
   font-family: "Overpass";
+  font-size: var(--Base-3);
   text-align: center;
   display: table;
   background-color: var(--highway-sign-bg);
   border: var(--highway-sign-text) 1px solid;
   border-radius: 0.2rem;
   padding: 0.1rem 0.2rem 0 0.2rem;
+  line-height: normal;
 }
 
 .mp-sign-icon > div {
@@ -87,7 +89,13 @@ https://getbem.com
 
 .mp-sign-icon__mp-text {
   display: block;
-  /* writing-mode: vertical-rl;
+  /* 
+  Uncomment below to write text vertically.
+  Currently disabled because the values w/ 
+  decimal points will look weird due to 
+  the spacing around the period.
+   */
+  /* writing-mode: vertical-lr;
   text-orientation: upright;
   letter-spacing: -0.23rem;
   word-spacing: -0.23rem; */
@@ -96,5 +104,20 @@ https://getbem.com
 .mp-sign-icon__mile-label {
   writing-mode: horizontal-tb;
   text-transform: uppercase;
-  display: none;
+  font-size: var(--Base-6);
+  margin: 0;
+  padding: 0;
+}
+
+.leaflet-control-attribution__wsdot-logo {
+  width: 0.7rem;
+  height: 0.7rem;
+  padding: 0;
+  margin: 0;
+  vertical-align: middle;
+}
+
+.leaflet-logo {
+  width: 1vw;
+  height: auto;
 }

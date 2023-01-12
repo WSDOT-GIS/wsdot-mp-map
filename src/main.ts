@@ -63,9 +63,7 @@ function createPopupContent(routeLocation: PointRouteLocation) {
 
   const geoUriHelpAnchor = createGeoUriElements(x, y);
 
-  geoDiv.appendChild(document.createTextNode(" "));
-
-  geoDiv.appendChild(geoUriHelpAnchor);
+  geoDiv.append(" ", geoUriHelpAnchor);
 
   const output = document.createElement("div");
   output.appendChild(frag);
