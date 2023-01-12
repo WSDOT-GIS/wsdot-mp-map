@@ -51,6 +51,16 @@
       "option": "watch",
       "problemMatcher": ["$tsc-watch"],
       "group": "build"
+    },
+    {
+      "label": "Open built site with dotnet-serve",
+      "icon": {
+        "id": "eye",
+        "color": "terminal.ansiYellow"
+      },
+      "type": "shell",
+      "command": "dotnet serve --directory dist --gzip --brotli --cors --open-browser",
+      "problemMatcher": []
     }
   ]
 }
