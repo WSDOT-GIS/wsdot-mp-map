@@ -49,8 +49,8 @@ export function customizeAttribution(map: LeafletMap) {
     a.href = "https://wsdot.wa.gov/";
     a.target = "_blank";
     const wsdotImg = theDom.createElement("img");
-    wsdotImg.src = "/wsdot-acronym-logo.svg";
-    wsdotImg.alt = "WSDOT Logo";
+    wsdotImg.src = "wsdot-acronym-logo.svg";
+    wsdotImg.alt = "WSDOT";
     wsdotImg.classList.add(...classes);
     a.append(wsdotImg);
     return a;
