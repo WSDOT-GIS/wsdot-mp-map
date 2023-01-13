@@ -15,26 +15,26 @@ const wsdotLogoAttributionClass = "leaflet-control-attribution__wsdot-logo";
 export function customizeAttribution(map: LeafletMap) {
   const { prefix } = map.attributionControl.options;
   if (typeof prefix !== "string") {
+    console.error("Could not find prefix content in map attribution control.", {map});
     return;
   }
 
+  // Parse the attribute prefix HTML string into a DOM object.
   const domParser = new DOMParser();
   const theDom = domParser.parseFromString(prefix, "text/html");
+
+  // Remove the flag icon that is there by default.
   const query = ".leaflet-attribution-flag";
-  const element = theDom.querySelector(query);
-  if (!element) {
-    return;
-  }
+  theDom.querySelector(query)?.remove()
 
   // Add WSDOT link and separator
 
-  const wsdotLogoAnchor = createWsdotLogoImg(wsdotLogoAttributionClass);
+  const wsdotLogoAnchor = createWsdotLogoImgLink(wsdotLogoAttributionClass);
   const separator = theDom.createElement("span");
   separator.innerText = "|";
   separator.ariaHidden = "true";
 
   theDom.body.prepend(wsdotLogoAnchor, " ", separator, " ");
-
   theMap.attributionControl.setPrefix(theDom.body.innerHTML);
 
   return theMap;
@@ -42,15 +42,15 @@ export function customizeAttribution(map: LeafletMap) {
   /**
    * Creates WSDOT logo <img> element.
    * @param classes - CSS classes to add to the img's classList.
-   * @returns An <img>
+   * @returns An img element inside an a element.
    */
-  function createWsdotLogoImg(...classes: string[]) {
+  function createWsdotLogoImgLink(...classes: string[]) {
     const a = document.createElement("a");
     a.href = "https://wsdot.wa.gov/";
     a.target = "_blank";
     const wsdotImg = theDom.createElement("img");
-    wsdotImg.src = "/wsdot-acronym-logo.svg";
-    wsdotImg.alt = "WSDOT Logo";
+    wsdotImg.src = "wsdot-acronym-logo.svg";
+    wsdotImg.alt = "WSDOT";
     wsdotImg.classList.add(...classes);
     a.append(wsdotImg);
     return a;

@@ -14,7 +14,9 @@
         "kind": "build",
         "isDefault": true
       },
-      "problemMatcher": ["$tsc"]
+      "problemMatcher": [
+        "$tsc"
+      ]
     },
     {
       "label": "vite dev",
@@ -49,8 +51,36 @@
       },
       "tsconfig": "tsconfig.json",
       "option": "watch",
-      "problemMatcher": ["$tsc-watch"],
+      "problemMatcher": [
+        "$tsc-watch"
+      ],
       "group": "build"
+    },
+    {
+      "label": "Open built site with dotnet-serve",
+      "icon": {
+        "id": "browser",
+        "color": "terminal.ansiYellow"
+      },
+      "type": "shell",
+      "command": "dotnet serve",
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared",
+        "close": true,
+        "showReuseMessage": true,
+        "clear": false
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Publish to gh-pages",
+      "detail": "Uses the \"gh-pages\" tool to publish the site to Github Pages.",
+      "type": "npm",
+      "script": "gh-pages-publish",
+      "problemMatcher": [],
     }
   ]
 }

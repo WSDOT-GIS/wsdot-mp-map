@@ -1,0 +1,7 @@
+[serve]
+	directory=dist
+	open-browser
+	gzip
+	brotli
+	cors
+	path-base=wsdot-mp-map
