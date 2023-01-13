@@ -76,11 +76,11 @@
       "problemMatcher": []
     },
     {
+      "label": "Publish to gh-pages",
+      "detail": "Uses the \"gh-pages\" tool to publish the site to Github Pages.",
       "type": "npm",
       "script": "gh-pages-publish",
       "problemMatcher": [],
-      "label": "npm: gh-pages-publish",
-      "detail": "npm run build && node tools/publish.mjs"
     }
   ]
 }
