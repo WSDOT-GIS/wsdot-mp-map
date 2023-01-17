@@ -3,9 +3,22 @@ import type { RouteLocation } from "wsdot-elc";
 import { getPrefix, Milepost } from "wsdot-route-utils";
 import type PointRouteLocation from "./RouteLocationExtensions";
 import { RouteDescription } from "wsdot-route-utils";
+import type { ISrmpRouteLocation } from "./RouteLocationExtensions";
 
 export type MPSignOptions = [Milepost] | ConstructorParameters<typeof Milepost>;
 
+// Defined variables for CSS class names that elements will use.
+const divIconClass = "mp-sign-icon";
+const routeLabelClass = `${divIconClass}__route-label`;
+const mpTextClass = `${divIconClass}__mp-text`;
+
+/**
+ * Creates a Milepost from properties of a
+ * {@link RouteLocation}
+ * @param routeLocation - A route location with {@link RouteLocation.Srmp SRMP property}
+ * value supplied.
+ * @returns A {@link Milepost} object.
+ */
 export function getMilepostFromRouteLocation(
   routeLocation: RouteLocation | PointRouteLocation
 ) {
@@ -37,49 +50,52 @@ function createMpDataElement(milepost: Milepost) {
 
   // Create span elements for each of the parts of the number,
   // both pre- and post-decimal point.
-  const [wholeSpan, decimalSpan] = [whole, decimal].map((
-    /** 
-     * The number as text, either before or after the decimal
-     * point. 
-     */
-    s, 
-    /**
-     * The index of the current element of the array.
-     * 
-     * 0. Pre-decimal point
-     * 1. Post decimal point
-     */
-    i) => {
-    // If there was no decimal point, the second 
-    // element will be undefined. In this case,
-    // exit now.
-    if (s === undefined) {
-      return;
-    }
+  const [wholeSpan, decimalSpan] = [whole, decimal].map(
+    (
+      /**
+       * The number as text, either before or after the decimal
+       * point.
+       */
+      s,
+      /**
+       * The index of the current element of the array.
+       *
+       * 0. Pre-decimal point
+       * 1. Post decimal point
+       */
+      i
+    ) => {
+      // If there was no decimal point, the second
+      // element will be undefined. In this case,
+      // exit now.
+      if (s === undefined) {
+        return;
+      }
 
-    // Create the span corresponding to the current element
-    // of the array.
-    const span = document.createElement("span");
-    span.append(s);
-    // Specify the CSS class based on index and 
-    // assign to span.
-    const cssClass =
-      i === 0 ? "mp-label__whole" : i === 1 ? "mp-label__decimal" : null;
-    if (cssClass) {
-      span.classList.add(cssClass);
+      // Create the span corresponding to the current element
+      // of the array.
+      const span = document.createElement("span");
+      span.append(s);
+      // Specify the CSS class based on index and
+      // assign to span.
+      const cssClass =
+        i === 0 ? "mp-label__whole" : i === 1 ? "mp-label__decimal" : null;
+      if (cssClass) {
+        span.classList.add(cssClass);
+      }
+      // Add an additional class for back mileage
+      // if applicable.
+      if (isBack) {
+        span.classList.add(`${cssClass}--back`);
+      }
+      return span;
     }
-    // Add an additional class for back mileage
-    // if applicable.
-    if (isBack) {
-      span.classList.add(`${cssClass}--back`);
-    }
-    return span;
-  }) as [HTMLSpanElement, HTMLSpanElement | undefined];
+  ) as [HTMLSpanElement, HTMLSpanElement | undefined];
 
   // Create a data element to contain the spans.
   const dataElement = document.createElement("data");
   // Add the milepost as string (including "B" suffix
-  // where applicable) in the data elements "value" 
+  // where applicable) in the data elements "value"
   // attribute.
   dataElement.value = milepost.toString();
   dataElement.classList.add("mp-label");
@@ -103,17 +119,19 @@ function createMpDataElement(milepost: Milepost) {
     dataElement.append(separatorSpan, decimalSpan);
   }
 
+  dataElement.classList.add(mpTextClass);
+
   return dataElement;
 }
+
+type RouteLabelParameters = Pick<RouteLocation, "Route" | "Decrease">;
 
 /**
  * Formats the route information for use on the map marker.
  * @param routeLocation - ELC result object.
  * @returns A string describing the route.
  */
-export function createRouteLabel(
-  routeLocation: Pick<RouteLocation, "Route" | "Decrease">
-) {
+function createRouteLabel(routeLocation: RouteLabelParameters) {
   if (routeLocation.Route == null) {
     throw new TypeError("Route property cannot be null or undefined.");
   }
@@ -130,9 +148,10 @@ export function createRouteLabel(
   if (routeDesc.isMainline) {
     const prefix = getPrefix(routeDesc.sr, false);
     routeLabel = `${prefix} ${parseInt(routeDesc.sr, 10)}`;
-    if (routeLocation.Decrease) {
-      routeLabel += " (Dec.)";
-    }
+    // This will instead be handeld in CSS "::after".
+    // if (routeLocation.Decrease) {
+    //   routeLabel += " (Dec.)";
+    // }
   } else {
     routeLabel = routeDesc.toString();
   }
@@ -140,42 +159,30 @@ export function createRouteLabel(
   return routeLabel;
 }
 
-const divIconClass = "mp-sign-icon";
-const mpLabelClass = `${divIconClass}__mile-label`;
-const mpTextClass = `${divIconClass}__mp-text`;
+function createRouteLabelElement(routeLocation: RouteLabelParameters) {
+  const routeLabelText = createRouteLabel(routeLocation);
+  const routeLabelSpan = document.createElement("span");
+  routeLabelSpan.append(routeLabelText);
+  routeLabelSpan.classList.add(routeLabelClass);
+  if (routeLocation.Decrease) {
+    routeLabelSpan.classList.add(`${routeLabelClass}--decrease`);
+  }
+  return routeLabelSpan;
+}
+
 /**
  *
  * @param options - Defines route ID and milepost
  * @returns
  */
-function createMilepostIcon(milepost: Milepost): DivIcon;
-function createMilepostIcon(
-  ...mpAndBack: ConstructorParameters<typeof Milepost>
-): DivIcon;
-function createMilepostIcon(...args: MPSignOptions): DivIcon {
+function createMilepostIcon(routeLocation: ISrmpRouteLocation): DivIcon {
   const signDiv = document.createElement("div");
 
-  let milepost: Milepost;
-  if (args.length === 2) {
-    milepost = new Milepost(...args);
-  } else if (args[0] instanceof Milepost) {
-    [milepost] = args;
-  } else {
-    throw new TypeError(`Parameter type(s) not correct: ${args}`);
-  }
-
-  // Create the span for the horizontal "MILE" text.
-  const mileLabel = document.createElement("span");
-  mileLabel.textContent = "Mile";
-  mileLabel.classList.add(mpLabelClass);
-
-  // Create the span for the vertical milepost number text.
-  // const mpSpan = document.createElement("span");
-  // mpSpan.textContent = milepost.toString(false);
+  const routeLabelElement = createRouteLabelElement(routeLocation);
+  const milepost = new Milepost(routeLocation.Srmp, !!routeLocation.Back);
   const mpSpan = createMpDataElement(milepost);
-  mpSpan.classList.add(mpTextClass);
 
-  signDiv.append(mileLabel, mpSpan);
+  signDiv.append(routeLabelElement, mpSpan);
 
   return divIcon({
     html: signDiv.outerHTML,

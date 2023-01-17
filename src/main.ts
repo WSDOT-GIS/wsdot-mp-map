@@ -22,9 +22,9 @@ import { waExtent } from "./constants";
 import { callElc } from "./elc";
 import {
   createMilepostIcon,
-  getMilepostFromRouteLocation,
 } from "./MilepostIcon";
 import { customizeAttribution } from "./attributeCustomization";
+import { isSrmpRouteLocation } from "./RouteLocationExtensions";
 
 /**
  * Creates a Leaflet popup for a route location.
@@ -116,9 +116,15 @@ function createGeoUriAnchor(geoUri: GeoUrl, label = "Geo URI") {
 function createMilepostMarker(routeLocation: PointRouteLocation) {
   const popup = createMilepostPopup(routeLocation);
 
-  const mp = getMilepostFromRouteLocation(routeLocation);
+  if (!isSrmpRouteLocation(routeLocation)) {
+    throw new TypeError(
+      "Route location must have non-null/undefined Route and Srmp properties."
+    );
+  }
 
-  const mpIcon = createMilepostIcon(mp);
+  const mpIcon = createMilepostIcon(routeLocation);
+
+  console.debug("Milepost icon", mpIcon);
 
   const latLng = routeLocation.leafletLatLngLiteral;
   // TODO: Marker should show the milepost number on it.

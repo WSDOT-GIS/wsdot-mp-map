@@ -166,6 +166,11 @@ https://getbem.com
   padding: 0;
 }
 
+.mp-sign-icon__route-label--decrease::after {
+  content: ' (Dec.)';
+  font-size: var(--Base-7);
+}
+
 .leaflet-control-attribution__wsdot-logo {
   width: 4em;
   height: auto;

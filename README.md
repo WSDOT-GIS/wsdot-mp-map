@@ -3,14 +3,14 @@
 ## Status
 
 [![badge][Node.js CI svg]][Node.js CI Workflow]
-[![issues][issues]][issues]
+[![issues][issues badge]][issues]
 [![enhancements][enhancements badge]][enhancements]
 [![bugs][bugs badge]][bugs]
 
 [Node.js CI svg]:https://github.com/WSDOT-GIS/wsdot-mp-map/actions/workflows/node.js.yml/badge.svg
 [Node.js CI Workflow]:https://github.com/WSDOT-GIS/wsdot-mp-map/actions/workflows/node.js.yml
 
-[issues]:https://img.shields.io/github/issues/WSDOT-GIS/wsdot-mp-map?logo=github&label=all+issues
+[issues badge]:https://img.shields.io/github/issues/WSDOT-GIS/wsdot-mp-map?logo=github&label=all+issues
 [issues]:https://github.com/WSDOT-GIS/wsdot-mp-map/issues
 
 [enhancements badge]:https://img.shields.io/github/issues/WSDOT-GIS/wsdot-mp-map/enhancement?logo=github

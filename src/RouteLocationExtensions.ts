@@ -186,3 +186,15 @@ export default class PointRouteLocation implements IPointRouteLocation {
     return [geometry.y, geometry.x];
   }
 }
+
+export interface ISrmpRouteLocation extends IRouteLocation {
+  Route: string;
+  Decrease: boolean | null;
+  Srmp: number;
+}
+
+export function isSrmpRouteLocation(
+  routeLocation: IRouteLocation
+): routeLocation is ISrmpRouteLocation {
+  return !!routeLocation.Route && (typeof routeLocation.Srmp === "number")
+}
