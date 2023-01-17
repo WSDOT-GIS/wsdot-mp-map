@@ -8,7 +8,7 @@ import {
   tileLayer as createTileLayer,
 } from "leaflet";
 import { GeoUrl } from "./GeoUri";
-import type PointRouteLocation from "./PointRouteLocation";
+import type PointRouteLocation from "./RouteLocationExtensions";
 import { createProgressMarker } from "./ProgressMarker";
 
 // #region CSS and font import
