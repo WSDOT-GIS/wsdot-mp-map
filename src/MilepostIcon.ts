@@ -1,9 +1,9 @@
 import { type DivIcon, divIcon } from "leaflet";
 import type { RouteLocation } from "wsdot-elc";
 import { getPrefix, Milepost } from "wsdot-route-utils";
-import type PointRouteLocation from "./RouteLocationExtensions";
+
 import { RouteDescription } from "wsdot-route-utils";
-import type { ISrmpRouteLocation } from "./RouteLocationExtensions";
+import type PointRouteLocation from "./RouteLocationExtensions";
 
 export type MPSignOptions = [Milepost] | ConstructorParameters<typeof Milepost>;
 
@@ -11,24 +11,6 @@ export type MPSignOptions = [Milepost] | ConstructorParameters<typeof Milepost>;
 const divIconClass = "mp-sign-icon";
 const routeLabelClass = `${divIconClass}__route-label`;
 const mpTextClass = `${divIconClass}__mp-text`;
-
-/**
- * Creates a Milepost from properties of a
- * {@link RouteLocation}
- * @param routeLocation - A route location with {@link RouteLocation.Srmp SRMP property}
- * value supplied.
- * @returns A {@link Milepost} object.
- */
-export function getMilepostFromRouteLocation(
-  routeLocation: RouteLocation | PointRouteLocation
-) {
-  const { Srmp, Back } = routeLocation;
-  if (Srmp == null) {
-    throw new TypeError("Srmp cannot be null or undefined.");
-  }
-  const mp = new Milepost(Srmp, !!Back);
-  return mp;
-}
 
 /**
  * Splits a milepost into separate span elements.
@@ -208,12 +190,11 @@ function createRouteLabelElement(routeLocation: RouteLabelParameters) {
  * @param options - Defines route ID and milepost
  * @returns
  */
-function createMilepostIcon(routeLocation: ISrmpRouteLocation): DivIcon {
+function createMilepostIcon(routeLocation: PointRouteLocation): DivIcon {
   const signDiv = document.createElement("div");
 
   const routeLabelElement = createRouteLabelElement(routeLocation);
-  const milepost = new Milepost(routeLocation.Srmp, !!routeLocation.Back);
-  const mpSpan = createMpDataElement(milepost);
+  const mpSpan = createMpDataElement(routeLocation.Milepost);
 
   signDiv.append(routeLabelElement, mpSpan);
 

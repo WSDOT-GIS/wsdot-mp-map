@@ -1,5 +1,6 @@
 import { latLng, LatLng, LatLngLiteral, LatLngTuple } from "leaflet";
-import type { IRouteLocation } from "wsdot-elc";
+import { IRouteLocation, RouteLocation } from "wsdot-elc";
+import { Milepost, RouteDescription } from "wsdot-route-utils";
 
 export interface IPointGeometry {
   x: number;
@@ -94,61 +95,32 @@ export function convertToLatLngTuple(input: Iterable<number>): LatLngTuple {
   return [y, x];
 }
 
-export default class PointRouteLocation implements IPointRouteLocation {
-  //#region Property definition
-  RouteGeometry: IPointGeometry;
-  Id?: number | null | undefined;
-  Route?: string | null | undefined;
-  Decrease?: boolean | null | undefined;
-  Arm?: number | null | undefined;
-  Srmp?: number | null | undefined;
-  Back?: boolean | null | undefined;
-  ReferenceDate?: string | Date | null | undefined;
-  ResponseDate?: string | Date | null | undefined;
-  EndArm?: number | null | undefined;
-  EndSrmp?: number | null | undefined;
-  EndBack?: boolean | null | undefined;
-  EndReferenceDate?: string | Date | null | undefined;
-  EndResponseDate?: string | Date | null | undefined;
-  RealignmentDate?: string | Date | null | undefined;
-  EndRealignmentDate?: string | Date | null | undefined;
-  ArmCalcReturnCode?: number | null | undefined;
-  ArmCalcEndReturnCode?: number | null | undefined;
-  ArmCalcReturnMessage?: string | null | undefined;
-  ArmCalcEndReturnMessage?: string | null | undefined;
-  LocatingError?: string | null | undefined;
-  EventPoint?: IPointGeometry;
-  Distance?: number | null | undefined;
-  Angle?: number | null | undefined;
-  //#endregion
+export default class PointRouteLocation
+  extends RouteLocation
+  implements IPointRouteLocation
+{
+  declare RouteGeometry: IPointGeometry;
+  declare EventPoint: IPointGeometry;
+  declare Srmp: number;
 
-  constructor(routeLocation: IRouteLocation) {
-    //#region set properties
-    this.RouteGeometry = routeLocation.RouteGeometry;
-    this.Id = routeLocation.Id;
-    this.Route = routeLocation.Route;
-    this.Decrease = routeLocation.Decrease;
-    this.Arm = routeLocation.Arm;
-    this.Srmp = routeLocation.Srmp;
-    this.Back = routeLocation.Back;
-    this.ReferenceDate = routeLocation.ReferenceDate;
-    this.ResponseDate = routeLocation.ResponseDate;
-    this.EndArm = routeLocation.EndArm;
-    this.EndSrmp = routeLocation.EndSrmp;
-    this.EndBack = routeLocation.EndBack;
-    this.EndReferenceDate = routeLocation.EndReferenceDate;
-    this.EndResponseDate = routeLocation.EndResponseDate;
-    this.RealignmentDate = routeLocation.RealignmentDate;
-    this.EndRealignmentDate = routeLocation.EndRealignmentDate;
-    this.ArmCalcReturnCode = routeLocation.ArmCalcReturnCode;
-    this.ArmCalcEndReturnCode = routeLocation.ArmCalcEndReturnCode;
-    this.ArmCalcReturnMessage = routeLocation.ArmCalcReturnMessage;
-    this.ArmCalcEndReturnMessage = routeLocation.ArmCalcEndReturnMessage;
-    this.LocatingError = routeLocation.LocatingError;
-    this.EventPoint = routeLocation.EventPoint;
-    this.Distance = routeLocation.Distance;
-    this.Angle = routeLocation.Angle;
-    //#endregion
+  RouteDescription: RouteDescription;
+  Milepost: Milepost;
+
+  /**
+   * @inheritdoc
+   */
+  constructor(...args: ConstructorParameters<typeof RouteLocation>) {
+    super(...args);
+    const rl = args[0];
+    const suffixedLabel = `${rl.Route}${rl.Decrease ? "d" : "i"}`;
+    this.RouteDescription = new RouteDescription(suffixedLabel, {
+      suffixesAreOptional: false,
+      allowedSuffixes: ["i", "d"],
+    });
+    if (rl.Srmp == null) {
+      throw new TypeError("Srmp property cannot be null or undefined.")
+    }
+    this.Milepost = new Milepost(rl.Srmp, !!rl.Back);
   }
 
   public get routeGeometryXY(): [number, number] {
@@ -196,5 +168,5 @@ export interface ISrmpRouteLocation extends IRouteLocation {
 export function isSrmpRouteLocation(
   routeLocation: IRouteLocation
 ): routeLocation is ISrmpRouteLocation {
-  return !!routeLocation.Route && (typeof routeLocation.Srmp === "number")
+  return !!routeLocation.Route && typeof routeLocation.Srmp === "number";
 }
