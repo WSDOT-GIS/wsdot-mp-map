@@ -1,6 +1,15 @@
 {
   "recommendations": [
     "zixuanchen.vitest-explorer",
-    "sandipchitale.vscode-mdn-reference"
+    "sandipchitale.vscode-mdn-reference",
+    "dbaeumer.vscode-eslint",
+    "editorconfig.editorconfig",
+    "bierner.github-markdown-preview",
+    "github.vscode-pull-request-github",
+    "piotrpalarz.vscode-gitignore-generator",
+    "mhutchie.git-graph",
+    "donjayamanne.githistory",
+    "hashhar.gitattributes",
+    "github.remotehub"
   ]
 }
