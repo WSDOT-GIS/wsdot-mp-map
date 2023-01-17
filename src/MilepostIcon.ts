@@ -51,6 +51,9 @@ function createMpDataElement(milepost: Milepost) {
       if (cssClass) {
         span.classList.add(cssClass);
       }
+      if (isBack) {
+        span.classList.add(`${cssClass}--back`)
+      }
       return span;
     }) as [HTMLSpanElement, HTMLSpanElement | undefined];
 
