@@ -74,27 +74,10 @@ export function isPointGeometry(
   return true;
 }
 
-export function convertToLatLngTuple(input: Iterable<number>): LatLngTuple {
-  if (!isCoordinateTuple(input)) {
-    throw new TypeError("Input must be an iterable with at least two numbers");
-  }
-
-  const [a] = input;
-
-  let x: number;
-  let y: number;
-
-  if (a < 0) {
-    x = input[0];
-    y = input[1];
-  } else {
-    x = input[1];
-    y = input[0];
-  }
-
-  return [y, x];
-}
-
+/**
+ * An extension of {@link RouteLocation} with additional properties
+ * and methods.
+ */
 export default class PointRouteLocation
   extends RouteLocation
   implements IPointRouteLocation
@@ -165,6 +148,11 @@ export interface ISrmpRouteLocation extends IRouteLocation {
   Srmp: number;
 }
 
+/**
+ * Detects if a {@link RouteLocation} contains valid SRMP data.
+ * @param routeLocation 
+ * @returns 
+ */
 export function isSrmpRouteLocation(
   routeLocation: IRouteLocation
 ): routeLocation is ISrmpRouteLocation {

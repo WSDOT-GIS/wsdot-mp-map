@@ -5,8 +5,6 @@ import { getPrefix, Milepost } from "wsdot-route-utils";
 import { RouteDescription } from "wsdot-route-utils";
 import type PointRouteLocation from "./RouteLocationExtensions";
 
-export type MPSignOptions = [Milepost] | ConstructorParameters<typeof Milepost>;
-
 // Defined variables for CSS class names that elements will use.
 const divIconClass = "mp-sign-icon";
 const routeLabelClass = `${divIconClass}__route-label`;
