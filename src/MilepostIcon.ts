@@ -143,31 +143,64 @@ function createRouteLabel(routeLocation: RouteLabelParameters) {
     suffixesAreOptional: false,
   });
 
-  let routeLabel: string;
+  let routeLabel: string = routeDesc.toString();
 
   if (routeDesc.isMainline) {
     const prefix = getPrefix(routeDesc.sr, false);
     routeLabel = `${prefix} ${parseInt(routeDesc.sr, 10)}`;
-    // This will instead be handeld in CSS "::after".
-    // if (routeLocation.Decrease) {
-    //   routeLabel += " (Dec.)";
-    // }
+    // The "decrease" info will be displayed via CSS "::after".
+  } else if (!routeDesc.isMainline) {
+    // Add custom formatting for ramps.
+    routeLabel = [routeDesc.rrtDescription, routeDesc.rrqDescription].join(" ");
+    console.debug(routeLabel, [
+      routeDesc.rrtDescription,
+      routeDesc.rrqDescription,
+    ]);
   } else {
     routeLabel = routeDesc.toString();
   }
 
-  return routeLabel;
+  return [routeLabel, routeDesc] as [string, RouteDescription];
 }
 
 function createRouteLabelElement(routeLocation: RouteLabelParameters) {
-  const routeLabelText = createRouteLabel(routeLocation);
-  const routeLabelSpan = document.createElement("span");
-  routeLabelSpan.append(routeLabelText);
-  routeLabelSpan.classList.add(routeLabelClass);
-  if (routeLocation.Decrease) {
-    routeLabelSpan.classList.add(`${routeLabelClass}--decrease`);
+  /**
+   * Add classes for route BEM modifiers.
+   * @param element - An HTML Element.
+   * @param bemModifiers - One or more BEM modifier strings.
+   * Must be valid CSS strings (e.g., no spaces).
+   */
+  function addClasses(element: HTMLElement, ...bemModifiers: string[]) {
+    bemModifiers
+      .map((className) => [routeLabelClass, className].join("--"))
+      .forEach((className) => element.classList.add(className));
   }
-  return routeLabelSpan;
+
+  // TODO: Make route label a data element containing
+  // RRT, RRQ spans.
+  const [routeLabelText, routeDescrption] = createRouteLabel(routeLocation);
+  const routeDataElement = document.createElement("data");
+  routeDataElement.value = routeDescrption.toString();
+  routeDataElement.append(routeLabelText);
+  routeDataElement.classList.add(routeLabelClass);
+
+  // Create a list of BEM modifiers to apply to route label
+  // based out route description properties.
+  const modifiers = [routeLabelClass];
+  if (routeDescrption.isMainline) {
+    modifiers.push("mainline");
+  }
+  if (routeDescrption.isDecrease) {
+    modifiers.push("decrease");
+  }
+  if (routeDescrption.isLocalCollector) {
+    modifiers.push("local-collector");
+  }
+  if (routeDescrption.isRamp) {
+    modifiers.push("ramp");
+  }
+  addClasses(routeDataElement, ...modifiers);
+  return routeDataElement;
 }
 
 /**
@@ -185,7 +218,7 @@ function createMilepostIcon(routeLocation: ISrmpRouteLocation): DivIcon {
   signDiv.append(routeLabelElement, mpSpan);
 
   return divIcon({
-    html: signDiv.outerHTML,
+    html: signDiv.innerHTML,
     className: divIconClass,
   });
 }
