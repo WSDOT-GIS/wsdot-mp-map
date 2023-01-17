@@ -3,7 +3,7 @@ import RouteLocator, {
   type IFindNearestRouteLocationParameters,
 } from "wsdot-elc";
 import { gpsWkid } from "./constants";
-import PointRouteLocation from "./PointRouteLocation";
+import PointRouteLocation from "./RouteLocationExtensions";
 
 export const defaultElcUrl =
   "https://data.wsdot.wa.gov/arcgis/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe";

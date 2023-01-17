@@ -89,17 +89,20 @@ https://getbem.com
 
 .mp-sign-icon__mp-text {
   display: block;
-  /* 
-  Uncomment below to write text vertically.
-  Currently disabled because the values w/ 
-  decimal points will look weird due to 
-  the spacing around the period.
-   */
-  /* writing-mode: vertical-lr;
+}
+
+/* TODO: Get vertical styling to look good. */
+/* .mp-label__whole, .mp-label__decimal {
+  writing-mode: vertical-lr;
   text-orientation: upright;
   letter-spacing: -0.23rem;
-  word-spacing: -0.23rem; */
+  word-spacing: -0.23rem;
 }
+
+.mp-label__separator {
+  text-align: center;
+  display: block;
+} */
 
 .mp-sign-icon__mile-label {
   writing-mode: horizontal-tb;
