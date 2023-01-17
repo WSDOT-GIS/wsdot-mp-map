@@ -23,63 +23,84 @@ export function getMilepostFromRouteLocation(
  * @returns
  */
 function createMpDataElement(milepost: Milepost) {
-  console.group(`${createMilepostIcon.name}: ${milepost}`)
-  let dataElement: HTMLDataElement;
-  try {
-    const { mp, isBack } = milepost;
+  // Make variables for Milepost properties.
+  const { mp, isBack } = milepost;
 
-    const [whole, decimal] = `${mp}`.split(".", 2) as [
-      string,
-      string | undefined
-    ];
+  // Convert the Milepost to a string, then split into
+  // the parts before and after the decimal point.
+  // If the Milepost is a whole number, the second
+  // element in the array will be an undefined.
+  const [whole, decimal] = `${mp}`.split(".", 2) as [
+    string,
+    string | undefined
+  ];
 
-    console.debug("parts", {
-      whole,
-      decimal
-    })
+  // Create span elements for each of the parts of the number,
+  // both pre- and post-decimal point.
+  const [wholeSpan, decimalSpan] = [whole, decimal].map((
+    /** 
+     * The number as text, either before or after the decimal
+     * point. 
+     */
+    s, 
+    /**
+     * The index of the current element of the array.
+     * 
+     * 0. Pre-decimal point
+     * 1. Post decimal point
+     */
+    i) => {
+    // If there was no decimal point, the second 
+    // element will be undefined. In this case,
+    // exit now.
+    if (s === undefined) {
+      return;
+    }
 
-    // Create span elements for each of the parts of the number,
-    // both pre- and post-decimal point.
-    const [wholeSpan, decimalSpan] = [whole, decimal].map((s, i) => {
-      if (s === undefined) {
-        return;
-      }
-      const span = document.createElement("span");
-      span.append(s);
-      const cssClass =
-        i === 0 ? "mp-label__whole" : i === 1 ? "mp-label__decimal" : null;
-      if (cssClass) {
-        span.classList.add(cssClass);
-      }
-      if (isBack) {
-        span.classList.add(`${cssClass}--back`)
-      }
-      return span;
-    }) as [HTMLSpanElement, HTMLSpanElement | undefined];
-
-    console.debug("", {wholeSpan, decimalSpan})
-
-    dataElement = document.createElement("data");
-    dataElement.value = milepost.toString();
-
-    dataElement.classList.add("mp-label");
-
+    // Create the span corresponding to the current element
+    // of the array.
+    const span = document.createElement("span");
+    span.append(s);
+    // Specify the CSS class based on index and 
+    // assign to span.
+    const cssClass =
+      i === 0 ? "mp-label__whole" : i === 1 ? "mp-label__decimal" : null;
+    if (cssClass) {
+      span.classList.add(cssClass);
+    }
+    // Add an additional class for back mileage
+    // if applicable.
     if (isBack) {
-      dataElement.classList.add("mp-label--back");
+      span.classList.add(`${cssClass}--back`);
     }
+    return span;
+  }) as [HTMLSpanElement, HTMLSpanElement | undefined];
 
-    dataElement.append(wholeSpan);
+  // Create a data element to contain the spans.
+  const dataElement = document.createElement("data");
+  // Add the milepost as string (including "B" suffix
+  // where applicable) in the data elements "value" 
+  // attribute.
+  dataElement.value = milepost.toString();
+  dataElement.classList.add("mp-label");
 
-    if (decimalSpan) {
-      const separatorSpan = document.createElement("span");
-      separatorSpan.append(".");
+  // Add additional class if it's back mileage.
+  if (isBack) {
+    dataElement.classList.add("mp-label--back");
+  }
 
-      separatorSpan.classList.add("mp-label__separator")
+  // Append the whole number span.
+  dataElement.append(wholeSpan);
 
-      dataElement.append(separatorSpan, decimalSpan);
-    }
-  } finally {
-    console.groupEnd();
+  // Add the decimal point and post-decimal point spans
+  // if necessary.
+  if (decimalSpan) {
+    const separatorSpan = document.createElement("span");
+    separatorSpan.append(".");
+
+    separatorSpan.classList.add("mp-label__separator");
+
+    dataElement.append(separatorSpan, decimalSpan);
   }
 
   return dataElement;
