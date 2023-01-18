@@ -11,7 +11,8 @@
     "lint": "eslint . --fix",
     "prettier": "prettier . --write",
     "gh-pages-publish": "npm run build && node tools/publish.mjs",
-    "test": "node test.mjs"
+    "test": "vitest",
+    "coverage": "vitest run --coverage"
   },
   "devDependencies": {
     "@fontsource/overpass": "^4.5.10",

@@ -7,7 +7,7 @@ import type {
 } from "./typesAndInterfaces";
 
 export const defaultUrl =
-  "https://data.wsdot.wa.gov/arcgis/rest/services/DataLibrary/DataLibrary/FeatureServer";
+  "https://data.wsdot.wa.gov/arcgis/rest/services/DataLibrary/DataLibrary/FeatureServer/";
 
 type FieldName = "LDNM" | "JURLBL" | "CityName"; // cspell:disable-line
 
@@ -45,7 +45,8 @@ export async function query(
   xy: [number, number],
   featureServiceUrl: string = defaultUrl
 ) {
-  const queryUrl = new URL(featureServiceUrl, "query");
+  const queryUrl = new URL("query", featureServiceUrl);
+  console.debug(`query url: ${queryUrl}`, queryUrl)
   const response = (await request(queryUrl.toString(), {
     params: {
       geometry: xy.join(","),
