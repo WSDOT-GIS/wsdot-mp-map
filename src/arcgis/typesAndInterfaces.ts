@@ -1,16 +1,18 @@
 import type { esriGeometryType, Feature, Field, SpatialReference } from "arcgis-rest-api";
 
+export type AttributeValue = string | number | boolean | null;
+
 export enum layerDefStringFormat {
   simple = 0,
   json = 1,
   includeOutFields = 2,
 }
 
-export class LayerDef {
+export class LayerDef<W extends string, F extends string> {
   constructor(
     public layerId: number,
-    public where: string,
-    public outFields?: string[]
+    public where: W,
+    public outFields?: F[]
   ) {}
 }
 

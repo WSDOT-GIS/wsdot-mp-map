@@ -1,7 +1,6 @@
 import { request } from "@esri/arcgis-rest-request";
-import type { Feature } from "arcgis-rest-api";
-import { gpsWkid } from "../constants";
 import type {
+  AttributeValue,
   FeatureServiceQueryResponse,
   LayerDef,
   QueryResponseLayer,
@@ -10,10 +9,12 @@ import type {
 export const defaultUrl =
   "https://data.wsdot.wa.gov/arcgis/rest/services/DataLibrary/DataLibrary/FeatureServer";
 
+type FieldName = "LDNM" | "JURLBL" | "CityName"; // cspell:disable-line
+
 /**
  * Mapping of layer IDs to output field names.
  */
-const fields = new Map([
+const fields = new Map<number, FieldName[]>([
   // cspell:disable
   [2, ["LDNM"]],
   [3, ["JURLBL"]],
@@ -21,24 +22,34 @@ const fields = new Map([
   // cspell:enable
 ]);
 
-const layerDefs: LayerDef[] = [...fields.entries()].map(
+const selectAllStatement = "1=1";
+
+const layerDefs: LayerDef<typeof selectAllStatement, FieldName>[] = [...fields.entries()].map(
   ([layerId, outFields]) => {
     return {
       layerId,
-      where: "1=1",
+      where: selectAllStatement,
       outFields,
     };
   }
 );
 
+/**
+ * Query a feature service for features that intersect with
+ * the given point.
+ * @param xy - WGS 86 XY coordinates
+ * @param featureServiceUrl - Feature service URL
+ * @returns 
+ */
 export async function query(
   xy: [number, number],
   featureServiceUrl: string = defaultUrl
 ) {
-  const response = (await request(featureServiceUrl, {
+  const queryUrl = new URL(featureServiceUrl, "query");
+  const response = (await request(queryUrl.toString(), {
     params: {
       geometry: xy.join(","),
-      inSR: gpsWkid,
+      inSR: 4326,
       spatialRel: "esriSpatialRelWithin",
       layerDefs,
       returnGeometry: false,
@@ -49,12 +60,10 @@ export async function query(
   return response;
 }
 
-export type AttributeValue = string | number | boolean | null;
-
 /**
  * Enumerates all of the fields and returns field name and alias
  * pairs. The output can be used to construct a Map.
- * @param layer - An element of the 
+ * @param layer - An element of the
  * {@link FeatureServiceQueryResponse.layers} array.
  * @yields Two-element arrays containing fields' name and alias,
  * respectively. If there is no alias then both elements in the
@@ -67,8 +76,8 @@ function* enumerateFieldAliases(layer: QueryResponseLayer) {
     for (const field of layer.fields) {
       const { name } = field;
       let { alias } = field;
-      alias = alias || name;
-      yield [name, alias] as [string, string];
+      alias ??= name;
+      yield [name, alias] as [FieldName, typeof alias];
     }
   }
 }
@@ -94,12 +103,15 @@ export function* enumerateQueryResponseAttributes(
 ) {
   for (const layer of response.layers) {
     for (const feature of layer.features) {
-      const aliasMap = new Map(enumerateFieldAliases(layer));
+      const aliasMap = new Map<string, string>(enumerateFieldAliases(layer));
       for (const name in feature.attributes as Record<string, AttributeValue>) {
         if (Object.prototype.hasOwnProperty.call(feature.attributes, name)) {
-          const value = feature.attributes[name];
+          const value = feature.attributes[name] as AttributeValue;
+          // The output of aliasMap.get should always be
+          // string rather than undefined, but just in case,
+          // default to name.
           const alias = aliasMap.get(name) ?? name;
-          yield [alias, value] as [string, AttributeValue];
+          yield [alias, value] as [typeof alias, typeof value];
         }
       }
     }
