@@ -2,6 +2,8 @@
 
 ## Status
 
+[Try on Github Pages](https://wsdot-gis.github.io/wsdot-mp-map/)
+
 [![badge][Node.js CI svg]][Node.js CI Workflow]
 [![issues][issues badge]][issues]
 [![enhancements][enhancements badge]][enhancements]
