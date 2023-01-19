@@ -20,11 +20,14 @@ import "./style.css";
 // #endregion
 import { waExtent } from "./constants";
 import { callElc } from "./elc";
-import {
-  createMilepostIcon,
-} from "./MilepostIcon";
+import { createMilepostIcon } from "./MilepostIcon";
 import { customizeAttribution } from "./attributeCustomization";
 import { isSrmpRouteLocation } from "./RouteLocationExtensions";
+import {
+  enumerateQueryResponseAttributes,
+  query,
+} from "./arcgis/featureServiceQuery";
+import type { AttributeValue } from "./arcgis/typesAndInterfaces";
 
 /**
  * Creates a Leaflet popup for a route location.
@@ -47,6 +50,8 @@ const anchorTarget = "_blank";
  * @returns - An HTML element.
  */
 function createPopupContent(routeLocation: PointRouteLocation) {
+  const serviceQueryPromise = queryFeatureService(routeLocation);
+
   const [x, y] = routeLocation.routeGeometryXY;
   const route = `${routeLocation.Route}${
     routeLocation.Decrease ? " (Decrease)" : ""
@@ -67,6 +72,12 @@ function createPopupContent(routeLocation: PointRouteLocation) {
 
   const output = document.createElement("div");
   output.appendChild(frag);
+
+  serviceQueryPromise.then(o => {
+    const dl = convertObjectToDl(o);
+    output.appendChild(dl);
+  })
+
   return output;
 }
 
@@ -141,6 +152,21 @@ export const theMap = createMap("map", {
 
 customizeAttribution(theMap);
 
+function convertObjectToDl(o: Record<string, AttributeValue>) {
+  const dl = document.createElement("dl");
+  for (const key in o) {
+    if (Object.prototype.hasOwnProperty.call(o, key)) {
+      const value = o[key];
+      const dt = document.createElement("dt");
+      dt.textContent = key;
+      const dd = document.createElement("dd");
+      dd.textContent = `${value}`;
+      dl.append(dt, dd);
+    }
+  }
+  return dl;
+}
+
 createTileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
   maxZoom: 19,
   attribution:
@@ -165,13 +191,22 @@ theMap.on("click", async (e) => {
     progressMarker.remove();
   }
 
-  // TODO: Identify county, etc. using https://data.wsdot.wa.gov/arcgis/rest/services/DataLibrary/DataLibrary/MapServer/identify
-
   if (results) {
     for (const result of results) {
+      // Query for county, etc. using https://data.wsdot.wa.gov/arcgis/rest/services/DataLibrary/DataLibrary/MapServer/identify
       console.debug("elcResult", result);
       const marker = createMilepostMarker(result);
       marker.addTo(theMap);
     }
   }
 });
+function queryFeatureService(result: PointRouteLocation) {
+  return query(result.routeGeometryXY).then((r) => {
+    const output: Record<string, AttributeValue> = {};
+    for (const [key, value] of enumerateQueryResponseAttributes(r)) {
+      output[key] = value;
+    }
+    return output;
+  });
+}
+

@@ -78,9 +78,13 @@
     {
       "label": "Publish to gh-pages",
       "detail": "Uses the \"gh-pages\" tool to publish the site to Github Pages.",
+      "icon": {
+        "id": "github",
+        "color": "terminal.ansiRed"
+      },
       "type": "npm",
       "script": "gh-pages-publish",
-      "problemMatcher": [],
+      "problemMatcher": []
     }
   ]
 }
