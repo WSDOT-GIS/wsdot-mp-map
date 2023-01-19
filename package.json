@@ -11,14 +11,19 @@
     "lint": "eslint . --fix",
     "prettier": "prettier . --write",
     "gh-pages-publish": "npm run build && node tools/publish.mjs",
-    "test": "node test.mjs"
+    "test": "vitest run",
+    "test-watch": "vitest",
+    "coverage": "vitest run --coverage",
+    "coverage-watch": "vitest --coverage"
   },
   "devDependencies": {
     "@fontsource/overpass": "^4.5.10",
+    "@types/arcgis-rest-api": "^10.4.5",
     "@types/gh-pages": "^3.2.1",
     "@types/leaflet": "^1.9.0",
     "@typescript-eslint/eslint-plugin": "^5.48.2",
     "@typescript-eslint/parser": "^5.48.2",
+    "@vitest/coverage-c8": "^0.27.2",
     "eslint": "^8.32.0",
     "eslint-config-prettier": "^8.6.0",
     "gh-pages": "^4.0.0",
@@ -42,5 +47,8 @@
   "bugs": {
     "url": "https://github.com/WSDOT-GIS/wsdot-mp-map/issues"
   },
-  "homepage": "https://wsdot-gis.github.io/wsdot-mp-map"
+  "homepage": "https://wsdot-gis.github.io/wsdot-mp-map",
+  "dependencies": {
+    "@esri/arcgis-rest-request": "^3.6.0"
+  }
 }
