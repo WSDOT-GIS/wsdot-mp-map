@@ -17,7 +17,7 @@
     "coverage-watch": "vitest --coverage"
   },
   "devDependencies": {
-    "@fontsource/overpass": "^4.5.10",
+    "@fontsource/overpass": "^4.5.11",
     "@types/arcgis-rest-api": "^10.4.5",
     "@types/gh-pages": "^3.2.1",
     "@types/leaflet": "^1.9.0",
