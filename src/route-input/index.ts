@@ -29,9 +29,9 @@ import { routeRe } from "wsdot-elc";
 </table>
 */
 
-import { Milepost } from "wsdot-route-utils";
+import { Milepost, RouteDescription } from "wsdot-route-utils";
 
-const milepostRe = Milepost.milepostRegex;
+const milepostRe = /\d+(?:\.\d+)?/i;
 
 export interface ContainerOptions {
   /**
@@ -43,7 +43,10 @@ export interface ContainerOptions {
 }
 
 export type InputOptions = Partial<
-  Pick<HTMLInputElement, "type" | "placeholder" | "title" | "required" | "id">
+  Pick<
+    HTMLInputElement,
+    "type" | "placeholder" | "title" | "required" | "id" | "name"
+  >
 > & {
   labelText: string;
   pattern: RegExp;
@@ -122,6 +125,7 @@ function createInputAndLabel(
   ];
 }
 
+const routeInputName = "route";
 function createRouteIdInput(options?: ContainerOptions) {
   return createInputAndLabel({
     pattern: routeRe,
@@ -130,10 +134,12 @@ function createRouteIdInput(options?: ContainerOptions) {
     id: "routeInput",
     required: true,
     labelText: "Route ID",
+    name: routeInputName,
     outerControlContainer: options?.outerControlContainer,
   });
 }
 
+const milepostInputName = "milepost";
 function createMPInput(options?: ContainerOptions) {
   return createInputAndLabel({
     pattern: milepostRe,
@@ -141,6 +147,7 @@ function createMPInput(options?: ContainerOptions) {
     title: 'Enter a valid milepost w/ optional back indicator suffix, "B".',
     required: true,
     labelText: "Milepost",
+    name: milepostInputName,
     outerControlContainer: options?.outerControlContainer,
   });
 }
@@ -158,16 +165,74 @@ function appendContainerOrChildren(
   }
 }
 
-export function createRouteInputControl(): HTMLElement {
-  const root = document.createElement("div");
+export interface SrmpForm extends HTMLFormElement {
+  [routeInputName]: HTMLInputElement;
+  [milepostInputName]: HTMLInputElement;
+}
+
+export const srmpSubmitEventName = "srmp-submit";
+export function createRouteInputForm(): SrmpForm {
+  const form = document.createElement("form");
+  form.classList.add("mp-input");
   const containerOptions: ContainerOptions = {
-    outerControlContainer: ["div"]
-  }
-  const [routeInput, routeLabel, routeContainer] = createRouteIdInput(containerOptions);
+    outerControlContainer: ["div"],
+  };
+  const [routeInput, routeLabel, routeContainer] =
+    createRouteIdInput(containerOptions);
   const [mpInput, mpLabel, mpContainer] = createMPInput(containerOptions);
 
-  appendContainerOrChildren(root, routeInput, routeLabel, routeContainer);
-  appendContainerOrChildren(root, mpInput, mpLabel, mpContainer);
+  appendContainerOrChildren(form, routeInput, routeLabel, routeContainer);
+  appendContainerOrChildren(form, mpInput, mpLabel, mpContainer);
 
-  return root;
+  const buttonContainer = document.createElement("div");
+
+  const submitButton = document.createElement("button");
+  submitButton.type = "submit";
+  submitButton.textContent = "Submit";
+
+  const resetButton = document.createElement("button");
+  resetButton.type = "reset";
+  resetButton.textContent = "Reset";
+
+  buttonContainer.append(submitButton, resetButton);
+
+  form.append(buttonContainer);
+
+  //   form.getRoute = function() {
+  //     const route = new RouteDescription(routeInput.value);
+  //     return route;
+  //   }
+
+  //   form.getMilepost = function() {
+  //     const mp = new Milepost(mpInput.value);
+  //     return mp;
+  //   }
+
+  // Handles the submit event, overriding the default behavior.
+  form.addEventListener("submit", dispatchSrmpEvent, {});
+
+  // Stop immediate propagation of click events.
+  // Without this, clicking on the form or its controls
+  // Will also trigger the map click event.
+  form.addEventListener("click", (ev) => {
+    ev.stopImmediatePropagation();
+  });
+
+  return form as SrmpForm;
+
+  function dispatchSrmpEvent(this: HTMLFormElement, ev: SubmitEvent) {
+    try {
+      const route = new RouteDescription(routeInput.value);
+      const mp = new Milepost(mpInput.value);
+      const srmpEvt = new CustomEvent(srmpSubmitEventName, {
+        detail: {
+          route,
+          mp,
+        },
+      });
+      form.dispatchEvent(srmpEvt);
+    } finally {
+      ev.preventDefault();
+    }
+  }
 }

@@ -28,6 +28,7 @@ import {
   query,
 } from "./arcgis/featureServiceQuery";
 import type { AttributeValue } from "./arcgis/typesAndInterfaces";
+import { SrmpControl } from "./route-input/LeafletControl";
 
 /**
  * Creates a Leaflet popup for a route location.
@@ -210,3 +211,6 @@ function queryFeatureService(result: PointRouteLocation) {
   });
 }
 
+const mpControl = new SrmpControl({
+  position: "topright"
+}).addTo(theMap);

@@ -177,3 +177,18 @@ https://getbem.com
   padding: 0;
   margin: 0;
 }
+
+.mp-input {
+  display: table;
+  padding: 1em;
+  margin: 1em;
+  background-color: white;
+}
+
+.mp-input > div {
+  display: table-row;
+}
+
+.mp-input > div > input, .mp-input > div > label {
+  display: table-cell;
+}
