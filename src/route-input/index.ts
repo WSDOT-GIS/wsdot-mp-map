@@ -1,55 +1,43 @@
 import { routeRe } from "wsdot-elc";
-
-/* <!-- old version -->
-<table style="height:90px; width:600px; color:#3872ac">
-    <tbody>
-        <tr>
-            <td style="width:100px; padding-left:2%;">State Route:</td>
-            <td><input id="sr_value" type="text" style="width:60px; text-align:center;  height:25px;"></td>
-            <td style="padding-left:2%; width:60px;">Type:</td>
-            <td>
-                <select id="routetype" style="width:80px; height:25px;">
-                    <option value=" "></option>
-                    <option value="SP">Spur</option>
-                    <option value="CO">Couplet</option>
-                    <option value="AR">Alternate</option>
-                </select>
-            </td>
-            <td style="padding-left:1%; font-size:smaller;">*Keep empty unless on a SPUR, COUPLET or ALTERNATE route.
-            </td>
-        </tr>
-        <tr>
-            <td style="padding-left:2%;">Milepost:</td>
-            <td><input id="mp_value" type="text" style="width:60px; text-align:center;  height:25px;"></td>
-            <td></td>
-            <td><input id="submit" type="button" value="Locate" style="width:80px;" onclick="searchFunction();"></td>
-            <td></td>
-        </tr>
-    </tbody>
-</table>
-*/
-
 import { Milepost, RouteDescription } from "wsdot-route-utils";
-
-const milepostRe = /\d+(?:\.\d+)?/i;
+import { compareElements } from "./utils";
+import "./MilepostInput";
+import type MilepostInput from "./MilepostInput";
+import { DomEvent } from "leaflet";
 
 export interface ContainerOptions {
   /**
    * Optionally create a container element to place the label and input into.
+   * This can either be an {@link HTMLElement} or a parameters to create a
+   * new element.
+   * @example
+   * // Create controls and contain them in a new div element.
+   * const containerOptions: ContainerOptions = {
+   *   outerControlContainer: ["div"],
+   * };
+   * const [routeInput, routeLabel, routeContainer] =
+   *   createRouteIdInput(containerOptions);
+   * const [mpInput, mpLabel, mpContainer] = createMPInput(containerOptions);
    */
   outerControlContainer?:
     | HTMLElement
     | Parameters<typeof Document.prototype.createElement>;
 }
 
+/**
+ * Options used for setting properties of input DOM elements.
+ */
 export type InputOptions = Partial<
   Pick<
     HTMLInputElement,
     "type" | "placeholder" | "title" | "required" | "id" | "name"
   >
 > & {
+  /** The inner text for the control's correpsonding label. */
   labelText: string;
+  /** Regular expression to use for the text input pattern property. */
   pattern: RegExp;
+  /** The name of the class to use for the container of the label and control (if provided.) */
   containerClassName?: string;
 } & ContainerOptions;
 
@@ -77,9 +65,7 @@ function createUniqueId(prefix = "control") {
   return currentId;
 }
 
-function createInputAndLabel(
-  options: InputOptions
-): [HTMLInputElement, HTMLLabelElement, HTMLElement | null] {
+function createInputAndLabel(options: InputOptions) {
   const input = document.createElement("input");
 
   input.type = options.type ?? "text";
@@ -96,6 +82,10 @@ function createInputAndLabel(
     input.placeholder = options.placeholder;
   }
 
+  if (options.name) {
+    input.name = options.name;
+  }
+
   if (options.required === true || options.required === false) {
     input.required = options.required;
   }
@@ -105,11 +95,13 @@ function createInputAndLabel(
 
   let container = options.outerControlContainer;
 
+  const elementsToAppend = [input, label].sort(compareElements); //isCheckbox(input) ? [input, label] : [label, input];
+
   if (container) {
     if (!(container instanceof HTMLElement)) {
       container = document.createElement(...container);
     }
-    container.append(label, input);
+    container.append(...elementsToAppend);
   }
 
   if (options.containerClassName) {
@@ -140,31 +132,51 @@ function createRouteIdInput(options?: ContainerOptions) {
 }
 
 const milepostInputName = "milepost";
-function createMPInput(options?: ContainerOptions) {
-  return createInputAndLabel({
-    pattern: milepostRe,
-    placeholder: "1.00",
-    title: 'Enter a valid milepost w/ optional back indicator suffix, "B".',
-    required: true,
-    labelText: "Milepost",
-    name: milepostInputName,
-    outerControlContainer: options?.outerControlContainer,
-  });
+function createMPInput(
+  options?: ContainerOptions
+): [MilepostInput, HTMLLabelElement, HTMLElement | null] {
+  const input = document.createElement("milepost-input") as MilepostInput;
+  const label = document.createElement("label");
+  label.textContent = "Milepost";
+  input.id = label.htmlFor = createUniqueId("milepostInput");
+  let container = options?.outerControlContainer || null;
+  if (container) {
+    if (!(container instanceof HTMLElement)) {
+      container = document.createElement(...container);
+    }
+    container.append(label, input);
+  }
+  return [input, label, container];
 }
 
+/**
+ * Appends a control and associated label, or an element containing
+ * the aforementioned elements, to a parent element.
+ * @param parent The parent that will have elements appended to it.
+ * @param input The input control element.
+ * @param label The label for the input control.
+ * @param container The container for the label and the input.
+ * If omitted, the {@link input} and {@link label} elements will be
+ * added directly as children of {@link parent}.
+ */
 function appendContainerOrChildren(
   parent: HTMLElement,
-  input: HTMLInputElement,
+  input: HTMLInputElement | MilepostInput,
   label: HTMLLabelElement,
   container: HTMLElement | null
-) {
+): void {
   if (container) {
     parent.append(container);
   } else {
-    parent.append(input, label);
+    parent.append(...[input, label].sort(compareElements));
   }
 }
 
+/**
+ * Interface that extends the {@link HTMLFormElement}
+ * so that TypeScript will know which elements have
+ * been added.
+ */
 export interface SrmpForm extends HTMLFormElement {
   [routeInputName]: HTMLInputElement;
   [milepostInputName]: HTMLInputElement;
@@ -179,10 +191,14 @@ export function createRouteInputForm(): SrmpForm {
   };
   const [routeInput, routeLabel, routeContainer] =
     createRouteIdInput(containerOptions);
+
   const [mpInput, mpLabel, mpContainer] = createMPInput(containerOptions);
 
+  const customMPElement = document.createElement(
+    "milepost-input"
+  ) as MilepostInput;
   appendContainerOrChildren(form, routeInput, routeLabel, routeContainer);
-  appendContainerOrChildren(form, mpInput, mpLabel, mpContainer);
+  appendContainerOrChildren(form, customMPElement, mpLabel, mpContainer);
 
   const buttonContainer = document.createElement("div");
 
@@ -198,25 +214,15 @@ export function createRouteInputForm(): SrmpForm {
 
   form.append(buttonContainer);
 
-  //   form.getRoute = function() {
-  //     const route = new RouteDescription(routeInput.value);
-  //     return route;
-  //   }
-
-  //   form.getMilepost = function() {
-  //     const mp = new Milepost(mpInput.value);
-  //     return mp;
-  //   }
-
   // Handles the submit event, overriding the default behavior.
   form.addEventListener("submit", dispatchSrmpEvent, {});
 
   // Stop immediate propagation of click events.
   // Without this, clicking on the form or its controls
   // Will also trigger the map click event.
-  form.addEventListener("click", (ev) => {
-    ev.stopImmediatePropagation();
-  });
+
+  DomEvent.disableClickPropagation(form);
+  DomEvent.disableScrollPropagation(form);
 
   return form as SrmpForm;
 
