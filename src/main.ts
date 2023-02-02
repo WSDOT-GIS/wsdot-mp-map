@@ -30,7 +30,6 @@ import {
 import type { AttributeValue } from "./arcgis/typesAndInterfaces";
 import { SrmpControl } from "./route-input/LeafletControl";
 import { SrmpSubmitEventData, srmpSubmitEventName } from "./route-input";
-import RouteLocator from "wsdot-elc";
 
 /**
  * Creates a Leaflet popup for a route location.

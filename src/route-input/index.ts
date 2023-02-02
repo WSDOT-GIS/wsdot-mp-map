@@ -1,9 +1,9 @@
 import { routeRe } from "wsdot-elc";
 import { Milepost, RouteDescription } from "wsdot-route-utils";
 import { compareElements } from "./utils";
+import { DomEvent } from "leaflet";
 import "./MilepostInput";
 import type MilepostInput from "./MilepostInput";
-import { DomEvent } from "leaflet";
 
 export interface ContainerOptions {
   /**
@@ -227,6 +227,9 @@ export function createRouteInputForm(): SrmpForm {
     try {
       const route = new RouteDescription(routeInput.value);
       const mp = mpInput.valueAsMilepost;
+      if (mp == null) {
+        throw new TypeError(`The Milepost input control must have a valid value.`)
+      }
       const srmpEvt = new CustomEvent<SrmpSubmitEventData>(srmpSubmitEventName, {
         detail: {
           route,
