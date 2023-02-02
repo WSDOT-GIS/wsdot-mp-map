@@ -4,10 +4,7 @@
 
 [Try on Github Pages](https://wsdot-gis.github.io/wsdot-mp-map/)
 
-[![badge][Node.js CI svg]][Node.js CI Workflow]
-[![issues][issues badge]][issues]
-[![enhancements][enhancements badge]][enhancements]
-[![bugs][bugs badge]][bugs]
+[![badge][Node.js CI svg]][Node.js CI Workflow] [![issues][issues badge]][issues] [![enhancements][enhancements badge]][enhancements] [![bugs][bugs badge]][bugs]
 
 [Node.js CI svg]:https://github.com/WSDOT-GIS/wsdot-mp-map/actions/workflows/node.js.yml/badge.svg
 [Node.js CI Workflow]:https://github.com/WSDOT-GIS/wsdot-mp-map/actions/workflows/node.js.yml
@@ -27,8 +24,15 @@
 
 ## References
 
-- [GeoURI](https://geouri.org/)
-- [Block Element Modifier (BEM)][BEM] - This naming convention is used for naming CSS classes in this app.
+|     Name | Description                                                                                                                                                    |
+|----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [GeoURI] | Used for creating a hyperlink to a set of latitude + longitude coordinates that is used by phones to open the user's default mapping app at those coordinates. |
+|    [BEM] | The  naming convention is used for naming CSS classes in this app.                                                                                             |
+|   [Vite] | This project is built with [Vite].                                                                                                                             |
+| [Vitest] | This project uses [Vitest] for its unit testing.                                                                                                               |
 
 [GeoPortal]:https://www.wsdot.wa.gov/data/tools/geoportal/
+[GeoURI]:https://geouri.org/
 [BEM]:https://getbem.com/
+[Vite]:https://vitejs.dev/
+[Vitest]:https://vitest.dev/
