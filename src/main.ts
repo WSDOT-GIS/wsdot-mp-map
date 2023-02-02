@@ -211,6 +211,6 @@ function queryFeatureService(result: PointRouteLocation) {
   });
 }
 
-const mpControl = new SrmpControl({
+/*const mpControl =*/ new SrmpControl({
   position: "topright"
 }).addTo(theMap);

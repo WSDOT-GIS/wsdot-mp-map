@@ -26,7 +26,7 @@ export class SrmpControl extends Control {
    * @inheritdoc
    * @see {@link https://leafletjs.com/reference.html#control-onadd}
    */
-  onAdd(map: LeafletMap): HTMLElement {
+  onAdd(/*map: LeafletMap*/): HTMLElement {
     this.mpForm.addEventListener(srmpSubmitEventName, preventSubmit);
     return this.mpForm;
   }
