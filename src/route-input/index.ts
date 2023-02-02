@@ -217,10 +217,7 @@ export function createRouteInputForm(): SrmpForm {
   // Handles the submit event, overriding the default behavior.
   form.addEventListener("submit", dispatchSrmpEvent, {});
 
-  // Stop immediate propagation of click events.
-  // Without this, clicking on the form or its controls
-  // Will also trigger the map click event.
-
+  // Prevent clicks on the form from being propagated to the map.
   DomEvent.disableClickPropagation(form);
   DomEvent.disableScrollPropagation(form);
 
