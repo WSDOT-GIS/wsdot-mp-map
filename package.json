@@ -17,22 +17,22 @@
     "coverage-watch": "vitest --coverage"
   },
   "devDependencies": {
-    "@fontsource/overpass": "^4.5.10",
+    "@fontsource/overpass": "^4.5.11",
     "@types/arcgis-rest-api": "^10.4.5",
     "@types/gh-pages": "^3.2.1",
     "@types/leaflet": "^1.9.0",
-    "@typescript-eslint/eslint-plugin": "^5.49.0",
-    "@typescript-eslint/parser": "^5.49.0",
-    "@vitest/coverage-c8": "^0.28.2",
-    "eslint": "^8.32.0",
+    "@typescript-eslint/eslint-plugin": "^5.50.0",
+    "@typescript-eslint/parser": "^5.50.0",
+    "@vitest/coverage-c8": "^0.28.3",
+    "eslint": "^8.33.0",
     "eslint-config-prettier": "^8.6.0",
     "gh-pages": "^5.0.0",
     "leaflet": "^1.9.3",
     "prettier": "^2.8.3",
-    "simple-icons": "^8.3.0",
-    "typescript": "^4.9.4",
-    "vite": "^4.0.4",
-    "vitest": "^0.27.2",
+    "simple-icons": "^8.4.0",
+    "typescript": "^4.9.5",
+    "vite": "^4.1.1",
+    "vitest": "^0.28.3",
     "wsdot-elc": "^4.0.0-0",
     "wsdot-route-utils": "^3.0.0"
   },
@@ -49,6 +49,6 @@
   },
   "homepage": "https://wsdot-gis.github.io/wsdot-mp-map",
   "dependencies": {
-    "@esri/arcgis-rest-request": "^3.6.0"
+    "@esri/arcgis-rest-request": "^4.0.2"
   }
 }
