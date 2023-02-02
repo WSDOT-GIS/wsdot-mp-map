@@ -19,7 +19,7 @@ import "leaflet/dist/leaflet.css";
 import "./style.css";
 // #endregion
 import { waExtent } from "./constants";
-import { callElc } from "./elc";
+import { callElcMPToPoint, callElcNearestRoute } from "./elc";
 import { createMilepostIcon } from "./MilepostIcon";
 import { customizeAttribution } from "./attributeCustomization";
 import { isSrmpRouteLocation } from "./RouteLocationExtensions";
@@ -29,6 +29,8 @@ import {
 } from "./arcgis/featureServiceQuery";
 import type { AttributeValue } from "./arcgis/typesAndInterfaces";
 import { SrmpControl } from "./route-input/LeafletControl";
+import { SrmpSubmitEventData, srmpSubmitEventName } from "./route-input";
+import RouteLocator from "wsdot-elc";
 
 /**
  * Creates a Leaflet popup for a route location.
@@ -74,10 +76,10 @@ function createPopupContent(routeLocation: PointRouteLocation) {
   const output = document.createElement("div");
   output.appendChild(frag);
 
-  serviceQueryPromise.then(o => {
+  serviceQueryPromise.then((o) => {
     const dl = convertObjectToDl(o);
     output.appendChild(dl);
-  })
+  });
 
   return output;
 }
@@ -182,7 +184,7 @@ theMap.on("click", async (e) => {
   const progressMarker = createProgressMarker(latlng).addTo(theMap);
 
   try {
-    results = await callElc(latlng);
+    results = await callElcNearestRoute(latlng);
   } catch (elcErr) {
     console.error(`ELC Error at ${latlng}`, {
       "Leaflet mouse event": e,
@@ -210,6 +212,22 @@ async function queryFeatureService(result: PointRouteLocation) {
   return output;
 }
 
-/*const mpControl =*/ new SrmpControl({
-  position: "topright"
+const mpControl = new SrmpControl({
+  position: "topright",
 }).addTo(theMap);
+
+mpControl.mpForm.addEventListener(srmpSubmitEventName, async (e) => {
+  const { route, mp } = (e as CustomEvent<SrmpSubmitEventData>).detail;
+  console.debug("User input", {route, mp});
+
+  const results = await callElcMPToPoint(route, mp);
+
+  if (results) {
+    for (const result of results) {
+      const marker = createMilepostMarker(result);
+      marker.addTo(theMap);
+    }
+  }
+}, {
+  passive: true
+});

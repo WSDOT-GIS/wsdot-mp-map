@@ -226,8 +226,8 @@ export function createRouteInputForm(): SrmpForm {
   function dispatchSrmpEvent(this: HTMLFormElement, ev: SubmitEvent) {
     try {
       const route = new RouteDescription(routeInput.value);
-      const mp = new Milepost(mpInput.value);
-      const srmpEvt = new CustomEvent(srmpSubmitEventName, {
+      const mp = mpInput.valueAsMilepost;
+      const srmpEvt = new CustomEvent<SrmpSubmitEventData>(srmpSubmitEventName, {
         detail: {
           route,
           mp,
@@ -238,4 +238,9 @@ export function createRouteInputForm(): SrmpForm {
       ev.preventDefault();
     }
   }
+}
+
+export interface SrmpSubmitEventData {
+  route: RouteDescription,
+  mp: Milepost,
 }

@@ -166,6 +166,22 @@ https://getbem.com
   padding: 0;
 }
 
+.mp-sign-icon__route-label {
+  /* 
+  Make sure text doesn't wrap. 
+  Otherwise you can get confusing text like
+  I
+  5
+
+  Where I is written sans-serif and looks like a 1,
+  So along with a milepost below it, looks like just a
+  bunch of numbers and is confusing.
+  */
+  display: inline-block;
+  min-width: max-content;
+}
+
+
 .mp-sign-icon__route-label--decrease::after {
   content: ' (Dec.)';
   font-size: var(--Base-7);
@@ -185,10 +201,11 @@ https://getbem.com
   background-color: white;
 }
 
-.mp-input > div {
+.mp-input>div {
   display: table-row;
 }
 
-.mp-input > div > input, .mp-input > div > label {
+.mp-input>div>input,
+.mp-input>div>label {
   display: table-cell;
 }
