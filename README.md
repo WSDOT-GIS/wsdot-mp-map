@@ -11,7 +11,7 @@ Please refer to [LRS Storymap] for an explanation of the WSDOT LRS and milepost 
 
 [Try on Github Pages](https://wsdot-gis.github.io/wsdot-mp-map/)
 
-[![badge][Node.js CI svg]][Node.js CI Workflow] [![issues][issues badge]][issues] [![enhancements][enhancements badge]][enhancements] [![bugs][bugs badge]][bugs]
+[![badge][Node.js CI svg]][Node.js CI Workflow] [![issues][issues badge]][issues] [![enhancements][enhancements badge]][enhancements] [![bugs][bugs badge]][bugs] [![pages-build-deployment][gh-pages-badge]][gh-pages-deployment]
 
 [Node.js CI svg]:https://github.com/WSDOT-GIS/wsdot-mp-map/actions/workflows/node.js.yml/badge.svg
 [Node.js CI Workflow]:https://github.com/WSDOT-GIS/wsdot-mp-map/actions/workflows/node.js.yml
@@ -24,6 +24,9 @@ Please refer to [LRS Storymap] for an explanation of the WSDOT LRS and milepost 
 
 [bugs badge]:https://img.shields.io/github/issues/WSDOT-GIS/wsdot-mp-map/bug?logo=github
 [bugs]:https://github.com/WSDOT-GIS/wsdot-mp-map/issues?q=label:bug
+
+[gh-pages-badge]:https://github.com/WSDOT-GIS/wsdot-mp-map/actions/workflows/pages/pages-build-deployment/badge.svg?branch=gh-pages
+[gh-pages-deployment]:https://github.com/WSDOT-GIS/wsdot-mp-map/actions/workflows/pages/pages-build-deployment
 
 ## Goals
 
