@@ -201,14 +201,13 @@ theMap.on("click", async (e) => {
     }
   }
 });
-function queryFeatureService(result: PointRouteLocation) {
-  return query(result.routeGeometryXY).then((r) => {
-    const output: Record<string, AttributeValue> = {};
-    for (const [key, value] of enumerateQueryResponseAttributes(r)) {
-      output[key] = value;
-    }
-    return output;
-  });
+async function queryFeatureService(result: PointRouteLocation) {
+  const r = await query(result.routeGeometryXY);
+  const output: Record<string, AttributeValue> = {};
+  for (const [key, value] of enumerateQueryResponseAttributes(r)) {
+    output[key] = value;
+  }
+  return output;
 }
 
 /*const mpControl =*/ new SrmpControl({
