@@ -1,5 +1,12 @@
 # WSDOT Milepost Map App
 
+Allows users to locate mileposts in two ways:
+
+* Click on map to get the nearest milepost on a route.
+* Enter a route ID and milepost to place it on the map.
+
+Please refer to [LRS Storymap] for an explanation of the WSDOT LRS and milepost system.
+
 ## Status
 
 [Try on Github Pages](https://wsdot-gis.github.io/wsdot-mp-map/)
@@ -20,19 +27,20 @@
 
 ## Goals
 
-- UI needs to be simple. Similar features in [Geoportal] are more complicated to use due to Geoportal's other features.
+* UI needs to be simple. Similar features in [Geoportal] are more complicated to use due to Geoportal's other features.
 
 ## References
 
 |     Name | Description                                                                                                                                                    |
 |----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [GeoURI] | Used for creating a hyperlink to a set of latitude + longitude coordinates that is used by phones to open the user's default mapping app at those coordinates. |
-|    [BEM] | The  naming convention is used for naming CSS classes in this app.                                                                                             |
+|    [BEM] | The Block-Element-Modifier naming convention is used for naming CSS classes in this app.                                                                                             |
 |   [Vite] | This project is built with [Vite].                                                                                                                             |
 | [Vitest] | This project uses [Vitest] for its unit testing.                                                                                                               |
 
-[GeoPortal]:https://www.wsdot.wa.gov/data/tools/geoportal/
 [GeoURI]:https://geouri.org/
+[GeoPortal]:https://www.wsdot.wa.gov/data/tools/geoportal/
 [BEM]:https://getbem.com/
+[LRS Storymap]:https://storymaps.arcgis.com/stories/3563e01d91b8444f875af320564fef7b
 [Vite]:https://vitejs.dev/
 [Vitest]:https://vitest.dev/
