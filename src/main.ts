@@ -6,6 +6,7 @@ import {
   marker as createMarker,
   popup as createPopup,
   tileLayer as createTileLayer,
+  Browser,
 } from "leaflet";
 import { GeoUrl } from "./GeoUri";
 import type PointRouteLocation from "./RouteLocationExtensions";
@@ -30,6 +31,14 @@ import {
 import type { AttributeValue } from "./arcgis/typesAndInterfaces";
 import { SrmpControl } from "./route-input/LeafletControl";
 import { SrmpSubmitEventData, srmpSubmitEventName } from "./route-input";
+
+// https://developer.mozilla.org/en-US/docs/Web/API/User-Agent_Client_Hints_API
+
+if (Browser.mobile) {
+  console.debug("Mobile browser detected.");
+} else {
+  console.debug("This does not appear to be a mobile browser.");
+}
 
 /**
  * Creates a Leaflet popup for a route location.
@@ -73,6 +82,7 @@ function createPopupContent(routeLocation: PointRouteLocation) {
   geoDiv.append(" ", geoUriHelpAnchor);
 
   const output = document.createElement("div");
+  output.classList.add(`srmp-popup--${Browser.mobile ? "mobile" : "desktop"}`);
   output.appendChild(frag);
 
   serviceQueryPromise.then((o) => {
@@ -215,18 +225,22 @@ const mpControl = new SrmpControl({
   position: "topright",
 }).addTo(theMap);
 
-mpControl.mpForm.addEventListener(srmpSubmitEventName, async (e) => {
-  const { route, mp } = (e as CustomEvent<SrmpSubmitEventData>).detail;
-  console.debug("User input", {route, mp});
+mpControl.mpForm.addEventListener(
+  srmpSubmitEventName,
+  async (e) => {
+    const { route, mp } = (e as CustomEvent<SrmpSubmitEventData>).detail;
+    console.debug("User input", { route, mp });
 
-  const results = await callElcMPToPoint(route, mp);
+    const results = await callElcMPToPoint(route, mp);
 
-  if (results) {
-    for (const result of results) {
-      const marker = createMilepostMarker(result);
-      marker.addTo(theMap);
+    if (results) {
+      for (const result of results) {
+        const marker = createMilepostMarker(result);
+        marker.addTo(theMap);
+      }
     }
+  },
+  {
+    passive: true,
   }
-}, {
-  passive: true
-});
+);
