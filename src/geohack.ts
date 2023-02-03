@@ -3,8 +3,17 @@
 
 import type { LatLngExpression, LatLngTuple } from "leaflet";
 
+/**
+ * Detects if the input value is a {@link LatLngTuple}.
+ * @param latLng - A {@link LatLngExpression}
+ * @returns Returns true if it is a {@link LatLngTuple}, false otherwise.
+ */
 function isLatLngTuple(latLng: LatLngExpression): latLng is LatLngTuple {
-    return Array.isArray(latLng);
+  return (
+    Array.isArray(latLng) &&
+    typeof latLng[0] === "number" &&
+    typeof latLng[1] === "number"
+  );
 }
 
 /**
@@ -16,22 +25,25 @@ function isLatLngTuple(latLng: LatLngExpression): latLng is LatLngTuple {
  * const url = createGeoHackUrl([45.6448,-122.6617]);
  * // Returned URL will be "https://geohack.toolforge.org/geohack.php?params=45.6448;-122.6617"
  */
-export function createGeoHackUrl(latLng: LatLngExpression, geohackUrl = "https://geohack.toolforge.org/geohack.php") {
-    let lat: number;
-    let lng: number;
-    if (isLatLngTuple(latLng)) {
-        [lat, lng] = latLng;
-    } else {
-        lat = latLng.lat;
-        lng = latLng.lng;
-    }
+export function createGeoHackUrl(
+  latLng: LatLngExpression,
+  geohackUrl = "https://geohack.toolforge.org/geohack.php"
+) {
+  let lat: number;
+  let lng: number;
+  if (isLatLngTuple(latLng)) {
+    [lat, lng] = latLng;
+  } else {
+    lat = latLng.lat;
+    lng = latLng.lng;
+  }
 
-    const params = [lat,lng].join(",");
+  const params = [lat, lng].join(",");
 
-    const outUrl = new URL(geohackUrl);
-    outUrl.searchParams.set("params", params);
+  const outUrl = new URL(geohackUrl);
+  outUrl.searchParams.set("params", params);
 
-    return outUrl;
+  return outUrl;
 }
 
 /**
@@ -39,12 +51,14 @@ export function createGeoHackUrl(latLng: LatLngExpression, geohackUrl = "https:/
  * @param ghParams - The same parameters as {@link createGeoHackUrl}.
  * @returns - An <a> with an href of a GeoHack URL with text indicating the location.
  */
-export function createGeoHackAnchor(...ghParams: Parameters<typeof createGeoHackUrl>) {
-    const url = createGeoHackUrl(...ghParams);
-    const a = document.createElement("a");
-    a.href = url.toString();
-    a.text = `Open Geohack @ ${url.searchParams.get("params")}`;
-    a.target = "_blank";
+export function createGeoHackAnchor(
+  ...ghParams: Parameters<typeof createGeoHackUrl>
+) {
+  const url = createGeoHackUrl(...ghParams);
+  const a = document.createElement("a");
+  a.href = url.toString();
+  a.text = `Open Geohack @ ${url.searchParams.get("params")}`;
+  a.target = "_blank";
 
-    return a;
+  return a;
 }
