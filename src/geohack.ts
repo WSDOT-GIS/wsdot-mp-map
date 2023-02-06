@@ -39,7 +39,8 @@ export function createGeoHackUrl(
     lng = latLng.lng;
   }
 
-  const params = [lat, lng].join(",");
+  // Join the two numbers with a semicolon
+  const params = [lat, lng].join(";");
 
   const outUrl = new URL(geohackUrl);
   outUrl.searchParams.set("params", params);

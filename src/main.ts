@@ -32,6 +32,7 @@ import {
 import type { AttributeValue } from "./arcgis/typesAndInterfaces";
 import { SrmpControl } from "./route-input/LeafletControl";
 import { SrmpSubmitEventData, srmpSubmitEventName } from "./route-input";
+import { createGeoHackAnchor } from "./geohack";
 
 // https://developer.mozilla.org/en-US/docs/Web/API/User-Agent_Client_Hints_API
 
@@ -92,6 +93,15 @@ function createPopupContent(routeLocation: PointRouteLocation) {
 
   // Append the GeoURI, separated by a space.
   geoDiv.append(" ", geoUriSection);
+
+  // Create GeoHack URL
+  const geoHackDiv = document.createElement("div");
+  geoHackDiv.classList.add("srmp-popup__geohack");
+  const geoHackAnchor = createGeoHackAnchor([y, x]);
+  geoHackAnchor.classList.add("srmp-popup__geohack__anchor");
+  geoHackDiv.append(geoHackAnchor);
+
+  frag.append(geoHackDiv);
 
   const output = document.createElement("div");
   // Detect if the browser is on mobile or not and add
