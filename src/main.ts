@@ -7,6 +7,7 @@ import {
   popup as createPopup,
   tileLayer as createTileLayer,
   Browser,
+  type LeafletMouseEvent,
 } from "leaflet";
 import { GeoUrl } from "./GeoUri";
 import type PointRouteLocation from "./RouteLocationExtensions";
@@ -61,30 +62,46 @@ const anchorTarget = "_blank";
  * @returns - An HTML element.
  */
 function createPopupContent(routeLocation: PointRouteLocation) {
+  // Query the feature service but don't await.
   const serviceQueryPromise = queryFeatureService(routeLocation);
 
   const [x, y] = routeLocation.routeGeometryXY;
+  // Create label for route + SRMP.
   const route = `${routeLocation.Route}${
     routeLocation.Decrease ? " (Decrease)" : ""
   }`;
   const srmp = `${routeLocation.Srmp}${routeLocation.Back ? "B" : ""}`;
-  const label = `${route}@${srmp}`;
+  const label = `${route} @ ${srmp}`;
 
+  // Create a document fragment to construct popup div contents.
   const frag = document.createDocumentFragment();
+  // Create divs for different sections of the popup.
+  // SRMP, GeoURI, etc.
   const srmpDiv = document.createElement("div");
   srmpDiv.innerText = label;
   frag.appendChild(srmpDiv);
   const geoDiv = document.createElement("div");
   frag.appendChild(geoDiv);
 
-  const geoUriHelpAnchor = createGeoUriElements(x, y);
+  // Create an anchor with a GeoURI. This is not of much
+  // use for desktop users unless they've installed a
+  // browser plug-in on their own.
+  // CSS can be used to hide this or make it less prominent
+  // on desktop browsers via CSS classes.
+  const geoUriSection = createGeoUriElements(x, y);
 
-  geoDiv.append(" ", geoUriHelpAnchor);
+  // Append the GeoURI, separated by a space.
+  geoDiv.append(" ", geoUriSection);
 
   const output = document.createElement("div");
+  // Detect if the browser is on mobile or not and add
+  // a CSS class for different styling, such as hiding
+  // GeoURIs.
   output.classList.add(`srmp-popup--${Browser.mobile ? "mobile" : "desktop"}`);
   output.appendChild(frag);
 
+  // When the service query has completed, add the data it
+  // returns to the popup.
   serviceQueryPromise.then((o) => {
     const dl = convertObjectToDl(o);
     output.appendChild(dl);
@@ -150,7 +167,7 @@ function createMilepostMarker(routeLocation: PointRouteLocation) {
   console.debug("Milepost icon", mpIcon);
 
   const latLng = routeLocation.leafletLatLngLiteral;
-  // TODO: Marker should show the milepost number on it.
+  
   const outputMarker = createMarker(latLng, {
     icon: mpIcon,
   }).bindPopup(popup);
@@ -158,19 +175,34 @@ function createMilepostMarker(routeLocation: PointRouteLocation) {
   return outputMarker;
 }
 
+// Create the Leaflet map, zoom to and restrict extent
+// to the EPSG-defined WA extent.
 export const theMap = createMap("map", {
   maxBounds: waExtent,
 }).fitBounds(waExtent);
 
+// Customize the map's attribution control.
 customizeAttribution(theMap);
 
-function convertObjectToDl(o: Record<string, AttributeValue>) {
+/**
+ * Creates an HTML definition list showing the properties
+ * of a JavaScript object.
+ * @param o - An object.
+ * @param aliases - A mapping of the object's property names to more descriptive,
+ * user-friendly labels for the definition term (dt) elements. The most likely source for such 
+ * aliases will be a feature class for feature set's "fields" property.
+ * If omitted, or for property names not specified in the mapping, the
+ * original property name will be used in the dt element.
+ * @returns 
+ */
+function convertObjectToDl(o: Record<string, AttributeValue>, aliases?: Map<string, string>) {
   const dl = document.createElement("dl");
   for (const key in o) {
     if (Object.prototype.hasOwnProperty.call(o, key)) {
       const value = o[key];
+      const alias = aliases?.get(key) ?? key;
       const dt = document.createElement("dt");
-      dt.textContent = key;
+      dt.textContent = alias;
       const dd = document.createElement("dd");
       dd.textContent = `${value}`;
       dl.append(dt, dd);
@@ -179,22 +211,36 @@ function convertObjectToDl(o: Record<string, AttributeValue>) {
   return dl;
 }
 
+
+// Create the basemap layer.
+// TODO: Use a WSDOT basemap layer. 
 createTileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
   maxZoom: 19,
   attribution:
     '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
 }).addTo(theMap);
 
-theMap.on("click", async (e) => {
-  console.log(`user clicked on ${e.latlng}`, e);
+// Set up the event handling for when the user clicks on the map.
+theMap.on("click", async (e: LeafletMouseEvent) => {
+  console.debug(`user clicked on ${e.latlng}`, e);
+  // Extract the coordinates from the event object.
   const { latlng } = e;
-  let results: PointRouteLocation[] | null = null;
-
+  
+  // Add a progress element marker to the location where the user clicked.
+  // This marker will be removed once the query has completed.
   const progressMarker = createProgressMarker(latlng).addTo(theMap);
 
+  let errorOccurred = false;
+
+  // Make the ELC query.
+  // Store the results if the query was successful.
+  // Otherwise, write an error to the console.
+  // Regardless of outcome, remove the progress marker.
+  let results: PointRouteLocation[] | null = null;
   try {
     results = await callElcNearestRoute(latlng);
   } catch (elcErr) {
+    errorOccurred = true;
     console.error(`ELC Error at ${latlng}`, {
       "Leaflet mouse event": e,
       "ELC Error": elcErr,
@@ -203,15 +249,25 @@ theMap.on("click", async (e) => {
     progressMarker.remove();
   }
 
-  if (results) {
+  if (errorOccurred) {
+    alert("We're sorry. An error occurred when calling the web service that provides milepost data.");
+  } else if (results && results.length) {
     for (const result of results) {
       // Query for county, etc. using https://data.wsdot.wa.gov/arcgis/rest/services/DataLibrary/DataLibrary/MapServer/identify
       console.debug("elcResult", result);
       const marker = createMilepostMarker(result);
       marker.addTo(theMap);
     }
+  } else {
+    alert("No results. Please try clicking closer to a route.");
   }
 });
+
+/**
+ * Queries a feature service for features that contain the input point.
+ * @param result - An ELC result object containing a point location.
+ * @returns The results of a feature server query.
+ */
 async function queryFeatureService(result: PointRouteLocation) {
   const r = await query(result.routeGeometryXY);
   const output: Record<string, AttributeValue> = {};

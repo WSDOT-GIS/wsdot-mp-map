@@ -1,5 +1,6 @@
-// https://geohack.toolforge.org/geohack.php?params=45.6448;-122.6617
-// reference: https://www.mediawiki.org/wiki/GeoHack
+/**
+ * Used for working with [GeoHack](https://www.mediawiki.org/wiki/GeoHack) URLs.
+*/
 
 import type { LatLngExpression, LatLngTuple } from "leaflet";
 

@@ -143,6 +143,13 @@ function createRouteLabel(routeLocation: RouteLabelParameters) {
   return [routeLabel, routeDesc] as [string, RouteDescription];
 }
 
+/**
+ * Creates the HTML element containing the route label.
+ * @param routeLocation - A route location. Intended to be used with an
+ * ELC result object, but only the Route and Decrease properties are
+ * required for this function.
+ * @returns An HTML element that indicates which route the milepost is on.
+ */
 function createRouteLabelElement(routeLocation: RouteLabelParameters) {
   /**
    * Add classes for route BEM modifiers.
@@ -184,7 +191,8 @@ function createRouteLabelElement(routeLocation: RouteLabelParameters) {
 }
 
 /**
- *
+ * Creates the icon that is displayed on the map for a 
+ * milepost location on a route.
  * @param options - Defines route ID and milepost
  * @returns
  */
