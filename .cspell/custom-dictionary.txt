@@ -4,6 +4,7 @@ brotli
 divs
 EPSG
 Geoportal
+geouri
 latlng
 SRMP
 Vite

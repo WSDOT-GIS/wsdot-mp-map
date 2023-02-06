@@ -4,7 +4,6 @@ import {
   // their purpose more clear.
   map as createMap,
   marker as createMarker,
-
   tileLayer as createTileLayer,
   Browser,
   type LeafletMouseEvent,

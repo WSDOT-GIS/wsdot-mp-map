@@ -8,22 +8,16 @@ import { Browser, popup as createPopup } from "leaflet";
 import { createGeoHackAnchor } from "./geohack";
 import type PointRouteLocation from "./RouteLocationExtensions";
 
-
-/**
- * Creates a Leaflet popup for a route location.
- * @param routeLocation - route location
- * @returns - a leaflet popup
- */
-export function createMilepostPopup(routeLocation: PointRouteLocation) {
-  const content = createPopupContent(routeLocation);
-  const thePopup = createPopup({
-    content,
-  });
-
-  return thePopup;
-}
-
+const srmpPopupCssClass = "srmp-popup";
+const geoHackCssClass = `${srmpPopupCssClass}__geohack`;
 const anchorTarget = "_blank";
+const mobileOrDesktopCssClass = `${srmpPopupCssClass}--${
+  Browser.mobile ? "mobile" : "desktop"
+}`;
+const geohackAnchorCssClass = `${geoHackCssClass}__anchor`;
+const geoUriCssClass = `${srmpPopupCssClass}__geouri`;
+const geoUriCssMobileOrDesktopClass = `${mobileOrDesktopCssClass}__geouri`;
+
 /**
  * Creates the HTML content for a Leaflet popup.
  * @param routeLocation - a route location
@@ -63,9 +57,9 @@ function createPopupContent(routeLocation: PointRouteLocation) {
 
   // Create GeoHack URL
   const geoHackDiv = document.createElement("div");
-  geoHackDiv.classList.add("srmp-popup__geohack");
+  geoHackDiv.classList.add(geoHackCssClass);
   const geoHackAnchor = createGeoHackAnchor([y, x]);
-  geoHackAnchor.classList.add("srmp-popup__geohack__anchor");
+  geoHackAnchor.classList.add(geohackAnchorCssClass);
   geoHackDiv.append(geoHackAnchor);
 
   frag.append(geoHackDiv);
@@ -74,7 +68,7 @@ function createPopupContent(routeLocation: PointRouteLocation) {
   // Detect if the browser is on mobile or not and add
   // a CSS class for different styling, such as hiding
   // GeoURIs.
-  output.classList.add(`srmp-popup--${Browser.mobile ? "mobile" : "desktop"}`);
+  output.classList.add(mobileOrDesktopCssClass);
   output.appendChild(frag);
 
   // When the service query has completed, add the data it
@@ -95,7 +89,8 @@ function createPopupContent(routeLocation: PointRouteLocation) {
  * @returns A document fragment with a {@link https://geouri.org Geo URI} link
  */
 function createGeoUriElements(x: number, y: number) {
-  const frag = document.createDocumentFragment();
+  const container = document.createElement("div");
+  container.classList.add(geoUriCssClass, geoUriCssMobileOrDesktopClass);
   // Create the GeoUrl object.
   const geoUri = new GeoUrl({ x, y });
   const a = createGeoUriAnchor(geoUri);
@@ -107,8 +102,8 @@ function createGeoUriElements(x: number, y: number) {
   geoUriHelpAnchor.target = anchorTarget;
 
   // Append all elements to the document fragment.
-  frag.append(a, document.createTextNode(" "), geoUriHelpAnchor);
-  return frag;
+  container.append(a, document.createTextNode(" "), geoUriHelpAnchor);
+  return container;
 }
 
 /**
@@ -167,4 +162,18 @@ async function queryFeatureService(result: PointRouteLocation) {
     output[key] = value;
   }
   return output;
+}
+
+/**
+ * Creates a Leaflet popup for a route location.
+ * @param routeLocation - route location
+ * @returns - a leaflet popup
+ */
+export function createMilepostPopup(routeLocation: PointRouteLocation) {
+  const content = createPopupContent(routeLocation);
+  const thePopup = createPopup({
+    content,
+  });
+
+  return thePopup;
 }
