@@ -7,6 +7,7 @@ import { GeoUrl } from "./GeoUri";
 import { Browser, popup as createPopup } from "leaflet";
 import { createGeoHackAnchor } from "./geohack";
 import type PointRouteLocation from "./RouteLocationExtensions";
+import { createGeoMicroformat } from "./formatting";
 
 const srmpPopupCssClass = "srmp-popup";
 const geoHackCssClass = `${srmpPopupCssClass}__geohack`;
@@ -35,6 +36,7 @@ function createPopupContent(routeLocation: PointRouteLocation) {
   const srmp = `${routeLocation.Srmp}${routeLocation.Back ? "B" : ""}`;
   const label = `${route} @ ${srmp}`;
 
+  
   // Create a document fragment to construct popup div contents.
   const frag = document.createDocumentFragment();
   // Create divs for different sections of the popup.
@@ -44,6 +46,10 @@ function createPopupContent(routeLocation: PointRouteLocation) {
   frag.appendChild(srmpDiv);
   const geoDiv = document.createElement("div");
   frag.appendChild(geoDiv);
+  
+  
+  const hGeo = createGeoMicroformat([y,x], "span");
+  frag.appendChild(hGeo);
 
   // Create an anchor with a GeoURI. This is not of much
   // use for desktop users unless they've installed a
