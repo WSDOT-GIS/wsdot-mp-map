@@ -1,8 +1,10 @@
 # Custom Dictionary Words
 Avenir
 brotli
+divs
 EPSG
 Geoportal
+geouri
 latlng
 SRMP
 Vite
