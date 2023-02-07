@@ -9,5 +9,7 @@ dictionaries:
   - custom-dictionary
 words: []
 ignoreWords:
+  - JURLBL
+  - LDNM
   - daltonic
 import: []

@@ -209,3 +209,38 @@ https://getbem.com
 .mp-input>div>label {
   display: table-cell;
 }
+
+.srmp-popup--desktop__geouri {
+  display: none;
+}
+
+.leaflet-popup-content dl {
+  display: grid;
+  grid-template-columns: auto auto;
+  border-width: 0.1rem;
+  border-color: black;
+  border-style: solid;
+
+  font-size: var(--Base-4);
+}
+
+.leaflet-popup-content dl>dt,
+.leaflet-popup-content dl>dd {
+  display: inline-block;
+  margin: 0;
+  padding: 0.3rem;
+}
+
+.leaflet-popup-content dl>dt:nth-last-of-type(even),
+.leaflet-popup-content dl>dd:nth-last-of-type(even) {
+  background-color: var(--gray-20);
+}
+
+.leaflet-popup-content dl>dt:nth-last-of-type(odd),
+.leaflet-popup-content dl>dd:nth-last-of-type(odd) {
+  background-color: var(--gray-10);
+}
+
+.leaflet-popup-content dl>dt {
+  font-weight: bold;
+}

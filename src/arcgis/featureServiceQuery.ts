@@ -4,12 +4,21 @@ import type {
   FeatureServiceQueryResponse,
   QueryResponseLayer,
 } from "./typesAndInterfaces";
+// Layer definitions for the query are defined in this JSON file.
+import layerDefObject from "./layer-defs.json";
+// aliasArrays will be an array where each element in the array
+// will be an array of two strings.
+import aliasArrays from "./field-aliases.json";
 
 export const defaultUrl =
   "https://data.wsdot.wa.gov/arcgis/rest/services/DataLibrary/DataLibrary/FeatureServer/";
 
-const layerDefs =
-'[{"layerId":2,"where":"LDNM is not NULL","outFields":"LDNM"},{"layerId":3,"where":"JURLBL is not NULL","outFields":"JURLBL"},{"layerId":5,"where":"CityName is not NULL","outFields":"CityName"}]';
+// Define the layer definitions for the feature service query.
+const layerDefs = JSON.stringify(layerDefObject);
+
+export type FieldAliasMap = Map<string, string>;
+
+const aliasMap = Array.isArray(aliasArrays) ? new Map(aliasArrays as [string, string][]) : undefined;
 
 /**
  * Query a feature service for features that intersect with
@@ -34,37 +43,56 @@ export async function query(
       f: "json",
     },
   };
-  console.debug("query params", queryParams)
-  const response = (await request(queryUrl.toString(), queryParams)) as FeatureServiceQueryResponse;
+  console.debug("query params", queryParams);
+  const response = (await request(
+    queryUrl.toString(),
+    queryParams
+  )) as FeatureServiceQueryResponse;
 
   return response;
 }
 
+
 /**
  * Enumerates all of the fields and returns field name and alias
  * pairs. The output can be used to construct a Map.
- * @param layer - An element of the
- * {@link FeatureServiceQueryResponse.layers} array.
+ * @param layer - An element of the query response "layers" array.
+ * @param aliasOverrides - If the feature service's aliases are not to your liking,
+ * you can override them with this mapping, with your desired aliases mapped to 
+ * the corresponding field names.
  * @yields Two-element arrays containing fields' name and alias,
  * respectively. If there is no alias then both elements in the
  * array will contain the field name.
  * @example
  * const aliasMap = new Map(enumerateFieldAliases(layer));
  */
-function* enumerateFieldAliases(layer: QueryResponseLayer) {
+function* enumerateFieldAliases(layer: QueryResponseLayer, aliasOverrides?: FieldAliasMap) {
   if (layer.fields) {
     for (const field of layer.fields) {
       const { name } = field;
       let { alias } = field;
-      alias ??= name;
+      alias = aliasOverrides?.get(name) ?? name;
       yield [name, alias] as [string, string];
     }
   }
 }
 
+/**
+ * Create a case-insensitive regular expression
+ * that will match any of the input strings.
+ * The regex will only match strings that are identical
+ * to the input and not longer strings that contain
+ * the input text.
+ * @param items - Text that should trigger a match.
+ * @returns
+ */
 function createRegex(...items: string[]) {
+  // Surround each of the input items with parenthesis
+  // to make a group.
   items = items.map((i) => `(?:${i})`);
+  // Join the groups with "or" character.
   const pattern = `^(${items.join("|")})$`;
+  // Create a regex object using the pattern.
   return new RegExp(pattern, "i");
 }
 
@@ -86,14 +114,18 @@ function createRegex(...items: string[]) {
  */
 export function* enumerateQueryResponseAttributes(
   response: FeatureServiceQueryResponse,
-  fieldsToOmit: string[] = ["OBJECTID"]
+  fieldsToOmit: string[] = ["OBJECTID"],
+  aliasOverrides = aliasMap
 ) {
+  // Create a regular expression that will match the names of fields
+  // that will be omitted from being yielded.
   const fieldsToOmitRegex =
     fieldsToOmit && fieldsToOmit.length ? createRegex(...fieldsToOmit) : null;
   for (const layer of response.layers) {
     for (const feature of layer.features) {
+      // Create a mapping of field names to corresponding aliases.
       const aliasMap = new Map<string, string>([
-        ...enumerateFieldAliases(layer),
+        ...enumerateFieldAliases(layer, aliasOverrides),
       ]);
       for (const name in feature.attributes as Record<string, AttributeValue>) {
         if (Object.prototype.hasOwnProperty.call(feature.attributes, name)) {
