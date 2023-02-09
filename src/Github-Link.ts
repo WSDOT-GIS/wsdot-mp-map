@@ -8,16 +8,28 @@ export const githubRepoUrlRe =
 export const githubPagesUrlRe =
   /^https:\/\/(?<org>[^/]+)\.github\.io\/(?<repo>[^/]+)/i;
 
+export type GithubRepoUrl = `https://www.github.com/${string}/${string}`;
+export type GithubPagesUrl = `https://${string}.github.io/${string}`;
+
 /**
  * Get the source URL of a Github Pages page.
  * @param throwErrorOnMismatch - If true, throw an error if URL can't
  * be parsed. Otherwise, null will be returned.
  * @returns A URL
  */
-export function getGithubUrlFromGithubPages(throwErrorOnMismatch: true): string;
-export function getGithubUrlFromGithubPages(throwErrorOnMismatch?: false): string | null;
-export function getGithubUrlFromGithubPages(throwErrorOnMismatch?: boolean) {
-  const currentUrl = window.location.href;
+export function getGithubUrlFromGithubPages(
+  throwErrorOnMismatch: true,
+  githubPagesUrl?: GithubPagesUrl
+): GithubRepoUrl;
+export function getGithubUrlFromGithubPages(
+  throwErrorOnMismatch?: false,
+  githubPagesUrl?: GithubPagesUrl
+): GithubRepoUrl | null;
+export function getGithubUrlFromGithubPages(
+  throwErrorOnMismatch?: boolean,
+  githubPagesUrl?: GithubPagesUrl
+) {
+  const currentUrl = githubPagesUrl ?? location.href;
   const match = currentUrl.match(githubPagesUrlRe);
   if (!match) {
     if (throwErrorOnMismatch) {
@@ -26,8 +38,8 @@ export function getGithubUrlFromGithubPages(throwErrorOnMismatch?: boolean) {
       return null;
     }
   }
-  const [org, repo] = match;
-  return `https://www.github.com/${org}/${repo}`;
+  const [org, repo] = [...match].slice(1).map(s => s.toLowerCase());
+  return `https://github.com/${org}/${repo}` as GithubRepoUrl;
 }
 
 /**
@@ -37,7 +49,7 @@ export function getGithubUrlFromGithubPages(throwErrorOnMismatch?: boolean) {
  * @returns An HTML anchor linking to app source code.
  */
 export function createGithubLink(
-  fallbackUrl = "https://github.com/WSDOT-GIS/wsdot-mp-map"
+  fallbackUrl = "https://github.com/wsdot-gis/wsdot-mp-map"
 ) {
   // const githubSvg = convertSimpleIconToSvgElement(siGithub);
   const a = document.createElement("a");
