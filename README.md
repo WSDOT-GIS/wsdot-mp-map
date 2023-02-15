@@ -7,7 +7,8 @@ Allows users to locate mileposts in two ways:
 * Click on map to get the nearest milepost on a route.
 * Enter a route ID and milepost to place it on the map.
 
-Please refer to [LRS Storymap] for an explanation of the WSDOT LRS and milepost system.
+<!-- markdownlint-disable-next-line no-inline-html - Markdown doesn't have abbr equivalent -->
+Please refer to [LRS Storymap] for an explanation of the <abbr title='Washington State Department of Transportation'>[WSDOT]</abbr> <abbr title='Linear Referencing System'>LRS</abbr> and milepost system.
 
 ## Project Status
 
@@ -37,6 +38,16 @@ The badges in the table indicate the status of various tasks related to this pro
 
 * UI needs to be simple. Similar features in [Geoportal] are more complicated to use due to Geoportal's other features.
 
+## WSDOT Components Used
+
+Below are other WSDOT components that are used in this project.
+
+| Github Link             | NPM                   | Description                                                          |
+|-------------------------|-----------------------|----------------------------------------------------------------------|
+| [wsdot-elc]             | wsdot-elc             | Library to call ELC web service which performs WSDOT LRS operations. |
+| [wsdot-route-utils]     | wsdot-route-utils     | A library for working with WSDOT route identifiers.                  |
+| [@wsdot/route-selector] | @wsdot/route-selector | [Web Components] for selecting WSDOT routes.                         |
+
 ## References
 
 | Name      | Description                                                                                                                                                                        |
@@ -57,3 +68,8 @@ The badges in the table indicate the status of various tasks related to this pro
 [Vite]:https://vitejs.dev/
 [Vitest]:https://vitest.dev/
 [WSDOT]:https://wsdot.wa.gov
+
+[wsdot-elc]:https://github.com/WSDOT-GIS/elc-js
+[wsdot-route-utils]:https://github.com/WSDOT-GIS/wsdot-route-utils
+[@wsdot/route-selector]:https://github.com/WSDOT-GIS/route-selector
+[Web Components]:https://developer.mozilla.org/en-US/docs/Web/Web_Components
