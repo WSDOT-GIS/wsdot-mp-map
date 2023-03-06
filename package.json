@@ -49,6 +49,6 @@
   },
   "homepage": "https://wsdot-gis.github.io/wsdot-mp-map",
   "dependencies": {
-    "@esri/arcgis-rest-request": "^4.0.2"
+    "@esri/arcgis-rest-request": "^4.1.2"
   }
 }
