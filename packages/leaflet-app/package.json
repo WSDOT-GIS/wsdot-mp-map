@@ -6,11 +6,11 @@
   "scripts": {
     "dev": "vite --cors --open",
     "build": "tsc && vite build",
-    "prepare": "npm run build",
     "preview": "npm run build && vite preview",
     "lint": "eslint . --fix",
     "prettier": "prettier . --write",
-    "gh-pages-publish": "npm run build && node tools/publish.mjs",
+    "pregh-pages-publish": "npm run build",
+    "gh-pages-publish": "node tools/publish.mjs",
     "test": "vitest run",
     "test-watch": "vitest",
     "coverage": "vitest run --coverage",
@@ -42,6 +42,6 @@
   },
   "homepage": "https://wsdot-gis.github.io/wsdot-mp-map",
   "dependencies": {
-    "@esri/arcgis-rest-request": "^4.2.0"
+    "@esri/arcgis-rest-request": "^4.0.2"
   }
 }

@@ -3,7 +3,7 @@ import type {
   // with JavaScript's built-in Map class.
   Map as LeafletMap,
 } from "leaflet";
-import { createGithubLink } from "./Github-Link";
+import { createGithubLink } from "wsdot-mp-common";
 
 const wsdotLogoAttributionClass = "leaflet-control-attribution__wsdot-logo";
 

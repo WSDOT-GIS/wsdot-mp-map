@@ -1,7 +1,7 @@
 import {
   enumerateQueryResponseAttributes,
   query,
-} from "./arcgis/featureServiceQuery";
+} from "wsdot-mp-common";
 import type { AttributeValue } from "./arcgis/typesAndInterfaces";
 import { GeoUrl } from "./GeoUri";
 import { Browser, popup as createPopup } from "leaflet";
