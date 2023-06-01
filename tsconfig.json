@@ -13,8 +13,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
-    "skipLibCheck": true,
-    "importsNotUsedAsValues": "error"
+    "skipLibCheck": true
   },
   "include": ["src"],
   "exclude": [
