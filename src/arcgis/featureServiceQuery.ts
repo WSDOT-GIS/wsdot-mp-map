@@ -23,20 +23,22 @@ const aliasMap = Array.isArray(aliasArrays) ? new Map(aliasArrays as [string, st
 /**
  * Query a feature service for features that intersect with
  * the given point.
- * @param xy - WGS 86 XY coordinates
+ * @param xy - WGS 84 XY coordinates
  * @param featureServiceUrl - Feature service URL
+ * @param inSR - Input spatial reference system WKID for {@link xy}.
  * @returns
  */
 export async function query(
   xy: [number, number],
-  featureServiceUrl: string = defaultUrl
+  featureServiceUrl: string = defaultUrl,
+  inSR = 4326
 ) {
   const queryUrl = new URL("query", featureServiceUrl);
   const queryParams: IRequestOptions = {
     params: {
       geometry: xy.join(","),
       geometryType: "esriGeometryPoint",
-      inSR: 4326,
+      inSR,
       spatialRel: "esriSpatialRelIntersects",
       layerDefs: layerDefs,
       returnGeometry: false,
