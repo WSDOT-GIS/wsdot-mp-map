@@ -5,9 +5,18 @@ import {
   map as createMap,
   marker as createMarker,
   Browser,
+  Control,
   type LeafletMouseEvent,
 } from "leaflet";
+
+/* cspell:disable */
+const apiKey =
+  "AAPKb42425df90804cb8889dc45c730c0560bXhJA9Cv77sUza9LrzZg9GmC9q4wE41_qYQUO2LtsR7c2UVmMUSFxCqn-btyr7in";
+/* cspell:enable */
+
 import { tiledMapLayer } from "esri-leaflet";
+import { vectorBasemapLayer } from "esri-leaflet-vector";
+
 import type PointRouteLocation from "./RouteLocationExtensions";
 import { createProgressMarker } from "./ProgressMarker";
 
@@ -75,6 +84,16 @@ export const theMap = createMap("map", {
   maxBounds: waExtent,
   layers: [wsdotBasemapLayer],
 }).fitBounds(waExtent);
+
+const layersControl = new Control.Layers({
+  WSDOT: wsdotBasemapLayer,
+});
+layersControl.addTo(theMap);
+
+const bm = vectorBasemapLayer("ArcGIS:Imagery", {
+  apiKey,
+});
+layersControl.addBaseLayer(bm, "Imagery");
 
 // Customize the map's attribution control.
 customizeAttribution(theMap);
