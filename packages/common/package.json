@@ -2,18 +2,18 @@
   "name": "wsdot-mp-common",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "files": [
-    "*.js",
-    "*.d.ts"
+    "./dist/*.js",
+    "./dist/*.d.ts"
   ],
   "directories": {
     "prepare": "npm run build",
-    "build": "tsc",
     "test": "tests"
   },
   "devDependencies": {},
   "scripts": {
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Jeff Jacobson",

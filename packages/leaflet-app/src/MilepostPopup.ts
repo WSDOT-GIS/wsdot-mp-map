@@ -1,11 +1,11 @@
 import {
   enumerateQueryResponseAttributes,
   query,
+  AttributeValue,
+  GeoUrl,
+  createGeoHackAnchor
 } from "wsdot-mp-common";
-import type { AttributeValue } from "./arcgis/typesAndInterfaces";
-import { GeoUrl } from "./GeoUri";
 import { Browser, popup as createPopup } from "leaflet";
-import { createGeoHackAnchor } from "./geohack";
 import type PointRouteLocation from "./RouteLocationExtensions";
 import { createGeoMicroformat } from "./formatting";
 
