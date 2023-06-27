@@ -4,10 +4,19 @@ import {
   // their purpose more clear.
   map as createMap,
   marker as createMarker,
-  tileLayer as createTileLayer,
   Browser,
+  Control,
   type LeafletMouseEvent,
 } from "leaflet";
+
+/* cspell:disable */
+const apiKey =
+  "AAPKb42425df90804cb8889dc45c730c0560bXhJA9Cv77sUza9LrzZg9GmC9q4wE41_qYQUO2LtsR7c2UVmMUSFxCqn-btyr7in";
+/* cspell:enable */
+
+import { tiledMapLayer } from "esri-leaflet";
+import { vectorBasemapLayer } from "esri-leaflet-vector";
+
 import type PointRouteLocation from "./RouteLocationExtensions";
 import { createProgressMarker } from "./ProgressMarker";
 
@@ -55,7 +64,7 @@ function createMilepostMarker(routeLocation: PointRouteLocation) {
   console.debug("Milepost icon", mpIcon);
 
   const latLng = routeLocation.leafletLatLngLiteral;
-  
+
   const outputMarker = createMarker(latLng, {
     icon: mpIcon,
   }).bindPopup(popup);
@@ -63,31 +72,49 @@ function createMilepostMarker(routeLocation: PointRouteLocation) {
   return outputMarker;
 }
 
+// Add the WSDOT Basemap layer
+const wsdotBasemapLayer = tiledMapLayer({
+  // detectRetina: true,
+  url: "https://data.wsdot.wa.gov/arcgis/rest/services/Shared/WebBaseMapWebMercator/MapServer",
+});
+
 // Create the Leaflet map, zoom to and restrict extent
 // to the EPSG-defined WA extent.
 export const theMap = createMap("map", {
   maxBounds: waExtent,
+  layers: [wsdotBasemapLayer],
 }).fitBounds(waExtent);
+
+const layersControl = new Control.Layers({
+  WSDOT: wsdotBasemapLayer,
+});
+layersControl.addTo(theMap);
+
+const basemaps = ["ArcGIS:Imagery"].map((name) => {
+  const bm = vectorBasemapLayer(name, {
+    apiKey,
+    style: (s: any) => {
+      console.log(s);
+      return s
+    }
+  });
+  const re = /(?<=ArcGIS:).+/i;
+  const match = name.match(re);
+  const label = match ? match[0] : name;
+  layersControl.addBaseLayer(bm, label);
+  return bm;
+})
+
 
 // Customize the map's attribution control.
 customizeAttribution(theMap);
-
-
-
-// Create the basemap layer.
-// TODO: Use a WSDOT basemap layer. 
-createTileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-  maxZoom: 19,
-  attribution:
-    '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-}).addTo(theMap);
 
 // Set up the event handling for when the user clicks on the map.
 theMap.on("click", async (e: LeafletMouseEvent) => {
   console.debug(`user clicked on ${e.latlng}`, e);
   // Extract the coordinates from the event object.
   const { latlng } = e;
-  
+
   // Add a progress element marker to the location where the user clicked.
   // This marker will be removed once the query has completed.
   const progressMarker = createProgressMarker(latlng).addTo(theMap);
@@ -112,7 +139,9 @@ theMap.on("click", async (e: LeafletMouseEvent) => {
   }
 
   if (errorOccurred) {
-    alert("We're sorry. An error occurred when calling the web service that provides milepost data.");
+    alert(
+      "We're sorry. An error occurred when calling the web service that provides milepost data."
+    );
   } else if (results && results.length) {
     for (const result of results) {
       // Query for county, etc. using https://data.wsdot.wa.gov/arcgis/rest/services/DataLibrary/DataLibrary/MapServer/identify
@@ -124,8 +153,6 @@ theMap.on("click", async (e: LeafletMouseEvent) => {
     alert("No results. Please try clicking closer to a route.");
   }
 });
-
-
 
 const mpControl = new SrmpControl({
   position: "topright",

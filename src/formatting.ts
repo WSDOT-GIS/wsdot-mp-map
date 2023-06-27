@@ -5,6 +5,11 @@ import type { LatLngTuple } from "leaflet";
 
 const fractionDigits = 6;
 
+/**
+ * Yields an HTML data element for each lat/lng tuple
+ * @param items - One or more {@link LatLngTuple|LatLngTuples}
+ * @yields - A `<data>` element.
+ */
 function* createCoordinateDataElements(...items: LatLngTuple) {
   for (let index = 0; index < items.length; index++) {
     const item = items[index];
