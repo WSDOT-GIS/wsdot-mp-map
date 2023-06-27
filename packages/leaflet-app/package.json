@@ -22,7 +22,7 @@
     "@types/esri-leaflet": "^2.1.9",
     "@types/gh-pages": "^3.2.1",
     "@types/leaflet": "^1.9.3",
-    "@vitest/coverage-c8": "^0.33.0",
+    "@vitest/coverage-c8": "^0.32.2",
     "gh-pages": "^5.0.0",
     "leaflet": "^1.9.4",
     "simple-icons": "^9.5.0",
@@ -33,7 +33,8 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/WSDOT-GIS/wsdot-mp-map.git"
+    "url": "git+https://github.com/WSDOT-GIS/wsdot-mp-map.git",
+    "directory": "packages/leaflet-app"
   },
   "author": "Jeff Jacobson",
   "license": "Unlicense",
@@ -42,7 +43,7 @@
   },
   "homepage": "https://wsdot-gis.github.io/wsdot-mp-map",
   "dependencies": {
-    "@esri/arcgis-rest-request": "^4.0.2",
+    "@esri/arcgis-rest-request": "^4.2.0",
     "esri-leaflet-vector": "^4.1.0"
   }
 }

@@ -1,0 +1,27 @@
+{
+  "name": "arcgis-mp",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Milepost map written with ArcGIS Maps API for JavaScript",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    
+  },
+  "repository": {
+    "url": "https://github.com/WSDOT-GIS/wsdot-mp-map.git",
+    "type": "git",
+    "directory": "packages/arcgis-mp"
+  },
+  "keywords": [
+    "arcgis",
+    "wsdot",
+    "milepost",
+    "map",
+    "gis",
+    "lrs",
+    "linear-referencing"
+  ],
+  "author": "Jeff Jacobson",
+  "license": "Unlicense"
+}
