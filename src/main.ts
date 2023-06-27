@@ -90,7 +90,7 @@ const layersControl = new Control.Layers({
 });
 layersControl.addTo(theMap);
 
-const basemaps = ["ArcGIS:Imagery"].map((name) => {
+["ArcGIS:Imagery"].map((name) => {
   const bm = vectorBasemapLayer(name, {
     apiKey,
     style: (s: any) => {
