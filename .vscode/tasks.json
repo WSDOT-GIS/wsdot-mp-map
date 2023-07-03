@@ -20,6 +20,7 @@
     },
     {
       "label": "vite dev",
+      "path": "packages/arcgis-mp",
       "detail": "vite",
       "icon": {
         "id": "tools",

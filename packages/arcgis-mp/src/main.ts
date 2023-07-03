@@ -1,24 +1,44 @@
-import './style.css'
-import typescriptLogo from './typescript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.ts'
+import waExtent from "./WAExtent";
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
-    </a>
-    <h1>Vite + TypeScript</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite and TypeScript logos to learn more
-    </p>
-  </div>
-`
+import("./index.css");
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+async function createLayers() {
+  const MapImageLayer = (await import("@arcgis/core/layers/MapImageLayer"))
+    .default;
+  const mpLayer = new MapImageLayer({
+    portalItem: {
+      id: "03ec5ff3609f45caa849d5afa4d92e9e",
+    },
+  });
+  return [mpLayer];
+}
+
+import("@arcgis/core/Map").then(async ({ default: EsriMap }) => {
+  const map = new EsriMap({
+    basemap: "hybrid",
+    layers: await createLayers(),
+  });
+
+  import("@arcgis/core/views/MapView").then(({ default: MapView }) => {
+    const view = new MapView({
+      container: "viewDiv",
+      map,
+      extent: waExtent,
+    });
+
+    import("./widgets/setupSearch").then(({ setupSearch }) => {
+      setupSearch(view).then((search) => {
+        search.view.ui.add(search, {
+          index: 0,
+          position: "top-trailing",
+        });
+      });
+    });
+
+    import("./widgets/expandGroups").then(({ setupWidgets }) => {
+      setupWidgets(view, "top-trailing", {
+         group: "top-trailing"
+      });
+    });
+  });
+});
