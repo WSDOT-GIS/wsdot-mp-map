@@ -1,4 +1,8 @@
 {
+    "private": true,
+    "scripts": {
+        "test": "vitest run"
+    },
     "workspaces": [
         "packages/common",
         "packages/leaflet-app",
