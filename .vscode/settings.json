@@ -4,5 +4,9 @@
     "github workflow",
     "arcgis-app"
   ],
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "files.readonlyFromPermissions": true,
+  "files.readonlyInclude": {
+    "**/dist/**/*.*": true
+  }
 }
