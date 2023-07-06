@@ -3,5 +3,6 @@
   "conventionalCommits.scopes": [
     "github workflow",
     "arcgis-app"
-  ]
+  ],
+  "editor.formatOnSave": true
 }

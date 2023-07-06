@@ -1,28 +1,22 @@
 import waExtent from "./WAExtent";
-
 import("./index.css");
-
-async function createLayers() {
-  const MapImageLayer = (await import("@arcgis/core/layers/MapImageLayer"))
-    .default;
-  const mpLayer = new MapImageLayer({
-    portalItem: {
-      id: "03ec5ff3609f45caa849d5afa4d92e9e",
-    },
-  });
-  return [mpLayer];
-}
 
 import("@arcgis/core/Map").then(async ({ default: EsriMap }) => {
   const map = new EsriMap({
     basemap: "hybrid",
-    layers: await createLayers(),
   });
 
-  import("@arcgis/core/views/MapView").then(({ default: MapView }) => {
+  import("@arcgis/core/views/MapView").then(async ({ default: MapView }) => {
+    const { default: SpatialReference } = await import(
+      "@arcgis/core/geometry/SpatialReference"
+    );
     const view = new MapView({
       container: "viewDiv",
       map,
+      spatialReference: SpatialReference.WebMercator,
+      constraints: {
+        geometry: waExtent,
+      },
       extent: waExtent,
     });
 
@@ -37,8 +31,12 @@ import("@arcgis/core/Map").then(async ({ default: EsriMap }) => {
 
     import("./widgets/expandGroups").then(({ setupWidgets }) => {
       setupWidgets(view, "top-trailing", {
-         group: "top-trailing"
+        group: "top-trailing",
       });
+    });
+
+    import("./elc").then(({ setupElc }) => {
+      setupElc(view);
     });
   });
 });

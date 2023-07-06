@@ -8,8 +8,7 @@
     "./dist/*.d.ts"
   ],
   "directories": {
-    "prepare": "npm run build",
-    "test": "tests"
+    "prepare": "npm run build"
   },
   "devDependencies": {},
   "scripts": {

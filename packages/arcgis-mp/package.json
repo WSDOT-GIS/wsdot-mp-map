@@ -10,7 +10,8 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "@arcgis/core": "^4.27.6"
+    "@arcgis/core": "^4.27.6",
+    "wsdot-elc": "^4.0.0-0"
   },
   "repository": {
     "url": "https://github.com/WSDOT-GIS/wsdot-mp-map.git",

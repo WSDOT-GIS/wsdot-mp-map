@@ -93,18 +93,13 @@ layersControl.addTo(theMap);
 ["ArcGIS:Imagery"].map((name) => {
   const bm = vectorBasemapLayer(name, {
     apiKey,
-    style: (s: any) => {
-      console.log(s);
-      return s
-    }
   });
   const re = /(?<=ArcGIS:).+/i;
   const match = name.match(re);
   const label = match ? match[0] : name;
   layersControl.addBaseLayer(bm, label);
   return bm;
-})
-
+});
 
 // Customize the map's attribution control.
 customizeAttribution(theMap);
