@@ -4,9 +4,9 @@
  * $ node packages/arcgis-mp/tools/copy-fonts.mjs
  */
 
-import { fileURLToPath } from "node:url";
-import { dirname, join } from "node:path";
 import { cp, opendir } from "node:fs/promises";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 
 const thisScriptPath = fileURLToPath(import.meta.url);
 
@@ -35,6 +35,42 @@ const overpassPath = join(
 );
 
 /**
+ * Matches font name with groups for font's
+ * - name (e.g., overpass)
+ * - script (e.g. latin)
+ * - weight (e.g., 300)
+ * - decoration (e.g., normal or italic)
+ */
+const fontRe =
+  /(?<fontName>overpass)-(?<script>latin)-(?<weight>\d+)-(?<decoration>normal)/i;
+
+/**
+ * Gets the output ArcGIS API-expected filename to use when copying the input file.
+ * E.g. output filename: fonts/overpass-regular/0-255.pbf
+ * @param {string} sourceFilename - Font file path from node_modules folder
+ * @param {string} fontsFolder - the destination folder that fonts will be copied to.
+ * (This function does not do the copying.)
+ * @return {string|null} Returns the output path if the {@link sourceFilename} is in the expected format, `null` otherwise.
+ */
+function getOutputFilename(sourceFilename, fontsFolder) {
+  if (!sourceFilename) {
+    throw new TypeError("sourcePath cannot be null or empty string.");
+  }
+
+  const match = sourceFilename.match(fontRe);
+
+  if (!match || !match.groups) {
+    return null;
+  }
+
+  const { fontName, script, weight, decoration } = match.groups;
+
+  const output = join(fontsFolder, `${fontName}-${decoration}`);
+
+  return output;
+}
+
+/**
  * Enumerate through all the files in the source directory
  * that are font files that we want.
  * @yields - A tuple: source & destination paths
@@ -48,14 +84,15 @@ async function* enumerateFiles() {
     });
 
     let dirEnt = await dir.read();
-    const fontRe =
-      /(?<name>overpass)-(?<script>latin)-(?<weight>\d+)-(?<decoration>normal)/i;
+
     while (dirEnt) {
       try {
         if (dirEnt.isFile()) {
           const match = dirEnt.name.match(fontRe);
           if (match) {
             const source = dirEnt.path;
+            // TODO: Rename files to what ArcGIS API is expecting.
+            // E.g., https://<appURL>/fonts/overpass-regular/0-255.pbf
             const dest = join(publicFolder, "fonts", dirEnt.name);
             /** @type {[source: string, dest: string]} */
             const output = [source, dest];
