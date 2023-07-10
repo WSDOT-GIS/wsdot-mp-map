@@ -1,3 +1,5 @@
+import Color from "@arcgis/core/Color";
+// import esriConfig from "@arcgis/core/config";
 import type SpatialReference from "@arcgis/core/geometry/SpatialReference";
 import type Field from "@arcgis/core/layers/support/Field";
 import { objectIdFieldName } from "./types";
