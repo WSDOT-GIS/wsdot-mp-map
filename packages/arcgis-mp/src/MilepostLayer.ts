@@ -1,12 +1,13 @@
+import Color from "@arcgis/core/Color";
+import Graphic from "@arcgis/core/Graphic";
 import type SpatialReference from "@arcgis/core/geometry/SpatialReference";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import LabelClass from "@arcgis/core/layers/support/LabelClass";
 import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer";
 import SimpleMarkerSymbol from "@arcgis/core/symbols/SimpleMarkerSymbol";
 import TextSymbol from "@arcgis/core/symbols/TextSymbol";
-import waExtent from "./WAExtent";
-import Color from "@arcgis/core/Color";
 import "@fontsource/overpass";
+import waExtent from "./WAExtent";
 
 const highwaySignBackgroundColor = new Color("#01735c");
 const highwaySignText = new Color("#ffffff");
@@ -16,7 +17,7 @@ const labelingInfo = [
     labelExpressionInfo: {
       expression: String.raw`Concatenate($feature.Route, TextFormatting.NewLine, $feature.SRMP, $feature.Back)`,
     },
-    labelPlacement: "center-center",
+    labelPlacement: "above-center",
 
     symbol: new TextSymbol({
       // TODO: app is currently trying to load the font from https://static.arcgis.com/fonts/overpass-regular/0-255.pbf
@@ -45,11 +46,24 @@ const renderer = new SimpleRenderer({
 
 const objectIdFieldName = "OBJECTID";
 
+/**
+ * The graphic attributes for a graphic in the Mileposts feature layer.
+ */
 export interface ElcAttributes {
   [objectIdFieldName]: number;
   Route: string;
   Srmp: number;
   Back: "B" | "";
+}
+
+export interface LayerFeatureAttributes extends ElcAttributes {
+  "Township Subdivision": string;
+  County: string;
+  City: string;
+}
+
+export interface MilepostFeature extends Graphic {
+  attributes: LayerFeatureAttributes;
 }
 
 /**
@@ -76,6 +90,15 @@ export function createMilepostLayer(spatialReference: SpatialReference) {
       },
       {
         name: "Back",
+        type: "string",
+      },
+      {
+        name: "Township Subdivision",
+        type: "string",
+      },
+      { name: "County", type: "string" },
+      {
+        name: "City",
         type: "string",
       },
     ],

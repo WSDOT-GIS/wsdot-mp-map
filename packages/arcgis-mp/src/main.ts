@@ -1,3 +1,4 @@
+import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 import waExtent from "./WAExtent";
 import("./index.css");
 
@@ -7,18 +8,19 @@ import("@arcgis/core/Map").then(async ({ default: EsriMap }) => {
   });
 
   import("@arcgis/core/views/MapView").then(async ({ default: MapView }) => {
-    const { default: SpatialReference } = await import(
-      "@arcgis/core/geometry/SpatialReference"
-    );
     const view = new MapView({
       container: "viewDiv",
       map,
       spatialReference: SpatialReference.WebMercator,
       constraints: {
         geometry: waExtent,
+        minZoom: 7,
       },
       extent: waExtent,
+      popupEnabled: true,
     });
+
+    view.popup.defaultPopupTemplateEnabled = true;
 
     import("./widgets/setupSearch").then(({ setupSearch }) => {
       setupSearch(view).then((search) => {

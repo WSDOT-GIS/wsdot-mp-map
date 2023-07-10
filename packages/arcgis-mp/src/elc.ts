@@ -4,10 +4,15 @@ import type MapView from "@arcgis/core/views/MapView";
 import {
   RouteLocator,
   type IFindNearestRouteLocationParameters,
-  type RouteLocation,
   type IRouteLocation,
+  type RouteLocation,
 } from "wsdot-elc";
-import { createMilepostLayer, ElcAttributes } from "./MilepostLayer";
+import {
+  enumerateQueryResponseAttributes,
+  query,
+  type AttributeValue,
+} from "wsdot-mp-common";
+import { ElcAttributes, createMilepostLayer } from "./MilepostLayer";
 
 const defaultSearchRadius = 200;
 
@@ -65,10 +70,28 @@ function routeLocationToGraphic(routeLocation: IRouteLocation): Graphic {
   } else {
     console.warn("Input does not have valid SRMP attributes.", routeLocation);
   }
-  return new Graphic({
+  const graphic = new Graphic({
     geometry,
     attributes,
   });
+
+  // TODO: Add Data Library attributes to graphic.
+  queryDataLibrary(graphic).then(console.log);
+
+  return graphic;
+}
+
+async function queryDataLibrary(graphic: Graphic) {
+  const geometry = graphic.geometry as Point;
+  const { x, y, spatialReference } = geometry;
+  const queryResponse = await query([x, y], undefined, spatialReference.wkid);
+  console.debug("data library query response", queryResponse);
+  const output: Record<string, AttributeValue> = {};
+  for (const [key, value] of enumerateQueryResponseAttributes(queryResponse)) {
+    output[key] = value;
+  }
+
+  return output;
 }
 
 /**
@@ -105,6 +128,7 @@ export async function setupElc(
   }
 ) {
   async function callElc(event: __esri.ViewClickEvent): Promise<void> {
+    // TODO: Do not call ELC if user is clicking on one of the layers.
     const { mapPoint } = event;
     const { x, y, spatialReference } = mapPoint;
     const { wkid } = spatialReference;
