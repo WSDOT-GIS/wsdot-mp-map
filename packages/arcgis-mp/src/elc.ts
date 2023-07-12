@@ -7,12 +7,8 @@ import {
   type IRouteLocation,
   type RouteLocation,
 } from "wsdot-elc";
-import {
-  enumerateQueryResponseAttributes,
-  query,
-  type AttributeValue,
-} from "wsdot-mp-common";
-import { ElcAttributes, createMilepostLayer } from "./MilepostLayer";
+import { enumerateQueryResponseAttributes, query } from "wsdot-mp-common";
+import { createMilepostLayer } from "./MilepostLayer";
 
 const defaultSearchRadius = 200;
 
@@ -65,7 +61,10 @@ function routeLocationToGraphic(routeLocation: IRouteLocation): Graphic {
       Route,
       Srmp,
       Back: Back ? "B" : "",
-    } as ElcAttributes;
+      "Township Subdivision": null,
+      City: null,
+      County: null,
+    };
     oid++;
   } else {
     console.warn("Input does not have valid SRMP attributes.", routeLocation);
@@ -81,12 +80,23 @@ function routeLocationToGraphic(routeLocation: IRouteLocation): Graphic {
   return graphic;
 }
 
+/**
+ * Queries the WSDOT Data Library feature service and updates
+ * the input graphic's attributes with the response data.
+ * @param graphic - A graphic.
+ * @returns
+ */
 async function queryDataLibrary(graphic: Graphic) {
   const geometry = graphic.geometry as Point;
   const { x, y, spatialReference } = geometry;
   const queryResponse = await query([x, y], undefined, spatialReference.wkid);
   console.debug("data library query response", queryResponse);
-  const output: Record<string, AttributeValue> = {};
+  if (!graphic.attributes) {
+    console.warn(
+      'Graphic\'s "attributes" property is null but is expected to be an object.'
+    );
+  }
+  const output: Record<string, unknown> = graphic.attributes ?? {};
   for (const [key, value] of enumerateQueryResponseAttributes(queryResponse)) {
     output[key] = value;
   }

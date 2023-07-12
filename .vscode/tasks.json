@@ -3,13 +3,13 @@
   "tasks": [
     {
       "label": "build",
-      "detail": "tsc && vite build",
+      "detail": "Production build",
       "icon": {
         "id": "package",
         "color": "terminal.ansiGreen"
       },
-      "type": "npm",
-      "script": "build",
+      "type": "shell",
+      "command": "npm run build -ws --if-present",
       "group": {
         "kind": "build",
         "isDefault": true

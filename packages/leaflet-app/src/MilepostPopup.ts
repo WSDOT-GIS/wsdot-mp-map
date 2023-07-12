@@ -7,7 +7,7 @@ import {
 } from "wsdot-mp-common";
 import { Browser, popup as createPopup } from "leaflet";
 import type PointRouteLocation from "./RouteLocationExtensions";
-import { createGeoMicroformat } from "./formatting";
+import { createGeoMicroformat } from "wsdot-mp-common";
 
 const srmpPopupCssClass = "srmp-popup";
 const geoHackCssClass = `${srmpPopupCssClass}__geohack`;
