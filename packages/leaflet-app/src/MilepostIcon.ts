@@ -132,7 +132,7 @@ function createRouteLabel(routeLocation: RouteLabelParameters) {
   } else if (!routeDesc.isMainline) {
     // Add custom formatting for ramps.
     routeLabel = [routeDesc.rrtDescription, routeDesc.rrqDescription].join(" ");
-    console.debug(routeLabel, [
+    /* @__PURE__ */ console.debug(routeLabel, [
       routeDesc.rrtDescription,
       routeDesc.rrqDescription,
     ]);
@@ -191,7 +191,7 @@ function createRouteLabelElement(routeLocation: RouteLabelParameters) {
 }
 
 /**
- * Creates the icon that is displayed on the map for a 
+ * Creates the icon that is displayed on the map for a
  * milepost location on a route.
  * @param options - Defines route ID and milepost
  * @returns

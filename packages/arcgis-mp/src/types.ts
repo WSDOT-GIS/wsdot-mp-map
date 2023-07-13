@@ -1,10 +1,46 @@
-import type Graphic from "@arcgis/core/Graphic";
-import type Geometry from "@arcgis/core/geometry/Geometry";
-import type Point from "@arcgis/core/geometry/Point";
+import Graphic from "@arcgis/core/Graphic";
+import Geometry from "@arcgis/core/geometry/Geometry";
+import Point from "@arcgis/core/geometry/Point";
 import { RouteLocation } from "wsdot-elc";
 import type { AttributeValue } from "wsdot-mp-common";
 
 export const objectIdFieldName = "OBJECTID";
+
+/**
+ * An object like one used by {@link Graphic.attributes},
+ * with {@link AttributeValue|AttributeValues} keyed
+ * by strings.
+ */
+export type AttributesObject = Record<string, AttributeValue>;
+
+/**
+ * An object that has an "attributes" property
+ */
+export interface HasAttributes<T extends AttributesObject>
+  extends Pick<Graphic, "attributes"> {
+  /**
+   * @inheritdoc
+   */
+  attributes: T;
+}
+
+/**
+ * Tests to see if the {@link input} is an {@link Object} with
+ * an attributes property that
+ * is also an {@link Object}.
+ * @param input - An input object.
+ * @returns
+ */
+export function hasAttributes<T extends AttributesObject>(
+  input: unknown
+): input is HasAttributes<T> {
+  return (
+    !!input &&
+    typeof input === "object" &&
+    Object.hasOwn(input, "attributes") &&
+    typeof (input as HasAttributes<T>).attributes === "object"
+  );
+}
 
 /**
  * Extends {@link Graphic} to provide more strict type information for
@@ -13,11 +49,7 @@ export const objectIdFieldName = "OBJECTID";
 export interface TypedGraphic<
   G extends Geometry,
   T extends Record<string, AttributeValue>
-> extends Graphic {
-  /**
-   * @inheritdoc
-   */
-  attributes: T;
+> extends HasAttributes<T> {
   /**
    * @inheritdoc
    */
@@ -50,9 +82,10 @@ export interface LayerFeatureAttributes extends ElcAttributes {
 }
 
 /**
- * A milepost point graphic.
+ * A milepost point {@link Graphic}.
  */
-export type MilepostFeature = TypedGraphic<Point, LayerFeatureAttributes>;
+export type MilepostFeature = Graphic &
+  TypedGraphic<Point, LayerFeatureAttributes>;
 
 const elcFieldNames = ["Route", "Decrease", objectIdFieldName, "Srmp", "Back"];
 
@@ -62,6 +95,14 @@ const featureLayerAttributesFieldNames = elcFieldNames.concat(
   "City"
 );
 
+/**
+ * Determines if an object is a {@link ElcAttributes}.
+ * @param input - Input object, such as {@link Graphic.attributes}
+ * @returns - Returns true under the following conditions:
+ * - {@link isElcAttributes} returns `true`
+ * - Each string in {@link elcFieldNames} has
+ *   a corresponding property in the input object.
+ */
 function isElcAttributes(input: unknown): input is ElcAttributes {
   return (
     !!input &&
@@ -70,6 +111,14 @@ function isElcAttributes(input: unknown): input is ElcAttributes {
   );
 }
 
+/**
+ * Determines if an object is a {@link LayerFeatureAttributes}.
+ * @param input - Input object
+ * @returns - Returns true under the following conditions:
+ * - {@link isElcAttributes} returns `true`
+ * - Each string in {@link featureLayerAttributesFieldNames} has
+ *   a corresponding property in the input object.
+ */
 function isValidAttributesObject(
   input: unknown
 ): input is LayerFeatureAttributes {
@@ -85,10 +134,7 @@ export function isMilepostFeature(
   graphic: Graphic
 ): graphic is MilepostFeature {
   return (
-    graphic &&
-    graphic.geometry &&
-    graphic.attributes &&
-    graphic.geometry.type === "point" &&
-    isValidAttributesObject(elcFieldNames)
+    graphic.geometry instanceof Point &&
+    isValidAttributesObject(graphic.attributes)
   );
 }

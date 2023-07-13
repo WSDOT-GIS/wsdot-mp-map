@@ -9,6 +9,8 @@ import {
 } from "wsdot-elc";
 import { enumerateQueryResponseAttributes, query } from "wsdot-mp-common";
 import { createMilepostLayer } from "./MilepostLayer";
+import { createMPSymbol } from "./MilepostIcon";
+import { AttributesObject } from "./types";
 
 const defaultSearchRadius = 200;
 
@@ -73,9 +75,21 @@ function routeLocationToGraphic(routeLocation: IRouteLocation): Graphic {
     geometry,
     attributes,
   });
+  const symbol = createMPSymbol(graphic);
+
+  if (symbol) {
+    graphic.symbol = symbol;
+  }
 
   // TODO: Add Data Library attributes to graphic.
-  queryDataLibrary(graphic).then(console.log);
+  queryDataLibrary(graphic).then((result) => {
+    for (const key in result) {
+      if (Object.prototype.hasOwnProperty.call(result, key)) {
+        const value = result[key];
+        graphic.attributes[key] = value;
+      }
+    }
+  });
 
   return graphic;
 }
@@ -90,13 +104,13 @@ async function queryDataLibrary(graphic: Graphic) {
   const geometry = graphic.geometry as Point;
   const { x, y, spatialReference } = geometry;
   const queryResponse = await query([x, y], undefined, spatialReference.wkid);
-  console.debug("data library query response", queryResponse);
+  /* @__PURE__ */ console.debug("data library query response", queryResponse);
   if (!graphic.attributes) {
     console.warn(
       'Graphic\'s "attributes" property is null but is expected to be an object.'
     );
   }
-  const output: Record<string, unknown> = graphic.attributes ?? {};
+  const output: AttributesObject = graphic.attributes ?? {};
   for (const [key, value] of enumerateQueryResponseAttributes(queryResponse)) {
     output[key] = value;
   }
@@ -138,8 +152,13 @@ export async function setupElc(
   }
 ) {
   async function callElc(event: __esri.ViewClickEvent): Promise<void> {
-    // TODO: Do not call ELC if user is clicking on one of the layers.
     const { mapPoint } = event;
+
+    // TODO: Do not call ELC if user is clicking on one of the layers.
+    const hitTestResult = await view.hitTest(mapPoint);
+
+    /* @__PURE__ */ console.debug(callElc.name, { hitTestResult });
+
     const { x, y, spatialReference } = mapPoint;
     const { wkid } = spatialReference;
     const { searchRadius } = options;
@@ -155,12 +174,15 @@ export async function setupElc(
       inputParameters
     );
 
-    console.debug("ELC Response", { inputParameters, elcResponse });
+    /* @__PURE__ */ console.debug("ELC Response", {
+      inputParameters,
+      elcResponse,
+    });
 
     // Show a popup and exit if no results were returned.
     if (elcResponse.length < 1) {
       const message = "No routes within search radius.";
-      console.debug(message, elcResponse);
+      /* @__PURE__ */ console.debug(message, elcResponse);
       view.popup.open({
         content: message,
         location: mapPoint,

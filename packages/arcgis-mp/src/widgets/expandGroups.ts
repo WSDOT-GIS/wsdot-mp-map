@@ -70,12 +70,12 @@ export async function setupExpandGroup(
   ...widgets: Widget[]
 ) {
   console.group(setupExpandGroup.name);
-  console.debug(`${setupExpandGroup.name} constructor`, {
+  /* @__PURE__ */ console.debug(`${setupExpandGroup.name} constructor`, {
     view,
     viewAddOptions,
     expandOptions,
-    widgets
-  })
+    widgets,
+  });
   try {
     // Throw error if no widgets were specified.
     if (widgets.length < 1) {
@@ -87,9 +87,11 @@ export async function setupExpandGroup(
 
     // Create expand options if not already specified.
     if (!expandOptions) {
-      console.debug("expandOptions was null or undefined. Creating new object.");
+      /* @__PURE__ */ console.debug(
+        "expandOptions was null or undefined. Creating new object."
+      );
       expandOptions = {};
-      console.debug({expandOptions})
+      /* @__PURE__ */ console.debug({ expandOptions });
     }
 
     // If view add options is just the UIPosition, convert to object
@@ -104,11 +106,10 @@ export async function setupExpandGroup(
       expandOptions.group = viewAddOptions.position as string;
     }
     if (!expandOptions.group) {
-      const message = "There was no group specified. Expands will not be grouped";
+      const message =
+        "There was no group specified. Expands will not be grouped";
       console.error(message);
-      throw new TypeError(
-        message
-      );
+      throw new TypeError(message);
     }
 
     // Create an Expand for each of the widgets.
@@ -118,7 +119,10 @@ export async function setupExpandGroup(
         : {};
 
       currentOptions.content = widget;
-      console.debug(`Expand constructor options`, currentOptions)
+      /* @__PURE__ */ console.debug(
+        `Expand constructor options`,
+        currentOptions
+      );
       const expand = new Expand(currentOptions);
       return {
         component: expand,
@@ -127,7 +131,7 @@ export async function setupExpandGroup(
       } as __esri.UIAddComponent;
     });
 
-    console.debug("expand objects", expands)
+    /* @__PURE__ */ console.debug("expand objects", expands);
 
     // Add the newly-created Expands to the view.
     view.ui.add(expands, viewAddOptions);
@@ -198,11 +202,11 @@ export async function setupWidgets(
   expandOptions: ExpandGroupSetupParams[2]
 ) {
   console.group(setupWidgets.name);
-  console.debug(`${setupWidgets.name} constructor`, {
+  /* @__PURE__ */ console.debug(`${setupWidgets.name} constructor`, {
     view,
     viewAddOptions,
-    expandOptions
-  })
+    expandOptions,
+  });
   try {
     const [gallery, layerList] = await Promise.all([
       setupBasemapGallery({
@@ -217,7 +221,7 @@ export async function setupWidgets(
         view,
       }),
     ]);
-  
+
     setupExpandGroup(view, viewAddOptions, expandOptions, gallery, layerList);
   } finally {
     console.groupEnd();
