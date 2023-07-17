@@ -9,7 +9,6 @@ import {
 } from "wsdot-elc";
 import { enumerateQueryResponseAttributes, query } from "wsdot-mp-common";
 import { createMilepostLayer } from "./MilepostLayer";
-import { createMPSymbol } from "./MilepostIcon";
 import { AttributesObject } from "./types";
 
 const defaultSearchRadius = 200;
@@ -53,7 +52,10 @@ function routeLocationToGraphic(routeLocation: IRouteLocation): Graphic {
     const { x, y, spatialReference } = routeLocation.RouteGeometry;
     geometry = new Point({ x, y, spatialReference });
   } else {
-    console.warn("Input does not have valid point geometry.", routeLocation);
+    /* @__PURE__ */ console.warn(
+      "Input does not have valid point geometry.",
+      routeLocation
+    );
   }
   let attributes;
   if (hasValidSrmpData(routeLocation)) {
@@ -69,17 +71,15 @@ function routeLocationToGraphic(routeLocation: IRouteLocation): Graphic {
     };
     oid++;
   } else {
-    console.warn("Input does not have valid SRMP attributes.", routeLocation);
+    /* @__PURE__ */ console.warn(
+      "Input does not have valid SRMP attributes.",
+      routeLocation
+    );
   }
   const graphic = new Graphic({
     geometry,
     attributes,
   });
-  const symbol = createMPSymbol(graphic);
-
-  if (symbol) {
-    graphic.symbol = symbol;
-  }
 
   // TODO: Add Data Library attributes to graphic.
   queryDataLibrary(graphic).then((result) => {
@@ -106,7 +106,7 @@ async function queryDataLibrary(graphic: Graphic) {
   const queryResponse = await query([x, y], undefined, spatialReference.wkid);
   /* @__PURE__ */ console.debug("data library query response", queryResponse);
   if (!graphic.attributes) {
-    console.warn(
+    /* @__PURE__ */ console.warn(
       'Graphic\'s "attributes" property is null but is expected to be an object.'
     );
   }
@@ -195,7 +195,7 @@ export async function setupElc(
     // Show a popup and exit if the RouteGeometry is not a point.
     if (!isPoint(routeLocation.RouteGeometry)) {
       const message = "Unexpected output from ELC.";
-      console.warn(message, elcResponse);
+      /* @__PURE__ */ console.warn(message, elcResponse);
       view.popup.open({
         content: message,
         location: mapPoint,

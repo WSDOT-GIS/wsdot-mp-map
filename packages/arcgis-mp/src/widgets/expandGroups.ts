@@ -69,7 +69,7 @@ export async function setupExpandGroup(
   expandOptions?: ExpandProperties,
   ...widgets: Widget[]
 ) {
-  console.group(setupExpandGroup.name);
+  /* @__PURE__ */ console.group(setupExpandGroup.name);
   /* @__PURE__ */ console.debug(`${setupExpandGroup.name} constructor`, {
     view,
     viewAddOptions,
@@ -108,7 +108,7 @@ export async function setupExpandGroup(
     if (!expandOptions.group) {
       const message =
         "There was no group specified. Expands will not be grouped";
-      console.error(message);
+      /* @__PURE__ */ console.error(message);
       throw new TypeError(message);
     }
 
@@ -138,7 +138,7 @@ export async function setupExpandGroup(
 
     return expands;
   } finally {
-    console.groupEnd();
+    /* @__PURE__ */ console.groupEnd();
   }
 }
 
@@ -201,7 +201,7 @@ export async function setupWidgets(
   viewAddOptions: ExpandGroupSetupParams[1],
   expandOptions: ExpandGroupSetupParams[2]
 ) {
-  console.group(setupWidgets.name);
+  /* @__PURE__ */ console.group(setupWidgets.name);
   /* @__PURE__ */ console.debug(`${setupWidgets.name} constructor`, {
     view,
     viewAddOptions,
@@ -224,6 +224,6 @@ export async function setupWidgets(
 
     setupExpandGroup(view, viewAddOptions, expandOptions, gallery, layerList);
   } finally {
-    console.groupEnd();
+    /* @__PURE__ */ console.groupEnd();
   }
 }

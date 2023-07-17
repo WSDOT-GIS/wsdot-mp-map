@@ -3,6 +3,7 @@ Avenir
 brotli
 divs
 EPSG
+fontnik
 Geoportal
 geouri
 latlng

@@ -1,14 +1,31 @@
 import type SpatialReference from "@arcgis/core/geometry/SpatialReference";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
+import type Field from "@arcgis/core/layers/support/Field";
 import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer";
-import "@fontsource/overpass";
-import { defaultSymbol } from "./MilepostIcon";
+import SimpleMarkerSymbol from "@arcgis/core/symbols/SimpleMarkerSymbol";
 import waExtent from "./WAExtent";
+import { highwaySignBackgroundColor, highwaySignTextColor } from "./colors";
+import labelClass from "./labelClass";
 import { objectIdFieldName } from "./types";
 
-const renderer = new SimpleRenderer({
-  symbol: defaultSymbol,
+/**
+ * This is the symbol for the point on the route.
+ */
+const actualMPSymbol = new SimpleMarkerSymbol({
+  color: highwaySignBackgroundColor,
+  size: 12,
+  style: "circle",
+  outline: {
+    width: 1,
+    color: highwaySignTextColor,
+  },
 });
+
+const renderer = new SimpleRenderer({
+  symbol: actualMPSymbol,
+});
+
+type FieldProperties = Required<ConstructorParameters<typeof Field>>[0];
 
 const fields = [
   {
@@ -36,7 +53,7 @@ const fields = [
     name: "City",
     type: "string",
   },
-] as __esri.FieldProperties[];
+] as FieldProperties[];
 
 /**
  * Creates the {@link FeatureLayer} that displays located mileposts.
@@ -44,7 +61,7 @@ const fields = [
  */
 export function createMilepostLayer(spatialReference: SpatialReference) {
   const milepostLayer = new FeatureLayer({
-    // labelingInfo,
+    labelingInfo: [labelClass],
     title: "Mileposts",
     id: "mileposts",
     fields: fields,
@@ -53,6 +70,8 @@ export function createMilepostLayer(spatialReference: SpatialReference) {
     fullExtent: waExtent,
     renderer,
     spatialReference,
+    // Since there are no features at the beginning,
+    // need to add an empty array as the source.
     source: [],
     popupEnabled: true,
     hasM: true,

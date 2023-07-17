@@ -57,20 +57,20 @@ export function isPointGeometry(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   geometry: any
 ): geometry is IPointGeometry {
-  console.group(`Entering ${isPointGeometry.name}…`);
+  /* @__PURE__ */ console.group(`Entering ${isPointGeometry.name}…`);
   for (const name of ["x", "y"]) {
-    console.log(
+    /* @__PURE__ */ console.log(
       `Checking to see if object has a ${name} property that is a number…`
     );
     if (
       !(Object.hasOwn(geometry, name) && typeof geometry[name] === "number")
     ) {
-      console.warn(`mismatch: ${geometry}`, geometry);
-      console.groupEnd();
+      /* @__PURE__ */ console.warn(`mismatch: ${geometry}`, geometry);
+      /* @__PURE__ */ console.groupEnd();
       return false;
     }
   }
-  console.groupEnd();
+  /* @__PURE__ */ console.groupEnd();
   return true;
 }
 
@@ -101,7 +101,7 @@ export default class PointRouteLocation
       allowedSuffixes: ["i", "d"],
     });
     if (rl.Srmp == null) {
-      throw new TypeError("Srmp property cannot be null or undefined.")
+      throw new TypeError("Srmp property cannot be null or undefined.");
     }
     this.Milepost = new Milepost(rl.Srmp, !!rl.Back);
   }
@@ -150,8 +150,8 @@ export interface ISrmpRouteLocation extends IRouteLocation {
 
 /**
  * Detects if a {@link RouteLocation} contains valid SRMP data.
- * @param routeLocation 
- * @returns 
+ * @param routeLocation
+ * @returns
  */
 export function isSrmpRouteLocation(
   routeLocation: IRouteLocation
