@@ -4,6 +4,7 @@ import("./index.css");
 
 function setupConfiguration(arcgisConfig: __esri.config) {
   arcgisConfig.applicationName = "WSDOT Mileposts";
+  arcgisConfig.log.level = import.meta.env.DEV ? "info" : "error";
   const { request } = arcgisConfig;
   request.useIdentity = false;
   if (!request.httpsDomains) {
@@ -31,6 +32,14 @@ function setupConfiguration(arcgisConfig: __esri.config) {
         },
         extent: waExtent,
         popupEnabled: false,
+      });
+
+      import("@arcgis/core/widgets/ScaleBar").then(({ default: ScaleBar }) => {
+        const sb = new ScaleBar({
+          unit: "dual",
+          view,
+        });
+        view.ui.add(sb, "bottom-leading");
       });
 
       view.popup.defaultPopupTemplateEnabled = true;
