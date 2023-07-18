@@ -10,3 +10,7 @@ latlng
 SRMP
 Vite
 wkid
+xmin
+xmax
+ymin
+ymax
