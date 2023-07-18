@@ -1,0 +1,20 @@
+{
+  "name": "wsdot-mp-common",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/index.js",
+  "files": [
+    "./dist/*.js",
+    "./dist/*.d.ts"
+  ],
+  "directories": {
+    "prepare": "npm run build"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch"
+  },
+  "author": "Jeff Jacobson",
+  "license": "Unlicense"
+}

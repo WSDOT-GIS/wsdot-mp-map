@@ -47,7 +47,7 @@ export async function callElcNearestRoute(
     };
   }
 
-  console.debug("elc parameters", {
+  /* @__PURE__ */ console.debug("elc parameters", {
     url,
     params,
   });
@@ -62,23 +62,23 @@ export async function callElcMPToPoint(
   route: RouteDescription,
   mp: Milepost,
   options?: {
-    url?: string,
-    decrease?: boolean
+    url?: string;
+    decrease?: boolean;
   }
 ) {
   const url = options?.url || defaultElcUrl;
   const rl = new RouteLocator(url);
   const results = await rl.findRouteLocations({
-    locations:[
+    locations: [
       new RouteLocation({
         Route: route.toString(),
         Srmp: mp.mp,
-        Decrease: !!options?.decrease
-      })
+        Decrease: !!options?.decrease,
+      }),
     ],
     outSR: gpsWkid,
     referenceDate: new Date(),
-    useCors: true
+    useCors: true,
   });
   return results.map((r) => new PointRouteLocation(r));
 }
