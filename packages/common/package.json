@@ -12,7 +12,8 @@
   },
   "devDependencies": {},
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "watch": "tsc --watch"
   },
   "author": "Jeff Jacobson",
   "license": "Unlicense"
