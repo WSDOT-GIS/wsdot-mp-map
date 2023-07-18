@@ -138,3 +138,16 @@ export function isMilepostFeature(
     isValidAttributesObject(graphic.attributes)
   );
 }
+
+/**
+ * Tests to see if a {@link __esri.ViewHit|ViewHit} is a
+ * {@link __esri.GraphicHit|GraphicHit}.
+ * @param viewHit - The view hit to be tested.
+ * @returns - Returns true if {@link __esri.ViewHit.type} = "graphic",
+ * false otherwise.
+ */
+export function isGraphicHit(
+  viewHit: __esri.ViewHit
+): viewHit is __esri.GraphicHit {
+  return viewHit.type === "graphic";
+}

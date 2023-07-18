@@ -8,10 +8,8 @@ import {
   type RouteLocation,
 } from "wsdot-elc";
 import { enumerateQueryResponseAttributes, query } from "wsdot-mp-common";
-import { createMilepostLayer } from "./MilepostLayer";
 import { AttributesObject } from "./types";
-
-const defaultSearchRadius = 200;
+import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 
 type ElcSetupOptions = Pick<
   IFindNearestRouteLocationParameters,
@@ -46,7 +44,9 @@ let oid = 0;
  * @param routeLocation - A route location
  * @returns - A {@link Graphic}.
  */
-function routeLocationToGraphic(routeLocation: IRouteLocation): Graphic {
+async function routeLocationToGraphic(
+  routeLocation: IRouteLocation
+): Promise<Graphic> {
   let geometry;
   if (isPoint(routeLocation.RouteGeometry)) {
     const { x, y, spatialReference } = routeLocation.RouteGeometry;
@@ -82,14 +82,13 @@ function routeLocationToGraphic(routeLocation: IRouteLocation): Graphic {
   });
 
   // TODO: Add Data Library attributes to graphic.
-  queryDataLibrary(graphic).then((result) => {
-    for (const key in result) {
-      if (Object.prototype.hasOwnProperty.call(result, key)) {
-        const value = result[key];
-        graphic.attributes[key] = value;
-      }
+  const result = await queryDataLibrary(graphic);
+  for (const key in result) {
+    if (Object.prototype.hasOwnProperty.call(result, key)) {
+      const value = result[key];
+      graphic.attributes[key] = value;
     }
-  });
+  }
 
   return graphic;
 }
@@ -140,78 +139,69 @@ function isPoint(
 }
 
 /**
- * Set up the route location (ELC) functionality in the map view.
+ * Makes a call to the ELC and adds a point graphic to the {@link milepostLayer}.
  * @param view
+ * @param milepostLayer
+ * @param mapPoint
  * @param options
+ * @returns
  */
-export async function setupElc(
+export async function callElc(
   view: MapView,
-  options: ElcSetupOptions = {
-    searchRadius: defaultSearchRadius,
-    useCors: true,
-  }
+  milepostLayer: FeatureLayer,
+  mapPoint: Point,
+  options: ElcSetupOptions
 ) {
-  async function callElc(event: __esri.ViewClickEvent): Promise<void> {
-    const { mapPoint } = event;
+  const { x, y, spatialReference } = mapPoint;
+  const { wkid } = spatialReference;
+  const { searchRadius } = options;
+  const inputParameters: IFindNearestRouteLocationParameters = {
+    coordinates: [x, y],
+    inSR: wkid,
+    outSR: wkid,
+    searchRadius,
+    useCors: true,
+    referenceDate: new Date(),
+  };
+  const routeLocator = new RouteLocator();
+  const elcResponse = await routeLocator.findNearestRouteLocations(
+    inputParameters
+  );
 
-    // TODO: Do not call ELC if user is clicking on one of the layers.
-    const hitTestResult = await view.hitTest(mapPoint);
+  /* @__PURE__ */ console.debug("ELC Response", {
+    inputParameters,
+    elcResponse,
+  });
 
-    /* @__PURE__ */ console.debug(callElc.name, { hitTestResult });
-
-    const { x, y, spatialReference } = mapPoint;
-    const { wkid } = spatialReference;
-    const { searchRadius } = options;
-    const inputParameters: IFindNearestRouteLocationParameters = {
-      coordinates: [x, y],
-      inSR: wkid,
-      outSR: wkid,
-      searchRadius,
-      referenceDate: new Date(),
-    };
-    const routeLocator = new RouteLocator();
-    const elcResponse = await routeLocator.findNearestRouteLocations(
-      inputParameters
-    );
-
-    /* @__PURE__ */ console.debug("ELC Response", {
-      inputParameters,
-      elcResponse,
+  // Show a popup and exit if no results were returned.
+  if (elcResponse.length < 1) {
+    const message = "No routes within search radius.";
+    /* @__PURE__ */ console.debug(message, elcResponse);
+    view.openPopup({
+      content: message,
+      location: mapPoint,
     });
-
-    // Show a popup and exit if no results were returned.
-    if (elcResponse.length < 1) {
-      const message = "No routes within search radius.";
-      /* @__PURE__ */ console.debug(message, elcResponse);
-      view.popup.open({
-        content: message,
-        location: mapPoint,
-      });
-      return;
-    }
-
-    const [routeLocation] = elcResponse;
-
-    // Show a popup and exit if the RouteGeometry is not a point.
-    if (!isPoint(routeLocation.RouteGeometry)) {
-      const message = "Unexpected output from ELC.";
-      /* @__PURE__ */ console.warn(message, elcResponse);
-      view.popup.open({
-        content: message,
-        location: mapPoint,
-      });
-      return;
-    }
-
-    const graphic = routeLocationToGraphic(routeLocation);
-    // Add location to the layer.
-    mpLayer.applyEdits({
-      addFeatures: [graphic],
-    });
+    return null;
   }
 
-  const mpLayer = createMilepostLayer(view.spatialReference);
-  view.map.add(mpLayer);
+  const [routeLocation] = elcResponse;
 
-  view.on("click", callElc);
+  // Show a popup and exit if the RouteGeometry is not a point.
+  if (!isPoint(routeLocation.RouteGeometry)) {
+    const message = "Unexpected output from ELC.";
+    /* @__PURE__ */ console.warn(message, elcResponse);
+    view.openPopup({
+      content: message,
+      location: mapPoint,
+    });
+    return null;
+  }
+
+  const graphic = await routeLocationToGraphic(routeLocation);
+  // Add location to the layer.
+  milepostLayer.applyEdits({
+    addFeatures: [graphic],
+  });
+
+  return graphic;
 }
