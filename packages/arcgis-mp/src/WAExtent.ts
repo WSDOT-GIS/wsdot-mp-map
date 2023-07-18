@@ -1,3 +1,4 @@
+import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 import Extent from "@arcgis/core/geometry/Extent";
 import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 
@@ -6,11 +7,11 @@ import SpatialReference from "@arcgis/core/geometry/SpatialReference";
  * @see {https://epsg.io/1416-area}
  */
 export const waExtent = new Extent({
-  xmin: -124.79,
-  ymin: 45.54,
-  xmax: -116.91,
-  ymax: 49.05,
-  spatialReference: SpatialReference.WGS84,
+  spatialReference: SpatialReference.WebMercator,
+  xmin: -13891559.256092377,
+  ymin: 5706937.852318744,
+  xmax: -13014361.668641392,
+  ymax: 6283349.610269844,
 });
 
 export default waExtent;
