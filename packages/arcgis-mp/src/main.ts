@@ -13,15 +13,8 @@ function setupConfiguration(arcgisConfig: __esri.config) {
 }
 
 (async () => {
-  const [SpatialReference, waExtent] = await Promise.all([
-    import("@arcgis/core/geometry/SpatialReference").then((i) => i.default),
-    import("./WAExtent").then((i) => i.waExtent),
-  ]);
-
-  // Setup configuration
-  (() => {
-    setupConfiguration(arcgisConfig);
-  })();
+  const { default: waExtent } = await import("./WAExtent");
+  setupConfiguration(arcgisConfig);
 
   import("@arcgis/core/Map").then(async ({ default: EsriMap }) => {
     const map = new EsriMap({
@@ -32,12 +25,12 @@ function setupConfiguration(arcgisConfig: __esri.config) {
       const view = new MapView({
         container: "viewDiv",
         map,
-        spatialReference: SpatialReference.WebMercator,
         constraints: {
           geometry: waExtent,
           minZoom: 7,
         },
         extent: waExtent,
+        popupEnabled: false,
       });
 
       view.popup.defaultPopupTemplateEnabled = true;
