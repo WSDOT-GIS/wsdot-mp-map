@@ -1,4 +1,12 @@
+import EsriMap from "@arcgis/core/Map";
 import arcgisConfig from "@arcgis/core/config";
+import MapView from "@arcgis/core/views/MapView";
+import ScaleBar from "@arcgis/core/widgets/ScaleBar";
+import { createMilepostLayer } from "./MilepostLayer";
+import { waExtent } from "./WAExtent";
+import { setupElc } from "./elc";
+import { setupWidgets } from "./widgets/expandGroups";
+import { setupSearch } from "./widgets/setupSearch";
 
 import("./index.css");
 
@@ -13,55 +21,42 @@ function setupConfiguration(arcgisConfig: __esri.config) {
   request.httpsDomains.push("wsdot.wa.gov");
 }
 
-(async () => {
-  const { default: waExtent } = await import("./WAExtent");
-  setupConfiguration(arcgisConfig);
+setupConfiguration(arcgisConfig);
 
-  import("@arcgis/core/Map").then(async ({ default: EsriMap }) => {
-    const map = new EsriMap({
-      basemap: "hybrid",
-    });
+const milepostLayer = createMilepostLayer(waExtent.spatialReference);
 
-    import("@arcgis/core/views/MapView").then(async ({ default: MapView }) => {
-      const view = new MapView({
-        container: "viewDiv",
-        map,
-        constraints: {
-          geometry: waExtent,
-          minZoom: 7,
-        },
-        extent: waExtent,
-        popupEnabled: false,
-      });
+const map = new EsriMap({
+  basemap: "hybrid",
+  layers: [milepostLayer],
+});
 
-      import("@arcgis/core/widgets/ScaleBar").then(({ default: ScaleBar }) => {
-        const sb = new ScaleBar({
-          unit: "dual",
-          view,
-        });
-        view.ui.add(sb, "bottom-leading");
-      });
+const view = new MapView({
+  container: "viewDiv",
+  map,
+  constraints: {
+    geometry: waExtent,
+    minZoom: 7,
+  },
+  extent: waExtent,
+  popupEnabled: false,
+});
 
-      view.popup.defaultPopupTemplateEnabled = true;
+const sb = new ScaleBar({
+  unit: "dual",
+  view,
+});
+view.ui.add(sb, "bottom-leading");
 
-      import("./widgets/setupSearch").then(({ setupSearch }) => {
-        setupSearch(view).then((search) => {
-          search.view.ui.add(search, {
-            index: 0,
-            position: "top-trailing",
-          });
-        });
-      });
+view.popup.defaultPopupTemplateEnabled = true;
 
-      import("./widgets/expandGroups").then(({ setupWidgets }) => {
-        setupWidgets(view, "top-trailing", {
-          group: "top-trailing",
-        });
-      });
+const search = setupSearch(view);
+search.view.ui.add(search, {
+  index: 0,
+  position: "top-trailing",
+});
 
-      import("./elc").then(({ setupElc }) => {
-        setupElc(view);
-      });
-    });
-  });
-})();
+setupWidgets(view, "top-trailing", {
+  group: "top-trailing",
+});
+
+setupElc(view);

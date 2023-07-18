@@ -1,9 +1,9 @@
 import type MapView from "@arcgis/core/views/MapView";
 import type SceneView from "@arcgis/core/views/SceneView";
 import type View from "@arcgis/core/views/View";
-import type BasemapGallery from "@arcgis/core/widgets/BasemapGallery";
-import type Expand from "@arcgis/core/widgets/Expand";
-import type LayerList from "@arcgis/core/widgets/LayerList";
+import BasemapGallery from "@arcgis/core/widgets/BasemapGallery";
+import Expand from "@arcgis/core/widgets/Expand";
+import LayerList from "@arcgis/core/widgets/LayerList";
 import type ListItem from "@arcgis/core/widgets/LayerList/ListItem";
 import type ListItemPanel from "@arcgis/core/widgets/LayerList/ListItemPanel";
 import type Widget from "@arcgis/core/widgets/Widget";
@@ -63,7 +63,7 @@ type ViewAddOptions = NonNullable<Parameters<typeof View.prototype.ui.add>[1]>;
  * @returns The array of {@link Expand} objects that were created to contain the {@link widgets}.
  * @throws - Throws a {@link TypeError} if {@link widgets} contains no elements or if no group was specified.
  */
-export async function setupExpandGroup(
+export function setupExpandGroup(
   view: View,
   viewAddOptions: ViewAddOptions,
   expandOptions?: ExpandProperties,
@@ -81,9 +81,6 @@ export async function setupExpandGroup(
     if (widgets.length < 1) {
       throw new TypeError("No widgets were specified.");
     }
-
-    // Import the Expand module.
-    const Expand = (await import("@arcgis/core/widgets/Expand")).default;
 
     // Create expand options if not already specified.
     if (!expandOptions) {
@@ -167,36 +164,9 @@ const setupLayerListItems: __esri.LayerListListItemCreatedHandler = (event) => {
   } as ListItemPanel;
 };
 
-type LayerListOptions = NonNullable<ConstructorParameters<typeof LayerList>[0]>;
-
-async function setupLayerList(
-  properties: LayerListOptions & Required<Pick<LayerListOptions, "view">>
-) {
-  const LayerList = (await import("@arcgis/core/widgets/LayerList")).default;
-
-  properties.listItemCreatedFunction = setupLayerListItems;
-  properties.visibleElements = {
-    errors: true,
-    statusIndicators: true,
-  };
-
-  const layerList = new LayerList(properties);
-  return layerList;
-}
-
-async function setupBasemapGallery(
-  ...[properties]: ConstructorParameters<typeof BasemapGallery>
-) {
-  const BasemapGallery = (await import("@arcgis/core/widgets/BasemapGallery"))
-    .default;
-
-  const gallery = new BasemapGallery(properties);
-  return gallery;
-}
-
 type ExpandGroupSetupParams = Parameters<typeof setupExpandGroup>;
 
-export async function setupWidgets(
+export function setupWidgets(
   view: MapView | SceneView,
   viewAddOptions: ExpandGroupSetupParams[1],
   expandOptions: ExpandGroupSetupParams[2]
@@ -208,19 +178,23 @@ export async function setupWidgets(
     expandOptions,
   });
   try {
-    const [gallery, layerList] = await Promise.all([
-      setupBasemapGallery({
-        view,
-        source: {
-          portal: {
-            url: "https://wsdot.maps.arcgis.com",
-          },
+    const gallery = new BasemapGallery({
+      view,
+      source: {
+        portal: {
+          url: "https://wsdot.maps.arcgis.com",
         },
-      }),
-      setupLayerList({
-        view,
-      }),
-    ]);
+      },
+    });
+
+    const layerList = new LayerList({
+      view,
+      listItemCreatedFunction: setupLayerListItems,
+      visibleElements: {
+        errors: true,
+        statusIndicators: true,
+      },
+    });
 
     setupExpandGroup(view, viewAddOptions, expandOptions, gallery, layerList);
   } finally {

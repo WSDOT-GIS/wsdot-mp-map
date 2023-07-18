@@ -1,15 +1,9 @@
 import type MapView from "@arcgis/core/views/MapView";
 import type SceneView from "@arcgis/core/views/SceneView";
+import Search from "@arcgis/core/widgets/Search";
+import LocatorSearchSource from "@arcgis/core/widgets/Search/LocatorSearchSource";
 
-async function getSearchSources() {
-  const LocatorSearchSourceImportPromise = import(
-    "@arcgis/core/widgets/Search/LocatorSearchSource"
-  );
-
-  const [LocatorSearchSource] = await Promise.all([
-    LocatorSearchSourceImportPromise,
-  ]).then((imports) => imports.map((i) => i.default));
-
+function getSearchSources() {
   const waLocationSearchSource = new LocatorSearchSource({
     // Use the WSDOT Customized view of the Geocoder
     url: "https://utility.arcgis.com/usrsvcs/servers/a86fa8aeabdd470792022a8ef959afb6/rest/services/World/GeocodeServer",
@@ -34,15 +28,11 @@ async function getSearchSources() {
  * Dynamically imports the "Search" widget module and creates a Search widget.
  * @returns A Search widget.
  */
-export async function setupSearch(view: MapView | SceneView) {
-  const Search = await import("@arcgis/core/widgets/Search").then(
-    (i) => i.default
-  );
-
+export function setupSearch(view: MapView | SceneView) {
   const search = new Search({
     view,
     includeDefaultSources: false,
-    sources: await getSearchSources(),
+    sources: getSearchSources(),
   });
   return search;
 }
