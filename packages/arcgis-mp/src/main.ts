@@ -5,6 +5,7 @@ Promise.all([
   import("@arcgis/core/config").then((i) => i.default),
   import("@arcgis/core/views/MapView").then((i) => i.default),
   import("@arcgis/core/widgets/ScaleBar").then((i) => i.default),
+  import("@arcgis/core/widgets/Home").then((i) => i.default),
   import("./MilepostLayer").then((i) => i.createMilepostLayer),
   import("./WAExtent").then((i) => i.waExtent),
   import("./elc").then((i) => i.callElc),
@@ -14,9 +15,10 @@ Promise.all([
 ]).then(
   ([
     EsriMap,
-    arcgisConfig,
+    config,
     MapView,
     ScaleBar,
+    Home,
     createMilepostLayer,
     waExtent,
     callElc,
@@ -24,21 +26,17 @@ Promise.all([
     setupSearch,
     isGraphicHit,
   ]) => {
-    function setupConfiguration(config: typeof arcgisConfig) {
-      config.applicationName = "WSDOT Mileposts";
-      config.log.level = import.meta.env.DEV ? "info" : "error";
-      const { request } = config;
-      // This app only uses publicly available map services,
-      // so we don't need to use identity.
-      request.useIdentity = false;
-      // Initialize httpDomains array if it does not already have a value.
-      if (!request.httpsDomains) {
-        request.httpsDomains = [];
-      }
-      request.httpsDomains.push("wsdot.wa.gov", "data.wsdot.wa.gov");
+    config.applicationName = "WSDOT Mileposts";
+    config.log.level = import.meta.env.DEV ? "info" : "error";
+    const { request } = config;
+    // This app only uses publicly available map services,
+    // so we don't need to use identity.
+    request.useIdentity = false;
+    // Initialize httpDomains array if it does not already have a value.
+    if (!request.httpsDomains) {
+      request.httpsDomains = [];
     }
-
-    setupConfiguration(arcgisConfig);
+    request.httpsDomains.push("wsdot.wa.gov", "data.wsdot.wa.gov");
 
     const milepostLayer = createMilepostLayer(waExtent.spatialReference);
 
@@ -75,6 +73,12 @@ Promise.all([
     setupWidgets(view, "top-trailing", {
       group: "top-trailing",
     });
+
+    const home = new Home({
+      view,
+    });
+
+    view.ui.add(home, "top-trailing");
 
     const defaultSearchRadius = 3000;
     view.on("click", async (event) => {
