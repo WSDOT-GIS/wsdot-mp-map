@@ -14,4 +14,6 @@ parserOptions:
 ignorePatterns: ["*.js"]
 plugins:
   - "@typescript-eslint"
-rules: {}
+rules:
+  require-await: error
+  no-return-await: warn

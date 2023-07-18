@@ -40,9 +40,9 @@ import { createMilepostPopup } from "./MilepostPopup";
 // https://developer.mozilla.org/en-US/docs/Web/API/User-Agent_Client_Hints_API
 
 if (Browser.mobile) {
-  console.debug("Mobile browser detected.");
+  /* @__PURE__ */ console.debug("Mobile browser detected.");
 } else {
-  console.debug("This does not appear to be a mobile browser.");
+  /* @__PURE__ */ console.debug("This does not appear to be a mobile browser.");
 }
 
 /**
@@ -61,7 +61,7 @@ function createMilepostMarker(routeLocation: PointRouteLocation) {
 
   const mpIcon = createMilepostIcon(routeLocation);
 
-  console.debug("Milepost icon", mpIcon);
+  /* @__PURE__ */ console.debug("Milepost icon", mpIcon);
 
   const latLng = routeLocation.leafletLatLngLiteral;
 
@@ -93,25 +93,20 @@ layersControl.addTo(theMap);
 ["ArcGIS:Imagery"].map((name) => {
   const bm = vectorBasemapLayer(name, {
     apiKey,
-    style: (s: any) => {
-      console.log(s);
-      return s
-    }
   });
   const re = /(?<=ArcGIS:).+/i;
   const match = name.match(re);
   const label = match ? match[0] : name;
   layersControl.addBaseLayer(bm, label);
   return bm;
-})
-
+});
 
 // Customize the map's attribution control.
 customizeAttribution(theMap);
 
 // Set up the event handling for when the user clicks on the map.
 theMap.on("click", async (e: LeafletMouseEvent) => {
-  console.debug(`user clicked on ${e.latlng}`, e);
+  /* @__PURE__ */ console.debug(`user clicked on ${e.latlng}`, e);
   // Extract the coordinates from the event object.
   const { latlng } = e;
 
@@ -145,7 +140,7 @@ theMap.on("click", async (e: LeafletMouseEvent) => {
   } else if (results && results.length) {
     for (const result of results) {
       // Query for county, etc. using https://data.wsdot.wa.gov/arcgis/rest/services/DataLibrary/DataLibrary/MapServer/identify
-      console.debug("elcResult", result);
+      /* @__PURE__ */ console.debug("elcResult", result);
       const marker = createMilepostMarker(result);
       marker.addTo(theMap);
     }
@@ -162,7 +157,7 @@ mpControl.mpForm.addEventListener(
   srmpSubmitEventName,
   async (e) => {
     const { route, mp } = (e as CustomEvent<SrmpSubmitEventData>).detail;
-    console.debug("User input", { route, mp });
+    /* @__PURE__ */ console.debug("User input", { route, mp });
 
     const results = await callElcMPToPoint(route, mp);
 

@@ -3,7 +3,7 @@ import type {
   // with JavaScript's built-in Map class.
   Map as LeafletMap,
 } from "leaflet";
-import { createGithubLink } from "./Github-Link";
+import { createGithubLink } from "wsdot-mp-common";
 
 const wsdotLogoAttributionClass = "leaflet-control-attribution__wsdot-logo";
 
@@ -12,7 +12,7 @@ const wsdotLogoAttributionClass = "leaflet-control-attribution__wsdot-logo";
  * @param classes - CSS classes to add to the img's classList.
  * @returns An img element inside an a element.
  */
-function createWsdotLogoImgLink(theDom: Document,...classes: string[]) {
+function createWsdotLogoImgLink(theDom: Document, ...classes: string[]) {
   const a = document.createElement("a");
   a.href = "https://wsdot.wa.gov/";
   a.target = "_blank";
@@ -32,9 +32,12 @@ function createWsdotLogoImgLink(theDom: Document,...classes: string[]) {
 export function customizeAttribution(map: LeafletMap) {
   const { prefix } = map.attributionControl.options;
   if (typeof prefix !== "string") {
-    console.error("Could not find prefix content in map attribution control.", {
-      map,
-    });
+    /* @__PURE__ */ console.error(
+      "Could not find prefix content in map attribution control.",
+      {
+        map,
+      }
+    );
     return;
   }
 
@@ -48,11 +51,14 @@ export function customizeAttribution(map: LeafletMap) {
 
   // Add WSDOT link and separator
 
-  const wsdotLogoAnchor = createWsdotLogoImgLink(theDom, wsdotLogoAttributionClass);
+  const wsdotLogoAnchor = createWsdotLogoImgLink(
+    theDom,
+    wsdotLogoAttributionClass
+  );
   const separator = createSeparator();
-  
+
   // Add source link
-  
+
   const githubLink = createGithubLink();
 
   /* TODO: fix scale, viewbox
@@ -63,7 +69,15 @@ export function customizeAttribution(map: LeafletMap) {
   </svg>
   */
 
-  theDom.body.prepend(wsdotLogoAnchor, " ", separator, " ", githubLink, " ", separator.cloneNode(true));
+  theDom.body.prepend(
+    wsdotLogoAnchor,
+    " ",
+    separator,
+    " ",
+    githubLink,
+    " ",
+    separator.cloneNode(true)
+  );
   map.attributionControl.setPrefix(theDom.body.innerHTML);
 
   return map;

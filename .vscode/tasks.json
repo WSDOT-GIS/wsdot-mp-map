@@ -3,13 +3,13 @@
   "tasks": [
     {
       "label": "build",
-      "detail": "tsc && vite build",
+      "detail": "Production build",
       "icon": {
         "id": "package",
         "color": "terminal.ansiGreen"
       },
-      "type": "npm",
-      "script": "build",
+      "type": "shell",
+      "command": "npm run build -w wsdot-mp-common -w arcgis-mp",
       "group": {
         "kind": "build",
         "isDefault": true
@@ -20,6 +20,7 @@
     },
     {
       "label": "vite dev",
+      "path": "packages/arcgis-mp",
       "detail": "vite",
       "icon": {
         "id": "tools",

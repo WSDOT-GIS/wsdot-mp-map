@@ -3,9 +3,14 @@ Avenir
 brotli
 divs
 EPSG
+fontnik
 Geoportal
 geouri
 latlng
 SRMP
 Vite
 wkid
+xmin
+xmax
+ymin
+ymax

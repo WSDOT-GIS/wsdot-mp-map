@@ -1,57 +1,28 @@
 {
-  "name": "wsdot-mp-map",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite --cors --open",
-    "build": "tsc && vite build",
-    "prepare": "npm run build",
-    "preview": "npm run build && vite preview",
-    "lint": "eslint . --fix",
-    "prettier": "prettier . --write",
-    "gh-pages-publish": "npm run build && node tools/publish.mjs",
-    "test": "vitest run",
-    "test-watch": "vitest",
-    "coverage": "vitest run --coverage",
-    "coverage-watch": "vitest --coverage"
-  },
-  "devDependencies": {
-    "@fontsource/overpass": "^5.0.5",
-    "@types/arcgis-rest-api": "^10.4.5",
-    "@types/esri-leaflet": "^2.1.9",
-    "@types/gh-pages": "^3.2.1",
-    "@types/leaflet": "^1.9.3",
-    "@typescript-eslint/eslint-plugin": "^6.0.0",
-    "@typescript-eslint/parser": "^6.0.0",
-    "@vitest/coverage-c8": "^0.33.0",
-    "eslint": "^8.44.0",
-    "eslint-config-prettier": "^8.8.0",
-    "esri-leaflet": "^3.0.10",
-    "esri-leaflet-vector": "^4.1.0",
-    "gh-pages": "^5.0.0",
-    "leaflet": "^1.9.4",
-    "prettier": "^3.0.0",
-    "simple-icons": "^9.5.0",
-    "typescript": "^5.1.6",
-    "vite": "^4.4.3",
-    "vitest": "^0.33.0",
-    "wsdot-elc": "^4.0.0-0",
-    "wsdot-route-utils": "^3.0.0"
-  },
-  "description": "Simple map for locating milepost data on WSDOT routes",
-  "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/WSDOT-GIS/wsdot-mp-map.git"
-  },
-  "author": "Jeff Jacobson",
-  "license": "Unlicense",
-  "bugs": {
-    "url": "https://github.com/WSDOT-GIS/wsdot-mp-map/issues"
-  },
-  "homepage": "https://wsdot-gis.github.io/wsdot-mp-map",
-  "dependencies": {
-    "@esri/arcgis-rest-request": "^4.2.0"
-  }
+    "private": true,
+    "scripts": {
+        "test": "vitest run"
+    },
+    "workspaces": [
+        "packages/common",
+        "packages/leaflet-app",
+        "packages/arcgis-mp"
+    ],
+    "devDependencies": {
+        "@esri/arcgis-rest-request": "^4.2.0",
+        "@fontsource/overpass": "^5.0.4",
+        "@typescript-eslint/eslint-plugin": "^5.60.1",
+        "@typescript-eslint/parser": "^5.60.1",
+        "@vitest/browser": "^0.32.4",
+        "@vitest/coverage-c8": "^0.33.0",
+        "eslint": "^8.43.0",
+        "eslint-config-prettier": "^8.8.0",
+        "prettier": "^2.8.8",
+        "typescript": "^5.1.3",
+        "vite": "^4.3.9",
+        "vitest": "^0.32.2",
+        "webdriverio": "^8.11.2",
+        "wsdot-elc": "^4.0.0-0",
+        "wsdot-route-utils": "^3.0.0"
+    }
 }

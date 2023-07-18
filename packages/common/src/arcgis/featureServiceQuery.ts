@@ -18,7 +18,9 @@ const layerDefs = JSON.stringify(layerDefObject);
 
 export type FieldAliasMap = Map<string, string>;
 
-const aliasMap = Array.isArray(aliasArrays) ? new Map(aliasArrays as [string, string][]) : undefined;
+const aliasMap = Array.isArray(aliasArrays)
+  ? new Map(aliasArrays as [string, string][])
+  : undefined;
 
 /**
  * Query a feature service for features that intersect with
@@ -45,7 +47,7 @@ export async function query(
       f: "json",
     },
   };
-  console.debug("query params", queryParams);
+  /* @__PURE__ */ console.debug("query params", queryParams);
   const response = (await request(
     queryUrl.toString(),
     queryParams
@@ -54,13 +56,12 @@ export async function query(
   return response;
 }
 
-
 /**
  * Enumerates all of the fields and returns field name and alias
  * pairs. The output can be used to construct a Map.
  * @param layer - An element of the query response "layers" array.
  * @param aliasOverrides - If the feature service's aliases are not to your liking,
- * you can override them with this mapping, with your desired aliases mapped to 
+ * you can override them with this mapping, with your desired aliases mapped to
  * the corresponding field names.
  * @yields Two-element arrays containing fields' name and alias,
  * respectively. If there is no alias then both elements in the
@@ -68,7 +69,10 @@ export async function query(
  * @example
  * const aliasMap = new Map(enumerateFieldAliases(layer));
  */
-function* enumerateFieldAliases(layer: QueryResponseLayer, aliasOverrides?: FieldAliasMap) {
+function* enumerateFieldAliases(
+  layer: QueryResponseLayer,
+  aliasOverrides?: FieldAliasMap
+) {
   if (layer.fields) {
     for (const field of layer.fields) {
       const { name } = field;
