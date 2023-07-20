@@ -75,9 +75,12 @@ function* enumerateFieldAliases(
 ) {
   if (layer.fields) {
     for (const field of layer.fields) {
+      /* eslint-disable @typescript-eslint/no-unsafe-assignment */
       const { name } = field;
       let { alias } = field;
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       alias = aliasOverrides?.get(name) ?? name;
+      /* eslint-enable @typescript-eslint/no-unsafe-assignment */
       yield [name, alias] as [string, string];
     }
   }

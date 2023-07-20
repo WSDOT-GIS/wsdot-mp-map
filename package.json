@@ -8,8 +8,10 @@
         "packages/arcgis-mp"
     ],
     "devDependencies": {
+        "@eslint/js": "^8.45.0",
         "@esri/arcgis-rest-request": "^4.2.0",
         "@fontsource/overpass": "^5.0.5",
+        "@types/leaflet": "^1.9.3",
         "@typescript-eslint/eslint-plugin": "^6.1.0",
         "@typescript-eslint/parser": "^6.1.0",
         "@vitest/browser": "^0.33.0",

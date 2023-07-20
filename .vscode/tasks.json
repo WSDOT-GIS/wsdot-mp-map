@@ -86,6 +86,14 @@
       "type": "npm",
       "script": "gh-pages-publish",
       "problemMatcher": []
+    },
+    {
+      "label": "Lint",
+      "type": "shell",
+      "command": "npm run lint --if-present --ws",
+      "problemMatcher": [
+        "$eslint-stylish"
+      ]
     }
   ]
 }

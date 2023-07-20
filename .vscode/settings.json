@@ -8,5 +8,13 @@
   "files.readonlyFromPermissions": true,
   "files.readonlyInclude": {
     "**/dist/**/*.*": true
-  }
+  },
+  "json.schemas": [
+    {
+      "fileMatch": [
+        "packages/common/tests/eslint.tsconfig.json"
+      ],
+      "url": "https://json.schemastore.org/tsconfig.json"
+    }
+  ]
 }

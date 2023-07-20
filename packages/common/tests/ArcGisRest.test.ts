@@ -7,7 +7,7 @@ import {
 
 test(
   "feature service query",
-  async (context) => {
+  async (_context) => {
     const xy: [number, number] = [-122.26103567468529, 47.463442298954895];
     const response = await query(xy);
 
@@ -22,7 +22,7 @@ test(
         throw e;
       }
     }
-    for (const [key, value] of attributes) {
+    for (const [key, _value] of attributes) {
       expect(key).toBeTypeOf("string");
     }
   },
