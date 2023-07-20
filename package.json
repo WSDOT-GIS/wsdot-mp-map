@@ -5,6 +5,7 @@
     },
     "workspaces": [
         "packages/common",
+        "packages/leaflet-app",
         "packages/arcgis-mp"
     ],
     "devDependencies": {
