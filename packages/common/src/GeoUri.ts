@@ -1,5 +1,3 @@
-import type { LatLngTuple } from "leaflet";
-
 export type UncertaintyName = "u" | "U";
 export type CrsName = "crs" | "CRS";
 export const enum CrsLabel {
@@ -126,7 +124,7 @@ export class GeoUrl extends URL {
     return super.toString() as GeoUriString;
   }
 
-  public get latLngTuple(): LatLngTuple {
+  public get latLngTuple(): [x: number, y: number] {
     return [this.y, this.x];
   }
 

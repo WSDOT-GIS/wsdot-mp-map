@@ -2,7 +2,12 @@
  * @see https://developers.arcgis.com/rest/services-reference/enterprise/identify-map-service-.htm
  */
 
-import type { Point, Geometry, esriGeometryType, Position2D } from "arcgis-rest-api";
+import type {
+  Point,
+  Geometry,
+  esriGeometryType,
+  Position2D,
+} from "arcgis-rest-api";
 
 import { request } from "@esri/arcgis-rest-request";
 
@@ -151,10 +156,9 @@ export async function identify(
     url = url.toString();
   }
 
-  const response: IdentifyResponse = await request(url, {
+  const response = (await request(url, {
     params: idParams,
-  });
-
+  })) as Promise<IdentifyResponse>;
 
   return response;
 }

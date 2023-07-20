@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "./dist/index.js",
+  "type": "module",
   "files": [
     "./dist/*.js",
     "./dist/*.d.ts"
@@ -13,7 +14,8 @@
   "devDependencies": {},
   "scripts": {
     "build": "tsc",
-    "watch": "tsc --watch"
+    "watch": "tsc --watch",
+    "lint": "eslint ."
   },
   "author": "Jeff Jacobson",
   "license": "Unlicense"
