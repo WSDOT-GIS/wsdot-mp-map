@@ -6,11 +6,13 @@ EPSG
 fontnik
 Geoportal
 geouri
+GNIS
 latlng
 SRMP
 Vite
 wkid
-xmin
+WRIA
 xmax
-ymin
+xmin
 ymax
+ymin

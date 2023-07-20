@@ -75,9 +75,12 @@ function* enumerateFieldAliases(
 ) {
   if (layer.fields) {
     for (const field of layer.fields) {
+      /* eslint-disable @typescript-eslint/no-unsafe-assignment */
       const { name } = field;
       let { alias } = field;
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       alias = aliasOverrides?.get(name) ?? name;
+      /* eslint-enable @typescript-eslint/no-unsafe-assignment */
       yield [name, alias] as [string, string];
     }
   }
@@ -133,7 +136,7 @@ export function* enumerateQueryResponseAttributes(
       const aliasMap = new Map<string, string>([
         ...enumerateFieldAliases(layer, aliasOverrides),
       ]);
-      for (const name in feature.attributes as Record<string, AttributeValue>) {
+      for (const name in feature.attributes) {
         if (Object.prototype.hasOwnProperty.call(feature.attributes, name)) {
           // Skip unwanted fields.
           if (fieldsToOmitRegex && fieldsToOmitRegex.test(name)) {

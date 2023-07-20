@@ -1,4 +1,9 @@
-import type { esriGeometryType, Feature, Field, SpatialReference } from "arcgis-rest-api";
+import type {
+  esriGeometryType,
+  Feature,
+  Field,
+  SpatialReference,
+} from "arcgis-rest-api";
 
 export type AttributeValue = string | number | boolean | null;
 
@@ -16,16 +21,20 @@ export class LayerDef<W extends string, F extends string> {
   ) {}
 }
 
+interface StricterFeature extends Feature {
+  attributes: Record<string, unknown>;
+}
+
 export interface QueryResponseLayer {
-    id: number;
-    objectIdFieldName?: string;
-    globalIdFieldName?: string;
-    geometryType?: esriGeometryType;
-    spatialReference?: SpatialReference;
-    fields?: Field[];
-    features: Feature[]
+  id: number;
+  objectIdFieldName?: string;
+  globalIdFieldName?: string;
+  geometryType?: esriGeometryType;
+  spatialReference?: SpatialReference;
+  fields?: Field[];
+  features: StricterFeature[];
 }
 
 export interface FeatureServiceQueryResponse {
-    layers: QueryResponseLayer[];
+  layers: QueryResponseLayer[];
 }

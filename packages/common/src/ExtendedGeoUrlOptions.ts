@@ -12,6 +12,7 @@ export type CoordinateReferenceSystem = CrsLabel | `${Authority}:${number}`;
 export const crsRe = /^(?<authority>\w{4}):(?<wkid>\d+)$/i;
 
 export function isCrs(input: string): input is CoordinateReferenceSystem {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
   return !!input && (input === CrsLabel.wgs84 || crsRe.test(input));
 }
 

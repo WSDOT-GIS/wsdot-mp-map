@@ -1,4 +1,5 @@
 version: "0.2"
+useGitignore: true
 ignorePaths: []
 allowCompoundWords: true
 dictionaryDefinitions:
