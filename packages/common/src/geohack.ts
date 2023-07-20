@@ -1,8 +1,8 @@
 /**
  * Used for working with [GeoHack](https://www.mediawiki.org/wiki/GeoHack) URLs.
-*/
+ */
 
-import type { LatLngExpression, LatLngTuple } from "leaflet";
+import type { LatLngExpression, LatLngTuple } from "./types";
 
 /**
  * Detects if the input value is a {@link LatLngTuple}.

@@ -136,7 +136,7 @@ export function* enumerateQueryResponseAttributes(
       const aliasMap = new Map<string, string>([
         ...enumerateFieldAliases(layer, aliasOverrides),
       ]);
-      for (const name in feature.attributes as Record<string, AttributeValue>) {
+      for (const name in feature.attributes) {
         if (Object.prototype.hasOwnProperty.call(feature.attributes, name)) {
           // Skip unwanted fields.
           if (fieldsToOmitRegex && fieldsToOmitRegex.test(name)) {
