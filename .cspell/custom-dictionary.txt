@@ -8,6 +8,7 @@ Geoportal
 geouri
 GNIS
 latlng
+nojekyll
 SRMP
 Vite
 wkid

@@ -1,11 +1,12 @@
 {
     "private": true,
     "scripts": {
-        "test": "vitest run"
+        "test": "vitest run",
+        "prepublish": "npm run build --ws --if-present",
+        "publish": "npm run publish -w arcgis-mp"
     },
     "workspaces": [
         "packages/common",
-        "packages/leaflet-app",
         "packages/arcgis-mp"
     ],
     "devDependencies": {
