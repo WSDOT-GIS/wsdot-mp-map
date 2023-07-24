@@ -86,7 +86,7 @@ async function routeLocationToGraphic(
   for (const key in result) {
     if (Object.prototype.hasOwnProperty.call(result, key)) {
       const value = result[key];
-      graphic.attributes[key] = value;
+      (graphic.attributes as AttributesObject)[key] = value;
     }
   }
 
@@ -109,7 +109,8 @@ async function queryDataLibrary(graphic: Graphic) {
       'Graphic\'s "attributes" property is null but is expected to be an object.'
     );
   }
-  const output: AttributesObject = graphic.attributes ?? {};
+  const output: AttributesObject =
+    (graphic.attributes as AttributesObject) || {};
   for (const [key, value] of enumerateQueryResponseAttributes(queryResponse)) {
     output[key] = value;
   }
@@ -131,7 +132,10 @@ function isPoint(
     return false;
   }
   for (const name of ["x", "y"]) {
-    if (!Object.hasOwn(geometry, name) || typeof geometry[name] !== "number") {
+    if (
+      !Object.hasOwn(geometry as Record<string, unknown>, name) ||
+      typeof (geometry as Record<string, unknown>)[name] !== "number"
+    ) {
       return false;
     }
   }
@@ -177,10 +181,12 @@ export async function callElc(
   if (elcResponse.length < 1) {
     const message = "No routes within search radius.";
     /* @__PURE__ */ console.debug(message, elcResponse);
-    view.openPopup({
-      content: message,
-      location: mapPoint,
-    });
+    view
+      .openPopup({
+        content: message,
+        location: mapPoint,
+      })
+      .catch((reason) => console.error(reason));
     return null;
   }
 
@@ -190,18 +196,22 @@ export async function callElc(
   if (!isPoint(routeLocation.RouteGeometry)) {
     const message = "Unexpected output from ELC.";
     /* @__PURE__ */ console.warn(message, elcResponse);
-    view.openPopup({
-      content: message,
-      location: mapPoint,
-    });
+    view
+      .openPopup({
+        content: message,
+        location: mapPoint,
+      })
+      .catch((reason) => console.error(reason));
     return null;
   }
 
   const graphic = await routeLocationToGraphic(routeLocation);
   // Add location to the layer.
-  milepostLayer.applyEdits({
-    addFeatures: [graphic],
-  });
+  milepostLayer
+    .applyEdits({
+      addFeatures: [graphic],
+    })
+    .catch((reason) => console.error(reason));
 
   return graphic;
 }

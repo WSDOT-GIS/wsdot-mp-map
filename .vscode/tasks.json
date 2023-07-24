@@ -89,10 +89,16 @@
     },
     {
       "label": "Lint",
+      "detail": "Lints all workspaces",
       "type": "shell",
+      "icon": {
+        "id": "checklist",
+        "color": "terminal.ansiYellow"
+      },
       "command": "npm run lint --if-present --ws",
       "problemMatcher": [
-        "$eslint-stylish"
+        "$eslint-stylish",
+        "$eslint-compact"
       ]
     },
     {
