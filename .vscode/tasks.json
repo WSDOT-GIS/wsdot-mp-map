@@ -84,7 +84,7 @@
         "color": "terminal.ansiRed"
       },
       "type": "npm",
-      "script": "gh-pages-publish",
+      "script": "publish",
       "problemMatcher": []
     },
     {

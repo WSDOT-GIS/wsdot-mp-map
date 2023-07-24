@@ -1,5 +1,5 @@
 [serve]
-	directory=packages/arcgis-mp/dist
+	directory=packages/leaflet-app/dist
 	open-browser
 	gzip
 	brotli

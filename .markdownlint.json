@@ -1,0 +1,11 @@
+{
+    "no-inline-html": {
+        "allowed_elements": [
+            "abbrev"
+        ]
+    },
+    "line-length": false,
+    "ol-prefix": {
+        "style": "ordered"
+    }
+}
