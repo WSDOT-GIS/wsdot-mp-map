@@ -12,11 +12,13 @@
     "lint": "npm run eslint",
     "eslint": "eslint .",
     "eslint:fix": "npm run eslint . -- --fix",
-    "prettier": "prettier ."
+    "prettier": "prettier .",
+    "publish": "node tools/publish.mjs"
   },
   "devDependencies": {
     "@arcgis/core": "^4.27.6",
-    "wsdot-elc": "^4.0.0-0"
+    "wsdot-elc": "^4.0.0-0",
+    "wsdot-mp-common": "^1.0.0"
   },
   "repository": {
     "url": "https://github.com/WSDOT-GIS/wsdot-mp-map.git",
