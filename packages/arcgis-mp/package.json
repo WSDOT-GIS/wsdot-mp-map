@@ -9,9 +9,6 @@
     "build": "tsc && vite build",
     "watch": "vite build -- --watch",
     "preview": "vite preview",
-    "lint": "npm run eslint",
-    "eslint": "eslint .",
-    "eslint:fix": "npm run eslint . -- --fix",
     "prettier": "prettier .",
     "publish": "node tools/publish.mjs"
   },

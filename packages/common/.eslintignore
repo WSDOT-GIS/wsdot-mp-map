@@ -1,4 +1,0 @@
-**/*.cjs
-**/tests/**/*
-**/dist/**/*
-.eslintrc.cjs
