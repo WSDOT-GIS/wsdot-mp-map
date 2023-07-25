@@ -1,7 +1,0 @@
-{
-    "extends": "./tsconfig.json",
-    "exclude": [
-        "**/*.cjs",
-        "vite.config.*"
-    ]
-}

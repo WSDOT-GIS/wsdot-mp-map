@@ -10,11 +10,16 @@ module.exports = {
     "plugin:@typescript-eslint/recommended-type-checked",
     "prettier",
   ],
-  plugins: ["@typescript-eslint"],
+  ignorePatterns: ["*.cjs", "*.js", "*.d.ts", "vite.config.ts", "*.test.ts"],
   parser: "@typescript-eslint/parser",
   parserOptions: {
-    project: "./eslint.tsconfig.json",
     tsconfigRootDir: __dirname,
+    project: ["./packages/*/tsconfig.json"],
   },
+  plugins: ["@typescript-eslint"],
   root: true,
+  rules: {
+    "require-await": "error",
+    "no-return-await": "warn",
+  },
 };

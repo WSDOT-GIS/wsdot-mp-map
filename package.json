@@ -3,7 +3,8 @@
     "scripts": {
         "test": "vitest run",
         "prepublish": "npm run build --ws --if-present",
-        "publish": "npm run publish -w arcgis-mp"
+        "publish": "npm run publish -w arcgis-mp",
+        "lint": "eslint . --fix"
     },
     "workspaces": [
         "packages/common",
@@ -14,17 +15,17 @@
         "@esri/arcgis-rest-request": "^4.2.0",
         "@fontsource/overpass": "^5.0.5",
         "@types/arcgis-rest-api": "^10.4.5",
-        "@typescript-eslint/eslint-plugin": "^6.1.0",
-        "@typescript-eslint/parser": "^6.1.0",
+        "@typescript-eslint/eslint-plugin": "^6.2.0",
+        "@typescript-eslint/parser": "^6.2.0",
         "@vitest/browser": "^0.33.0",
         "@vitest/coverage-c8": "^0.33.0",
         "eslint": "^8.45.0",
         "eslint-config-prettier": "^8.8.0",
         "prettier": "^3.0.0",
         "typescript": "^5.1.6",
-        "vite": "^4.4.4",
+        "vite": "^4.4.7",
         "vitest": "^0.33.0",
-        "webdriverio": "^8.13.4",
+        "webdriverio": "^8.13.12",
         "wsdot-elc": "^4.0.0-0",
         "wsdot-route-utils": "^3.0.0"
     }

@@ -14,8 +14,7 @@
   "devDependencies": {},
   "scripts": {
     "build": "tsc",
-    "watch": "tsc --watch",
-    "lint": "eslint ."
+    "watch": "tsc --watch"
   },
   "author": "Jeff Jacobson",
   "license": "Unlicense"
