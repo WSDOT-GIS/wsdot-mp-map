@@ -4,7 +4,8 @@
         "test": "vitest run",
         "prepublish": "npm run build --ws --if-present",
         "publish": "npm run publish -w arcgis-mp",
-        "lint": "eslint . --fix"
+        "lint": "eslint . --fix",
+        "spell": "cspell ."
     },
     "workspaces": [
         "packages/common",
@@ -19,6 +20,7 @@
         "@typescript-eslint/parser": "^6.2.0",
         "@vitest/browser": "^0.33.0",
         "@vitest/coverage-c8": "^0.33.0",
+        "cspell": "^6.31.2",
         "eslint": "^8.45.0",
         "eslint-config-prettier": "^8.8.0",
         "prettier": "^3.0.0",

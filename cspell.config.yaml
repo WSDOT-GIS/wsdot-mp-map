@@ -1,17 +1,30 @@
 version: "0.2"
 useGitignore: true
-ignorePaths: 
-- "tsconfig.json"
+ignorePaths: []
 allowCompoundWords: true
+features:
+  weighted-suggestions: true
+failFast: true
+validateDirectives: true
+cache:
+  cacheFormat: universal
+  cacheStrategy: metadata
+  useCache: true
 dictionaryDefinitions:
   - name: custom-dictionary
     path: ./.cspell/custom-dictionary.txt
     addWords: true
+  - name: geourl-dictionary
+    path: ./.cspell/geouri-dictionary.txt
+    noSuggest: true
+  - name: tsconfig-dictionary
+    path: ./.cspell/tsconfig-dictionary.txt
 dictionaries:
   - custom-dictionary
-words: []
+  - geourl-dictionary
+  - tsconfig-dictionary
 ignoreWords:
   - JURLBL
   - LDNM
-  - daltonic
 import: []
+words: []

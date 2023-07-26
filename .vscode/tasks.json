@@ -118,6 +118,13 @@
       "problemMatcher": [],
       "label": "npm: test",
       "detail": "vitest run"
+    },
+    {
+      "type": "npm",
+      "script": "spell",
+      "problemMatcher": [],
+      "label": "npm: spell",
+      "detail": "cspell ."
     }
   ]
 }

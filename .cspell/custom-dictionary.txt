@@ -1,4 +1,5 @@
 # Custom Dictionary Words
+ArcGIS
 Avenir
 brotli
 divs
@@ -13,6 +14,7 @@ SRMP
 Vite
 wkid
 WRIA
+WSDOT
 xmax
 xmin
 ymax
