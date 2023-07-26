@@ -1,7 +1,7 @@
 // https://geohack.toolforge.org/geohack.php?params=47.4965%3B-122.3248
 // https://geohack.toolforge.org/geohack.php?params=47.49654884262268%3B-122.32481234040759
 
-type LatLngTuple = [lat: number, lng: number];
+import type { LatLngTuple } from "./types";
 
 const fractionDigits = 6;
 

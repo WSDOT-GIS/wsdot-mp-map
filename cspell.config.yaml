@@ -1,6 +1,7 @@
 version: "0.2"
 useGitignore: true
-ignorePaths: []
+ignorePaths: 
+- "tsconfig.json"
 allowCompoundWords: true
 dictionaryDefinitions:
   - name: custom-dictionary
