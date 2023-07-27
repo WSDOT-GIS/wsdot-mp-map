@@ -1,31 +1,31 @@
 import("./index.css");
 
 Promise.all([
-  import("@arcgis/core/Map").then((i) => i.default),
-  import("@arcgis/core/config").then((i) => i.default),
-  import("@arcgis/core/views/MapView").then((i) => i.default),
-  import("@arcgis/core/widgets/ScaleBar").then((i) => i.default),
-  import("@arcgis/core/widgets/Home").then((i) => i.default),
-  import("./MilepostLayer").then((i) => i.createMilepostLayer),
-  import("./WAExtent").then((i) => i.waExtent),
-  import("./elc").then((i) => i.callElc),
-  import("./widgets/expandGroups").then((i) => i.setupWidgets),
-  import("./widgets/setupSearch").then((i) => i.setupSearch),
-  import("./types").then((i) => i.isGraphicHit),
+  import("@arcgis/core/Map"),
+  import("@arcgis/core/config"),
+  import("@arcgis/core/views/MapView"),
+  import("@arcgis/core/widgets/ScaleBar"),
+  import("@arcgis/core/widgets/Home"),
+  import("./MilepostLayer"),
+  import("./WAExtent"),
+  import("./elc"),
+  import("./widgets/expandGroups"),
+  import("./widgets/setupSearch"),
+  import("./types"),
 ])
   .then(
     async ([
-      EsriMap,
-      config,
-      MapView,
-      ScaleBar,
-      Home,
-      createMilepostLayer,
-      waExtent,
-      callElc,
-      setupWidgets,
-      setupSearch,
-      isGraphicHit,
+      { default: EsriMap },
+      { default: config },
+      { default: MapView },
+      { default: ScaleBar },
+      { default: Home },
+      { createMilepostLayer },
+      { waExtent },
+      { callElc },
+      { setupWidgets },
+      { setupSearch },
+      { isGraphicHit },
     ]) => {
       config.applicationName = "WSDOT Mileposts";
       config.log.level = import.meta.env.DEV ? "info" : "error";
