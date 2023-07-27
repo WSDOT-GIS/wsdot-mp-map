@@ -9,7 +9,7 @@
         "color": "terminal.ansiGreen"
       },
       "type": "shell",
-      "command": "npm run build -w wsdot-mp-common -w arcgis-mp",
+      "command": "npm run build -ws",
       "group": {
         "kind": "build",
         "isDefault": true

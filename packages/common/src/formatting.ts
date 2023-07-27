@@ -11,8 +11,7 @@ const fractionDigits = 6;
  * @yields - A `<data>` element.
  */
 function* createCoordinateDataElements(...items: LatLngTuple) {
-  for (let index = 0; index < items.length; index++) {
-    const item = items[index];
+  for (const [index, item] of items.entries()) {
     const data = document.createElement("data");
     data.value = data.title = item.toString();
     data.textContent = item.toFixed(fractionDigits);
