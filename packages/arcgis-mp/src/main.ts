@@ -14,7 +14,7 @@ Promise.all([
   import("./types").then((i) => i.isGraphicHit),
 ])
   .then(
-    ([
+    async ([
       EsriMap,
       config,
       MapView,
@@ -39,7 +39,9 @@ Promise.all([
       }
       request.httpsDomains.push("wsdot.wa.gov", "data.wsdot.wa.gov");
 
-      const milepostLayer = createMilepostLayer(waExtent.spatialReference);
+      const milepostLayer = await createMilepostLayer(
+        waExtent.spatialReference
+      );
 
       const map = new EsriMap({
         basemap: "hybrid",
