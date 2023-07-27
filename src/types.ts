@@ -2,7 +2,7 @@ import Graphic from "@arcgis/core/Graphic";
 import Geometry from "@arcgis/core/geometry/Geometry";
 import Point from "@arcgis/core/geometry/Point";
 import { RouteLocation } from "wsdot-elc";
-import type { AttributeValue } from "wsdot-mp-common";
+import type { AttributeValue } from "./common";
 
 export const objectIdFieldName = "OBJECTID";
 
@@ -48,7 +48,7 @@ export function hasAttributes<T extends AttributesObject>(
  */
 export interface TypedGraphic<
   G extends Geometry,
-  T extends Record<string, AttributeValue>
+  T extends Record<string, AttributeValue>,
 > extends HasAttributes<T> {
   /**
    * @inheritdoc

@@ -7,7 +7,7 @@ import {
   type IRouteLocation,
   type RouteLocation,
 } from "wsdot-elc";
-import { enumerateQueryResponseAttributes, query } from "wsdot-mp-common";
+import { enumerateQueryResponseAttributes, query } from "./common";
 import { AttributesObject } from "./types";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 
