@@ -1,0 +1,1 @@
+import{f as s,aa as r,ab as t,ac as c,ad as w,ae as m,S as n,af as e}from"./Point-04dbd693.js";const i=new s(r),f=new s(t),o=new s(c);new s(w);function u(a){return a&&(m(a)||n(a,f))?f:a&&(e(a)||n(a,o))?o:i}export{u as c};
