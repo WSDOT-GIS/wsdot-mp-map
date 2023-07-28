@@ -9,7 +9,7 @@ import { expect, test } from "vitest";
 import {
   getGithubUrlFromGithubPages,
   getGithubPagesUrlFromGithubRepoUrl,
-} from "../src/Github-Link";
+} from "../src/common/Github-Link";
 
 const pagesUrl = "https://wsdot-gis.github.io/wsdot-mp-map";
 const repoUrl = "https://github.com/WSDOT-GIS/wsdot-mp-map";

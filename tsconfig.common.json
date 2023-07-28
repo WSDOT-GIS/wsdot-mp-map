@@ -1,0 +1,23 @@
+{
+    "extends": [
+        "@tsconfig/strictest",
+        "@tsconfig/node-lts"
+    ],
+    "compilerOptions": {
+        "module": "ESNext",
+        "rootDir": "./src",
+        "outDir": "./dist",
+        "isolatedModules": true,
+        "resolveJsonModule": true,
+        "moduleResolution": "Bundler",
+        "lib": [
+            "DOM"
+        ],
+        "exactOptionalPropertyTypes": false,
+        "declaration": true
+    },
+    "exclude": [
+        "./tests",
+        "./dist"
+    ],
+}

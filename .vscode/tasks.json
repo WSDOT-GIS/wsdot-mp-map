@@ -9,7 +9,7 @@
         "color": "terminal.ansiGreen"
       },
       "type": "shell",
-      "command": "npm run build -w wsdot-mp-common -w arcgis-mp",
+      "command": "npm run build -ws",
       "group": {
         "kind": "build",
         "isDefault": true
@@ -118,6 +118,13 @@
       "problemMatcher": [],
       "label": "npm: test",
       "detail": "vitest run"
+    },
+    {
+      "type": "npm",
+      "script": "spell",
+      "problemMatcher": [],
+      "label": "npm: spell",
+      "detail": "cspell ."
     }
   ]
 }

@@ -3,7 +3,7 @@ import { expect, test } from "vitest";
 import {
   enumerateQueryResponseAttributes,
   query,
-} from "../src/arcgis/featureServiceQuery";
+} from "../src/common/arcgis/featureServiceQuery";
 
 test(
   "feature service query",

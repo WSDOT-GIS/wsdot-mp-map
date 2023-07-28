@@ -1,32 +1,61 @@
 {
-    "private": true,
-    "scripts": {
-        "test": "vitest run",
-        "prepublish": "npm run build --ws --if-present",
-        "publish": "npm run publish -w arcgis-mp",
-        "lint": "eslint . --fix"
-    },
-    "workspaces": [
-        "packages/common",
-        "packages/arcgis-mp"
-    ],
-    "devDependencies": {
-        "@eslint/js": "^8.45.0",
-        "@esri/arcgis-rest-request": "^4.2.0",
-        "@fontsource/overpass": "^5.0.5",
-        "@types/arcgis-rest-api": "^10.4.5",
-        "@typescript-eslint/eslint-plugin": "^6.2.0",
-        "@typescript-eslint/parser": "^6.2.0",
-        "@vitest/browser": "^0.33.0",
-        "@vitest/coverage-c8": "^0.33.0",
-        "eslint": "^8.45.0",
-        "eslint-config-prettier": "^8.8.0",
-        "prettier": "^3.0.0",
-        "typescript": "^5.1.6",
-        "vite": "^4.4.7",
-        "vitest": "^0.33.0",
-        "webdriverio": "^8.13.12",
-        "wsdot-elc": "^4.0.0-0",
-        "wsdot-route-utils": "^3.0.0"
-    }
+  "name": "arcgis-mp",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Milepost map written with ArcGIS Maps API for JavaScript",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build-tsc": "tsc",
+    "build-vite": "vite",
+    "build": "tsc && vite build",
+    "watch": "vite build -- --watch",
+    "preview": "vite preview",
+    "prettier": "prettier .",
+    "prepublish": "npm run build",
+    "publish": "node tools/publish.mjs",
+    "test": "vitest run",
+    "lint": "eslint . --fix",
+    "spell": "cspell ."
+  },
+  "devDependencies": {
+    "@arcgis/core": "^4.27.6",
+    "@eslint/js": "^8.45.0",
+    "@esri/arcgis-rest-request": "^4.2.0",
+    "@fontsource/overpass": "^5.0.5",
+    "@tsconfig/node-lts": "^18.12.3",
+    "@tsconfig/strictest": "^2.0.1",
+    "@types/arcgis-rest-api": "^10.4.5",
+    "@typescript-eslint/eslint-plugin": "^6.2.0",
+    "@typescript-eslint/parser": "^6.2.0",
+    "@vitest/browser": "^0.33.0",
+    "@vitest/coverage-c8": "^0.33.0",
+    "cspell": "^6.31.2",
+    "eslint": "^8.45.0",
+    "eslint-config-prettier": "^8.8.0",
+    "gh-pages": "^5.0.0",
+    "prettier": "^3.0.0",
+    "typescript": "^5.1.6",
+    "vite": "^4.4.7",
+    "vitest": "^0.33.0",
+    "webdriverio": "^8.13.12",
+    "wsdot-elc": "^4.0.0-0",
+    "wsdot-route-utils": "^3.0.0"
+  },
+  "repository": {
+    "url": "https://github.com/WSDOT-GIS/wsdot-mp-map.git",
+    "type": "git",
+    "directory": "packages/arcgis-mp"
+  },
+  "keywords": [
+    "arcgis",
+    "wsdot",
+    "milepost",
+    "map",
+    "gis",
+    "lrs",
+    "linear-referencing"
+  ],
+  "author": "Jeff Jacobson",
+  "license": "Unlicense"
 }
