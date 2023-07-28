@@ -120,7 +120,7 @@ export class GeoUrl extends URL {
   /**
    * @inheritdoc
    */
-  toString(): GeoUriString {
+  override toString(): GeoUriString {
     return super.toString() as GeoUriString;
   }
 

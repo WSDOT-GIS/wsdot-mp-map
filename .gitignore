@@ -197,6 +197,8 @@ $RECYCLE.BIN/
 #   | Sort-Object | Group-Object | Where-Object Count -GT 1 
 #   | Select-Object -ExpandProperty Name
 
+.cspellcache
+
 # Logs
 pnpm-debug.log*
 

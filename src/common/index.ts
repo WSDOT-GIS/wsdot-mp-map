@@ -6,4 +6,4 @@ export * from "./arcgis/featureServiceQuery";
 export * from "./arcgis/typesAndInterfaces";
 export * from "./formatting";
 export * from "./geohack";
-export * from "./index";
+export * from "./types";
