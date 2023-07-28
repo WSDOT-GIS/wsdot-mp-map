@@ -20,7 +20,6 @@
   },
   "devDependencies": {
     "@arcgis/core": "^4.27.6",
-    "wsdot-elc": "^4.0.0-0",
     "@eslint/js": "^8.45.0",
     "@esri/arcgis-rest-request": "^4.2.0",
     "@fontsource/overpass": "^5.0.5",
@@ -34,11 +33,13 @@
     "cspell": "^6.31.2",
     "eslint": "^8.45.0",
     "eslint-config-prettier": "^8.8.0",
+    "gh-pages": "^5.0.0",
     "prettier": "^3.0.0",
     "typescript": "^5.1.6",
     "vite": "^4.4.7",
     "vitest": "^0.33.0",
     "webdriverio": "^8.13.12",
+    "wsdot-elc": "^4.0.0-0",
     "wsdot-route-utils": "^3.0.0"
   },
   "repository": {

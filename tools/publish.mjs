@@ -43,6 +43,7 @@ try {
   await publishAsync(sourceFolder, publishOptions);
 } catch (error) {
   console.error(error instanceof Error ? error.message : error, error);
+  throw error;
 }
 console.log(`Publishing complete.`);
 
