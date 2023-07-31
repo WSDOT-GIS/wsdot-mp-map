@@ -1,8 +1,4 @@
 {
     "upgrade": true,
-    "deep": true,
-    "root": true,
-    "reject": [
-        "wsdot-mp-common"
-    ]
+    "root": true
 }
