@@ -78,7 +78,9 @@ Promise.all([
         popupEnabled: false,
       });
 
-      setupViewLoadingIndicator(view);
+      void import("./widgets/loadingIndicator").then(
+        ({ setupViewLoadingIndicator }) => setupViewLoadingIndicator(view)
+      );
 
       const sb = new ScaleBar({
         unit: "dual",
