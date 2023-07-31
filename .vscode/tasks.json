@@ -9,7 +9,7 @@
         "color": "terminal.ansiGreen"
       },
       "type": "shell",
-      "command": "npm run build -ws",
+      "command": "npm run build",
       "group": {
         "kind": "build",
         "isDefault": true
@@ -20,7 +20,6 @@
     },
     {
       "label": "vite dev",
-      "path": "packages/arcgis-mp",
       "detail": "vite",
       "icon": {
         "id": "tools",
