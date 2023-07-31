@@ -6,8 +6,17 @@ import { promisify } from "node:util";
 
 /**
  * The publish options type for the second parameter of the {@link publish} function.
- * @typedef {Parameters<typeof publish>[1]} PublishOptions
  */
+type PublishOptions = Parameters<typeof publish>[1];
+
+/**
+ * Specify extra type info for the {@link publish} function,
+ * for use with the call to {@link promisify}.
+ */
+type publishFunction = (
+  basePath: string,
+  config: PublishOptions
+) => ReturnType<typeof publish>;
 
 /**
  * Asynchronous version of {@link publish}.
@@ -15,13 +24,12 @@ import { promisify } from "node:util";
  * @param {PublishOptions} config?
  * @returns {Promise<ReturnType<publish>>}
  */
-const publishAsync = promisify(publish);
+const publishAsync = promisify(publish as publishFunction);
 
 /**
  * Options for publishing to GitHub Pages.
- * @type {PublishOptions}
  */
-const publishOptions = {
+const publishOptions: PublishOptions = {
   // Need to set this in order to include the .nojekyll file in the published output.
   // This is needed to tell GitHub Pages that it should just serve the site as is and
   // that it is not Jekyll content.

@@ -220,3 +220,6 @@ delete-me*
 
 test-results.xml
 .mailmap
+
+# Ignore assets copied from @arcgis/core
+public/assets
