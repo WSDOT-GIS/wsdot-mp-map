@@ -1,5 +1,6 @@
 import Graphic from "@arcgis/core/Graphic";
 import Point from "@arcgis/core/geometry/Point";
+import type FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import type MapView from "@arcgis/core/views/MapView";
 import {
   RouteLocator,
@@ -8,8 +9,7 @@ import {
   type RouteLocation,
 } from "wsdot-elc";
 import { enumerateQueryResponseAttributes, query } from "./common";
-import { AttributesObject } from "./types";
-import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
+import type { AttributesObject } from "./types";
 
 type ElcSetupOptions = Pick<
   IFindNearestRouteLocationParameters,
