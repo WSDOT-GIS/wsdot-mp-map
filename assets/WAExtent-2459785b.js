@@ -1,1 +1,0 @@
-import{M as e}from"./Extent-4cd130bc.js";import{f as a}from"./Point-04dbd693.js";import"./config-94cb5807.js";const o=new e({spatialReference:a.WebMercator,xmin:-13891559256092377e-9,ymin:5706937852318744e-9,xmax:-13014361668641392e-9,ymax:6283349610269844e-9});export{o as default,o as waExtent};

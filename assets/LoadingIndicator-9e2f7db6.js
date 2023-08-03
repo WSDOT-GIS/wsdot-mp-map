@@ -1,0 +1,1 @@
+function o(e){const t=document.createElement("progress");return t.textContent="Updating map...",e.ui.add(t,"bottom-trailing"),e.watch("updating",n=>t.hidden=!n)}export{o as setupViewLoadingIndicator};

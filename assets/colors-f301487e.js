@@ -1,1 +1,0 @@
-import{h as o}from"./Color-737693fc.js";import"./colorUtils-16842abb.js";import"./mathUtils-bda3ea21.js";import"./Point-04dbd693.js";import"./config-94cb5807.js";const h=new o("#01735c"),m=new o("#ffffff");export{h as highwaySignBackgroundColor,m as highwaySignTextColor};
