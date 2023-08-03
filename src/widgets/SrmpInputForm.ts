@@ -13,9 +13,7 @@ export interface RouteEventObject {
   mp: number;
 }
 
-export type RouteInputEvent = CustomEvent<{
-  detail: RouteEventObject;
-}>;
+export type RouteInputEvent = CustomEvent<RouteEventObject>;
 
 export function isRouteInputEvent(event: Event): event is RouteInputEvent {
   if (!(event instanceof CustomEvent && typeof event.detail === "object")) {
@@ -34,14 +32,6 @@ export interface SrmpInputForm extends HTMLFormElement {
 }
 
 export type RouteType = "SP" | "CO" | "AR";
-
-// function isSrmpInputForm(form: unknown): form is HTMLFormElement {
-//   return (
-//     !!form &&
-//     form instanceof HTMLFormElement &&
-//     ["route", "type", "mp"].every((name) => Object.hasOwn(form, name))
-//   );
-// }
 
 type UIAddParameters = Parameters<(typeof UI)["prototype"]["add"]>;
 
