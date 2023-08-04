@@ -1,4 +1,5 @@
 import type UI from "@arcgis/core/views/ui/UI";
+import { getRoutes } from "../elc";
 /*
 <select id="routetype">
     <option value=" "></option>
@@ -42,6 +43,8 @@ export function createSrmpInputForm(ui: UI, position: UIAddParameters[1]) {
   if (!template) {
     throw new Error("Could not find template element.");
   }
+
+  getRoutes().then(console.debug, console.error);
 
   const formDocFrag = template.content;
 

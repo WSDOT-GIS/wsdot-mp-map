@@ -3,15 +3,17 @@ import Point from "@arcgis/core/geometry/Point";
 import type FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import type MapView from "@arcgis/core/views/MapView";
 import {
+  Route,
+  RouteId,
+  RouteLocation,
   RouteLocator,
   type IFindNearestRouteLocationParameters,
   type IRouteLocation,
-  RouteLocation,
 } from "wsdot-elc";
 import { enumerateQueryResponseAttributes, query } from "./common";
+import NotImplementedError from "./common/NotImplementedError";
 import type { AttributesObject } from "./types";
 import type { RouteEventObject } from "./widgets/SrmpInputForm";
-import NotImplementedError from "./common/NotImplementedError";
 
 type ElcSetupOptions = Pick<
   IFindNearestRouteLocationParameters,
@@ -213,9 +215,8 @@ export async function callElc(
     referenceDate: new Date(),
   };
   const routeLocator = new RouteLocator();
-  const elcResponse = await routeLocator.findNearestRouteLocations(
-    inputParameters
-  );
+  const elcResponse =
+    await routeLocator.findNearestRouteLocations(inputParameters);
 
   /* @__PURE__ */ console.debug("ELC Response", {
     inputParameters,
@@ -357,4 +358,51 @@ export async function callElcFromUrl(
   }
 
   return addElcGraphic(elcResults, view, milepostLayer);
+}
+
+type Digit = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+
+type YearKey = `${"19" | "20"}${Digit}${Digit}` | "Current";
+
+/**
+ * A dictionary of route arrays, keyed by year.
+ */
+export type RouteList = Record<YearKey, Route[]>;
+
+export type Rrt = NonNullable<(typeof RouteId)["prototype"]["rrt"]>;
+
+/**
+ * Returns a list of routes for the "Current" year.
+ * @param rrtsToInclude - O or more RRTs to include.
+ * Mainline will always be included.
+ * @returns
+ */
+export async function getRoutes(...rrtsToInclude: Rrt[]) {
+  const elc = new RouteLocator();
+  const routeList = (await elc.getRouteList(true)) as RouteList | null;
+
+  if (!routeList) {
+    throw new TypeError(
+      `${getRoutes.name} returned null instead of a list of routes.`
+    );
+  }
+
+  const currentRoutes = routeList.Current.sort();
+
+  // If no RRTs were specified, return them all unfiltered.
+  if (!rrtsToInclude || !rrtsToInclude.length) {
+    return currentRoutes;
+  }
+
+  /**
+   * A Regular Expression that will match any of the given RRTs.
+   */
+  const re = new RegExp(
+    `(?:${rrtsToInclude.map((r) => `(?:${r})`).join("|")})`,
+    "i"
+  );
+
+  return currentRoutes.filter(
+    (r) => r.routeId.rrt === null || re.test(r.routeId.rrt)
+  );
 }
