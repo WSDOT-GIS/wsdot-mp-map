@@ -22,7 +22,7 @@
     "@arcgis/core": "^4.27.6",
     "@eslint/js": "^8.46.0",
     "@esri/arcgis-rest-request": "^4.2.0",
-    "@fontsource/overpass": "^5.0.7",
+    "@fontsource/overpass": "^5.0.8",
     "@tsconfig/node-lts": "^18.12.3",
     "@tsconfig/strictest": "^2.0.1",
     "@types/arcgis-rest-api": "^10.4.5",
