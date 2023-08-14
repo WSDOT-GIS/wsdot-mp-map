@@ -1,5 +1,6 @@
 import type UI from "@arcgis/core/views/ui/UI";
 import { getRoutes } from "../elc";
+import type { Route } from "wsdot-elc";
 /*
 <select id="routetype">
     <option value=" "></option>
@@ -10,7 +11,7 @@ import { getRoutes } from "../elc";
 */
 export interface RouteEventObject {
   route: string;
-  type: RouteType | null;
+  type: RouteRrt | null;
   mp: number;
 }
 
@@ -32,9 +33,44 @@ export interface SrmpInputForm extends HTMLFormElement {
   mp: HTMLInputElement;
 }
 
-export type RouteType = "SP" | "CO" | "AR";
+export type RouteRrt = "SP" | "CO" | "AR";
 
 type UIAddParameters = Parameters<(typeof UI)["prototype"]["add"]>;
+
+function routeToOptions(route: Route): HTMLOptionElement[] {
+  let options: HTMLOptionElement[];
+  function createOption(isDecrease: boolean) {
+    const option = document.createElement("option");
+    option.value = route.routeId.toString();
+    option.text = route.routeId.description;
+    option.dataset.isDecrease = `${isDecrease}`;
+    return option;
+  }
+
+  if (route.isBoth) {
+    options = [true, false].map((isDecrease) => createOption(isDecrease));
+  } else {
+    options = [createOption(route.isDecrease)];
+  }
+  return options;
+}
+
+function createRouteOptionList(routes: Iterable<Route>) {
+  const docFrag = document.createDocumentFragment();
+  for (const route of routes) {
+    const options = routeToOptions(route);
+    docFrag.append(...options);
+  }
+
+  return docFrag;
+}
+
+function createRouteSelect(routes: Iterable<Route>) {
+  const select = document.createElement("select");
+  const options = createRouteOptionList(routes);
+  select.append(options);
+  return select;
+}
 
 export function createSrmpInputForm(ui: UI, position: UIAddParameters[1]) {
   const template = document.querySelector<HTMLTemplateElement>(
@@ -44,13 +80,16 @@ export function createSrmpInputForm(ui: UI, position: UIAddParameters[1]) {
     throw new Error("Could not find template element.");
   }
 
-  getRoutes().then(console.debug, console.error);
-
   const formDocFrag = template.content;
 
   const form = formDocFrag
     .querySelector("form")
     ?.cloneNode(true) as SrmpInputForm;
+
+  getRoutes("SP", "CO", "AR").then((routes) => {
+    /*const select =*/ createRouteSelect(routes);
+    // form.append(select);
+  }, console.error);
 
   if (!form) {
     throw new Error("Form was not created correctly.");
