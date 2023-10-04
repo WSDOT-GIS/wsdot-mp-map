@@ -1,7 +1,7 @@
 import type MapView from "@arcgis/core/views/MapView";
 import type SceneView from "@arcgis/core/views/SceneView";
 import type View from "@arcgis/core/views/View";
-import BasemapGallery from "@arcgis/core/widgets/BasemapGallery";
+// import BasemapGallery from "@arcgis/core/widgets/BasemapGallery";
 import Expand from "@arcgis/core/widgets/Expand";
 import LayerList from "@arcgis/core/widgets/LayerList";
 import type ListItem from "@arcgis/core/widgets/LayerList/ListItem";
@@ -178,14 +178,14 @@ export function setupWidgets(
     expandOptions,
   });
   try {
-    const gallery = new BasemapGallery({
-      view,
-      source: {
-        portal: {
-          url: "https://wsdot.maps.arcgis.com",
-        },
-      },
-    });
+    // const gallery = new BasemapGallery({
+    //   view,
+    //   source: {
+    //     portal: {
+    //       url: "https://wsdot.maps.arcgis.com",
+    //     },
+    //   },
+    // });
 
     const layerList = new LayerList({
       view,
@@ -196,7 +196,12 @@ export function setupWidgets(
       },
     });
 
-    setupExpandGroup(view, viewAddOptions, expandOptions, gallery, layerList);
+    setupExpandGroup(
+      view,
+      viewAddOptions,
+      expandOptions,
+      /* gallery, */ layerList
+    );
   } finally {
     /* @__PURE__ */ console.groupEnd();
   }
