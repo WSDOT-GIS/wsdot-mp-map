@@ -1,7 +1,7 @@
 import type MapView from "@arcgis/core/views/MapView";
 import type SceneView from "@arcgis/core/views/SceneView";
 import type View from "@arcgis/core/views/View";
-// import BasemapGallery from "@arcgis/core/widgets/BasemapGallery";
+import BasemapLayerList from "@arcgis/core/widgets/BasemapLayerList";
 import Expand from "@arcgis/core/widgets/Expand";
 import LayerList from "@arcgis/core/widgets/LayerList";
 import type ListItem from "@arcgis/core/widgets/LayerList/ListItem";
@@ -116,6 +116,11 @@ export function setupExpandGroup(
         : {};
 
       currentOptions.content = widget;
+
+      if (widget instanceof BasemapLayerList) {
+        currentOptions.icon = currentOptions.expandIcon = "map-contents";
+      }
+
       /* @__PURE__ */ console.debug(
         `Expand constructor options`,
         currentOptions
@@ -178,15 +183,6 @@ export function setupWidgets(
     expandOptions,
   });
   try {
-    // const gallery = new BasemapGallery({
-    //   view,
-    //   source: {
-    //     portal: {
-    //       url: "https://wsdot.maps.arcgis.com",
-    //     },
-    //   },
-    // });
-
     const layerList = new LayerList({
       view,
       listItemCreatedFunction: setupLayerListItems,
@@ -196,11 +192,23 @@ export function setupWidgets(
       },
     });
 
+    const basemapLayerList = new BasemapLayerList({
+      view,
+      editingEnabled: true,
+      visibleElements: {
+        baseLayers: true,
+        errors: true,
+        referenceLayers: true,
+        statusIndicators: true,
+      },
+    });
+
     setupExpandGroup(
       view,
       viewAddOptions,
       expandOptions,
-      /* gallery, */ layerList
+      layerList,
+      basemapLayerList
     );
   } finally {
     /* @__PURE__ */ console.groupEnd();
