@@ -18,6 +18,7 @@ import("./index.css");
     { setupWidgets },
     { setupSearch },
     { isGraphicHit },
+    { satelliteBasemap },
   ] = await Promise.all([
     import("@arcgis/core/Map"),
     import("@arcgis/core/config"),
@@ -30,6 +31,7 @@ import("./index.css");
     import("./widgets/expandGroups"),
     import("./widgets/setupSearch"),
     import("./types"),
+    import("./basemaps"),
   ]);
 
   config.applicationName = "WSDOT Mileposts";
@@ -47,7 +49,7 @@ import("./index.css");
   const milepostLayer = await createMilepostLayer(waExtent.spatialReference);
 
   const map = new EsriMap({
-    basemap: "hybrid",
+    basemap: satelliteBasemap,
     layers: [milepostLayer],
   });
 
