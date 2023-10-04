@@ -89,6 +89,7 @@ import("./index.css");
 
   setupWidgets(view, "top-trailing", {
     group: "top-trailing",
+    mode: "drawer",
   });
 
   const home = new Home({
