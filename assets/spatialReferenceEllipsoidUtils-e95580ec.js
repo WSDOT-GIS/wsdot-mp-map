@@ -1,0 +1,1 @@
+import{f as a,bD as o,bE as r,bF as t,bG as w,bH as c,bk as n,bI as m}from"./index-a100bc7e.js";const i=new a(o),b=new a(r),f=new a(t);new a(w);function u(s){return s&&(c(s)||n(s,b))?b:s&&(m(s)||n(s,f))?f:i}export{u as c};
