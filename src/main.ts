@@ -31,6 +31,7 @@ const loadingSymbol = new SimpleMarkerSymbol({
     { setupSearch },
     { isGraphicHit },
     { satelliteBasemap },
+    { cityLimitsLayer, roadwayCharacteristicDataLayer },
   ] = await Promise.all([
     import("@arcgis/core/Map"),
     import("@arcgis/core/config"),
@@ -45,6 +46,7 @@ const loadingSymbol = new SimpleMarkerSymbol({
     import("./widgets/setupSearch"),
     import("./types"),
     import("./basemaps"),
+    import("./layers"),
   ]);
 
   config.applicationName = "WSDOT Mileposts";
@@ -63,7 +65,7 @@ const loadingSymbol = new SimpleMarkerSymbol({
 
   const map = new EsriMap({
     basemap: satelliteBasemap,
-    layers: [milepostLayer],
+    layers: [cityLimitsLayer, roadwayCharacteristicDataLayer, milepostLayer],
   });
 
   const view = new MapView({
