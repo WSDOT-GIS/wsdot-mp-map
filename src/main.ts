@@ -1,7 +1,17 @@
+import { SimpleMarkerSymbol, SimpleLineSymbol } from "@arcgis/core/symbols";
 import { callElcFromForm } from "./elc";
 
 import("./index.css");
 
+const loadingSymbol = new SimpleMarkerSymbol({
+  color: "red",
+  outline: new SimpleLineSymbol({
+    color: "red",
+    width: 5,
+  }),
+  style: "x",
+  size: 10,
+});
 // Using an async self-executing function because
 // top-level awaits aren't allowed.
 (async () => {
@@ -9,6 +19,7 @@ import("./index.css");
   const [
     { default: EsriMap },
     { default: config },
+    { default: Graphic },
     { default: MapView },
     { default: ScaleBar },
     { default: Home },
@@ -22,6 +33,7 @@ import("./index.css");
   ] = await Promise.all([
     import("@arcgis/core/Map"),
     import("@arcgis/core/config"),
+    import("@arcgis/core/Graphic"),
     import("@arcgis/core/views/MapView"),
     import("@arcgis/core/widgets/ScaleBar"),
     import("@arcgis/core/widgets/Home"),
@@ -176,28 +188,44 @@ import("./index.css");
       return;
     }
 
-    const graphic = await callElc(view, milepostLayer, event.mapPoint, {
+    // Add a temp loading graphic
+    const loadingGraphic = new Graphic({
+      geometry: event.mapPoint,
+      symbol: loadingSymbol,
+    });
+
+    view.graphics.add(loadingGraphic);
+
+    const graphicPromise = callElc(view, milepostLayer, event.mapPoint, {
       searchRadius: defaultSearchRadius,
       useCors: true,
     });
 
-    if (graphic == null) {
-      return;
-    }
-
-    view
-      .openPopup({
-        features: [graphic],
-        fetchFeatures: true,
-        shouldFocus: true,
-        updateLocationEnabled: true,
-      })
-      .then(
-        () => {},
-        (reason) => {
-          /* @__PURE__ */ console.error(reason);
+    graphicPromise
+      .then((graphic) => {
+        if (graphic) {
+          view
+            .openPopup({
+              features: [graphic],
+              fetchFeatures: true,
+              shouldFocus: true,
+              updateLocationEnabled: true,
+            })
+            .then(
+              () => {},
+              (reason) => {
+                /* @__PURE__ */ console.error(reason);
+              }
+            );
+        } else {
+          /* @__PURE__ */ console.error("graphic was null", { event });
         }
-      );
+      })
+      .catch((reason) => console.error(reason))
+      .finally(() => {
+        // Remove the temp graphic
+        view.graphics.remove(loadingGraphic);
+      });
   });
 })().catch((reason) => {
   console.error(reason);
