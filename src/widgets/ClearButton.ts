@@ -17,7 +17,21 @@ export interface ClearButtonOptions {
  */
 export function createClearButton(options: ClearButtonOptions) {
   const button = document.createElement("button");
-  button.innerText = "Clear";
+  button.title = "Clear all graphics";
+  button.ariaLabel = "Clear";
+  button.role = "button";
+  button.classList.add(
+    "esri-widget",
+    "esri-widget--button",
+    "esri-component",
+    "tracts-clear-button"
+  );
+
+  const iconSpan = document.createElement("span");
+  iconSpan.ariaHidden = "true";
+  iconSpan.classList.add("esri-icon", "esri-icon-erase");
+  button.append(iconSpan);
+
   const { layer } = options;
 
   function clearFeatures(this: HTMLButtonElement): void {
