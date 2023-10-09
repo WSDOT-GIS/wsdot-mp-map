@@ -1,1 +1,0 @@
-import{a0 as o}from"./index-befc03f3.js";import{n as s,m as c}from"./jsxFactory-dd2c558c.js";const l={heading:"esri-widget__heading"};function u({level:n,class:e,...t},a){const i=r(n);return s(`h${i}`,{...t,class:c(l.heading,e),role:"heading","aria-level":String(i)},a)}function r(n){return o(Math.ceil(n),1,6)}function d(n,e=1){return r(n+e)}export{u as n,d as s};
