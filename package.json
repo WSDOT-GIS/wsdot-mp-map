@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@arcgis/core": "^4.27.6",
-    "@eslint/js": "^8.50.0",
+    "@eslint/js": "^8.52.0",
     "@esri/arcgis-rest-request": "^4.2.0",
     "@fontsource/overpass": "^5.0.13",
     "@tsconfig/node-lts": "^18.12.5",
