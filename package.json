@@ -38,7 +38,7 @@
     "typescript": "^5.2.2",
     "vite": "^4.4.10",
     "vitest": "^0.34.6",
-    "webdriverio": "^8.16.20",
+    "webdriverio": "^8.20.0",
     "wsdot-elc": "^4.0.0-0",
     "wsdot-route-utils": "^3.0.0"
   },
