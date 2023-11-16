@@ -1,4 +1,4 @@
-import { IRequestOptions, request } from "@esri/arcgis-rest-request";
+import { request, type IRequestOptions } from "@esri/arcgis-rest-request";
 import type {
   AttributeValue,
   FeatureServiceQueryResponse,
