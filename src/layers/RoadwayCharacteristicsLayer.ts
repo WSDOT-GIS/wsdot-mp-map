@@ -1,5 +1,7 @@
-import MapImageLayer from "@arcgis/core/layers/MapImageLayer";
-import Sublayer from "@arcgis/core/layers/support/Sublayer";
+const [{ default: MapImageLayer }, { default: Sublayer }] = await Promise.all([
+  import("@arcgis/core/layers/MapImageLayer"),
+  import("@arcgis/core/layers/support/Sublayer"),
+]);
 
 /**
  * Roadway Characteristics Map Service URL
