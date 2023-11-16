@@ -4,6 +4,7 @@ import VectorTileLayer from "@arcgis/core/layers/VectorTileLayer";
 import HybridReferenceLayerJson from "./hybrid_reference_layer_sans_state_routes.json";
 
 const esriReferenceLayer = new VectorTileLayer({
+  title: "Esri Reference Layer",
   style: HybridReferenceLayerJson,
 });
 

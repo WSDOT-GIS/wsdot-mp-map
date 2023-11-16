@@ -1,9 +1,5 @@
 {
   "typescript.tsdk": "node_modules\\typescript\\lib",
-  "conventionalCommits.scopes": [
-    "github workflow",
-    "arcgis-app"
-  ],
   "editor.formatOnSave": true,
   "files.readonlyFromPermissions": true,
   "files.readonlyInclude": {
