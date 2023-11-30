@@ -8,7 +8,7 @@ This is the repository for the WSDOT Milepost map, an interactive map applicatio
 
 Recommended development environment is [Visual Studio Code] or [VSCodium]
 
-- Code that is not specific to the [ArcGIS Maps SDK for JavaScript] is in the `src/common` workspace. Keeping it separate will make it easier to switch to a different mapping library if that becomes necessary.
+Uses [ArcGIS Maps SDK for JavaScript] for map components.
 
 [ArcGIS Maps SDK for JavaScript]: https://developers.arcgis.com/javascript
 [story map]: https://storymaps.arcgis.com/stories/3563e01d91b8444f875af320564fef7b
