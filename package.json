@@ -15,6 +15,7 @@
     "prepublish": "npm run build",
     "publish": "node tools/publish.mjs",
     "test": "vitest run",
+    "test:watch": "vitest",
     "lint": "eslint . --fix",
     "spell": "cspell ."
   },
