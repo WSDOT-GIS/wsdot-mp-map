@@ -51,6 +51,14 @@
       },
       "tsconfig": "tsconfig.json",
       "option": "watch",
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      },
       "problemMatcher": [
         "$tsc-watch"
       ],
@@ -124,6 +132,25 @@
       "problemMatcher": [],
       "label": "npm: spell",
       "detail": "cspell ."
+    },
+    {
+      "label": "Test (watch)",
+      "type": "npm",
+      "script": "test:watch"
+    },
+    {
+      "type": "process",
+      "label": "Watch",
+      "detail": "Watches TypeScript, Vite, and Vitest",
+      "icon": {
+        "id": "eye-watch",
+        "color": "terminal.ansiCyan"
+      },
+      "dependsOn": [
+        "vite dev",
+        "TypeScript: Watch",
+        "Test (watch)"
+      ]
     }
   ]
 }
