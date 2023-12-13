@@ -1,5 +1,5 @@
 [serve]
-	directory=packages/leaflet-app/dist
+	directory=dist
 	open-browser
 	gzip
 	brotli
