@@ -36,7 +36,7 @@
     "gh-pages": "^6.1.0",
     "prettier": "^3.1.1",
     "typescript": "^5.3.3",
-    "vite": "^5.0.2",
+    "vite": "^5.0.8",
     "vitest": "^0.34.6",
     "webdriverio": "^8.24.3",
     "wsdot-elc": "^4.0.0-0",
