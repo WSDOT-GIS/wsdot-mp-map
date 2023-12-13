@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import { defineConfig } from "vite";
 
 export default defineConfig({
@@ -10,6 +11,32 @@ export default defineConfig({
      */
     supported: {
       "top-level-await": true,
+    },
+  },
+  test: {
+    environment: "jsdom",
+    coverage: {
+      enabled: true,
+      extension: [
+        // '.js',
+        // '.cjs',
+        // '.mjs',
+        // ".jsx",
+        ".ts",
+        ".tsx",
+        ".vue",
+        ".svelte",
+      ],
+      reporter: [
+        // Defaults
+        "text",
+        "html",
+        "clover",
+        "json",
+        // Added
+        "lcov",
+        "cobertura",
+      ],
     },
   },
 });
