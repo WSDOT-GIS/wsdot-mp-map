@@ -1,4 +1,4 @@
-const { default: Color } = await import("@arcgis/core/Color");
+import Color from "@arcgis/core/Color";
 
 /**
  * The shade of green for the background of highway signs.

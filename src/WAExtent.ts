@@ -1,7 +1,5 @@
-const [{ default: Extent }, { default: SpatialReference }] = await Promise.all([
-  import("@arcgis/core/geometry/Extent"),
-  import("@arcgis/core/geometry/SpatialReference"),
-]);
+import Extent from "@arcgis/core/geometry/Extent";
+import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 
 /**
  * The extent of WA.
