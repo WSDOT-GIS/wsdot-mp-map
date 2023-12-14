@@ -1,1 +1,0 @@
-import{f as s,i as r,I as t,k as c,u as w,l as i,d as a,p as m}from"./SpatialReference-Ux-W_d_y.js";const p=new s(r),f=new s(t),o=new s(c);new s(w);function $(n){return n&&(i(n)||a(n,f))?f:n&&(m(n)||a(n,o))?o:p}export{$ as c};

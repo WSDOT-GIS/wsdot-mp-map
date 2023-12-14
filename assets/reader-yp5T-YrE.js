@@ -1,1 +1,0 @@
-import{b as y}from"./jsonMap-SF4MrsQ4.js";function u(a,o,e){let c,t;return o===void 0||Array.isArray(o)?(t=a,e=o,c=[void 0]):(t=o,c=Array.isArray(a)?a:[a]),(d,s)=>{const n=d.constructor.prototype;c.forEach(i=>{const r=y(d,i,t);r.read&&typeof r.read=="object"||(r.read={}),r.read.reader=n[s],e&&(r.read.source=(r.read.source||[]).concat(e))})}}export{u as o};

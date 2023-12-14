@@ -1,1 +1,0 @@
-import{s as p}from"./config-XrSkRHRQ.js";import{s as r}from"./jsonMap-SF4MrsQ4.js";import{e as i}from"./assets-VCAirUpR.js";function e(o){if(p.apiKey&&i(o.portal.url))throw new r("save-api-key-utils:api-key-not-supported",`Saving is not supported on ${o.portal.url} when using an api key`)}export{e as i};

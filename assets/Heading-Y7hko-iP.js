@@ -1,1 +1,0 @@
-import{i as a}from"./mathUtils-CKEMtUfb.js";import{e as s}from"./globalCss-gGPteFdf.js";import{n as l,g as c}from"./jsxFactory-oVlI4BM0.js";function g({level:n,class:r,...t},o){const e=i(n);return l(`h${e}`,{...t,"aria-level":String(e),class:c(s.heading,r),role:"heading"},o)}function i(n){return a(Math.ceil(n),1,6)}function h(n,r=1){return i(n+r)}export{g as e,h as n};
