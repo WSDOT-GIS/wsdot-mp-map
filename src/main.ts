@@ -1,7 +1,4 @@
-import { SimpleMarkerSymbol, SimpleLineSymbol } from "@arcgis/core/symbols";
-import { callElcFromForm } from "./elc";
-import { createClearButton } from "./widgets/ClearButton";
-
+// This empty export is required to allow top-level await statements.
 export {};
 
 import("./index.css");
@@ -14,14 +11,17 @@ const [
   { default: MapView },
   { default: ScaleBar },
   { default: Home },
+  { default: SimpleMarkerSymbol },
+  { default: SimpleLineSymbol },
   { createMilepostLayer },
   { waExtent },
-  { callElc },
+  { callElc, callElcFromForm },
   { setupWidgets },
   { setupSearch },
   { isGraphicHit },
   { satelliteBasemap },
   { cityLimitsLayer, roadwayCharacteristicDataLayer },
+  { createClearButton },
 ] = await Promise.all([
   import("@arcgis/core/Map"),
   import("@arcgis/core/config"),
@@ -29,6 +29,8 @@ const [
   import("@arcgis/core/views/MapView"),
   import("@arcgis/core/widgets/ScaleBar"),
   import("@arcgis/core/widgets/Home"),
+  import("@arcgis/core/symbols/SimpleMarkerSymbol"),
+  import("@arcgis/core/symbols/SimpleLineSymbol"),
   import("./MilepostLayer"),
   import("./WAExtent"),
   import("./elc"),
@@ -37,6 +39,7 @@ const [
   import("./types"),
   import("./basemaps"),
   import("./layers"),
+  import("./widgets/ClearButton"),
 ]);
 
 const loadingSymbol = new SimpleMarkerSymbol({
