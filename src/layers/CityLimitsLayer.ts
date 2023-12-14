@@ -1,12 +1,6 @@
-const [
-  { default: FeatureLayer },
-  { default: SimpleRenderer },
-  { default: SimpleFillSymbol },
-] = await Promise.all([
-  import("@arcgis/core/layers/FeatureLayer"),
-  import("@arcgis/core/renderers/SimpleRenderer"),
-  import("@arcgis/core/symbols/SimpleFillSymbol"),
-]);
+import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
+import { SimpleRenderer } from "@arcgis/core/renderers";
+import { SimpleFillSymbol } from "@arcgis/core/symbols";
 
 const cityLimitsId = "0b12f000a66f4d75a43ea3ac4ead01dc";
 

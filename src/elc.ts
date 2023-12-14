@@ -213,8 +213,9 @@ export async function callElc(
     referenceDate: new Date(),
   };
   const routeLocator = new RouteLocator();
-  const elcResponse =
-    await routeLocator.findNearestRouteLocations(inputParameters);
+  const elcResponse = await routeLocator.findNearestRouteLocations(
+    inputParameters
+  );
 
   /* @__PURE__ */ console.debug("ELC Response", {
     inputParameters,
