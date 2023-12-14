@@ -1,0 +1,1 @@
+import{b as w}from"./jsonMap-SF4MrsQ4.js";function a(t,o,n){let i,e;return o===void 0?(e=t,i=[void 0]):typeof o!="string"?(e=t,i=[void 0],n=o):(e=o,i=Array.isArray(t)?t:[t]),(c,p)=>{const s=c.constructor.prototype;for(const f of i){const r=w(c,f,e);r.write&&typeof r.write=="object"||(r.write={}),n&&(r.write.target=n),r.write.writer=s[p]}}}export{a as r};

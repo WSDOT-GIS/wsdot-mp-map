@@ -1,1 +1,0 @@
-import{M as e,f as a}from"./index-d19c9f60.js";const m=new e({spatialReference:a.WebMercator,xmin:-13891559256092377e-9,ymin:5706937852318744e-9,xmax:-13014361668641392e-9,ymax:6283349610269844e-9});export{m as default,m as waExtent};
