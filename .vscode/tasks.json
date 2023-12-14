@@ -150,7 +150,11 @@
         "vite dev",
         "TypeScript: Watch",
         "Test (watch)"
-      ]
+      ],
+      "problemMatcher": [
+        "$tsc-watch"
+      ],
+      "isBackground": true
     }
   ]
 }
