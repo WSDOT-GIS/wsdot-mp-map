@@ -1,5 +1,5 @@
 [serve]
-	directory=dist
+	directory=./dist
 	open-browser
 	gzip
 	brotli
