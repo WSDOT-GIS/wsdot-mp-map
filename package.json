@@ -11,6 +11,7 @@
     "build": "tsc && vite build",
     "watch": "vite build -- --watch",
     "preview": "vite preview",
+    "build-and-preview": "npm run build && npm run preview -- --open",
     "prettier": "prettier .",
     "prepublish": "npm run build",
     "publish": "node tools/publish.mjs",
