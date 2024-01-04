@@ -112,12 +112,15 @@ const loadingSymbol = new SimpleMarkerSymbol({
   const home = new Home({
     view,
   });
-  import("./widgets/ClearButton").then(({ createClearButton }) => {
-    const clearButton = createClearButton({
-      layer: milepostLayer,
-    });
-    view.ui.add([home, clearButton], "top-trailing");
-  });
+  import("./widgets/ClearButton").then(
+    ({ createClearButton }) => {
+      const clearButton = createClearButton({
+        layer: milepostLayer,
+      });
+      view.ui.add([home, clearButton], "top-trailing");
+    },
+    (reason) => console.error("Failed to setup clear button", reason)
+  );
 
   setupForm();
 
@@ -256,4 +259,4 @@ const loadingSymbol = new SimpleMarkerSymbol({
       }
     );
   }
-})();
+})().catch((reason) => console.error(reason));
