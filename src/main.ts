@@ -1,5 +1,4 @@
 import { SimpleLineSymbol, SimpleMarkerSymbol } from "@arcgis/core/symbols";
-import { createClearButton } from "./widgets/ClearButton";
 
 import("./index.css");
 
@@ -113,11 +112,12 @@ const loadingSymbol = new SimpleMarkerSymbol({
   const home = new Home({
     view,
   });
-  const clearButton = createClearButton({
-    layer: milepostLayer,
+  import("./widgets/ClearButton").then(({ createClearButton }) => {
+    const clearButton = createClearButton({
+      layer: milepostLayer,
+    });
+    view.ui.add([home, clearButton], "top-trailing");
   });
-
-  view.ui.add([home, clearButton], "top-trailing");
 
   setupForm();
 
