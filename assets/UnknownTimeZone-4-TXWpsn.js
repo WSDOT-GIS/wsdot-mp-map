@@ -1,1 +1,0 @@
-import{aF as e,b0 as o}from"./index-RM23rwAw.js";class n{}function r(t){return t instanceof o?t===n.instance:(t==null?void 0:t.toString().toLowerCase())==="unknown"}function i(t){return r(t)?n.instance:t}n.instance=new e("Etc/UTC");export{i,r,n as t};
