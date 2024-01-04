@@ -19,4 +19,5 @@
       ".ncurc.yml",
     ]
   },
+  "eslint.experimental.useFlatConfig": false,
 }
