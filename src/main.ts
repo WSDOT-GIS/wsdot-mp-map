@@ -1,4 +1,4 @@
-import { SimpleMarkerSymbol, SimpleLineSymbol } from "@arcgis/core/symbols";
+import { SimpleLineSymbol, SimpleMarkerSymbol } from "@arcgis/core/symbols";
 import { callElcFromForm } from "./elc";
 import { createClearButton } from "./widgets/ClearButton";
 
@@ -18,6 +18,7 @@ const loadingSymbol = new SimpleMarkerSymbol({
 (async () => {
   // Asynchronously import modules. This helps build generate smaller chunks.
   const [
+    { default: Basemap },
     { default: EsriMap },
     { default: config },
     { default: Graphic },
@@ -30,9 +31,9 @@ const loadingSymbol = new SimpleMarkerSymbol({
     { setupWidgets },
     { setupSearch },
     { isGraphicHit },
-    { satelliteBasemap },
     { cityLimitsLayer, roadwayCharacteristicDataLayer },
   ] = await Promise.all([
+    import("@arcgis/core/Basemap"),
     import("@arcgis/core/Map"),
     import("@arcgis/core/config"),
     import("@arcgis/core/Graphic"),
@@ -45,7 +46,6 @@ const loadingSymbol = new SimpleMarkerSymbol({
     import("./widgets/expandGroups"),
     import("./widgets/setupSearch"),
     import("./types"),
-    import("./basemaps"),
     import("./layers"),
   ]);
 
@@ -63,8 +63,13 @@ const loadingSymbol = new SimpleMarkerSymbol({
 
   const milepostLayer = await createMilepostLayer(waExtent.spatialReference);
 
+  const basemap = new Basemap({
+    portalItem: {
+      id: "952d28d8d68c4e9ca2db7c7d68307af0",
+    },
+  });
   const map = new EsriMap({
-    basemap: satelliteBasemap,
+    basemap,
     layers: [cityLimitsLayer, roadwayCharacteristicDataLayer, milepostLayer],
   });
 
