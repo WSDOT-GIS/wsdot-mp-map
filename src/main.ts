@@ -1,5 +1,4 @@
 import { SimpleLineSymbol, SimpleMarkerSymbol } from "@arcgis/core/symbols";
-import { callElcFromForm } from "./elc";
 import { createClearButton } from "./widgets/ClearButton";
 
 import("./index.css");
@@ -13,8 +12,7 @@ const loadingSymbol = new SimpleMarkerSymbol({
   style: "x",
   size: 10,
 });
-// Using an async self-executing function because
-// top-level awaits aren't allowed.
+
 (async () => {
   // Asynchronously import modules. This helps build generate smaller chunks.
   const [
@@ -27,7 +25,7 @@ const loadingSymbol = new SimpleMarkerSymbol({
     { default: Home },
     { createMilepostLayer },
     { waExtent },
-    { callElc },
+    { callElc, callElcFromForm, callElcFromUrl },
     { setupWidgets },
     { setupSearch },
     { isGraphicHit },
@@ -121,51 +119,7 @@ const loadingSymbol = new SimpleMarkerSymbol({
 
   view.ui.add([home, clearButton], "top-trailing");
 
-  import("./widgets/SrmpInputForm").then(
-    ({ createSrmpInputForm, isRouteInputEvent }) => {
-      const form = createSrmpInputForm(view.ui, {
-        index: 0,
-        position: "top-leading",
-      });
-      form.addEventListener(
-        "srmp-input",
-        (e) => {
-          if (!isRouteInputEvent(e)) {
-            /* @__PURE__ */ console.warn(
-              "Input is not in expected format",
-              e instanceof CustomEvent ? e.detail : e
-            );
-            return;
-          }
-          /* @__PURE__ */ console.debug("User inputted a milepost", e.detail);
-
-          callElcFromForm(e.detail, view, milepostLayer).then(
-            (elcGraphic) => {
-              if (!elcGraphic) {
-                /* @__PURE__ */ console.log(
-                  "Returned graphic from user input",
-                  elcGraphic
-                );
-              } else {
-                /* @__PURE__ */ console.warn(
-                  "User input resulted in null graphic."
-                );
-              }
-            },
-            (reason) => {
-              /* @__PURE__ */ console.error(callElcFromForm.name, reason);
-            }
-          );
-        },
-        {
-          passive: true,
-        }
-      );
-    },
-    (reason) => {
-      console.error("SrmpInputForm module import", reason);
-    }
-  );
+  setupForm();
 
   const defaultSearchRadius = 3000;
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
@@ -238,6 +192,68 @@ const loadingSymbol = new SimpleMarkerSymbol({
         view.graphics.remove(loadingGraphic);
       });
   });
-})().catch((reason) => {
-  console.error(reason);
-});
+
+  Promise.all([view.when(), milepostLayer.when()]).then(
+    () => {
+      callElcFromUrl(view, milepostLayer)
+        .then((elcResult) => {
+          /* @__PURE__ */ console.debug("ELC result from URL", elcResult);
+        })
+        .catch((reason) =>
+          console.error("Calling ELC from URL failed.", reason)
+        );
+    },
+    (reason) => console.error(reason)
+  );
+
+  /**
+   * Sets up the form for inputting SRMPdata.
+   */
+  function setupForm() {
+    import("./widgets/SrmpInputForm").then(
+      ({ createSrmpInputForm, isRouteInputEvent }) => {
+        const form = createSrmpInputForm(view.ui, {
+          index: 0,
+          position: "top-leading",
+        });
+        form.addEventListener(
+          "srmp-input",
+          (e) => {
+            if (!isRouteInputEvent(e)) {
+              /* @__PURE__ */ console.warn(
+                "Input is not in expected format",
+                e instanceof CustomEvent ? e.detail : e
+              );
+              return;
+            }
+            /* @__PURE__ */ console.debug("User inputted a milepost", e.detail);
+
+            callElcFromForm(e.detail, view, milepostLayer).then(
+              (elcGraphic) => {
+                if (!elcGraphic) {
+                  /* @__PURE__ */ console.log(
+                    "Returned graphic from user input",
+                    elcGraphic
+                  );
+                } else {
+                  /* @__PURE__ */ console.warn(
+                    "User input resulted in null graphic."
+                  );
+                }
+              },
+              (reason) => {
+                /* @__PURE__ */ console.error(callElcFromForm.name, reason);
+              }
+            );
+          },
+          {
+            passive: true,
+          }
+        );
+      },
+      (reason) => {
+        console.error("SrmpInputForm module import", reason);
+      }
+    );
+  }
+})();

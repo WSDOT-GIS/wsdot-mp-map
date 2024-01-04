@@ -279,3 +279,82 @@ export async function callElcFromForm(
   const graphic = await addElcGraphic(elcResponse, view, milepostLayer);
   return graphic;
 }
+
+export function padRoute(route: string) {
+  if (/^\d{1,2}$/.test(route)) {
+    return route.padStart(3, "0");
+  }
+}
+
+export async function callElcFromUrl(
+  view: MapView,
+  milepostLayer: FeatureLayer
+) {
+  const url = new URL(location.href);
+  let route = url.searchParams.get("route");
+  const mp = url.searchParams.get("mp");
+
+  if (!route || !mp) {
+    /* @__PURE__ */ console.debug(
+      "The URL does not have valid route information.",
+      url.search
+    );
+    return;
+  }
+  route = padRoute(route) as string;
+
+  const mpRe = /^(?<mp>\d(?:\.\d+)?)(?<back>B)?$/i;
+  const match = mpRe.exec(mp);
+  /* @__PURE__ */
+  if (!(match && match.length >= 2)) {
+    /* @__PURE__ */ console.debug(
+      "The URL does not have valid milepost information.",
+      mp
+    );
+    return;
+  }
+
+  /* @__PURE__ */ console.debug("MP match", match.groups);
+
+  const srmp = parseFloat(match[1]);
+  const back = match.groups?.back !== undefined && /B/i.test(match.groups.back);
+
+  /* @__PURE__ */ console.debug("SRMP", { srmp, back });
+
+  let direction = url.searchParams.get("direction");
+
+  if (!direction) {
+    direction = "i";
+  }
+
+  /* @__PURE__ */ console.debug(
+    `${route}@${srmp}${back ? "B" : "A"}, ${direction}`
+  );
+
+  const routeLocation = new RouteLocation({
+    Route: route,
+    Srmp: srmp,
+    Back: back,
+    Decrease: /dD/i.test(direction),
+    ReferenceDate: new Date(),
+    ResponseDate: new Date(),
+  });
+
+  /* @__PURE__ */ console.debug(
+    "ELC call from URL: Route Location",
+    routeLocation
+  );
+
+  const rl = new RouteLocator();
+  const elcResults = await rl.findRouteLocations({
+    locations: [routeLocation],
+    outSR: 4326,
+  });
+
+  if (elcResults.length < 1) {
+    /* @__PURE__ */ console.debug("No results from URL", elcResults);
+    return elcResults;
+  }
+
+  return addElcGraphic(elcResults, view, milepostLayer);
+}
