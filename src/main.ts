@@ -1,16 +1,5 @@
-import { SimpleLineSymbol, SimpleMarkerSymbol } from "@arcgis/core/symbols";
-
+import { loadingSymbol } from "./loadingSymbol";
 import("./index.css");
-
-const loadingSymbol = new SimpleMarkerSymbol({
-  color: "red",
-  outline: new SimpleLineSymbol({
-    color: "red",
-    width: 5,
-  }),
-  style: "x",
-  size: 10,
-});
 
 (async () => {
   // Asynchronously import modules. This helps build generate smaller chunks.
