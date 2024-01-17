@@ -1,20 +1,19 @@
 /// <reference types="vitest" />
+import browserslistToEsbuild from "browserslist-to-esbuild";
 import { defineConfig } from "vite";
 
 export default defineConfig({
   appType: "spa",
-  base: "/wsdot-mp-map",
-  esbuild: {
-    /**
-     * Prevents ESBuild to throw when using a feature not supported by the
-     * list of supported browsers coming from the `browserslist` file.
-     */
-    supported: {
-      "top-level-await": true,
-    },
+  base: "/data/tools/LocateMP",
+  build: {
+    target: browserslistToEsbuild(),
   },
   test: {
     environment: "jsdom",
+    reporters: ["default", "junit"],
+    outputFile: {
+      junit: "./test-results/test-results.xml",
+    },
     coverage: {
       enabled: true,
       extension: [
