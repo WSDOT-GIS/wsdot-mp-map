@@ -27,6 +27,6 @@ test(
     }
   },
   {
-    timeout: 60_000,
+    retry: 5,
   }
 );

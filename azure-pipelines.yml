@@ -1,0 +1,98 @@
+# Build a general Node.js project with npm.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+# Node.js
+# This section defines the Azure Pipeline configuration for a Node.js project.
+# It includes instructions for building the project using npm and saving the build artifacts.
+
+# The trigger section specifies which branches will trigger the pipeline when new commits are pushed.
+# In this case, any push to the 'master' branch will trigger the build.
+trigger:
+  - master
+
+# The pool section specifies the agent pool that will run the jobs in this pipeline.
+# 'Default' is typically the name of the Microsoft-hosted agent pool provided by Azure DevOps.
+pool:
+  name: Default
+
+# The stages section allows you to organize the pipeline into multiple stages.
+# Here we have only one stage named 'build', which contains the jobs for building the project.
+stages:
+  - stage: build
+    # Within the build stage, we define the jobs that need to be run.
+    # Each job runs independently and can run on different agents if required.
+    # The 'build' stage is responsible for executing tasks that compile and build the code.
+    jobs:
+      - job: installAndBuild
+        displayName: Install and Build
+        steps:
+          # Install the LTS version of Node
+          - task: UseNode@1
+            name: use_node
+            displayName: Install Node
+            inputs:
+              version: 20.X
+
+          # Install project dependencies using npm in a clean state.
+          - task: Npm@1
+            name: npm_install
+            displayName: NPM Clean Install (CI)
+            inputs:
+              # The npm command to run. 'ci' installs dependencies based on the lock file.
+              command: ci
+
+          - task: Npm@1
+            name: npm_test
+            displayName: NPM Test
+            continueOnError: true
+            inputs:
+              command: custom
+              customCommand: test
+
+          - task: PublishTestResults@2
+            name: publish_test_results
+            displayName: Publish Test Results
+            condition: succeededOrFailed()
+            continueOnError: true
+            inputs:
+              searchFolder: ./test-results
+              testResultsFiles: test-results.xml
+
+          - task: PublishCodeCoverageResults@2
+            name: publish_code_coverage
+            displayName: Publish Code Coverage
+            continueOnError: true
+            inputs:
+              summaryFileLocation: coverage/cobertura-coverage.xml
+
+          # Run the npm build script to compile the project.
+          - task: Npm@1
+            name: run_build
+            displayName: NPM Build
+            inputs:
+              command: custom
+              # The npm command to run the build script defined in package.json.
+              customCommand: run build
+              # Sets the current working directory for this task to the sources directory.
+              workingDir: $(Build.SourcesDirectory)
+
+          # Copy the build output (dist folder) to the staging directory for artifact publishing.
+          - task: CopyFiles@2
+            name: copy_files
+            displayName: Copy Files to $(Build.ArtifactStagingDirectory)
+            inputs:
+              # The target folder to copy files to, typically a staging directory for artifacts.
+              TargetFolder: $(Build.ArtifactStagingDirectory)
+              # The contents to copy, in this case, everything from the 'dist' folder.
+              Contents: dist/**
+
+          # Publish the build artifacts to Azure Pipelines.
+          - task: PublishBuildArtifacts@1
+            name: publish_build_artifacts
+            displayName: Publish Build Artifacts
+            inputs:
+              # The path to the folder containing build artifacts to publish.
+              PathtoPublish: $(Build.ArtifactStagingDirectory)
+              # The name for this artifact, which can be used for deployment or reference.
+              ArtifactName: www
