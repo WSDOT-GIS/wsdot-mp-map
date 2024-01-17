@@ -16,7 +16,7 @@ type ElcSetupOptions = Pick<
   "searchRadius" | "useCors"
 >;
 
-type PointProperties = Pick<Point, "x" | "y" | "spatialReference">;
+export type PointProperties = Pick<Point, "x" | "y" | "spatialReference">;
 
 interface ValidRouteLocation extends IRouteLocation {
   Route: string;
@@ -80,30 +80,6 @@ function routeLocationToGraphic(routeLocation: IRouteLocation) {
   });
 
   return graphic;
-}
-
-/**
- * Determines if an input geometry object has both "x" and "y"
- * properties which are both numbers.
- * @param geometry - Value from {@link RouteLocation.RouteGeometry}
- * @returns - `true` if {@link geometry} has "x" and "y" properties
- * with numeric values, `false` otherwise.
- */
-function isPoint(
-  geometry: RouteLocation["RouteGeometry"]
-): geometry is PointProperties {
-  if (geometry == null) {
-    return false;
-  }
-  for (const name of ["x", "y"]) {
-    if (
-      !Object.hasOwn(geometry as Record<string, unknown>, name) ||
-      typeof (geometry as Record<string, unknown>)[name] !== "number"
-    ) {
-      return false;
-    }
-  }
-  return true;
 }
 
 /**
@@ -236,12 +212,6 @@ export async function callElcFromForm(
   return graphic;
 }
 
-export function padRoute(route: string) {
-  if (/^\d{1,2}$/.test(route)) {
-    return route.padStart(3, "0");
-  }
-}
-
 export async function callElcFromUrl(
   view: MapView,
   milepostLayer: FeatureLayer
@@ -257,11 +227,11 @@ export async function callElcFromUrl(
     );
     return;
   }
-  route = padRoute(route) as string;
+  route = padRoute(route);
 
   const mpRe = /^(?<mp>\d(?:\.\d+)?)(?<back>B)?$/i;
   const match = mpRe.exec(mp);
-  /* @__PURE__ */
+
   if (!(match && match.length >= 2)) {
     /* @__PURE__ */ console.debug(
       "The URL does not have valid milepost information.",
