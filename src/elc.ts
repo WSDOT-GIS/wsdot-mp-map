@@ -3,15 +3,13 @@ import Point from "@arcgis/core/geometry/Point";
 import type FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import type MapView from "@arcgis/core/views/MapView";
 import {
+  RouteLocation,
   RouteLocator,
   type IFindNearestRouteLocationParameters,
   type IRouteLocation,
-  RouteLocation,
 } from "wsdot-elc";
-import { enumerateQueryResponseAttributes, query } from "./common";
-import type { AttributesObject } from "./types";
-import type { RouteEventObject } from "./widgets/SrmpInputForm";
 import NotImplementedError from "./common/NotImplementedError";
+import type { RouteEventObject } from "./widgets/SrmpInputForm";
 
 type ElcSetupOptions = Pick<
   IFindNearestRouteLocationParameters,
@@ -46,9 +44,7 @@ let oid = 0;
  * @param routeLocation - A route location
  * @returns - A {@link Graphic}.
  */
-async function routeLocationToGraphic(
-  routeLocation: IRouteLocation
-): Promise<Graphic> {
+function routeLocationToGraphic(routeLocation: IRouteLocation) {
   let geometry;
   if (isPoint(routeLocation.RouteGeometry)) {
     const { x, y, spatialReference } = routeLocation.RouteGeometry;
@@ -83,41 +79,7 @@ async function routeLocationToGraphic(
     attributes,
   });
 
-  // TODO: Add Data Library attributes to graphic.
-  const result = await queryDataLibrary(graphic);
-  for (const key in result) {
-    if (Object.prototype.hasOwnProperty.call(result, key)) {
-      const value = result[key];
-      (graphic.attributes as AttributesObject)[key] = value;
-    }
-  }
-
   return graphic;
-}
-
-/**
- * Queries the WSDOT Data Library feature service and updates
- * the input graphic's attributes with the response data.
- * @param graphic - A graphic.
- * @returns
- */
-async function queryDataLibrary(graphic: Graphic) {
-  const geometry = graphic.geometry as Point;
-  const { x, y, spatialReference } = geometry;
-  const queryResponse = await query([x, y], undefined, spatialReference.wkid);
-  /* @__PURE__ */ console.debug("data library query response", queryResponse);
-  if (!graphic.attributes) {
-    /* @__PURE__ */ console.warn(
-      'Graphic\'s "attributes" property is null but is expected to be an object.'
-    );
-  }
-  const output: AttributesObject =
-    (graphic.attributes as AttributesObject) || {};
-  for (const [key, value] of enumerateQueryResponseAttributes(queryResponse)) {
-    output[key] = value;
-  }
-
-  return output;
 }
 
 /**
@@ -153,7 +115,7 @@ function isPoint(
  * @returns - The added graphic, or null if the graphic couldn't be added
  * (e.g., if user clicked an area outside of the search radius of a route.)
  */
-async function addElcGraphic(
+function addElcGraphic(
   elcResponse: RouteLocation[],
   view: MapView,
   milepostLayer: FeatureLayer,
@@ -176,7 +138,7 @@ async function addElcGraphic(
     return null;
   }
 
-  const graphic = await routeLocationToGraphic(routeLocation);
+  const graphic = routeLocationToGraphic(routeLocation);
   // Add location to the layer.
   milepostLayer
     .applyEdits({
@@ -213,9 +175,8 @@ export async function callElc(
     referenceDate: new Date(),
   };
   const routeLocator = new RouteLocator();
-  const elcResponse = await routeLocator.findNearestRouteLocations(
-    inputParameters
-  );
+  const elcResponse =
+    await routeLocator.findNearestRouteLocations(inputParameters);
 
   /* @__PURE__ */ console.debug("ELC Response", {
     inputParameters,
@@ -235,12 +196,7 @@ export async function callElc(
     return null;
   }
 
-  const graphic = await addElcGraphic(
-    elcResponse,
-    view,
-    milepostLayer,
-    mapPoint
-  );
+  const graphic = addElcGraphic(elcResponse, view, milepostLayer, mapPoint);
 
   return graphic;
 }
@@ -276,7 +232,7 @@ export async function callElcFromForm(
     referenceDate: new Date(),
   });
 
-  const graphic = await addElcGraphic(elcResponse, view, milepostLayer);
+  const graphic = addElcGraphic(elcResponse, view, milepostLayer);
   return graphic;
 }
 
