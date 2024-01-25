@@ -2,6 +2,7 @@
 ArcGIS
 Avenir
 brotli
+cobertura
 divs
 EPSG
 fontnik
@@ -9,6 +10,7 @@ Geoportal
 geouri
 GNIS
 latlng
+lcov
 nojekyll
 SRMP
 Vite

@@ -1,0 +1,82 @@
+{
+  "displayFieldName": "RouteID",
+  "fieldAliases": {
+    "RouteID": "RouteID",
+    "ARM": "ARM",
+    "SRMP": "SRMP",
+    "Direction": "Direction",
+    "AheadBackInd": "AheadBackInd",
+    "LRS_Date": "LRS_Date"
+  },
+  "geometryType": "esriGeometryPoint",
+  "spatialReference": {
+    "wkid": 102100,
+    "latestWkid": 3857
+  },
+  "fields": [
+    {
+      "name": "RouteID",
+      "type": "esriFieldTypeString",
+      "alias": "RouteID",
+      "length": 12
+    },
+    {
+      "name": "ARM",
+      "type": "esriFieldTypeSingle",
+      "alias": "ARM"
+    },
+    {
+      "name": "SRMP",
+      "type": "esriFieldTypeSingle",
+      "alias": "SRMP"
+    },
+    {
+      "name": "Direction",
+      "type": "esriFieldTypeString",
+      "alias": "Direction",
+      "length": 2
+    },
+    {
+      "name": "AheadBackInd",
+      "type": "esriFieldTypeString",
+      "alias": "AheadBackInd",
+      "length": 1
+    },
+    {
+      "name": "LRS_Date",
+      "type": "esriFieldTypeString",
+      "alias": "LRS_Date",
+      "length": 8
+    }
+  ],
+  "features": [
+    {
+      "attributes": {
+        "RouteID": "005",
+        "ARM": 145.78,
+        "SRMP": 145.8,
+        "Direction": "i",
+        "AheadBackInd": "A",
+        "LRS_Date": "20221231"
+      },
+      "geometry": {
+        "x": -13613546.731994705,
+        "y": 5998285.0782332402
+      }
+    },
+    {
+      "attributes": {
+        "RouteID": "005",
+        "ARM": 145.78,
+        "SRMP": 145.8,
+        "Direction": "d",
+        "AheadBackInd": "A",
+        "LRS_Date": "20221231"
+      },
+      "geometry": {
+        "x": -13613596.372811783,
+        "y": 5998286.0320844343
+      }
+    }
+  ]
+}
