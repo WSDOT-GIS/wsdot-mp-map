@@ -20,6 +20,7 @@ export const cityLimitsLayer = new FeatureLayer({
   portalItem: {
     id: cityLimitsId,
   },
+  popupEnabled: false,
   renderer,
 });
 
