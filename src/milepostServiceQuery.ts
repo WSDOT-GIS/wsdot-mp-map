@@ -8,7 +8,10 @@ type DistanceUnits =
  */
 export interface QueryOptions {
   geometry: [number, number]; //[-122.29193564534154, 47.34345774504132]
-  inSR?: 4326 | 3857 | 2927;
+  /**
+   * 4326 | 3857 | 2927
+   */
+  inSR?: number;
   distance?: number; // 300;
   units?: DistanceUnits;
 }
@@ -76,7 +79,7 @@ interface FieldAliases {
 /**
  * Successful result from a query of the milepost service.
  */
-interface QueryResult {
+export interface QueryResult {
   displayFieldName: string;
   fieldAliases: FieldAliases;
   geometryType: `esriGeometry${string}`;
@@ -85,7 +88,7 @@ interface QueryResult {
   features: MilepostFeature[];
 }
 
-interface MilepostAttributes {
+export interface MilepostAttributes {
   RouteID: string;
   ARM: number;
   SRMP: number;
