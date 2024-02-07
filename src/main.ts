@@ -12,6 +12,7 @@ import { createMilepostLayer } from "./MilepostLayer";
 import waExtent from "./WAExtent";
 import { cityLimitsLayer, roadwayCharacteristicDataLayer } from "./layers";
 import {
+  MilepostAttributes,
   findNearestMilepost,
   type MilepostFeature,
   type QueryOptions,
@@ -36,6 +37,10 @@ interface HasDistance {
 const validateHasDistance = (value: unknown): value is HasDistance =>
   value != null && typeof value === "object" && "distance" in value;
 
+type MPDistanceGraphic = Graphic & {
+  attributes: MilepostAttributes & HasDistance;
+};
+
 /**
  * Converts a query result to a graphic object.
  *
@@ -43,11 +48,12 @@ const validateHasDistance = (value: unknown): value is HasDistance =>
  * @param spatialReference - The spatial reference for the graphic
  * @return The graphic created from the query result
  */
-async function queryResultToGraphic(
+async function queryResultFeatureToGraphic(
   feature: MilepostFeature,
   spatialReference: SpatialReference,
   clickPoint: Point
-) {
+): Promise<MPDistanceGraphic> {
+  // TODO: Remove the spatialReference parameter, as clickPoint should already have this information.
   const { geometry } = feature;
   const attributes = feature.attributes as typeof feature.attributes &
     HasDistance;
@@ -71,6 +77,35 @@ async function queryResultToGraphic(
   return graphic;
 }
 
+/**
+ * Group the features by RouteId
+ *
+ * @param features - array of MilepostFeature objects
+ * @returns a Map object with RouteID as key and array of MilepostFeature as value
+ */
+function groupMPFeatures(features: MilepostFeature[]) {
+  // Group the features by RouteId
+  // const groups = Map.groupBy(features, (feature) => feature.attributes.RouteID);
+  const groupedByRoute = new Map<string, Array<MilepostFeature>>();
+  for (const feature of features) {
+    const { RouteID } = feature.attributes;
+    // Create a new group for this route ID if it doesn't exist.
+    if (!groupedByRoute.has(RouteID)) {
+      groupedByRoute.set(RouteID, []);
+    }
+    groupedByRoute.get(RouteID)!.push(feature);
+  }
+  return groupedByRoute;
+}
+
+/**
+ * Query the milepost layer and add graphics to the map view based on the provided search radius, click event, and map view.
+ *
+ * @param defaultSearchRadius - The default search radius for the query
+ * @param event - The click event that triggered the query
+ * @param view - The map view where the graphics will be added
+ * @return A promise that resolves once the graphics are added to the map
+ */
 async function queryMPLayerAndAddGraphics(
   defaultSearchRadius: number,
   event: __esri.ViewClickEvent,
@@ -84,18 +119,35 @@ async function queryMPLayerAndAddGraphics(
   };
   const queryResult = await findNearestMilepost(query);
 
+  const groupedByRoute = groupMPFeatures(queryResult.features);
+
   const graphics = await Promise.all(
-    queryResult.features.map((feature) =>
-      queryResultToGraphic(feature, view.spatialReference, event.mapPoint)
-    )
+    [...groupedByRoute.entries()].map(async ([, features]) => {
+      const graphicPromises = features.map((feature) =>
+        queryResultFeatureToGraphic(
+          feature,
+          view.spatialReference,
+          event.mapPoint
+        )
+      );
+      const graphics = await Promise.all(graphicPromises);
+
+      if (graphics.length > 1) {
+        // Sort graphics by distance.
+        graphics.sort(
+          (a: MPDistanceGraphic, b: MPDistanceGraphic) =>
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+            a.attributes.distance - b.attributes.distance
+        );
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        if (graphics[0].attributes.distance < graphics[1].attributes.distance) {
+          console.error("Sorting failed", graphics);
+        }
+      }
+      // Return only the first graphic, which will have the shortest distance.
+      return graphics[0];
+    })
   );
-
-  graphics.sort(function (a, b) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    return a.attributes.distance - b.attributes.distance;
-  });
-
-  // TODO: Only add the results with the shortest distance.
 
   milepostLayer
     .applyEdits({
@@ -157,8 +209,6 @@ const sb = new ScaleBar({
 });
 view.ui.add(sb, "bottom-leading");
 
-view.popup.defaultPopupTemplateEnabled = true;
-
 const search = setupSearch(view);
 search.view.ui.add(search, {
   index: 0,
@@ -189,25 +239,28 @@ import("./setupForm")
   .catch((reason) => console.error("failed to setup form", reason));
 
 view.on("click", (event) => {
+  function openPopupOrGetMP(hitTestResult: __esri.HitTestResult): void {
+    const hitGraphics = hitTestResult.results
+      .filter(isGraphicHit)
+      .map((gh) => gh.graphic);
+    if (hitGraphics.length) {
+      view
+        .openPopup({
+          features: hitGraphics,
+          updateLocationEnabled: true,
+        })
+        .catch((reason) => console.error("failed to open popup", reason));
+    } else {
+      queryMPLayerAndAddGraphics(defaultSearchRadius, event, view).catch(
+        (reason) => console.error("failed to add graphics", reason)
+      );
+    }
+  }
   view
     .hitTest(event, {
       include: milepostLayer,
     })
-    .then((hitTestResult) => {
-      const hitGraphics = hitTestResult.results
-        .filter(isGraphicHit)
-        .map((gh) => gh.graphic);
-      if (hitGraphics.length) {
-        view.popup.open({
-          features: hitGraphics,
-          updateLocationEnabled: true,
-        });
-      } else {
-        queryMPLayerAndAddGraphics(defaultSearchRadius, event, view).catch(
-          (reason) => console.error("failed to add graphics", reason)
-        );
-      }
-    })
+    .then(openPopupOrGetMP)
     .catch((reason) => {
       console.error("failed call to hit test", reason);
     });
