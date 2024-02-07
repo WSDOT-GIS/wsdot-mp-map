@@ -27,6 +27,9 @@
       },
       "type": "npm",
       "script": "dev",
+      "presentation": {
+        "group": "watch"
+      },
       "problemMatcher": []
     },
     {
@@ -53,6 +56,7 @@
       "option": "watch",
       "presentation": {
         "echo": true,
+        "group": "watch",
         "reveal": "silent",
         "focus": false,
         "panel": "shared",
@@ -136,7 +140,10 @@
     {
       "label": "Test (watch)",
       "type": "npm",
-      "script": "test:watch"
+      "script": "test:watch",
+      "presentation": {
+        "group": "watch"
+      }
     },
     {
       "type": "process",
