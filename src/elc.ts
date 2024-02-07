@@ -9,6 +9,7 @@ import {
   type IRouteLocation,
 } from "wsdot-elc";
 import NotImplementedError from "./common/NotImplementedError";
+import { isPoint, padRoute } from "./utils";
 import type { RouteEventObject } from "./widgets/SrmpInputForm";
 
 type ElcSetupOptions = Pick<
