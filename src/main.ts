@@ -12,8 +12,8 @@ import { createMilepostLayer } from "./MilepostLayer";
 import waExtent from "./WAExtent";
 import { cityLimitsLayer, roadwayCharacteristicDataLayer } from "./layers";
 import {
-  MilepostAttributes,
   findNearestMilepost,
+  type MilepostAttributes,
   type MilepostFeature,
   type QueryOptions,
 } from "./milepostServiceQuery";

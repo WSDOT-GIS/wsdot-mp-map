@@ -5,7 +5,7 @@
  */
 
 import { RouteLocation } from "wsdot-elc";
-import { PointProperties } from "./elc";
+import type { PointProperties } from "./elc";
 
 export function padRoute(route: string) {
   if (/^\d{1,2}$/.test(route)) {
