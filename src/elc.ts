@@ -33,9 +33,7 @@ interface ValidRouteLocation extends IRouteLocation {
 function hasValidSrmpData(
   routeLocation: IRouteLocation
 ): routeLocation is ValidRouteLocation {
-  return (
-    routeLocation && routeLocation.Route != null && routeLocation.Srmp != null
-  );
+  return routeLocation?.Route != null && routeLocation.Srmp != null;
 }
 
 let oid = 0;
@@ -230,20 +228,35 @@ export async function callElcFromUrl(
   }
   route = padRoute(route);
 
-  const mpRe = /^(?<mp>\d(?:\.\d+)?)(?<back>B)?$/i;
+  /**
+   * Regular expression pattern to validate and extract milepost information from a string.
+   * It expects a numeric value that can be an integer or a decimal, and an optional 'B' character
+   * indicating back mileage if present.
+   *
+   * The match will have the following groups:
+   * - `mp` - The numeric value of the milepost
+   * - `back` - The 'B' character if present
+   * @example
+   * // matches "123", "123.45", "123B", "123.45B"
+   */
+  const mpRe = /^(?<mp>\d+(?:\.\d+)?)(?<back>B)?$/i;
   const match = mpRe.exec(mp);
 
-  if (!(match && match.length >= 2)) {
-    /* @__PURE__ */ console.debug(
+  if (!(match && match.length >= 2 && match.groups)) {
+    /* @__PURE__ */ console.warn(
       "The URL does not have valid milepost information.",
-      mp
+      {
+        "mp search param": mp,
+        match,
+        regex: mpRe,
+      }
     );
     return;
   }
 
   /* @__PURE__ */ console.debug("MP match", match.groups);
 
-  const srmp = parseFloat(match[1]);
+  const srmp = parseFloat(match.groups.mp);
   const back = match.groups?.back !== undefined && /B/i.test(match.groups.back);
 
   /* @__PURE__ */ console.debug("SRMP", { srmp, back });
