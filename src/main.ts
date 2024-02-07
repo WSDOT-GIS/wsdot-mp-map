@@ -13,7 +13,7 @@ import("./index.css");
     { default: Home },
     { createMilepostLayer },
     { waExtent },
-    { callElc, callElcFromForm, callElcFromUrl },
+    { callElc, callElcFromUrl },
     { setupWidgets },
     { setupSearch },
     { isGraphicHit },
@@ -111,11 +111,22 @@ import("./index.css");
     (reason) => console.error("Failed to setup clear button", reason)
   );
 
-  setupForm();
+  // Set up the form for inputting SRMPdata.
+  import("./setupForm")
+    .then(({ setupForm }) => setupForm(view, milepostLayer))
+    .catch((reason) => console.error("failed to setup form", reason));
 
   const defaultSearchRadius = 3000;
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
-  view.on("click", async (event) => {
+
+  /**
+   * Handle the click event on the view.
+   *
+   * @param {__esri.ViewClickEvent} event - The click event on the view
+   * @return {Promise<void>} A promise that resolves when the function completes
+   */
+  async function handleViewOnClick(
+    event: __esri.ViewClickEvent
+  ): Promise<void> {
     // Test to see if the clicked point intersects any of the milepost graphics.
     const hitTestResult = await view.hitTest(event, {
       include: milepostLayer,
@@ -183,6 +194,10 @@ import("./index.css");
         // Remove the temp graphic
         view.graphics.remove(loadingGraphic);
       });
+  }
+
+  view.on("click", (event) => {
+    handleViewOnClick(event).catch((reason) => console.error(reason));
   });
 
   Promise.all([view.when(), milepostLayer.when()]).then(
@@ -197,55 +212,4 @@ import("./index.css");
     },
     (reason) => console.error(reason)
   );
-
-  /**
-   * Sets up the form for inputting SRMPdata.
-   */
-  function setupForm() {
-    import("./widgets/SrmpInputForm").then(
-      ({ createSrmpInputForm, isRouteInputEvent }) => {
-        const form = createSrmpInputForm(view.ui, {
-          index: 0,
-          position: "top-leading",
-        });
-        form.addEventListener(
-          "srmp-input",
-          (e) => {
-            if (!isRouteInputEvent(e)) {
-              /* @__PURE__ */ console.warn(
-                "Input is not in expected format",
-                e instanceof CustomEvent ? e.detail : e
-              );
-              return;
-            }
-            /* @__PURE__ */ console.debug("User inputted a milepost", e.detail);
-
-            callElcFromForm(e.detail, view, milepostLayer).then(
-              (elcGraphic) => {
-                if (!elcGraphic) {
-                  /* @__PURE__ */ console.log(
-                    "Returned graphic from user input",
-                    elcGraphic
-                  );
-                } else {
-                  /* @__PURE__ */ console.warn(
-                    "User input resulted in null graphic."
-                  );
-                }
-              },
-              (reason) => {
-                /* @__PURE__ */ console.error(callElcFromForm.name, reason);
-              }
-            );
-          },
-          {
-            passive: true,
-          }
-        );
-      },
-      (reason) => {
-        console.error("SrmpInputForm module import", reason);
-      }
-    );
-  }
 })().catch((reason) => console.error(reason));
