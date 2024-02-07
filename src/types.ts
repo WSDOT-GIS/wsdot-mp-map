@@ -1,8 +1,8 @@
 import type Graphic from "@arcgis/core/Graphic";
 import type Geometry from "@arcgis/core/geometry/Geometry";
 import Point from "@arcgis/core/geometry/Point";
-import { RouteLocation } from "wsdot-elc";
 import type { AttributeValue } from "./common";
+import { RouteLocation } from "./elc/types";
 
 export const objectIdFieldName = "OBJECTID";
 

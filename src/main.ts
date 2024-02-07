@@ -1,5 +1,14 @@
-import { loadingSymbol } from "./loadingSymbol";
+import {
+  DateString,
+  RouteGeometryPoint,
+  findNearestRouteLocations,
+  routeLocationToGraphic,
+} from "./elc";
+import { isGraphicHit } from "./types";
+
 import("./index.css");
+
+const defaultSearchRadius = 3000;
 
 (async () => {
   // Asynchronously import modules. This helps build generate smaller chunks.
@@ -7,31 +16,31 @@ import("./index.css");
     { default: Basemap },
     { default: EsriMap },
     { default: config },
-    { default: Graphic },
+    // { default: Graphic },
     { default: MapView },
     { default: ScaleBar },
     { default: Home },
     { createMilepostLayer },
     { waExtent },
-    { callElc, callElcFromUrl },
+    // { callElc, callElcFromUrl },
     { setupWidgets },
     { setupSearch },
-    { isGraphicHit },
+    // { isGraphicHit },
     { cityLimitsLayer, roadwayCharacteristicDataLayer },
   ] = await Promise.all([
     import("@arcgis/core/Basemap"),
     import("@arcgis/core/Map"),
     import("@arcgis/core/config"),
-    import("@arcgis/core/Graphic"),
+    // import("@arcgis/core/Graphic"),
     import("@arcgis/core/views/MapView"),
     import("@arcgis/core/widgets/ScaleBar"),
     import("@arcgis/core/widgets/Home"),
     import("./MilepostLayer"),
     import("./WAExtent"),
-    import("./elc"),
+    // import("./elc"),
     import("./widgets/expandGroups"),
     import("./widgets/setupSearch"),
-    import("./types"),
+    // import("./types"),
     import("./layers"),
   ]);
 
@@ -111,104 +120,147 @@ import("./index.css");
     (reason) => console.error("Failed to setup clear button", reason)
   );
 
-  // Set up the form for inputting SRMPdata.
-  import("./setupForm")
-    .then(({ setupForm }) => setupForm(view, milepostLayer))
-    .catch((reason) => console.error("failed to setup form", reason));
-
-  const defaultSearchRadius = 3000;
-
-  /**
-   * Handle the click event on the view.
-   *
-   * @param {__esri.ViewClickEvent} event - The click event on the view
-   * @return {Promise<void>} A promise that resolves when the function completes
-   */
-  async function handleViewOnClick(
-    event: __esri.ViewClickEvent
-  ): Promise<void> {
-    // Test to see if the clicked point intersects any of the milepost graphics.
-    const hitTestResult = await view.hitTest(event, {
-      include: milepostLayer,
-    });
-
-    // If the user clicked on a milepost graphic, open a popup for the graphic
-    // and exit.
-    if (hitTestResult.results.length > 0) {
-      // Extract the features from the hit test results object's "results" property.
-      const features = hitTestResult.results
-        // Filter out any that are not of type "graphic".
-        // Since we are only testing against a FeatureLayer,
-        // all of them should be "graphic"
-        .filter(isGraphicHit)
-        .map((viewHit) => viewHit.graphic);
-      view
-        .openPopup({
-          location: event.mapPoint,
-          features,
-        })
-        .then(
-          () => {},
-          (reason) => {
-            /* @__PURE__ */ console.error(reason);
-          }
-        );
-      return;
-    }
-
-    // Add a temp loading graphic
-    const loadingGraphic = new Graphic({
-      geometry: event.mapPoint,
-      symbol: loadingSymbol,
-    });
-
-    view.graphics.add(loadingGraphic);
-
-    const graphicPromise = callElc(view, milepostLayer, event.mapPoint, {
-      searchRadius: defaultSearchRadius,
-      useCors: true,
-    });
-
-    graphicPromise
-      .then((graphic) => {
-        if (graphic) {
+  view.on("click", (event) => {
+    view
+      .hitTest(event, {
+        include: milepostLayer,
+      })
+      .then((hitTestResult) => {
+        const graphicHits = hitTestResult.results.filter(isGraphicHit);
+        const features = graphicHits.map(({ graphic }) => graphic);
+        if (features.length > 0) {
+          /* @__PURE__ */ console.debug(
+            "map click hit test determined user clicked on existing graphic.",
+            features
+          );
           view
             .openPopup({
-              features: [graphic],
-              fetchFeatures: true,
-              shouldFocus: true,
-              updateLocationEnabled: true,
+              features,
             })
-            .then(
-              () => {},
-              (reason) => {
-                /* @__PURE__ */ console.error(reason);
-              }
-            );
+            .catch((reason) => console.error("openPopup failed", reason));
         } else {
-          /* @__PURE__ */ console.error("graphic was null", { event });
+          // Call findNearestRouteLocations
+          const { x, y, spatialReference } = event.mapPoint;
+          findNearestRouteLocations({
+            coordinates: [x, y],
+            inSR: spatialReference.wkid,
+            referenceDate: new Date(),
+            searchRadius: defaultSearchRadius,
+          })
+            .then((locations) => {
+              /* @__PURE__ */ console.debug(
+                `${findNearestRouteLocations.name} results`
+              );
+              const locationGraphics = locations.map(
+                routeLocationToGraphic<DateString, RouteGeometryPoint>
+              );
+              milepostLayer
+                .applyEdits({
+                  addFeatures: locationGraphics,
+                })
+                .catch((reason) => console.error("addFeatures failed", reason));
+            })
+            .catch((reason) =>
+              console.error("findNearestRouteLocations failed", reason)
+            );
         }
       })
-      .catch((reason) => console.error(reason))
-      .finally(() => {
-        // Remove the temp graphic
-        view.graphics.remove(loadingGraphic);
-      });
-  }
-
-  view.on("click", (event) => {
-    handleViewOnClick(event).catch((reason) => console.error(reason));
+      .catch((reason) => console.error("hitTest failed", reason));
   });
+
+  // TODO: Turn SRMP form back on once ELC for direct input of SRMP has been rewritten.
+
+  // // Set up the form for inputting SRMPdata.
+  // import("./setupForm")
+  //   .then(({ setupForm }) => setupForm(view, milepostLayer))
+  //   .catch((reason) => console.error("failed to setup form", reason));
+
+  // /**
+  //  * Handle the click event on the view.
+  //  *
+  //  * @param {__esri.ViewClickEvent} event - The click event on the view
+  //  * @return {Promise<void>} A promise that resolves when the function completes
+  //  */
+  // async function handleViewOnClick(
+  //   event: __esri.ViewClickEvent
+  // ): Promise<void> {
+  //   // // Test to see if the clicked point intersects any of the milepost graphics.
+  //   // const hitTestResult = await view.hitTest(event, {
+  //   //   include: milepostLayer,
+  //   // });
+  //   // // If the user clicked on a milepost graphic, open a popup for the graphic
+  //   // // and exit.
+  //   // if (hitTestResult.results.length > 0) {
+  //   //   // Extract the features from the hit test results object's "results" property.
+  //   //   const features = hitTestResult.results
+  //   //     // Filter out any that are not of type "graphic".
+  //   //     // Since we are only testing against a FeatureLayer,
+  //   //     // all of them should be "graphic"
+  //   //     .filter(isGraphicHit)
+  //   //     .map((viewHit) => viewHit.graphic);
+  //   //   view
+  //   //     .openPopup({
+  //   //       location: event.mapPoint,
+  //   //       features,
+  //   //     })
+  //   //     .then(
+  //   //       () => {},
+  //   //       (reason) => {
+  //   //         /* @__PURE__ */ console.error(reason);
+  //   //       }
+  //   //     );
+  //   //   return;
+  //   // }
+  //   // // Add a temp loading graphic
+  //   // const loadingGraphic = new Graphic({
+  //   //   geometry: event.mapPoint,
+  //   //   symbol: loadingSymbol,
+  //   // });
+  //   // view.graphics.add(loadingGraphic);
+  //   // const graphicPromise = callElc(view, milepostLayer, event.mapPoint, {
+  //   //   searchRadius: defaultSearchRadius,
+  //   //   useCors: true,
+  //   // });
+  //   // graphicPromise
+  //   //   .then((graphic) => {
+  //   //     if (graphic) {
+  //   //       view
+  //   //         .openPopup({
+  //   //           features: [graphic],
+  //   //           fetchFeatures: true,
+  //   //           shouldFocus: true,
+  //   //           updateLocationEnabled: true,
+  //   //         })
+  //   //         .then(
+  //   //           () => {},
+  //   //           (reason) => {
+  //   //             /* @__PURE__ */ console.error(reason);
+  //   //           }
+  //   //         );
+  //   //     } else {
+  //   //       /* @__PURE__ */ console.error("graphic was null", { event });
+  //   //     }
+  //   //   })
+  //   //   .catch((reason) => console.error(reason))
+  //   //   .finally(() => {
+  //   //     // Remove the temp graphic
+  //   //     view.graphics.remove(loadingGraphic);
+  //   //   });
+  // }
+
+  // view.on("click", (event) => {
+  //   handleViewOnClick(event).catch((reason) => console.error(reason));
+  // });
 
   Promise.all([view.when(), milepostLayer.when()]).then(
     () => {
-      callElcFromUrl(view, milepostLayer)
-        .then((elcResult) => {
-          /* @__PURE__ */ console.debug("ELC result from URL", elcResult);
-        })
-        .catch((reason) =>
-          console.error("Calling ELC from URL failed.", reason)
-        );
+      // callElcFromUrl(view, milepostLayer)
+      //   .then((elcResult) => {
+      //     /* @__PURE__ */ console.debug("ELC result from URL", elcResult);
+      //   })
+      //   .catch((reason) =>
+      //     console.error("Calling ELC from URL failed.", reason)
+      //   );
     },
     (reason) => console.error(reason)
   );

@@ -4,7 +4,6 @@
  * @returns
  */
 
-import { RouteLocation } from "wsdot-elc";
 import { PointProperties } from "./elc";
 
 export function padRoute(route: string) {
@@ -21,19 +20,11 @@ export function padRoute(route: string) {
  * with numeric values, `false` otherwise.
  */
 
-export function isPoint(
-  geometry: RouteLocation["RouteGeometry"]
-): geometry is PointProperties {
-  if (geometry == null) {
-    return false;
-  }
-  for (const name of ["x", "y"]) {
-    if (
-      !Object.hasOwn(geometry as Record<string, unknown>, name) ||
-      typeof (geometry as Record<string, unknown>)[name] !== "number"
-    ) {
-      return false;
-    }
-  }
-  return true;
+export function isPoint(geometry: unknown): geometry is PointProperties {
+  return (
+    geometry != null &&
+    typeof geometry === "object" &&
+    "x" in geometry &&
+    "y" in geometry
+  );
 }

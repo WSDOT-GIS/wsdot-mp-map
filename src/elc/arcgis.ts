@@ -1,0 +1,71 @@
+import Graphic from "@arcgis/core/Graphic";
+import Point from "@arcgis/core/geometry/Point";
+import { isPoint } from "../utils";
+import { DateTypes, RouteGeometry, RouteLocation } from "./types";
+
+let oid = 0;
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+interface ValidRouteLocation<D extends DateTypes, G extends RouteGeometry>
+  extends RouteLocation<D, G> {
+  Route: string;
+  Srmp: number;
+}
+
+/**
+ * Tests to see if an {@link RouteLocation} as valid
+ * property values needed for an SRMP route location.
+ * @param routeLocation - An ELC route location.
+ * @returns - True if all property values are valid, false otherwise.
+ */
+function hasValidSrmpData<D extends DateTypes, G extends RouteGeometry>(
+  routeLocation: RouteLocation<D, G>
+): routeLocation is ValidRouteLocation<D, G> {
+  return routeLocation?.Route != null && routeLocation.Srmp != null;
+}
+
+/**
+ * Creates a {@link Graphic} from a {@link RouteLocation}
+ * @param routeLocation - A route location
+ * @returns - A {@link Graphic}.
+ */
+export function routeLocationToGraphic<
+  D extends DateTypes,
+  G extends RouteGeometry,
+>(routeLocation: RouteLocation<D, G>) {
+  let geometry;
+  if (isPoint(routeLocation.RouteGeometry)) {
+    const { x, y, spatialReference } = routeLocation.RouteGeometry;
+    geometry = new Point({ x, y, spatialReference });
+  } else {
+    /* @__PURE__ */ console.warn(
+      "Input does not have valid point geometry.",
+      routeLocation
+    );
+  }
+  let attributes;
+  if (hasValidSrmpData(routeLocation)) {
+    const { Route, Srmp, Back } = routeLocation;
+    attributes = {
+      OBJECTID: oid,
+      Route,
+      Srmp,
+      Back: Back ? "B" : "",
+      "Township Subdivision": null,
+      City: null,
+      County: null,
+    };
+    oid++;
+  } else {
+    /* @__PURE__ */ console.warn(
+      "Input does not have valid SRMP attributes.",
+      routeLocation
+    );
+  }
+  const graphic = new Graphic({
+    geometry,
+    attributes,
+  });
+
+  return graphic;
+}

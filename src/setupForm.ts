@@ -1,8 +1,10 @@
 import type FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import type MapView from "@arcgis/core/views/MapView";
-import { callElcFromForm } from "./elc";
+// import { callElcFromForm } from "./elc";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function setupForm(view: MapView, milepostLayer: FeatureLayer) {
+  /* @__PURE__ */ console.debug(setupForm.name, { milepostLayer });
   import("./widgets/SrmpInputForm").then(
     ({ createSrmpInputForm, isRouteInputEvent }) => {
       const form = createSrmpInputForm(view.ui, {
@@ -21,23 +23,23 @@ export function setupForm(view: MapView, milepostLayer: FeatureLayer) {
           }
           /* @__PURE__ */ console.debug("User inputted a milepost", e.detail);
 
-          callElcFromForm(e.detail, view, milepostLayer).then(
-            (elcGraphic) => {
-              if (!elcGraphic) {
-                /* @__PURE__ */ console.log(
-                  "Returned graphic from user input",
-                  elcGraphic
-                );
-              } else {
-                /* @__PURE__ */ console.warn(
-                  "User input resulted in null graphic."
-                );
-              }
-            },
-            (reason) => {
-              /* @__PURE__ */ console.error(callElcFromForm.name, reason);
-            }
-          );
+          // callElcFromForm(e.detail, view, milepostLayer).then(
+          //   (elcGraphic) => {
+          //     if (!elcGraphic) {
+          //       /* @__PURE__ */ console.log(
+          //         "Returned graphic from user input",
+          //         elcGraphic
+          //       );
+          //     } else {
+          //       /* @__PURE__ */ console.warn(
+          //         "User input resulted in null graphic."
+          //       );
+          //     }
+          //   },
+          //   (reason) => {
+          //     /* @__PURE__ */ console.error(callElcFromForm.name, reason);
+          //   }
+          // );
         },
         {
           passive: true,
