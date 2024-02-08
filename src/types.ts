@@ -2,7 +2,7 @@ import type Graphic from "@arcgis/core/Graphic";
 import type Geometry from "@arcgis/core/geometry/Geometry";
 import Point from "@arcgis/core/geometry/Point";
 import type { AttributeValue } from "./common";
-import { RouteLocation } from "./elc/types";
+import type { DateString, RouteGeometryPoint, RouteLocation } from "./elc";
 
 export const objectIdFieldName = "OBJECTID";
 
@@ -61,7 +61,10 @@ export interface TypedGraphic<
  */
 export interface ElcAttributes
   extends Required<
-    Pick<RouteLocation, "Route" | "Decrease" | "Srmp" | "Back">
+    Pick<
+      RouteLocation<DateString, RouteGeometryPoint>,
+      "Route" | "Decrease" | "Srmp" | "Back"
+    >
   > {
   [key: string]: AttributeValue;
   [objectIdFieldName]: number;

@@ -1,12 +1,12 @@
 import Graphic from "@arcgis/core/Graphic";
 import Point from "@arcgis/core/geometry/Point";
 import { isPoint } from "../utils";
-import { DateTypes, RouteGeometry, RouteLocation } from "./types";
+import { DateType, RouteGeometry, RouteLocation } from "./types";
 
 let oid = 0;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-interface ValidRouteLocation<D extends DateTypes, G extends RouteGeometry>
+interface ValidRouteLocation<D extends DateType, G extends RouteGeometry>
   extends RouteLocation<D, G> {
   Route: string;
   Srmp: number;
@@ -18,7 +18,7 @@ interface ValidRouteLocation<D extends DateTypes, G extends RouteGeometry>
  * @param routeLocation - An ELC route location.
  * @returns - True if all property values are valid, false otherwise.
  */
-function hasValidSrmpData<D extends DateTypes, G extends RouteGeometry>(
+function hasValidSrmpData<D extends DateType, G extends RouteGeometry>(
   routeLocation: RouteLocation<D, G>
 ): routeLocation is ValidRouteLocation<D, G> {
   return routeLocation?.Route != null && routeLocation.Srmp != null;
@@ -30,7 +30,7 @@ function hasValidSrmpData<D extends DateTypes, G extends RouteGeometry>(
  * @returns - A {@link Graphic}.
  */
 export function routeLocationToGraphic<
-  D extends DateTypes,
+  D extends DateType,
   G extends RouteGeometry,
 >(routeLocation: RouteLocation<D, G>) {
   let geometry;

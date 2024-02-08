@@ -68,30 +68,60 @@ export function isDateString(value: string): value is DateString {
   return /^\d{1,2}\/\d{1,2}\/\d{4}$/.test(value);
 }
 
-export type DateTypes = Date | DateString;
+export type DateType = Date | DateString;
 
-export interface RouteLocation<
-  D extends DateTypes = Date,
-  G extends RouteGeometry = RouteGeometryPoint,
-> {
-  Angle: number;
-  Arm: number;
-  ArmCalcReturnCode: number;
-  ArmCalcReturnMessage: string;
-  Back: boolean;
-  Decrease: boolean;
-  Distance: number;
-  EventPoint: XAndY;
-  Id: number;
-  RealignmentDate: D;
-  ReferenceDate: D;
-  ResponseDate: D;
-  Route: string;
-  RouteGeometry: G;
-  Srmp: number;
+export interface RouteLocation<D extends DateType, G extends RouteGeometry> {
+  Angle?: number;
+  Arm?: number;
+  ArmCalcReturnCode?: number;
+  ArmCalcReturnMessage?: string;
+  Back?: boolean;
+  Decrease?: boolean | null;
+  Distance?: number;
+  EventPoint?: XAndY;
+  Id?: number;
+  RealignmentDate?: D;
+  ReferenceDate?: D;
+  ResponseDate?: D;
+  Route?: string;
+  RouteGeometry?: G;
+  Srmp?: number;
 }
 
+export type ArmRouteLocation<
+  D extends DateType,
+  G extends RouteGeometry,
+> = RouteLocation<D, G> & Required<Pick<RouteLocation<D, G>, "Arm">>;
+
+export type SrmpRouteLocation<
+  D extends DateType,
+  G extends RouteGeometry,
+> = RouteLocation<D, G> & Required<Pick<RouteLocation<D, G>, "Srmp" & "Back">>;
+
+export type ValidRouteLocationForInput<
+  D extends DateType,
+  G extends RouteGeometry,
+> = ArmRouteLocation<D, G> | SrmpRouteLocation<D, G>;
+
 export type FindNearestRouteLocationResponse<
-  D extends DateTypes = Date,
-  G extends RouteGeometry = RouteGeometryPoint,
+  D extends DateType,
+  G extends RouteGeometry,
 > = RouteLocation<D, G>[];
+
+/*
+urlencoded.append("f", "json");
+urlencoded.append("locations", "[{\"Route\":\"005\",\"Decrease\":null,\"Arm\":0,\"ReferenceDate\":\"12/31/2022\",\"EndBack\":null}]");
+urlencoded.append("referenceDate", "2022-12-31");
+urlencoded.append("outSR", "2927");
+urlencoded.append("lrsYear", "Current");
+*/
+
+export interface FindRouteLocationParameters<
+  D extends DateType = DateType,
+  G extends RouteGeometry = RouteGeometry,
+> {
+  locations: ValidRouteLocationForInput<D, G>[];
+  referenceDate: Date;
+  outSR: number;
+  lrsYear: "Current" | `${number}`;
+}

@@ -4,6 +4,8 @@ import Point from "@arcgis/core/geometry/Point";
 import type {
   DateString,
   FindNearestRouteLocationParameters,
+  FindRouteLocationParameters,
+  RouteGeometry,
   RouteGeometryPoint,
   RouteLocation,
 } from "./types";
@@ -17,7 +19,7 @@ export type PointProperties = Pick<Point, "x" | "y" | "spatialReference">;
  * @returns - an iterator for enumerating URL parameters
  */
 function* enumerateUrlParameters(
-  parameters: FindNearestRouteLocationParameters
+  parameters: FindNearestRouteLocationParameters | FindRouteLocationParameters
 ): Generator<[key: string, value: string], void, unknown> {
   yield ["f", "json"];
   for (const [key, value] of Object.entries(parameters)) {
@@ -47,8 +49,14 @@ type Space = " " | "%20";
 export type ElcFindNearestUrlString =
   `${ElcSoeUrlString}Find${Space}Nearest${Space}Route${Space}Locations/`;
 
+export type ElcFindUrlString =
+  `${ElcSoeUrlString}Find${Space}Route${Space}Locations/`;
+
 const defaultFindNearestUrl: ElcFindNearestUrlString =
   "https://data.wsdot.wa.gov/arcgis/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe/Find Nearest Route Locations/";
+
+const defaultFindUrl: ElcFindUrlString =
+  "https://data.wsdot.wa.gov/arcgis/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe/Find Route Locations/";
 
 /**
  * Find nearest route locations
@@ -73,6 +81,27 @@ export async function findNearestRouteLocations(
     `${findNearestRouteLocations.name} result`,
     result
   );
+
+  return result;
+}
+
+export async function findRouteLocations(
+  routeLocations: FindRouteLocationParameters,
+  url: ElcFindUrlString = defaultFindUrl
+) {
+  /* @__PURE__ */ console.debug(findRouteLocations.name, {
+    routeLocations,
+    url,
+  });
+  const requestUrl = new URL(url);
+  for (const [key, value] of enumerateUrlParameters(routeLocations)) {
+    requestUrl.searchParams.set(key, value);
+  }
+  const response = await fetch(requestUrl);
+  const result = (await response.json()) as RouteLocation<
+    DateString,
+    RouteGeometry
+  >[];
 
   return result;
 }
