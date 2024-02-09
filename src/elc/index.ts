@@ -1,6 +1,5 @@
 export * from "./arcgis";
 export * from "./types";
-import Point from "@arcgis/core/geometry/Point";
 import type {
   DateString,
   FindNearestRouteLocationParameters,
@@ -9,8 +8,6 @@ import type {
   RouteGeometryPoint,
   RouteLocation,
 } from "./types";
-
-export type PointProperties = Pick<Point, "x" | "y" | "spatialReference">;
 
 /**
  * Generates an enumerated list of URL parameters based on the input parameters object.
@@ -36,6 +33,15 @@ function* enumerateUrlParameters(
       outValue = `${value}`;
     }
     yield [key, outValue];
+  }
+}
+
+function populateUrlParameters(
+  parameters: FindNearestRouteLocationParameters | FindRouteLocationParameters,
+  requestUrl: URL
+) {
+  for (const [key, value] of enumerateUrlParameters(parameters)) {
+    requestUrl.searchParams.set(key, value);
   }
 }
 
@@ -85,6 +91,13 @@ export async function findNearestRouteLocations(
   return result;
 }
 
+/**
+ * Find route locations based on the given parameters and URL.
+ *
+ * @param routeLocations - the parameters for finding route locations
+ * @param url - the URL for finding route locations
+ * @returns - an array of route locations
+ */
 export async function findRouteLocations(
   routeLocations: FindRouteLocationParameters,
   url: ElcFindUrlString = defaultFindUrl
@@ -94,9 +107,7 @@ export async function findRouteLocations(
     url,
   });
   const requestUrl = new URL(url);
-  for (const [key, value] of enumerateUrlParameters(routeLocations)) {
-    requestUrl.searchParams.set(key, value);
-  }
+  populateUrlParameters(routeLocations, requestUrl);
   const response = await fetch(requestUrl);
   const result = (await response.json()) as RouteLocation<
     DateString,
@@ -105,36 +116,6 @@ export async function findRouteLocations(
 
   return result;
 }
-
-/*
-const myHeaders = new Headers();
-myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-
-const urlencoded = new URLSearchParams();
-urlencoded.append("f", "json");
-urlencoded.append("referenceDate", "12-31-2011");
-urlencoded.append("coordinates", "%5B1083893.182%2C111526.885%5D");
-urlencoded.append("inSR", "2927");
-urlencoded.append("searchRadius", "1");
-urlencoded.append("outSR", "2927");
-urlencoded.append("lrsYear", "Current");
-urlencoded.append("routeFilter", "LIKE '005%'");
-
-const requestOptions = {
-  method: "POST",
-  headers: myHeaders,
-  body: urlencoded,
-  redirect: "follow",
-};
-
-fetch(
-  "https://data.wsdot.wa.gov/arcgis/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe/Find%20Nearest%20Route%20Locations",
-  requestOptions
-)
-  .then((response) => response.text())
-  .then((result) => console.log(result))
-  .catch((error) => console.log("error", error));
-*/
 
 // /**
 //  * Adds a graphic to the map of the ELC result.

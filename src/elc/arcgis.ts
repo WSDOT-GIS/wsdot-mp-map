@@ -33,6 +33,7 @@ export function routeLocationToGraphic<
   D extends DateType,
   G extends RouteGeometry,
 >(routeLocation: RouteLocation<D, G>) {
+  /* @__PURE__ */ console.group(routeLocationToGraphic.name);
   let geometry;
   if (isPoint(routeLocation.RouteGeometry)) {
     const { x, y, spatialReference } = routeLocation.RouteGeometry;
@@ -66,6 +67,8 @@ export function routeLocationToGraphic<
     geometry,
     attributes,
   });
+
+  /* @__PURE__ */ console.groupEnd();
 
   return graphic;
 }

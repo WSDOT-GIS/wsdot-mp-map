@@ -1,8 +1,10 @@
 import {
-  DateString,
-  RouteGeometryPoint,
   findNearestRouteLocations,
   routeLocationToGraphic,
+  type DateString,
+  type RouteGeometry,
+  type RouteGeometryPoint,
+  type RouteLocation,
 } from "./elc";
 import { isGraphicHit } from "./types";
 
@@ -136,6 +138,8 @@ const defaultSearchRadius = 3000;
           view
             .openPopup({
               features,
+              updateLocationEnabled: true,
+              shouldFocus: true,
             })
             .catch((reason) => console.error("openPopup failed", reason));
         } else {
@@ -145,6 +149,7 @@ const defaultSearchRadius = 3000;
             coordinates: [x, y],
             inSR: spatialReference.wkid,
             referenceDate: new Date(),
+            routeFilter: "LIKE '___' OR RelRouteType IN ('SP', 'CO', 'AR')",
             searchRadius: defaultSearchRadius,
           })
             .then((locations) => {
@@ -157,6 +162,37 @@ const defaultSearchRadius = 3000;
               milepostLayer
                 .applyEdits({
                   addFeatures: locationGraphics,
+                })
+                .then((editsResult) => {
+                  const nonErrorResults =
+                    editsResult.addAttachmentResults.filter((editResult, i) => {
+                      if (!editResult.error) {
+                        return false;
+                      }
+                      console.error(
+                        `editResult error on item ${i}`,
+                        editResult.error
+                      );
+                      return true;
+                    });
+
+                  /* @__PURE__ */ console.debug(
+                    `${nonErrorResults.length} of ${editsResult.addAttachmentResults.length} edits succeeded`,
+                    nonErrorResults
+                  );
+
+                  const addedFeatures = nonErrorResults.map((f) =>
+                    locationGraphics.find(
+                      (g) =>
+                        (
+                          g.attributes as RouteLocation<
+                            DateString,
+                            RouteGeometry
+                          >
+                        ).Id === f.objectId
+                    )
+                  );
+                  /* @__PURE__ */ console.debug("addedFeatures", addedFeatures);
                 })
                 .catch((reason) => console.error("addFeatures failed", reason));
             })
