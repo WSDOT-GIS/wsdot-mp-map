@@ -5,7 +5,6 @@ import { DateType, RouteGeometry, RouteLocation } from "./types";
 
 let oid = 0;
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface ValidRouteLocation<D extends DateType, G extends RouteGeometry>
   extends RouteLocation<D, G> {
   Route: string;
