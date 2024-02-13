@@ -15,6 +15,7 @@ export type TwoDigit = `${Digit}${Digit}`;
 export function padRoute<T extends ThreeDigit>(route: T): T;
 export function padRoute<T extends TwoDigit>(route: T): `0${T}`;
 export function padRoute<T extends `${NonZeroDigit}`>(route: T): `00${T}`;
+export function padRoute(route: string): string;
 /**
  * Pads the route with leading zeros if it is a single or double digit number.
  *
@@ -23,7 +24,8 @@ export function padRoute<T extends `${NonZeroDigit}`>(route: T): `00${T}`;
  * digit number, the original {@link route} is returned.
  */
 export function padRoute(route: string): string {
-  if (/^[1-9]$/.test(route) && /^\d{2}$/.test(route)) {
+  const re = /^\d{1,3}$/i;
+  if (re.test(route)) {
     return route.padStart(3, "0");
   }
   return route;
@@ -42,5 +44,16 @@ export function isPoint(geometry: unknown): geometry is XAndY {
     typeof geometry === "object" &&
     "x" in geometry &&
     "y" in geometry
+  );
+}
+
+export function isPolyline(
+  geometry: unknown
+): geometry is { paths: number[][] } {
+  return (
+    geometry != null &&
+    typeof geometry === "object" &&
+    "paths" in geometry &&
+    Array.isArray(geometry.paths)
   );
 }

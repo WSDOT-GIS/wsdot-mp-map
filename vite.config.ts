@@ -29,7 +29,7 @@ export default defineConfig({
       reporter: [
         // Defaults
         "text",
-        "html",
+        // "html",
         "clover",
         "json",
         // Added
