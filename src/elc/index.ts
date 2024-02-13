@@ -26,7 +26,7 @@ function* enumerateUrlParameters(
     }
     let outValue: string;
     if (value instanceof Date) {
-      outValue = value.toISOString();
+      outValue = value.toISOString().replace(/T.+$/, "");
     } else if (Array.isArray(value)) {
       outValue = JSON.stringify(value);
     } else {
@@ -79,16 +79,44 @@ export async function findNearestRouteLocations(
     queryUrl.searchParams.set(key, value);
   }
   const response = await fetch(queryUrl);
-  const result = (await response.json()) as Promise<
-    RouteLocation<DateString, RouteGeometryPoint>[]
-  >;
+  const result = (await response.json()) as RouteLocation<
+    DateString,
+    RouteGeometryPoint
+  >[];
 
   /* @__PURE__ */ console.log(
     `${findNearestRouteLocations.name} result`,
     result
   );
 
-  return result;
+  const secondPassInput = {
+    locations: result.map(({ Arm, Route, Decrease, ReferenceDate, Id }) => ({
+      Arm,
+      Route,
+      Decrease,
+      ReferenceDate,
+      Id,
+    })),
+    outSR: options.outSR ?? options.inSR,
+    lrsYear: options.lrsYear ?? "Current",
+    referenceDate: options.referenceDate,
+  };
+  const result2 = await findRouteLocations(secondPassInput);
+
+  /* @__PURE__ */ console.log(
+    `${findNearestRouteLocations.name} 2nd pass result`,
+    { input: secondPassInput, output: result2 }
+  );
+
+  // Restore old distance values.
+  result2.forEach((routeLocation, i) => {
+    const oldLoc = result[i];
+    routeLocation.EventPoint = oldLoc.EventPoint;
+    routeLocation.Distance = oldLoc.Distance;
+    routeLocation.Angle = oldLoc.Angle;
+  });
+
+  return result2;
 }
 
 /**
@@ -113,6 +141,9 @@ export async function findRouteLocations(
     DateString,
     RouteGeometry
   >[];
+  if ("error" in (result as unknown as Record<string, unknown>)) {
+    throw new Error(JSON.stringify(result));
+  }
 
   return result;
 }

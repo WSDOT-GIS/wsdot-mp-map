@@ -29,8 +29,8 @@ function hasValidSrmpData<D extends DateType, G extends RouteGeometry>(
  * @returns - A {@link Graphic}.
  */
 export function routeLocationToGraphic<
-  D extends DateType,
-  G extends RouteGeometry,
+  D extends DateType = DateType,
+  G extends RouteGeometry = RouteGeometry,
 >(routeLocation: RouteLocation<D, G>) {
   /* @__PURE__ */ console.group(routeLocationToGraphic.name);
   let geometry;

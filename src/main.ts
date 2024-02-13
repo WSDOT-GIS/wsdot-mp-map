@@ -3,7 +3,6 @@ import {
   routeLocationToGraphic,
   type DateString,
   type RouteGeometry,
-  type RouteGeometryPoint,
   type RouteLocation,
 } from "./elc";
 import { isGraphicHit } from "./types";
@@ -156,9 +155,7 @@ const defaultSearchRadius = 3000;
               /* @__PURE__ */ console.debug(
                 `${findNearestRouteLocations.name} results`
               );
-              const locationGraphics = locations.map(
-                routeLocationToGraphic<DateString, RouteGeometryPoint>
-              );
+              const locationGraphics = locations.map(routeLocationToGraphic);
               milepostLayer
                 .applyEdits({
                   addFeatures: locationGraphics,
