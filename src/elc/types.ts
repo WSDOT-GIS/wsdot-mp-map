@@ -112,7 +112,7 @@ export type SrmpRouteLocation<
   G extends RouteGeometry,
 > = RouteLocation<D, G> & Required<Pick<RouteLocation<D, G>, "Srmp" & "Back">>;
 
-export type ValidRouteLocationForInput<
+export type ValidRouteLocationForMPInput<
   D extends DateType,
   G extends RouteGeometry,
 > = ArmRouteLocation<D, G> | SrmpRouteLocation<D, G>;
@@ -134,8 +134,8 @@ export interface FindRouteLocationParameters<
   D extends DateType = DateType,
   G extends RouteGeometry = RouteGeometry,
 > {
-  locations: ValidRouteLocationForInput<D, G>[];
-  referenceDate: Date;
+  locations: ValidRouteLocationForMPInput<D, G>[];
+  referenceDate?: Date;
   outSR: number;
-  lrsYear: "Current" | `${number}`;
+  lrsYear?: "Current" | `${number}`;
 }

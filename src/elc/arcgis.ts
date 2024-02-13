@@ -1,15 +1,14 @@
 import Graphic from "@arcgis/core/Graphic";
 import Point from "@arcgis/core/geometry/Point";
 import { isPoint } from "../utils";
-import { DateType, RouteGeometry, RouteLocation } from "./types";
+import {
+  DateType,
+  RouteGeometry,
+  RouteLocation,
+  type SrmpRouteLocation,
+} from "./types";
 
 let oid = 0;
-
-interface ValidRouteLocation<D extends DateType, G extends RouteGeometry>
-  extends RouteLocation<D, G> {
-  Route: string;
-  Srmp: number;
-}
 
 /**
  * Tests to see if an {@link RouteLocation} as valid
@@ -19,7 +18,7 @@ interface ValidRouteLocation<D extends DateType, G extends RouteGeometry>
  */
 function hasValidSrmpData<D extends DateType, G extends RouteGeometry>(
   routeLocation: RouteLocation<D, G>
-): routeLocation is ValidRouteLocation<D, G> {
+): routeLocation is SrmpRouteLocation<D, G> {
   return routeLocation?.Route != null && routeLocation.Srmp != null;
 }
 

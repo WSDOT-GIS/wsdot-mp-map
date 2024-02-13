@@ -1,5 +1,9 @@
 export * from "./arcgis";
 export * from "./types";
+import type FeatureLayer from "@arcgis/core/layers/FeatureLayer";
+import { addGraphicsToLayer } from "../addGraphicsToLayer";
+import { padRoute } from "../utils";
+import { routeLocationToGraphic } from "./arcgis";
 import type {
   DateString,
   FindNearestRouteLocationParameters,
@@ -7,6 +11,7 @@ import type {
   RouteGeometry,
   RouteGeometryPoint,
   RouteLocation,
+  ValidRouteLocationForMPInput,
 } from "./types";
 
 /**
@@ -148,220 +153,118 @@ export async function findRouteLocations(
   return result;
 }
 
-// /**
-//  * Adds a graphic to the map of the ELC result.
-//  * @param elcResponse - Response from call to ELC
-//  * @param view - Map view
-//  * @param milepostLayer - Milepost feature layer to which the graphic will be added
-//  * @param mapPoint - Point the user clicked (if applicable)
-//  * @returns - The added graphic, or null if the graphic couldn't be added
-//  * (e.g., if user clicked an area outside of the search radius of a route.)
-//  */
-// function addElcGraphic(
-//   elcResponse: IRouteLocation[],
-//   view: MapView,
-//   milepostLayer: FeatureLayer,
-//   mapPoint?: Point
-// ) {
-//   const [routeLocation] = elcResponse;
+/**
+ * Retrieves and processes route and milepost information from the URL.
+ *
+ * @returns Location object with route, milepost, direction, and date information
+ */
+export function getElcParamsFromUrl(): ValidRouteLocationForMPInput<
+  Date,
+  RouteGeometry
+> | null {
+  const url = new URL(location.href);
+  let route = url.searchParams.get("route");
+  const mp = url.searchParams.get("mp");
 
-//   // Show a popup and exit if the RouteGeometry is not a point.
-//   if (!isPoint(routeLocation.RouteGeometry)) {
-//     const message = "Unexpected output from ELC.";
-//     /* @__PURE__ */ console.warn(message, elcResponse);
-//     view
-//       .openPopup({
-//         content: message,
-//         location: mapPoint,
-//       })
-//       .catch((reason) =>
-//         /* @__PURE__ */ console.error(`Error opening popup: ${reason}`)
-//       );
-//     return null;
-//   }
+  if (!route || !mp) {
+    /* @__PURE__ */ console.debug(
+      "The URL does not have valid route information.",
+      url.search
+    );
+    return null;
+  }
+  route = padRoute(route);
 
-//   const graphic = routeLocationToGraphic(routeLocation);
-//   // Add location to the layer.
-//   milepostLayer
-//     .applyEdits({
-//       addFeatures: [graphic],
-//     })
-//     .catch((reason) => console.error(reason));
+  /**
+   * Regular expression pattern to validate and extract milepost information from a string.
+   * It expects a numeric value that can be an integer or a decimal, and an optional 'B' character
+   * indicating back mileage if present.
+   *
+   * The match will have the following groups:
+   * - `mp` - The numeric value of the milepost
+   * - `back` - The 'B' character if present
+   * @example
+   * // matches "123", "123.45", "123B", "123.45B"
+   */
+  const mpRe = /^(?<mp>\d+(?:\.\d+)?)(?<back>B)?$/i;
+  const match = mpRe.exec(mp);
 
-//   return graphic;
-// }
+  if (!(match && match.length >= 2 && match.groups)) {
+    /* @__PURE__ */ console.warn(
+      "The URL does not have valid milepost information.",
+      {
+        "mp search param": mp,
+        match,
+        regex: mpRe,
+      }
+    );
+    return null;
+  }
 
-// /**
-//  * Makes a call to the ELC and adds a point graphic to the {@link milepostLayer}.
-//  * @param view
-//  * @param milepostLayer
-//  * @param mapPoint
-//  * @param options
-//  * @returns
-//  */
-// export async function callElc(
-//   view: MapView,
-//   milepostLayer: FeatureLayer,
-//   mapPoint: Point,
-//   options: ElcSetupOptions
-// ) {
-//   const { x, y, spatialReference } = mapPoint;
-//   const { wkid } = spatialReference;
-//   const { searchRadius } = options;
-//   const inputParameters: IFindNearestRouteLocationParameters = {
-//     coordinates: [x, y],
-//     inSR: wkid,
-//     outSR: wkid,
-//     searchRadius,
-//     useCors: true,
-//     referenceDate: new Date(),
-//   };
-//   const routeLocator = new RouteLocator();
-//   const elcResponse =
-//     await routeLocator.findNearestRouteLocations(inputParameters);
+  /* @__PURE__ */ console.debug("MP match", match.groups);
 
-//   /* @__PURE__ */ console.debug("ELC Response", {
-//     inputParameters,
-//     elcResponse,
-//   });
+  const srmp = parseFloat(match.groups.mp);
+  const back = match.groups?.back !== undefined && /B/i.test(match.groups.back);
 
-//   // Show a popup and exit if no results were returned.
-//   if (elcResponse.length < 1) {
-//     const message = "No routes within search radius.";
-//     /* @__PURE__ */ console.debug(message, elcResponse);
-//     view
-//       .openPopup({
-//         content: message,
-//         location: mapPoint,
-//       })
-//       .catch((reason) => console.error(reason));
-//     return null;
-//   }
+  /* @__PURE__ */ console.debug("SRMP", { srmp, back });
 
-//   const graphic = addElcGraphic(elcResponse, view, milepostLayer, mapPoint);
+  let direction = url.searchParams.get("direction");
 
-//   return graphic;
-// }
+  if (!direction) {
+    direction = "i";
+  }
 
-// /**
-//  *
-//  * @param e - The event from the user submitting a milepost via the form
-//  * @param view - The map view
-//  * @param milepostLayer - The milepost layer where the result graphic will be added.
-//  * @param mapPoint - The point where
-//  */
-// export async function callElcFromForm(
-//   e: RouteEventObject,
-//   view: MapView,
-//   milepostLayer: FeatureLayer
-// ) {
-//   const rl = new RouteLocator();
-//   /* @__PURE__ */ console.debug(
-//     `${callElcFromForm.name}: RouteEventObject type: ${e.type ?? "null"}`
-//   );
-//   if (e.type != null) {
-//     throw new NotImplementedError(
-//       "non-mainline types have not been implemented."
-//     );
-//   }
-//   const location = new RouteLocation({
-//     Route: e.route,
-//     Srmp: e.mp,
-//   });
-//   const elcResponse = await rl.findRouteLocations({
-//     locations: [location],
-//     outSR: view.spatialReference.wkid,
-//     referenceDate: new Date(),
-//   });
+  /* @__PURE__ */ console.debug(
+    `${route}@${srmp}${back ? "B" : "A"}, ${direction}`
+  );
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
-//   const graphic = addElcGraphic(elcResponse, view, milepostLayer);
-//   return graphic;
-// }
+  const routeLocation = {
+    Route: route,
+    Srmp: srmp,
+    Back: back,
+    Decrease: /dD/i.test(direction),
+    ReferenceDate: today,
+    ResponseDate: today,
+  };
 
-// export async function callElcFromUrl(
-//   view: MapView,
-//   milepostLayer: FeatureLayer
-// ) {
-//   const url = new URL(location.href);
-//   let route = url.searchParams.get("route");
-//   const mp = url.searchParams.get("mp");
+  return routeLocation;
+}
 
-//   if (!route || !mp) {
-//     /* @__PURE__ */ console.debug(
-//       "The URL does not have valid route information.",
-//       url.search
-//     );
-//     return;
-//   }
-//   route = padRoute(route);
+export async function callElcFromUrl(milepostLayer: FeatureLayer) {
+  const routeLocation = getElcParamsFromUrl();
 
-//   /**
-//    * Regular expression pattern to validate and extract milepost information from a string.
-//    * It expects a numeric value that can be an integer or a decimal, and an optional 'B' character
-//    * indicating back mileage if present.
-//    *
-//    * The match will have the following groups:
-//    * - `mp` - The numeric value of the milepost
-//    * - `back` - The 'B' character if present
-//    * @example
-//    * // matches "123", "123.45", "123B", "123.45B"
-//    */
-//   const mpRe = /^(?<mp>\d+(?:\.\d+)?)(?<back>B)?$/i;
-//   const match = mpRe.exec(mp);
+  if (!routeLocation) {
+    /* @__PURE__ */ console.debug(
+      "The URL does not have valid route information."
+    );
+    return null;
+  }
 
-//   if (!(match && match.length >= 2 && match.groups)) {
-//     /* @__PURE__ */ console.warn(
-//       "The URL does not have valid milepost information.",
-//       {
-//         "mp search param": mp,
-//         match,
-//         regex: mpRe,
-//       }
-//     );
-//     return;
-//   }
+  /* @__PURE__ */ console.debug(
+    "ELC call from URL: Route Location",
+    routeLocation
+  );
 
-//   /* @__PURE__ */ console.debug("MP match", match.groups);
+  const elcResults = await findRouteLocations({
+    locations: [routeLocation],
+    outSR: 4326,
+  });
 
-//   const srmp = parseFloat(match.groups.mp);
-//   const back = match.groups?.back !== undefined && /B/i.test(match.groups.back);
+  if (elcResults.length < 1) {
+    /* @__PURE__ */ console.debug("No results from URL", elcResults);
+    return null;
+  }
 
-//   /* @__PURE__ */ console.debug("SRMP", { srmp, back });
+  const graphics = elcResults.map((r) => routeLocationToGraphic(r));
 
-//   let direction = url.searchParams.get("direction");
+  const { addedFeatures } = await addGraphicsToLayer(milepostLayer, graphics);
 
-//   if (!direction) {
-//     direction = "i";
-//   }
+  /* @__PURE__ */ console.debug(
+    "ELC call from URL: addedFeatures",
+    addedFeatures
+  );
 
-//   /* @__PURE__ */ console.debug(
-//     `${route}@${srmp}${back ? "B" : "A"}, ${direction}`
-//   );
-
-//   const routeLocation = new RouteLocation({
-//     Route: route,
-//     Srmp: srmp,
-//     Back: back,
-//     Decrease: /dD/i.test(direction),
-//     ReferenceDate: new Date(),
-//     ResponseDate: new Date(),
-//   });
-
-//   /* @__PURE__ */ console.debug(
-//     "ELC call from URL: Route Location",
-//     routeLocation
-//   );
-
-//   const rl = new RouteLocator();
-//   const elcResults = await rl.findRouteLocations({
-//     locations: [routeLocation],
-//     outSR: 4326,
-//   });
-
-//   if (elcResults.length < 1) {
-//     /* @__PURE__ */ console.debug("No results from URL", elcResults);
-//     return elcResults;
-//   }
-
-//   return addElcGraphic(elcResults, view, milepostLayer);
-// }
+  return addedFeatures;
+}
