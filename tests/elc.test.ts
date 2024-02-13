@@ -3,6 +3,7 @@ import Point from "@arcgis/core/geometry/Point";
 import { expect, suite, test } from "vitest";
 import {
   findNearestRouteLocations,
+  hasXAndY,
   isDateString,
   type DateString,
   type FindNearestRouteLocationParameters,
@@ -62,6 +63,7 @@ suite("elc", () => {
     const expected = expectedResult[0];
 
     expect(actual.Distance).toEqual(expected.Distance);
+    expect(actual.EventPoint);
     expect(actual.EventPoint?.x).toEqual(expected.EventPoint.x);
     expect(actual.EventPoint?.y).toEqual(expected.EventPoint.y);
     expect(actual.Id).toEqual(expected.Id);
@@ -75,8 +77,13 @@ suite("elc", () => {
     expect(actual.RouteGeometry?.spatialReference.wkid).toEqual(
       expected.RouteGeometry.spatialReference.wkid
     );
-    expect(actual.RouteGeometry?.x).toBeCloseTo(expected.RouteGeometry.x);
-    expect(actual.RouteGeometry?.y).toBeCloseTo(expected.RouteGeometry.y);
+    expect(hasXAndY(actual.RouteGeometry)).toBe(true);
+    // TypeScript doesn't detect the hasXAndY
+    if (!hasXAndY(actual.RouteGeometry)) {
+      throw new Error("RouteGeometry should have x and y properties");
+    }
+    expect(actual.RouteGeometry.x).toBeCloseTo(expected.RouteGeometry.x);
+    expect(actual.RouteGeometry.y).toBeCloseTo(expected.RouteGeometry.y);
     expect(actual.Srmp).toEqual(expected.Srmp);
     expect(actual.Angle).toEqual(expected.Angle);
     expect(actual.Arm).toEqual(expected.Arm);

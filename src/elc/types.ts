@@ -19,6 +19,20 @@ export interface XAndY {
   y: number;
 }
 
+/**
+ * Check if the given value is of type XAndY
+ *
+ * @param value - the value to be checked
+ * @returns - true if the value is of type {@link XAndY}, false otherwise
+ */
+export const hasXAndY = (value: unknown): value is XAndY =>
+  typeof value === "object" &&
+  value !== null &&
+  "x" in value &&
+  "y" in value &&
+  typeof value.x === "number" &&
+  typeof value.y === "number";
+
 export interface WkidSpatialReference {
   wkid: number;
 }
