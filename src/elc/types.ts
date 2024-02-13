@@ -64,8 +64,8 @@ export type DateString = `${number}/${number}/${number}`;
  * @param {string} value - The string to validate as a date string.
  * @return {boolean} True if the string is a valid date string, false otherwise.
  */
-export function isDateString(value: string): value is DateString {
-  return /^\d{1,2}\/\d{1,2}\/\d{4}$/.test(value);
+export function isDateString(value: unknown): value is DateString {
+  return typeof value === "string" && /^\d{1,2}\/\d{1,2}\/\d{4}$/.test(value);
 }
 
 export type DateType = Date | DateString;
