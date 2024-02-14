@@ -16,6 +16,7 @@ export default defineConfig({
     },
     coverage: {
       enabled: true,
+      exclude: ["**/node_modules/**", "**/dist/**", "**/main.ts"],
       extension: [
         // '.js',
         // '.cjs',

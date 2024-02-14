@@ -7,6 +7,10 @@ import type UI from "@arcgis/core/views/ui/UI";
     <option value="AR">Alternate</option>
 </select>
 */
+
+/**
+ * The object that is passed to the `srmp-input` event.
+ */
 export interface RouteEventObject {
   route: string;
   type: RouteType | null;
@@ -15,30 +19,91 @@ export interface RouteEventObject {
 
 export type RouteInputEvent = CustomEvent<RouteEventObject>;
 
+/**
+ * Checks if the provided event is a RouteInputEvent.
+ *
+ * @param event - the event to be checked
+ * @return true if the event is a RouteInputEvent, false otherwise
+ */
 export function isRouteInputEvent(event: Event): event is RouteInputEvent {
-  if (!(event instanceof CustomEvent && typeof event.detail === "object")) {
-    return false;
-  }
-
-  return ["route", "type", "mp"].every((name) =>
-    Object.prototype.hasOwnProperty.call(event.detail, name)
+  return (
+    event instanceof CustomEvent &&
+    event.detail != null &&
+    typeof event.detail === "object" &&
+    ["route", "type", "mp"].every((name) => name in event.detail)
   );
 }
 
-export interface SrmpInputForm extends HTMLFormElement {
-  route: HTMLInputElement;
-  type: HTMLSelectElement;
-  mp: HTMLInputElement;
-}
-
+/**
+ * The supported Related Route Type (RRT) values for this application.
+ */
 export type RouteType = "SP" | "CO" | "AR";
 
-type UIAddParameters = Parameters<(typeof UI)["prototype"]["add"]>;
+interface SrmpInputFormEventMap extends HTMLElementEventMap {
+  "srmp-input": RouteInputEvent;
+}
 
-export function createSrmpInputForm(ui: UI, position: UIAddParameters[1]) {
-  const template = document.querySelector<HTMLTemplateElement>(
-    "template#formTemplate"
-  );
+/**
+ * The form that is used to input a route and milepost.
+ */
+export interface SrmpInputForm extends HTMLFormElement {
+  /**
+   * The route input field.
+   */
+  route: HTMLInputElement;
+  /**
+   * The route type input field.
+   */
+  type: HTMLSelectElement;
+  /**
+   * The milepost input field.
+   */
+  mp: HTMLInputElement;
+
+  /*
+  addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLOutputElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+  addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+  removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLOutputElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+  removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+  */
+
+  addEventListener<K extends keyof SrmpInputFormEventMap>(
+    this: SrmpInputForm,
+    type: K,
+    listener: (this: SrmpInputForm, ev: SrmpInputFormEventMap[K]) => unknown,
+    options?: boolean | AddEventListenerOptions
+  ): void;
+
+  removeEventListener<K extends keyof SrmpInputFormEventMap>(
+    this: SrmpInputForm,
+    type: K,
+    listener: (this: SrmpInputForm, ev: SrmpInputFormEventMap[K]) => unknown,
+    options?: boolean | EventListenerOptions
+  ): void;
+}
+
+type UIAddParameters = Parameters<UI["add"]>;
+
+type UIAddPosition = UIAddParameters[1];
+
+/**
+ * Creates an SRMP input form and adds it to the specified UI at the given position.
+ *
+ * @param - ui - The UI to which the form will be added
+ * @param - position - The position at which the form will be added to the UI
+ * @returns - The created SRMP input form
+ */
+export function createSrmpInputForm(
+  ui: UI,
+  position: UIAddPosition,
+  template?: HTMLTemplateElement
+) {
+  // Set up default template if one is not provided.
+  if (!template) {
+    template =
+      document.querySelector<HTMLTemplateElement>("template#formTemplate") ??
+      undefined;
+  }
   if (!template) {
     throw new Error("Could not find template element.");
   }
