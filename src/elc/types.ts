@@ -122,14 +122,6 @@ export type FindNearestRouteLocationResponse<
   G extends RouteGeometry,
 > = RouteLocation<D, G>[];
 
-/*
-urlencoded.append("f", "json");
-urlencoded.append("locations", "[{\"Route\":\"005\",\"Decrease\":null,\"Arm\":0,\"ReferenceDate\":\"12/31/2022\",\"EndBack\":null}]");
-urlencoded.append("referenceDate", "2022-12-31");
-urlencoded.append("outSR", "2927");
-urlencoded.append("lrsYear", "Current");
-*/
-
 export interface FindRouteLocationParameters<
   D extends DateType = DateType,
   G extends RouteGeometry = RouteGeometry,
