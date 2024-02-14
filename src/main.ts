@@ -1,3 +1,4 @@
+import type MapView from "@arcgis/core/views/MapView";
 import { addGraphicsToLayer } from "./addGraphicsToLayer";
 
 import("./index.css");
@@ -6,6 +7,22 @@ const defaultSearchRadius = 3000;
 
 const elcMainlinesOnlyFilter =
   "LIKE '___' OR RelRouteType IN ('SP', 'CO', 'AR')";
+
+function openPopup(hits: __esri.GraphicHit[], view: MapView) {
+  // Get the features that were hit by the hit test.
+  const features = hits.map(({ graphic }) => graphic);
+  console.debug(
+    "map click hit test determined user clicked on existing graphic.",
+    features
+  );
+  view
+    .openPopup({
+      features,
+      updateLocationEnabled: true,
+      shouldFocus: true,
+    })
+    .catch((reason) => console.error("openPopup failed", reason));
+}
 
 (async () => {
   // Asynchronously import modules. This helps build generate smaller chunks.
@@ -38,6 +55,33 @@ const elcMainlinesOnlyFilter =
     import("./types"),
     import("./layers"),
   ]);
+
+  /**
+   * A function that handles the event of finding the nearest route location
+   * when the user clicks on the map.
+   *
+   * @param event - the event object containing map click details
+   */
+  function callFindNearestRouteLocation(event: __esri.ViewClickEvent) {
+    const { x, y, spatialReference } = event.mapPoint;
+    findNearestRouteLocations({
+      coordinates: [x, y],
+      inSR: spatialReference.wkid,
+      referenceDate: new Date(),
+      routeFilter: elcMainlinesOnlyFilter,
+      searchRadius: defaultSearchRadius,
+    })
+      .then(async (locations) => {
+        /* @__PURE__ */ console.debug(
+          `${findNearestRouteLocations.name} results`
+        );
+        const locationGraphics = locations.map(routeLocationToGraphic);
+        await addGraphicsToLayer(milepostLayer, locationGraphics);
+      })
+      .catch((reason) =>
+        console.error("findNearestRouteLocations failed", reason)
+      );
+  }
 
   config.applicationName = "WSDOT Mileposts";
   config.log.level = import.meta.env.DEV ? "info" : "error";
@@ -115,49 +159,16 @@ const elcMainlinesOnlyFilter =
     (reason) => console.error("Failed to setup clear button", reason)
   );
 
-  const handleViewOnClick = (event: __esri.ViewClickEvent): void => {
+  const handleViewOnClick: __esri.ViewClickEventHandler = (event) => {
     const handleHitTestResult = (hitTestResult: __esri.HitTestResult): void => {
+      // Filter out hit test results that are not graphic hits.
       const graphicHits = hitTestResult.results.filter(isGraphicHit);
-      const features = graphicHits.map(({ graphic }) => graphic);
-      function callFindNearestRouteLocation() {
-        const { x, y, spatialReference } = event.mapPoint;
-        findNearestRouteLocations({
-          coordinates: [x, y],
-          inSR: spatialReference.wkid,
-          referenceDate: new Date(),
-          routeFilter: elcMainlinesOnlyFilter,
-          searchRadius: defaultSearchRadius,
-        })
-          .then(async (locations) => {
-            /* @__PURE__ */ console.debug(
-              `${findNearestRouteLocations.name} results`
-            );
-            const locationGraphics = locations.map(routeLocationToGraphic);
-            await addGraphicsToLayer(milepostLayer, locationGraphics);
-          })
-          .catch((reason) =>
-            console.error("findNearestRouteLocations failed", reason)
-          );
-      }
 
-      function openPopup() {
-        console.debug(
-          "map click hit test determined user clicked on existing graphic.",
-          features
-        );
-        view
-          .openPopup({
-            features,
-            updateLocationEnabled: true,
-            shouldFocus: true,
-          })
-          .catch((reason) => console.error("openPopup failed", reason));
-      }
-      if (features.length > 0) {
-        /* @__PURE__ */ openPopup();
+      if (graphicHits.length > 0) {
+        openPopup(graphicHits, view);
       } else {
         // Call findNearestRouteLocations
-        callFindNearestRouteLocation();
+        callFindNearestRouteLocation(event);
       }
     };
     view
@@ -174,6 +185,8 @@ const elcMainlinesOnlyFilter =
     .then(({ setupForm }) => setupForm(view, milepostLayer))
     .catch((reason) => console.error("failed to setup form", reason));
 
+  // Once the milepost layerview has been created, check for ELC data from the URL
+  // and, if present, add the location to the map.
   milepostLayer.on("layerview-create", () => {
     callElcFromUrl(milepostLayer)
       .then(async (elcGraphics) => {

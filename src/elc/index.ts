@@ -215,7 +215,7 @@ export function getElcParamsFromUrl(): ValidRouteLocationForMPInput<
   }
 
   /* @__PURE__ */ console.debug(
-    `${route}@${srmp}${back ? "B" : "A"}, ${direction}`
+    `Detected route location from URL is ${route} @ ${srmp}${back ? "B" : "A"}, ${direction}`
   );
   const today = new Date();
   today.setHours(0, 0, 0, 0);
