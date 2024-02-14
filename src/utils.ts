@@ -4,11 +4,28 @@
  * @returns
  */
 
-import { RouteLocation } from "wsdot-elc";
-import { PointProperties } from "./elc";
+import type { XAndY } from "./elc";
 
-export function padRoute(route: string) {
-  if (/^\d{1,2}$/.test(route)) {
+type Digit = `${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`;
+type NonZeroDigit = Exclude<Digit, "0">;
+
+export type ThreeDigit = `${Digit}${TwoDigit}`;
+export type TwoDigit = `${Digit}${Digit}`;
+
+export function padRoute<T extends ThreeDigit>(route: T): T;
+export function padRoute<T extends TwoDigit>(route: T): `0${T}`;
+export function padRoute<T extends `${NonZeroDigit}`>(route: T): `00${T}`;
+export function padRoute(route: string): string;
+/**
+ * Pads the route with leading zeros if it is a single or double digit number.
+ *
+ * @param route - The route to be padded.
+ * @return The padded route. If the {@link route} is not a single- or double-
+ * digit number, the original {@link route} is returned.
+ */
+export function padRoute(route: string): string {
+  const re = /^\d{1,3}$/i;
+  if (re.test(route)) {
     return route.padStart(3, "0");
   }
   return route;
@@ -21,19 +38,22 @@ export function padRoute(route: string) {
  * with numeric values, `false` otherwise.
  */
 
-export function isPoint(
-  geometry: RouteLocation["RouteGeometry"]
-): geometry is PointProperties {
-  if (geometry == null) {
-    return false;
-  }
-  for (const name of ["x", "y"]) {
-    if (
-      !Object.hasOwn(geometry as Record<string, unknown>, name) ||
-      typeof (geometry as Record<string, unknown>)[name] !== "number"
-    ) {
-      return false;
-    }
-  }
-  return true;
+export function isPoint(geometry: unknown): geometry is XAndY {
+  return (
+    geometry != null &&
+    typeof geometry === "object" &&
+    "x" in geometry &&
+    "y" in geometry
+  );
+}
+
+export function isPolyline(
+  geometry: unknown
+): geometry is { paths: number[][] } {
+  return (
+    geometry != null &&
+    typeof geometry === "object" &&
+    "paths" in geometry &&
+    Array.isArray(geometry.paths)
+  );
 }
