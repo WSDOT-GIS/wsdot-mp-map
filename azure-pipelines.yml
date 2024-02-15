@@ -7,9 +7,12 @@
 # It includes instructions for building the project using npm and saving the build artifacts.
 
 # The trigger section specifies which branches will trigger the pipeline when new commits are pushed.
-# In this case, any push to the 'master' branch will trigger the build.
 trigger:
-  - master
+  tags:
+    include:
+      - "release/**"
+      - "qa/**"
+      - "dev/**"
 
 # The pool section specifies the agent pool that will run the jobs in this pipeline.
 # 'Default' is typically the name of the Microsoft-hosted agent pool provided by Azure DevOps.

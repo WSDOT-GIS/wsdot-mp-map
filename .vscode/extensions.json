@@ -13,6 +13,7 @@
     "github.remotehub",
     "esri.arcgis-jsapi-snippets",
     "ldez.ignore-files",
-    "bierner.jsdoc-markdown-highlighting"
+    "bierner.jsdoc-markdown-highlighting",
+    "ms-azure-devops.azure-pipelines"
   ]
 }
