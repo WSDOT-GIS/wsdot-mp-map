@@ -14,6 +14,23 @@ import type {
   ValidRouteLocationForMPInput,
 } from "./types";
 
+/*
+TODO: Test the responses from the ELC requests for the presence of an "error" property
+and if there is one, throw an error. Will also need to create a new class that extends
+Error to handle this.
+*/
+
+export function isErrorObject(input: unknown) {
+  if (!input) {
+    return false;
+  }
+  return (
+    typeof input === "object" &&
+    input !== null &&
+    "error" in (input as Record<string, unknown>)
+  );
+}
+
 /**
  * Generates an enumerated list of URL parameters based on the input parameters object.
  *

@@ -11,7 +11,7 @@ const elcMainlinesOnlyFilter =
 function openPopup(hits: __esri.GraphicHit[], view: MapView) {
   // Get the features that were hit by the hit test.
   const features = hits.map(({ graphic }) => graphic);
-  console.debug(
+  /* @__PURE__ */ console.debug(
     "map click hit test determined user clicked on existing graphic.",
     features
   );
@@ -39,7 +39,7 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
     { setupWidgets },
     { setupSearch },
     { isGraphicHit },
-    { cityLimitsLayer, roadwayCharacteristicDataLayer },
+    { cityLimitsLayer, accessControlLayer: roadwayCharacteristicDataLayer },
   ] = await Promise.all([
     import("@arcgis/core/Basemap"),
     import("@arcgis/core/Map"),

@@ -8,6 +8,10 @@ import {
   type SrmpRouteLocation,
 } from "./types";
 
+/**
+ * This variable will be increased for each new graphic
+ * and used as the object ID for the graphic.
+ */
 let oid = 0;
 
 /**
