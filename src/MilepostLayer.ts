@@ -131,7 +131,7 @@ async function createContent(target: TemplateTarget) {
         (v) =>
           (attributes.City = v
             ? `${v.CityName} (last updated: ${new Date(v.LastUpdate).toLocaleDateString()})`
-            : "N/A")
+            : "Outside City Limits")
       )
       .catch((error) => console.error("Error querying city", error));
 
