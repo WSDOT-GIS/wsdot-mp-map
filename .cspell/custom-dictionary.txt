@@ -8,8 +8,12 @@ fontnik
 Geoportal
 geouri
 GNIS
+JURDSG
+JURFIPSDSG
+JURNM
 latlng
 nojekyll
+RDWY
 SRMP
 Vite
 wkid
