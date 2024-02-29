@@ -18,8 +18,6 @@ import {
  * @returns - The created SRMP input form
  */
 export function setupForm(view: MapView, milepostLayer: FeatureLayer) {
-  /* @__PURE__ */ console.debug(setupForm.name, { milepostLayer });
-
   const form = createSrmpInputForm(view.ui, {
     index: 0,
     position: "top-leading",
@@ -27,11 +25,6 @@ export function setupForm(view: MapView, milepostLayer: FeatureLayer) {
   form.addEventListener(
     "srmp-input",
     (event: RouteInputEvent) => {
-      /* @__PURE__ */ console.debug(
-        "User has input a milepost from the form",
-        event
-      );
-
       addSrmpFromForm(event, view, milepostLayer).catch((error) => {
         console.error("Error adding SRMP from form", error);
       });
@@ -42,7 +35,14 @@ export function setupForm(view: MapView, milepostLayer: FeatureLayer) {
   );
   return form;
 }
-
+/**
+ * Add SRMP from form to the map view.
+ *
+ * @param event - the route input event
+ * @param view - the map view
+ * @param milepostLayer - the feature layer for mileposts
+ * @return a promise that resolves when the function is complete
+ */
 async function addSrmpFromForm(
   event: RouteInputEvent,
   view: MapView,
@@ -52,20 +52,22 @@ async function addSrmpFromForm(
 
   // Pad the route if necessary and append the type if there is one.
   const routeId = `${padRoute(route)}${type ?? ""}`;
+  // Create the reference date for ELC call to now, then set time to midnight.
   const referenceDate = new Date();
   referenceDate.setHours(0, 0, 0, 0);
 
-  const features = await findRouteLocations({
+  const routeLocations = await findRouteLocations({
     locations: [{ Route: routeId, Srmp: mp }],
     outSR: view.spatialReference.wkid,
     referenceDate,
   });
-  const graphics = features.map(routeLocationToGraphic);
-  const { addedFeatures: g } = await addGraphicsToLayer(
-    milepostLayer,
-    graphics
-  );
-  return view.goTo({ target: g });
+  const graphics = routeLocations.map(routeLocationToGraphic);
+  const addFeatureResults = await addGraphicsToLayer(milepostLayer, graphics);
+  /* @__PURE__ */ console.debug("addedFeatures", {
+    allGraphics: graphics,
+    addFeatureResults,
+  });
+  return addFeatureResults;
 }
 
 export default setupForm;

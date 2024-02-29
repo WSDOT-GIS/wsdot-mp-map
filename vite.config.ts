@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 /// <reference types="vitest" />
 import browserslistToEsbuild from "browserslist-to-esbuild";
 import { defineConfig } from "vite";
@@ -6,9 +7,11 @@ export default defineConfig({
   appType: "spa",
   base: "/data/tools/LocateMP",
   build: {
+    // This sets the target based on the `browserslist` file.
     target: browserslistToEsbuild(),
   },
   test: {
+    name: "LocateMP",
     environment: "jsdom",
     reporters: ["default", "junit"],
     outputFile: {

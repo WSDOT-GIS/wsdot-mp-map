@@ -106,11 +106,6 @@ export async function findNearestRouteLocations(
     RouteGeometryPoint
   >[];
 
-  /* @__PURE__ */ console.log(
-    `${findNearestRouteLocations.name} result`,
-    result
-  );
-
   const secondPassInput = {
     locations: result.map(({ Arm, Route, Decrease, ReferenceDate, Id }) => ({
       Arm,
@@ -124,11 +119,6 @@ export async function findNearestRouteLocations(
     referenceDate: options.referenceDate,
   };
   const result2 = await findRouteLocations(secondPassInput);
-
-  /* @__PURE__ */ console.log(
-    `${findNearestRouteLocations.name} 2nd pass result`,
-    { input: secondPassInput, output: result2 }
-  );
 
   // Restore old distance values.
   result2.forEach((routeLocation, i) => {
@@ -152,10 +142,6 @@ export async function findRouteLocations(
   routeLocations: FindRouteLocationParameters,
   url: ElcFindUrlString = defaultFindUrl
 ) {
-  /* @__PURE__ */ console.debug(findRouteLocations.name, {
-    routeLocations,
-    url,
-  });
   const requestUrl = new URL(url);
   populateUrlParameters(routeLocations, requestUrl);
   const response = await fetch(requestUrl);
@@ -184,10 +170,6 @@ export function getElcParamsFromUrl(): ValidRouteLocationForMPInput<
   const mp = url.searchParams.get("mp");
 
   if (!route || !mp) {
-    /* @__PURE__ */ console.debug(
-      "The URL does not have valid route information.",
-      url.search
-    );
     return null;
   }
   route = padRoute(route);
@@ -207,23 +189,16 @@ export function getElcParamsFromUrl(): ValidRouteLocationForMPInput<
   const match = mpRe.exec(mp);
 
   if (!(match && match.length >= 2 && match.groups)) {
-    /* @__PURE__ */ console.warn(
-      "The URL does not have valid milepost information.",
-      {
-        "mp search param": mp,
-        match,
-        regex: mpRe,
-      }
-    );
+    console.warn("The URL does not have valid milepost information.", {
+      "mp search param": mp,
+      match,
+      regex: mpRe,
+    });
     return null;
   }
 
-  /* @__PURE__ */ console.debug("MP match", match.groups);
-
   const srmp = parseFloat(match.groups.mp);
   const back = match.groups?.back !== undefined && /B/i.test(match.groups.back);
-
-  /* @__PURE__ */ console.debug("SRMP", { srmp, back });
 
   let direction = url.searchParams.get("direction");
 
@@ -231,9 +206,6 @@ export function getElcParamsFromUrl(): ValidRouteLocationForMPInput<
     direction = "i";
   }
 
-  /* @__PURE__ */ console.debug(
-    `Detected route location from URL is ${route} @ ${srmp}${back ? "B" : "A"}, ${direction}`
-  );
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
@@ -253,16 +225,8 @@ export async function callElcFromUrl(milepostLayer: FeatureLayer) {
   const routeLocation = getElcParamsFromUrl();
 
   if (!routeLocation) {
-    /* @__PURE__ */ console.debug(
-      "The URL does not have valid route information."
-    );
     return null;
   }
-
-  /* @__PURE__ */ console.debug(
-    "ELC call from URL: Route Location",
-    routeLocation
-  );
 
   const elcResults = await findRouteLocations({
     locations: [routeLocation],
@@ -270,18 +234,12 @@ export async function callElcFromUrl(milepostLayer: FeatureLayer) {
   });
 
   if (elcResults.length < 1) {
-    /* @__PURE__ */ console.debug("No results from URL", elcResults);
     return null;
   }
 
   const graphics = elcResults.map((r) => routeLocationToGraphic(r));
 
-  const { addedFeatures } = await addGraphicsToLayer(milepostLayer, graphics);
-
-  /* @__PURE__ */ console.debug(
-    "ELC call from URL: addedFeatures",
-    addedFeatures
-  );
+  const addedFeatures = await addGraphicsToLayer(milepostLayer, graphics);
 
   return addedFeatures;
 }

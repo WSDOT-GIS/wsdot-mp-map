@@ -69,79 +69,56 @@ export function setupExpandGroup(
   expandOptions?: ExpandProperties,
   ...widgets: Widget[]
 ) {
-  /* @__PURE__ */ console.group(setupExpandGroup.name);
-  /* @__PURE__ */ console.debug(`${setupExpandGroup.name} constructor`, {
-    view,
-    viewAddOptions,
-    expandOptions,
-    widgets,
-  });
-  try {
-    // Throw error if no widgets were specified.
-    if (widgets.length < 1) {
-      throw new TypeError("No widgets were specified.");
-    }
-
-    // Create expand options if not already specified.
-    if (!expandOptions) {
-      /* @__PURE__ */ console.debug(
-        "expandOptions was null or undefined. Creating new object."
-      );
-      expandOptions = {};
-      /* @__PURE__ */ console.debug({ expandOptions });
-    }
-
-    // If view add options is just the UIPosition, convert to object
-    // with its position property set to the original string.
-    viewAddOptions = isValidUIPosition(viewAddOptions)
-      ? { position: viewAddOptions }
-      : (viewAddOptions as __esri.UIAddPosition);
-
-    // If no group has been defined for the Expand,
-    // use the position string as the group name.
-    if (!expandOptions.group) {
-      expandOptions.group = viewAddOptions.position as string;
-    }
-    if (!expandOptions.group) {
-      const message =
-        "There was no group specified. Expands will not be grouped";
-      /* @__PURE__ */ console.error(message);
-      throw new TypeError(message);
-    }
-
-    // Create an Expand for each of the widgets.
-    const expands = widgets.map((widget, index) => {
-      const currentOptions = expandOptions
-        ? copyObjectProperties(expandOptions)
-        : {};
-
-      currentOptions.content = widget;
-
-      if (widget instanceof BasemapLayerList) {
-        currentOptions.icon = currentOptions.expandIcon = "map-contents";
-      }
-
-      /* @__PURE__ */ console.debug(
-        `Expand constructor options`,
-        currentOptions
-      );
-      const expand = new Expand(currentOptions);
-      return {
-        component: expand,
-        index: index + 1,
-        position: currentOptions.group,
-      } as __esri.UIAddComponent;
-    });
-
-    /* @__PURE__ */ console.debug("expand objects", expands);
-
-    // Add the newly-created Expands to the view.
-    view.ui.add(expands, viewAddOptions);
-
-    return expands;
-  } finally {
-    /* @__PURE__ */ console.groupEnd();
+  // Throw error if no widgets were specified.
+  if (widgets.length < 1) {
+    throw new TypeError("No widgets were specified.");
   }
+
+  // Create expand options if not already specified.
+  if (!expandOptions) {
+    expandOptions = {};
+  }
+
+  // If view add options is just the UIPosition, convert to object
+  // with its position property set to the original string.
+  viewAddOptions = isValidUIPosition(viewAddOptions)
+    ? { position: viewAddOptions }
+    : (viewAddOptions as __esri.UIAddPosition);
+
+  // If no group has been defined for the Expand,
+  // use the position string as the group name.
+  if (!expandOptions.group) {
+    expandOptions.group = viewAddOptions.position as string;
+  }
+  if (!expandOptions.group) {
+    const message = "There was no group specified. Expands will not be grouped";
+    throw new TypeError(message);
+  }
+
+  // Create an Expand for each of the widgets.
+  const expands = widgets.map((widget, index) => {
+    const currentOptions = expandOptions
+      ? copyObjectProperties(expandOptions)
+      : {};
+
+    currentOptions.content = widget;
+
+    if (widget instanceof BasemapLayerList) {
+      currentOptions.icon = currentOptions.expandIcon = "map-contents";
+    }
+
+    const expand = new Expand(currentOptions);
+    return {
+      component: expand,
+      index: index + 1,
+      position: currentOptions.group,
+    } as __esri.UIAddComponent;
+  });
+
+  // Add the newly-created Expands to the view.
+  view.ui.add(expands, viewAddOptions);
+
+  return expands;
 }
 
 type LayerListItemCreateEvent = {
@@ -176,41 +153,31 @@ export function setupWidgets(
   viewAddOptions: ExpandGroupSetupParams[1],
   expandOptions: ExpandGroupSetupParams[2]
 ) {
-  /* @__PURE__ */ console.group(setupWidgets.name);
-  /* @__PURE__ */ console.debug(`${setupWidgets.name} constructor`, {
+  const layerList = new LayerList({
+    view,
+    listItemCreatedFunction: setupLayerListItems,
+    visibleElements: {
+      errors: true,
+      statusIndicators: true,
+    },
+  });
+
+  const basemapLayerList = new BasemapLayerList({
+    view,
+    dragEnabled: true,
+    visibleElements: {
+      baseLayers: true,
+      errors: true,
+      referenceLayers: true,
+      statusIndicators: true,
+    },
+  });
+
+  setupExpandGroup(
     view,
     viewAddOptions,
     expandOptions,
-  });
-  try {
-    const layerList = new LayerList({
-      view,
-      listItemCreatedFunction: setupLayerListItems,
-      visibleElements: {
-        errors: true,
-        statusIndicators: true,
-      },
-    });
-
-    const basemapLayerList = new BasemapLayerList({
-      view,
-      editingEnabled: true,
-      visibleElements: {
-        baseLayers: true,
-        errors: true,
-        referenceLayers: true,
-        statusIndicators: true,
-      },
-    });
-
-    setupExpandGroup(
-      view,
-      viewAddOptions,
-      expandOptions,
-      layerList,
-      basemapLayerList
-    );
-  } finally {
-    /* @__PURE__ */ console.groupEnd();
-  }
+    layerList,
+    basemapLayerList
+  );
 }

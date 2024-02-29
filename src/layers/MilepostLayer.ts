@@ -1,23 +1,22 @@
+import Graphic from "@arcgis/core/Graphic";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
-import type Point from "@arcgis/core/geometry/Point";
+import Point from "@arcgis/core/geometry/Point";
 import type SpatialReference from "@arcgis/core/geometry/SpatialReference";
 import type Field from "@arcgis/core/layers/support/Field";
-import type MapView from "@arcgis/core/views/MapView";
-import type { AttributeValue } from "./common/arcgis/typesAndInterfaces";
+import type FeatureLayerView from "@arcgis/core/views/layers/FeatureLayerView";
 import {
   queryCityLimits,
   queryCountyBoundaries,
   querySectionTownship,
-} from "./layers";
+} from ".";
+import type { AttributeValue } from "../common/arcgis/typesAndInterfaces";
 import {
   objectIdFieldName,
   type AttributesObject,
   type TypedGraphic,
-} from "./types";
+} from "../types";
 
 type FieldProperties = Required<ConstructorParameters<typeof Field>>[0];
-
-let mapView: MapView | undefined;
 
 const fields = [
   {
@@ -61,6 +60,12 @@ interface TemplateTarget {
   graphic: TypedGraphic<Point, MPAttributes>;
 }
 
+/**
+ * Creates a definition list (dl) element based on the attributes provided, excluding specific keys.
+ *
+ * @param graphic - object containing attributes
+ * @return HTML dl element containing key-value pairs of attributes
+ */
 function createDL({ attributes }: TypedGraphic<Point, MPAttributes>) {
   function createRow(
     key: string,
@@ -125,7 +130,7 @@ async function createContent(target: TemplateTarget) {
 
   if (!attributes.City) {
     // query city
-    const cityPromise = queryCityLimits(graphic.geometry, mapView);
+    const cityPromise = queryCityLimits(graphic.geometry);
     cityPromise
       .then(
         (v) =>
@@ -157,6 +162,54 @@ const popupTemplate = new PopupTemplate({
 });
 
 /**
+ * Esri's type defs for {@link __esri.FeatureLayerEditsEvent} don't match the actual properties of the event object.
+ * The type definition has an "editedFeatureResult" with an "adds" property which
+ * contains an array of the added {@link Graphic|features}. However, in reality the "editedFeatureResult"
+ * property does not exist in the event object.
+ *
+ * Instead there is an "edits" property which has an "addFeatures" property that contains the
+ * added features (Graphic objects).
+ *
+ * Note that additional properties also exist but this app is not using them so they are not documented here.
+ *
+ * @example
+ * ```typescript
+ * const { editedFeatures: editedFeatureResult } = event;
+ * const { adds } = editedFeatureResult.editedFeatures;
+ *
+ * if (adds) {
+ *   layerView.view
+ *     .openPopup({
+ *       features: adds,
+ *     })
+ *     .catch((reason) => console.error("openPopup failed", reason));
+ * }
+ * ```
+ */
+interface Edits extends Record<string, unknown> {
+  edits: {
+    addFeatures: Graphic[];
+  };
+}
+/**
+ * Checks if the input item is of type {@link Edits}.
+ *
+ * @param item - the input item to be checked
+ * @return - `true` if the input item is of type
+ * {@link Edits}, `false` otherwise.
+ */
+function isEdits(item: unknown): item is Edits {
+  return (
+    !!item &&
+    typeof item === "object" &&
+    "edits" in item &&
+    !!item.edits &&
+    typeof item.edits === "object" &&
+    "addFeatures" in item.edits
+  );
+}
+
+/**
  * Creates the {@link FeatureLayer} that displays located mileposts.
  * @returns - A {@link FeatureLayer}
  */
@@ -172,9 +225,9 @@ export async function createMilepostLayer(spatialReference: SpatialReference) {
     import("@arcgis/core/layers/FeatureLayer"),
     import("@arcgis/core/renderers/SimpleRenderer"),
     import("@arcgis/core/symbols/SimpleMarkerSymbol"),
-    import("./WAExtent"),
-    import("./labelClass"),
-    import("./colors"),
+    import("../WAExtent"),
+    import("../labelClass"),
+    import("../colors"),
   ]);
   /**
    * This is the symbol for the point on the route.
@@ -210,8 +263,33 @@ export async function createMilepostLayer(spatialReference: SpatialReference) {
     hasM: true,
   });
 
-  milepostLayer.on("layerview-create", ({ view }) => {
-    mapView = view as MapView;
+  const createHandle = milepostLayer.on("layerview-create", (createEvent) => {
+    const layerView = createEvent.layerView as FeatureLayerView;
+    const { view } = layerView;
+
+    milepostLayer.on("edits", (event) => {
+      if (isEdits(event) && event.edits.addFeatures.length) {
+        const features = event.edits.addFeatures;
+        // Zoom to the features that were just added.
+        view
+          .goTo(features)
+          .catch((reason) => console.error("goTo failed", reason));
+
+        // TODO: When the popup opens, it does not show the content.
+        // The openPopup code will commented-out until this can be fixed.
+        // At that point the view.goTo will no longer be needed.
+
+        // layerView.view
+        //   .openPopup({
+        //     features,
+        //     shouldFocus: true,
+        //     updateLocationEnabled: true,
+        //   })
+        //   .catch((reason) => console.error("openPopup failed", reason));
+      }
+    });
+
+    createHandle.remove();
   });
 
   return milepostLayer;

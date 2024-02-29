@@ -42,9 +42,6 @@ export function createClearButton(options: ClearButtonOptions) {
           deleteFeatures: features.features,
         })
       )
-      .then((editsResult) => {
-        /* @__PURE__ */ console.debug("edits result", editsResult);
-      })
       .catch(console.error);
   }
 

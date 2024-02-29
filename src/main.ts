@@ -11,10 +11,6 @@ const elcMainlinesOnlyFilter =
 function openPopup(hits: __esri.GraphicHit[], view: MapView) {
   // Get the features that were hit by the hit test.
   const features = hits.map(({ graphic }) => graphic);
-  /* @__PURE__ */ console.debug(
-    "map click hit test determined user clicked on existing graphic.",
-    features
-  );
   view
     .openPopup({
       features,
@@ -47,7 +43,7 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
     import("@arcgis/core/views/MapView"),
     import("@arcgis/core/widgets/ScaleBar"),
     import("@arcgis/core/widgets/Home"),
-    import("./MilepostLayer"),
+    import("./layers/MilepostLayer"),
     import("./WAExtent"),
     import("./elc"),
     import("./widgets/expandGroups"),
@@ -72,9 +68,6 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
       searchRadius: defaultSearchRadius,
     })
       .then(async (locations) => {
-        /* @__PURE__ */ console.debug(
-          `${findNearestRouteLocations.name} results`
-        );
         const locationGraphics = locations.map(routeLocationToGraphic);
         await addGraphicsToLayer(milepostLayer, locationGraphics);
       })
@@ -121,10 +114,7 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
   // Add the loading indicator widget to the map.
   import("./widgets/LoadingIndicator").then(
     ({ setupViewLoadingIndicator }) => setupViewLoadingIndicator(view),
-    (reason) =>
-      /* @__PURE__ */ console.error(
-        `Failed to add loading indicator: ${reason}`
-      )
+    (reason) => console.error(`Failed to add loading indicator: ${reason}`)
   );
 
   const sb = new ScaleBar({
@@ -190,19 +180,18 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
   milepostLayer.on("layerview-create", () => {
     callElcFromUrl(milepostLayer)
       .then(async (elcGraphics) => {
-        if (!elcGraphics) {
-          return;
+        if (elcGraphics) {
+          const addedFeatures = await addGraphicsToLayer(
+            milepostLayer,
+            elcGraphics
+          );
+          view.goTo(addedFeatures).catch((reason: unknown) =>
+            console.error('failed to "goTo" features from URL', {
+              reason,
+              features: addedFeatures,
+            })
+          );
         }
-        const { addedFeatures } = await addGraphicsToLayer(
-          milepostLayer,
-          elcGraphics
-        );
-        view.goTo(addedFeatures).catch((reason: unknown) =>
-          console.error('failed to "goTo" features from URL', {
-            reason,
-            features: addedFeatures,
-          })
-        );
       })
       .catch((reason) => console.error("Calling ELC from URL failed.", reason));
   });
