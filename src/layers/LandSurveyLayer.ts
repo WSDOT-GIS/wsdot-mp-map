@@ -60,7 +60,6 @@ export async function querySectionTownship(
   // Assign the default options to the query.
   query = new Query({ ...defaultOptions, ...query });
   const featureSet = await layer.queryFeatures(query, options);
-  /* @__PURE__ */ console.debug("querySectionTownship", { query, featureSet });
   const features = featureSet.features as unknown as SectionTownshipFeature[];
   const label = features.map((f) => f.attributes.LEGAL_DESC_NM).at(0);
   if (!label) {
