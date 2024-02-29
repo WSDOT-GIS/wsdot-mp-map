@@ -58,9 +58,8 @@ export function routeLocationToGraphic<
   } else {
     console.warn("Input does not have valid SRMP attributes.", routeLocation);
   }
-  const graphic = new Graphic({
+  return new Graphic({
     geometry,
     attributes,
   });
-  return graphic;
 }

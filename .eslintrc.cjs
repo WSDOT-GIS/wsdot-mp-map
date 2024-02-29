@@ -8,6 +8,7 @@ module.exports = {
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-type-checked",
+    "plugin:sonarjs/recommended",
     "prettier",
   ],
   ignorePatterns: ["*.cjs", "*.js", "*.d.ts", "vite.config.ts", "*.test.ts"],
@@ -16,7 +17,7 @@ module.exports = {
     tsconfigRootDir: __dirname,
     project: ["./tsconfig.json"],
   },
-  plugins: ["@typescript-eslint"],
+  plugins: ["@typescript-eslint", "sonarjs"],
   root: true,
   rules: {
     "require-await": "error",

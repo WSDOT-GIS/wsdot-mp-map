@@ -63,7 +63,7 @@ function createAccessControlLayer() {
   /**
    * Roadway characteristics layer.
    */
-  const accessControlLayer = new FeatureLayer({
+  return new FeatureLayer({
     url: accessControlLayerUrl,
 
     // portalItem: {
@@ -83,8 +83,6 @@ function createAccessControlLayer() {
       },
     ],
   });
-
-  return accessControlLayer;
 }
 
 export const accessControlLayer = createAccessControlLayer();

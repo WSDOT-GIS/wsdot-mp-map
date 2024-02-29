@@ -29,12 +29,10 @@ export function createLandSurveyLayer() {
     },
   });
 
-  const layer = new FeatureLayer({
+  return new FeatureLayer({
     portalItem,
     outFields: [displayField],
   });
-
-  return layer;
 }
 
 const landSurveyLayer = createLandSurveyLayer();

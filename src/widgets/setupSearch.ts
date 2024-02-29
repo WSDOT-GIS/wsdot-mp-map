@@ -29,12 +29,11 @@ function getSearchSources() {
  * @returns A Search widget.
  */
 export function setupSearch(view: MapView | SceneView) {
-  const search = new Search({
+  return new Search({
     view,
     includeDefaultSources: false,
     sources: getSearchSources(),
   });
-  return search;
 }
 
 export default setupSearch;

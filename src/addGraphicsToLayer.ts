@@ -16,14 +16,12 @@ function getAddedGraphics(editsResult: __esri.EditsResult): Graphic[] | null {
     return null;
   }
 
-  const addedGraphics = editedFeatures
+  return editedFeatures
     // Get the "adds" from the feature lists.
     // If "adds" is undefined, return an empty array instead.
     .map((f) => f.adds ?? [])
     // Convert Graphic[][] to a single Graphic[] containing all of the graphics.
     .flat();
-
-  return addedGraphics;
 }
 
 /**

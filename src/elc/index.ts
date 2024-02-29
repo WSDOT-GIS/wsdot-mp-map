@@ -209,7 +209,7 @@ export function getElcParamsFromUrl(): ValidRouteLocationForMPInput<
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  const routeLocation = {
+  return {
     Route: route,
     Srmp: srmp,
     Back: back,
@@ -217,8 +217,6 @@ export function getElcParamsFromUrl(): ValidRouteLocationForMPInput<
     ReferenceDate: today,
     ResponseDate: today,
   };
-
-  return routeLocation;
 }
 
 export async function callElcFromUrl(milepostLayer: FeatureLayer) {
@@ -239,7 +237,5 @@ export async function callElcFromUrl(milepostLayer: FeatureLayer) {
 
   const graphics = elcResults.map((r) => routeLocationToGraphic(r));
 
-  const addedFeatures = await addGraphicsToLayer(milepostLayer, graphics);
-
-  return addedFeatures;
+  return addGraphicsToLayer(milepostLayer, graphics);
 }
