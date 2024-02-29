@@ -1,7 +1,6 @@
 import type MapView from "@arcgis/core/views/MapView";
 import type SceneView from "@arcgis/core/views/SceneView";
 import type View from "@arcgis/core/views/View";
-import BasemapLayerList from "@arcgis/core/widgets/BasemapLayerList";
 import Expand from "@arcgis/core/widgets/Expand";
 import LayerList from "@arcgis/core/widgets/LayerList";
 import type ListItem from "@arcgis/core/widgets/LayerList/ListItem";
@@ -84,10 +83,6 @@ export function setupExpandGroup(
 
     currentOptions.content = widget;
 
-    if (widget instanceof BasemapLayerList) {
-      currentOptions.icon = currentOptions.expandIcon = "map-contents";
-    }
-
     const expand = new Expand(currentOptions);
     return {
       component: expand,
@@ -129,6 +124,13 @@ const setupLayerListItems: __esri.LayerListListItemCreatedHandler = (event) => {
 
 type ExpandGroupSetupParams = Parameters<typeof setupExpandGroup>;
 
+/**
+ * Set up widgets for the given view using the provided options.
+ *
+ * @param view - The map or scene view to set up widgets for.
+ * @param viewAddOptions - The options for adding the view.
+ * @param expandOptions - The options for the expand group.
+ */
 export function setupWidgets(
   view: MapView | SceneView,
   viewAddOptions: ExpandGroupSetupParams[1],
@@ -143,22 +145,5 @@ export function setupWidgets(
     },
   });
 
-  const basemapLayerList = new BasemapLayerList({
-    view,
-    editingEnabled: true,
-    visibleElements: {
-      baseLayers: true,
-      errors: true,
-      referenceLayers: true,
-      statusIndicators: true,
-    },
-  });
-
-  setupExpandGroup(
-    view,
-    viewAddOptions,
-    expandOptions,
-    layerList,
-    basemapLayerList
-  );
+  setupExpandGroup(view, viewAddOptions, expandOptions, layerList);
 }
