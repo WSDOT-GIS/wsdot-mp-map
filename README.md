@@ -1,4 +1,4 @@
-# <abbrev title='Washington State Department of Transportation'>WSDOT</abbrev> Milepost Map repository
+# <abbr title='Washington State Department of Transportation'>WSDOT</abbr> Milepost Map repository
 
 <!-- #region badges -->
 [![Node.js CI](https://github.com/WSDOT-GIS/wsdot-mp-map/actions/workflows/node.js.yml/badge.svg)](https://github.com/WSDOT-GIS/wsdot-mp-map/actions/workflows/node.js.yml) [![pages-build-deployment](https://github.com/WSDOT-GIS/wsdot-mp-map/actions/workflows/pages/pages-build-deployment/badge.svg?branch=gh-pages)](https://github.com/WSDOT-GIS/wsdot-mp-map/actions/workflows/pages/pages-build-deployment) [![CodeQL](https://github.com/WSDOT-GIS/wsdot-mp-map/actions/workflows/codeql.yml/badge.svg)](https://github.com/WSDOT-GIS/wsdot-mp-map/actions/workflows/codeql.yml)
