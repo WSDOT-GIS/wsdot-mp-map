@@ -35,16 +35,12 @@ export function routeLocationToGraphic<
   D extends DateType = DateType,
   G extends RouteGeometry = RouteGeometry,
 >(routeLocation: RouteLocation<D, G>) {
-  /* @__PURE__ */ console.group(routeLocationToGraphic.name);
   let geometry;
   if (isPoint(routeLocation.RouteGeometry)) {
     const { x, y, spatialReference } = routeLocation.RouteGeometry;
     geometry = new Point({ x, y, spatialReference });
   } else {
-    /* @__PURE__ */ console.warn(
-      "Input does not have valid point geometry.",
-      routeLocation
-    );
+    console.warn("Input does not have valid point geometry.", routeLocation);
   }
   let attributes;
   if (hasValidSrmpData(routeLocation)) {
@@ -60,17 +56,11 @@ export function routeLocationToGraphic<
     };
     oid++;
   } else {
-    /* @__PURE__ */ console.warn(
-      "Input does not have valid SRMP attributes.",
-      routeLocation
-    );
+    console.warn("Input does not have valid SRMP attributes.", routeLocation);
   }
   const graphic = new Graphic({
     geometry,
     attributes,
   });
-
-  /* @__PURE__ */ console.groupEnd();
-
   return graphic;
 }

@@ -78,7 +78,9 @@ export interface ElcAttributes
   Srmp: number;
 }
 
-export interface LayerFeatureAttributes extends ElcAttributes {
+export interface LayerFeatureAttributes
+  extends ElcAttributes,
+    AttributesObject {
   "Township Subdivision": string | null;
   County: string | null;
   City: string | null;
@@ -153,4 +155,14 @@ export function isGraphicHit(
   viewHit: __esri.ViewHit
 ): viewHit is __esri.GraphicHit {
   return viewHit.type === "graphic";
+}
+
+export function isFeatureEditResult(
+  item: unknown
+): item is __esri.FeatureEditResult {
+  return (
+    item != null &&
+    typeof item === "object" &&
+    ["objectId", "globalId", "error"].every((key) => Object.hasOwn(item, key))
+  );
 }

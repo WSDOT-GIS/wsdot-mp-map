@@ -1,7 +1,6 @@
 import type Point from "@arcgis/core/geometry/Point";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import type FeatureLayerView from "@arcgis/core/views/layers/FeatureLayerView";
-import { hasAttributes } from "../types";
 
 type AheadBackIndicator = "A" | "B";
 
@@ -111,21 +110,22 @@ export async function queryAccessControl(point: Point) {
   const layerOrView = accessControlLayerView ?? accessControlLayer;
   const query = layerOrView.createQuery();
   query.geometry = point;
-  // query.spatialRelationship = "intersects";
-  // query.outFields = [acDescriptionFieldName];
+  query.spatialRelationship = "intersects";
+  query.outFields = [acDescriptionFieldName];
   query.returnGeometry = false;
+
   const result = await layerOrView.queryFeatures(query);
 
-  /* @__PURE__ */ console.log("access control query result", result.toJSON());
-
   const { features } = result;
+
   type HasAccessControlTypeDescription = AccessControlAttributes &
     Required<Pick<AccessControlAttributes, "AccessControlTypeDescription">>;
 
-  const attributes = features
-    .filter((f) => hasAttributes(f))
-    .map((f) => f.attributes as HasAccessControlTypeDescription);
-  const acTypes = attributes.map((f) => f.AccessControlTypeDescription);
-  const uniqueAcTypes = new Set(acTypes);
-  return uniqueAcTypes;
+  const attributes = features.map(
+    (f) => f.attributes as HasAccessControlTypeDescription
+  );
+  let acTypes: Iterable<AccessControlTypeDescription>;
+  acTypes = attributes.map((f) => f.AccessControlTypeDescription);
+  acTypes = new Set(acTypes);
+  return acTypes;
 }
