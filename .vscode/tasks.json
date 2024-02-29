@@ -100,7 +100,7 @@
     },
     {
       "label": "Lint",
-      "detail": "Lints all workspaces",
+      "detail": "Runs ESLint via NPM \"lint\" script",
       "type": "npm",
       "script": "lint",
       "icon": {

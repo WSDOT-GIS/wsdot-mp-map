@@ -34,23 +34,6 @@ type ExpandProperties = NonNullable<ConstructorParameters<typeof Expand>[0]>;
 export const isValidUIPosition = (input: unknown): input is UIPosition =>
   typeof input === "string" && uiPositionRe.test(input);
 
-/**
- * Creates a new object and copies the properties of the input object
- * to the new one.
- * @param options - An input object.
- * @returns Returns a new object with the same properties as the input one
- */
-function copyObjectProperties<T>(options: T) {
-  const currentOptions: Record<PropertyKey, unknown> = {};
-  for (const propertyName in options) {
-    if (Object.prototype.hasOwnProperty.call(options, propertyName)) {
-      const element = options[propertyName];
-      currentOptions[propertyName] = element;
-    }
-  }
-  return currentOptions as T;
-}
-
 type ViewAddOptions = NonNullable<Parameters<typeof View.prototype.ui.add>[1]>;
 
 /**
@@ -97,9 +80,7 @@ export function setupExpandGroup(
 
   // Create an Expand for each of the widgets.
   const expands = widgets.map((widget, index) => {
-    const currentOptions = expandOptions
-      ? copyObjectProperties(expandOptions)
-      : {};
+    const currentOptions = { ...expandOptions };
 
     currentOptions.content = widget;
 
@@ -164,7 +145,7 @@ export function setupWidgets(
 
   const basemapLayerList = new BasemapLayerList({
     view,
-    dragEnabled: true,
+    editingEnabled: true,
     visibleElements: {
       baseLayers: true,
       errors: true,
