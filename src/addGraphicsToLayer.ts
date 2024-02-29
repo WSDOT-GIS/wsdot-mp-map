@@ -1,48 +1,57 @@
 import type Graphic from "@arcgis/core/Graphic";
 import type FeatureLayer from "@arcgis/core/layers/FeatureLayer";
-import { type DateString, type RouteGeometry, type RouteLocation } from "./elc";
+
+/**
+ * Retrieves the added graphics from the given edits result.
+ *
+ * @param editsResult - The edits result to retrieve added graphics from
+ * @return The added graphics, or null if no added graphics are found
+ */
+function getAddedGraphics(editsResult: __esri.EditsResult): Graphic[] | null {
+  const editedFeatures = editsResult.editedFeatureResults?.map(
+    (r) => r.editedFeatures
+  );
+
+  if (!editedFeatures?.length) {
+    return null;
+  }
+
+  const addedGraphics = editedFeatures
+    // Get the "adds" from the feature lists.
+    // If "adds" is undefined, return an empty array instead.
+    .map((f) => f.adds ?? [])
+    // Convert Graphic[][] to a single Graphic[] containing all of the graphics.
+    .flat();
+
+  return addedGraphics;
+}
 
 /**
  * Adds graphics to a given layer and returns the result of the edits along with the added features.
  *
  * @param milepostLayer - The layer to which the graphics will be added
  * @param locationGraphics - The graphics to be added to the layer
- * @returns An object containing the edits result and the added features
+ * @returns An array of the graphics that were added.
  */
 export async function addGraphicsToLayer(
   milepostLayer: FeatureLayer,
   locationGraphics: Graphic[]
 ) {
-  const editsResult = await milepostLayer.applyEdits({
-    addFeatures: locationGraphics,
-  });
+  if (!locationGraphics || locationGraphics.length === 0) {
+    console.warn(`${addGraphicsToLayer.name}: No graphics to add`, {
+      milepostLayer,
+      locationGraphics,
+    });
+    return null;
+  }
 
-  const nonErrorResults = editsResult.addFeatureResults.filter(
-    (editResult, i) => {
-      if (editResult.error) {
-        console.error(`editResult error on item ${i}`, editResult.error);
-        return false;
-      }
-      return true;
-    }
+  // Add graphics to the layer and await for the edit to complete.
+  const editsResult = await milepostLayer.applyEdits(
+    {
+      addFeatures: locationGraphics,
+    },
+    {}
   );
 
-  /* @__PURE__ */ console.debug(
-    `${nonErrorResults.length} of ${editsResult.addFeatureResults.length} edits succeeded`,
-    nonErrorResults
-  );
-
-  const addedFeatures = nonErrorResults
-    .map((f) => {
-      const graphic = locationGraphics.find((g) => {
-        const Id = (g.attributes as RouteLocation<DateString, RouteGeometry>)
-          .Id;
-        return Id === f.objectId;
-      });
-      return graphic;
-    })
-    .filter((g) => g !== undefined) as Graphic[];
-  /* @__PURE__ */ console.debug("addedFeatures", addedFeatures);
-
-  return { editsResult, addedFeatures };
+  return getAddedGraphics(editsResult);
 }

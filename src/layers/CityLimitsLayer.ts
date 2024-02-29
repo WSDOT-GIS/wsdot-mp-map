@@ -3,7 +3,6 @@ import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer";
 import SimpleFillSymbol from "@arcgis/core/symbols/SimpleFillSymbol";
 import SimpleLineSymbol from "@arcgis/core/symbols/SimpleLineSymbol";
-import type MapView from "@arcgis/core/views/MapView";
 import type FeatureLayerView from "@arcgis/core/views/layers/FeatureLayerView";
 import type { AttributesObject } from "../types";
 
@@ -24,6 +23,8 @@ const renderer = new SimpleRenderer({
   }),
 });
 
+let cityLimitsLayerView: FeatureLayerView | undefined;
+
 /**
  * The city limits layer.
  */
@@ -35,6 +36,10 @@ export const cityLimitsLayer = new FeatureLayer({
   outFields,
   popupEnabled: false,
   renderer,
+});
+
+cityLimitsLayer.on("layerview-create", ({ layerView }) => {
+  cityLimitsLayerView = layerView as FeatureLayerView;
 });
 
 export default cityLimitsLayer;
@@ -71,14 +76,8 @@ export interface CityLimitsAttributes extends AttributesObject {
  * @param point - The point to query the city limits for.
  * @returns - The city limits attributes for the provided point, or null if no city limits are found.
  */
-export async function queryCityLimits(point: Point, view?: MapView) {
-  let layerView: FeatureLayerView | undefined;
-  if (view) {
-    layerView = view.allLayerViews.find(
-      (lv) => lv.layer === cityLimitsLayer
-    ) as FeatureLayerView;
-  }
-  const results = await (layerView ?? cityLimitsLayer).queryFeatures({
+export async function queryCityLimits(point: Point) {
+  const results = await (cityLimitsLayerView ?? cityLimitsLayer).queryFeatures({
     geometry: point,
     spatialRelationship: "within",
     outFields: outFields,
