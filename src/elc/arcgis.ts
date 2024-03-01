@@ -1,10 +1,10 @@
 import Graphic from "@arcgis/core/Graphic";
 import Point from "@arcgis/core/geometry/Point";
-import { isPoint } from "../utils";
 import {
-  DateType,
-  RouteGeometry,
-  RouteLocation,
+  type DateType,
+  type RouteGeometry,
+  type RouteLocation,
+  hasXAndY,
   type SrmpRouteLocation,
 } from "./types";
 
@@ -36,7 +36,7 @@ export function routeLocationToGraphic<
   G extends RouteGeometry = RouteGeometry,
 >(routeLocation: RouteLocation<D, G>) {
   let geometry;
-  if (isPoint(routeLocation.RouteGeometry)) {
+  if (hasXAndY(routeLocation.RouteGeometry)) {
     const { x, y, spatialReference } = routeLocation.RouteGeometry;
     geometry = new Point({ x, y, spatialReference });
   } else {
