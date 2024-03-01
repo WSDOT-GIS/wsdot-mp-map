@@ -166,3 +166,22 @@ export function isFeatureEditResult(
     ["objectId", "globalId", "error"].every((key) => Object.hasOwn(item, key))
   );
 }
+
+export type UIAddPositionPosition = NonNullable<
+  __esri.UIAddPosition["position"]
+>;
+
+/**
+ * An enumeration of {@link UIAddPositionPosition} values.
+ */
+export const enum UIAddPositions {
+  bottomLeading = "bottom-leading",
+  bottomLeft = "bottom-left",
+  bottomRight = "bottom-right",
+  bottomTrailing = "bottom-trailing",
+  topLeading = "top-leading",
+  topLeft = "top-left",
+  topRight = "top-right",
+  topTrailing = "top-trailing",
+  manual = "manual",
+}

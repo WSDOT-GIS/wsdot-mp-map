@@ -20,10 +20,11 @@ export interface XAndY {
 }
 
 /**
- * Check if the given value is of type XAndY
- *
- * @param value - the value to be checked
- * @returns - true if the value is of type {@link XAndY}, false otherwise
+ * Determines if an input geometry object has both "x" and "y"
+ * properties which are both numbers.
+ * @param geometry - Value from {@link RouteLocation.RouteGeometry}
+ * @returns - `true` if {@link geometry} has "x" and "y" properties
+ * with numeric values, `false` otherwise.
  */
 export const hasXAndY = (value: unknown): value is XAndY =>
   typeof value === "object" &&
@@ -32,6 +33,15 @@ export const hasXAndY = (value: unknown): value is XAndY =>
   "y" in value &&
   typeof value.x === "number" &&
   typeof value.y === "number";
+
+// export function hasPaths(geometry: unknown): geometry is { paths: number[][] } {
+//   return (
+//     geometry != null &&
+//     typeof geometry === "object" &&
+//     "paths" in geometry &&
+//     Array.isArray(geometry.paths)
+//   );
+// }
 
 export interface WkidSpatialReference {
   wkid: number;
@@ -43,14 +53,14 @@ export interface RouteGeometryBase {
 }
 
 /**
- * A {@link RouteLocation.RouteGeometry} point.
+ * A {@link RouteLocation["RouteGeometry"]} point.
  */
 export interface RouteGeometryPoint extends RouteGeometryBase, XAndY {
   __type?: `Point:#Wsdot.Geometry.Contracts`;
 }
 
 /**
- * A {@link RouteLocation.RouteGeometry} polyline.
+ * A {@link RouteLocation["RouteGeometry"]} polyline.
  */
 export interface RouteGeometryPolyline extends RouteGeometryBase {
   __type?: `Polyline:#Wsdot.Geometry.Contracts`;

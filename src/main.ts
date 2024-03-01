@@ -1,5 +1,7 @@
 import type MapView from "@arcgis/core/views/MapView";
 import { addGraphicsToLayer } from "./addGraphicsToLayer";
+import { callElcFromUrl } from "./elc/url";
+import { UIAddPositions } from "./types";
 
 import("./index.css");
 
@@ -31,7 +33,7 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
     { default: Home },
     { createMilepostLayer },
     { waExtent },
-    { routeLocationToGraphic, findNearestRouteLocations, callElcFromUrl },
+    { routeLocationToGraphic, findNearestRouteLocations },
     { setupWidgets },
     { setupSearch },
     { isGraphicHit },
@@ -121,18 +123,18 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
     unit: "dual",
     view,
   });
-  view.ui.add(sb, "bottom-leading");
+  view.ui.add(sb, UIAddPositions.bottomLeading);
 
   view.popup.defaultPopupTemplateEnabled = true;
 
   const search = setupSearch(view);
   search.view.ui.add(search, {
     index: 0,
-    position: "top-trailing",
+    position: UIAddPositions.topTrailing,
   });
 
-  setupWidgets(view, "top-trailing", {
-    group: "top-trailing",
+  setupWidgets(view, UIAddPositions.topTrailing, {
+    group: UIAddPositions.topTrailing,
     mode: "drawer",
   });
 
@@ -144,7 +146,7 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
       const clearButton = createClearButton({
         layer: milepostLayer,
       });
-      view.ui.add([home, clearButton], "top-trailing");
+      view.ui.add([home, clearButton], UIAddPositions.topTrailing);
     },
     (reason) => console.error("Failed to setup clear button", reason)
   );
