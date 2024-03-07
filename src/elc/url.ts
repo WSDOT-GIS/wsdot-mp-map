@@ -37,24 +37,22 @@ type UrlParamMapKey = "sr" | "rrt" | "rrq" | "dir" | "mp";
 /**
  * Regular expression patterns to validate URL parameters.
  */
-export const keyRegExps: Record<UrlParamMapKey, RegExp> = {
-  sr: /^SR/i,
-  rrt: /^R{1,2}T/i,
-  rrq: /^R{1,2}Q/i,
-  dir: /^D(?:IR)?/i,
-  mp: /^(?:SR)?MP/i,
-};
-
-Object.seal(keyRegExps);
+const keyRegExps = new Map([
+  ["sr", /^SR/i],
+  ["rrt", /^R{1,2}T/i],
+  ["rrq", /^R{1,2}Q/i],
+  ["dir", /^D(?:IR)?/i],
+  ["mp", /^(?:SR)?MP/i],
+] as const);
 
 /**
  * Regular expression patterns to validate URL parameter values.
  */
-export const valueRegExps: Record<UrlParamMapKey, RegExp> = {
-  sr: /^\d{1,3}$/,
-  rrt: /^[A-Z0-9]{0,2}$/i,
-  rrq: /^[A-Z0-9]*$/i,
-  dir: /^[ID]/i,
+const valueRegExps = new Map([
+  ["sr", /^\d{1,3}$/],
+  ["rrt", /^[A-Z0-9]{0,2}$/i],
+  ["rrq", /^[A-Z0-9]*$/i],
+  ["dir", /^[ID]/i],
   /**
    * Regular expression pattern to validate and extract milepost information from a string.
    * It expects a numeric value that can be an integer or a decimal, and an optional 'B' character
@@ -66,36 +64,16 @@ export const valueRegExps: Record<UrlParamMapKey, RegExp> = {
    * @example
    * // matches "123", "123.45", "123B", "123.45B"
    */
-  mp: /^(?<mp>\d+(?:\.\d+)?)(?<back>B)?$/i,
-};
-
-Object.seal(valueRegExps);
-
-function isMapKey(key: string): key is UrlParamMapKey {
-  return key in keyRegExps;
-}
+  ["mp", /^(?<mp>\d+(?:\.\d+)?)(?<back>B)?$/i],
+] as const);
 
 type KeyValueRegExpTuple = [keyRegexp: RegExp, valueRegexp: RegExp];
 
-/**
- * Convert the given key and key regular expression to map constructors.
- *
- * @param key - The key for the map constructor
- * @param keyRegExp - The regular expression for the key
- * @return The tuple containing the key and the corresponding regular expression tuple
- */
-function convertToMapConstructors([key, keyRegExp]: [string, RegExp]): [
-  UrlParamMapKey,
-  KeyValueRegExpTuple,
-] {
-  if (!isMapKey(key)) {
-    throw new Error(`Invalid URL parameter key: ${key}`);
-  }
-  const valueRegExp = valueRegExps[key];
-  return [key, [keyRegExp, valueRegExp]] as const;
-}
-export const regExpMap = new Map(
-  Object.entries(keyRegExps).map(convertToMapConstructors)
+const regExpMap = new Map<UrlParamMapKey, KeyValueRegExpTuple>(
+  [...keyRegExps.entries()].map(([key, value]) => [
+    key,
+    [value, valueRegExps.get(key)!],
+  ])
 );
 
 /**
@@ -108,10 +86,11 @@ export function getUrlSearchParameter(
   urlParams: URLSearchParams,
   key: UrlParamMapKey
 ) {
-  const [keyRe, valueRe] = regExpMap.get(key) ?? [null, null];
-  if (!keyRe || !valueRe) {
+  const reTuple = regExpMap.get(key);
+  if (!reTuple) {
     throw new Error(`Invalid URL parameter key: ${key}`);
   }
+  const [keyRe, valueRe] = reTuple;
   let output: string | null = null;
   for (const [k, v] of urlParams.entries()) {
     if (!keyRe.test(k)) {
@@ -126,9 +105,9 @@ export function getUrlSearchParameter(
 
 /**
  * Generates an enumerated list of URL parameters based on the input parameters object.
- *
  * @param parameters - the input parameters object
- * @returns - an iterator for enumerating URL parameters
+ * @yields - Tuples of property name and value names that can be used to set URL parameters.
+ * @see {@link populateUrlParameters} for example usage.
  */
 export function* enumerateUrlParameters(
   parameters: FindNearestRouteLocationParameters | FindRouteLocationParameters
@@ -141,6 +120,8 @@ export function* enumerateUrlParameters(
     }
     let outValue: string;
     if (value instanceof Date) {
+      // Convert date to string format described here:
+      // https://tools.ietf.org/html/rfc3339#section-5.6
       outValue = value.toISOString().replace(/T.+$/, "");
     } else if (Array.isArray(value)) {
       outValue = JSON.stringify(value);
@@ -161,24 +142,57 @@ export function populateUrlParameters(
 }
 
 /**
- * Parses milepost and optional back indicator from a string.
+ * Parses a string representing a milepost and an optional
+ * back indicator from a string.
+ *
+ * The string is expected to be in the form "XXX.YYY[B]", where "XXX.YYY" is
+ * the milepost, and "[B]" is an optional indicator that the milepost is on
+ * the back side of the route. "XXX.YYY" is parsed using a regular expression
+ * that is specified in the valueRegExps mapping under the key "mp".
+ *
+ * The regular expression is expected to have a named capture group
+ * "mp" that captures the milepost value as a string. If there is
+ * an optional named capture group "back" that is present and has
+ * a value of "B", then the back indicator is set to true.
+ *
+ * If the input string does not match the regular expression, or
+ * if the named capture groups are not present or are not in the
+ * expected format, a {@link FormatError} is thrown.
+ *
  * @param mp - The string to parse
  * @returns - The parsed milepost and back indicator
  */
 function parseSrmp(mp: string): { srmp: number; back: boolean } {
-  const match = valueRegExps.mp.exec(mp);
+  // Retrieve the regular expression from the valueRegExps mapping
+  const mpValueRegexp = valueRegExps.get("mp");
 
+  // Throw an error if the regular expression is not present in the mapping
+  if (!mpValueRegexp) {
+    throw new TypeError(
+      `No regular expression found for key 'mp' in valueRegExps`
+    );
+  }
+
+  // Attempt to match the input string against the regular expression
+  const match = mpValueRegexp.exec(mp);
+
+  // Throw a FormatError if the string does not match the regular expression
   if (!(match && match.length >= 2 && match.groups)) {
     throw new FormatError(
       mp,
-      valueRegExps.mp,
+      mpValueRegexp,
       "The URL does not have valid milepost information."
     );
   }
 
+  // Parse the milepost value from the named capture group "mp"
   const srmp = parseFloat(match.groups.mp);
+
+  // If there is a named capture group "back" with a value of "B", set the
+  // back indicator to true. Otherwise, set it to false.
   const back = match.groups?.back !== undefined && /B/i.test(match.groups.back);
 
+  // Return the milepost and back indicator
   return { srmp, back };
 }
 

@@ -6,6 +6,9 @@ import { defineConfig } from "vite";
 export default defineConfig({
   appType: "spa",
   base: "/data/tools/LocateMP",
+  resolve: {
+    extensions: [".ts", ".js", ".css", ".json"],
+  },
   build: {
     // This sets the target based on the `browserslist` file.
     target: browserslistToEsbuild(),
@@ -26,8 +29,8 @@ export default defineConfig({
         // ".jsx",
         ".ts",
         ".tsx",
-        ".vue",
-        ".svelte",
+        // ".vue",
+        // ".svelte",
       ],
       reporter: [
         // Defaults

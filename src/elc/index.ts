@@ -1,4 +1,6 @@
 export * from "./arcgis";
+export * from "./errors";
+export * from "./json";
 export * from "./types";
 export * from "./url";
 import type {
@@ -9,24 +11,13 @@ import type {
   RouteGeometryPoint,
   RouteLocation,
 } from "./types";
-import { enumerateUrlParameters, populateUrlParameters } from "./url";
+import { populateUrlParameters } from "./url";
 
 /*
 TODO: Test the responses from the ELC requests for the presence of an "error" property
 and if there is one, throw an error. Will also need to create a new class that extends
 Error to handle this.
 */
-
-export function isErrorObject(input: unknown) {
-  if (!input) {
-    return false;
-  }
-  return (
-    typeof input === "object" &&
-    input !== null &&
-    "error" in (input as Record<string, unknown>)
-  );
-}
 
 export type ElcMapServiceUrlString =
   `http${"s" | ""}://${string}/arcgis/rest/services/${string}/MapServer/`;
@@ -58,9 +49,7 @@ export async function findNearestRouteLocations(
   url: ElcFindNearestUrlString = defaultFindNearestUrl
 ) {
   const queryUrl = new URL(url);
-  for (const [key, value] of enumerateUrlParameters(options)) {
-    queryUrl.searchParams.set(key, value);
-  }
+  populateUrlParameters(options, queryUrl);
   const response = await fetch(queryUrl);
   const result = (await response.json()) as RouteLocation<
     DateString,
