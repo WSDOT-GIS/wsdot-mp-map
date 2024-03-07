@@ -30,6 +30,25 @@ export interface ElcErrorResponse {
 }
 
 /**
+ * Checks if the input is an error object.
+ *
+ * @param input - the input to be checked
+ * @returns - true if the input is an error object, false otherwise
+ */
+export function isErrorObject(
+  input: unknown
+): input is { [key: string]: unknown; error: Record<string, unknown> } {
+  if (!input) {
+    return false;
+  }
+  return (
+    typeof input === "object" &&
+    input !== null &&
+    "error" in (input as Record<string, unknown>)
+  );
+}
+
+/**
  * Determines if the input is an {@link ElcErrorResponse}.
  * @param response - Response from ELC call.
  * @returns - Returns true if the input is an {@link ElcErrorResponse}, false otherwise.

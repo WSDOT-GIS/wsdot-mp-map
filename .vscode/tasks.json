@@ -162,6 +162,19 @@
         "$tsc-watch"
       ],
       "isBackground": true
+    },
+    {
+      "type": "npm",
+      "script": "build-and-preview",
+      "group": "build",
+      "isBackground": true,
+      "icon": {
+        "id": "preview",
+        "color": "terminal.ansiRed"
+      },
+      "problemMatcher": [],
+      "label": "Vite production build and preview",
+      "detail": "Creates a production build of the site and opens it in the browser.",
     }
   ]
 }
