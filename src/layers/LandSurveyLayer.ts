@@ -1,11 +1,15 @@
 // https://wadnr.maps.arcgis.com/home/item.html?id=ae861d2304da4d099e0f7841fcbfa860
 
 import type Point from "@arcgis/core/geometry/Point";
-import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
-import PortalItem from "@arcgis/core/portal/PortalItem";
-import Query from "@arcgis/core/rest/support/Query";
 import type FeatureLayerView from "@arcgis/core/views/layers/FeatureLayerView";
 import type { AttributesObject, TypedGraphic } from "../types";
+
+const [{ default: FeatureLayer }, { default: PortalItem }, { default: Query }] =
+  await Promise.all([
+    import("@arcgis/core/layers/FeatureLayer"),
+    import("@arcgis/core/portal/PortalItem"),
+    import("@arcgis/core/rest/support/Query"),
+  ]);
 
 const displayField = "LEGAL_DESC_NM";
 
@@ -37,7 +41,9 @@ export function createLandSurveyLayer() {
 
 const landSurveyLayer = createLandSurveyLayer();
 
-type QueryFunctionParameters = Parameters<FeatureLayer["queryFeatures"]>;
+type QueryFunctionParameters = Parameters<
+  InstanceType<typeof FeatureLayer>["queryFeatures"]
+>;
 type QueryParameter = NonNullable<QueryFunctionParameters[0]>;
 type QueryOptions = NonNullable<QueryFunctionParameters[1]>;
 

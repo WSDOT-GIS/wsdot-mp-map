@@ -5,6 +5,22 @@ import type FeatureLayerView from "@arcgis/core/views/layers/FeatureLayerView";
 import { objectIdFieldName } from "../types";
 import { popupTemplate } from "./MilepostLayerTemplate";
 
+const [
+  { default: FeatureLayer },
+  { default: SimpleRenderer },
+  { default: SimpleMarkerSymbol },
+  { default: waExtent },
+  { default: labelClass },
+  { highwaySignBackgroundColor, highwaySignTextColor },
+] = await Promise.all([
+  import("@arcgis/core/layers/FeatureLayer"),
+  import("@arcgis/core/renderers/SimpleRenderer"),
+  import("@arcgis/core/symbols/SimpleMarkerSymbol"),
+  import("../WAExtent"),
+  import("../labelClass"),
+  import("../colors"),
+]);
+
 type FieldProperties = Required<ConstructorParameters<typeof Field>>[0];
 
 export const enum fieldNames {
@@ -96,22 +112,7 @@ function isEdits(item: unknown): item is Edits {
  * Creates the {@link FeatureLayer} that displays located mileposts.
  * @returns - A {@link FeatureLayer}
  */
-export async function createMilepostLayer(spatialReference: SpatialReference) {
-  const [
-    { default: FeatureLayer },
-    { default: SimpleRenderer },
-    { default: SimpleMarkerSymbol },
-    { default: waExtent },
-    { default: labelClass },
-    { highwaySignBackgroundColor, highwaySignTextColor },
-  ] = await Promise.all([
-    import("@arcgis/core/layers/FeatureLayer"),
-    import("@arcgis/core/renderers/SimpleRenderer"),
-    import("@arcgis/core/symbols/SimpleMarkerSymbol"),
-    import("../WAExtent"),
-    import("../labelClass"),
-    import("../colors"),
-  ]);
+export function createMilepostLayer(spatialReference: SpatialReference) {
   /**
    * This is the symbol for the point on the route.
    */

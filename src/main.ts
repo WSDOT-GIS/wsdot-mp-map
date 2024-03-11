@@ -1,7 +1,4 @@
 import type MapView from "@arcgis/core/views/MapView";
-import { addGraphicsToLayer } from "./addGraphicsToLayer";
-import { callElcFromUrl } from "./elc/url";
-import { UIAddPositions } from "./types";
 
 import("./index.css");
 
@@ -31,12 +28,14 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
     { default: MapView },
     { default: ScaleBar },
     { default: Home },
+    { addGraphicsToLayer },
     { createMilepostLayer },
     { waExtent },
     { routeLocationToGraphic, findNearestRouteLocations },
+    { callElcFromUrl },
     { setupWidgets },
     { setupSearch },
-    { isGraphicHit },
+    { isGraphicHit, UIAddPositions },
     { cityLimitsLayer, accessControlLayer: roadwayCharacteristicDataLayer },
   ] = await Promise.all([
     import("@arcgis/core/Basemap"),
@@ -45,9 +44,11 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
     import("@arcgis/core/views/MapView"),
     import("@arcgis/core/widgets/ScaleBar"),
     import("@arcgis/core/widgets/Home"),
+    import("./addGraphicsToLayer"),
     import("./layers/MilepostLayer"),
     import("./WAExtent"),
     import("./elc"),
+    import("./elc/url"),
     import("./widgets/expandGroups"),
     import("./widgets/setupSearch"),
     import("./types"),
@@ -80,6 +81,15 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
 
   config.applicationName = "WSDOT Mileposts";
   config.log.level = import.meta.env.DEV ? "info" : "error";
+
+  // config.log.interceptors = [
+
+  //   (level, module, ...args: undefined[]) => {
+  //     /* __PURE__ */ console.log("log intercepted", { level, module, args });
+  //     return false;
+  //   },
+  // ];
+
   const { request } = config;
   // This app only uses publicly available map services,
   // so we don't need to use identity.
@@ -90,7 +100,7 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
   }
   request.httpsDomains.push("wsdot.wa.gov", "data.wsdot.wa.gov");
 
-  const milepostLayer = await createMilepostLayer(waExtent.spatialReference);
+  const milepostLayer = createMilepostLayer(waExtent.spatialReference);
 
   const basemap = new Basemap({
     portalItem: {
