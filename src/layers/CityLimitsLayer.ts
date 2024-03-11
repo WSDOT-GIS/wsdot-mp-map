@@ -6,10 +6,6 @@ import SimpleLineSymbol from "@arcgis/core/symbols/SimpleLineSymbol";
 import type FeatureLayerView from "@arcgis/core/views/layers/FeatureLayerView";
 import type { AttributesObject } from "../types";
 
-/**
- * The ArcGIS Online ID for the city limits layer.
- */
-const cityLimitsId = "0b12f000a66f4d75a43ea3ac4ead01dc";
 const outFields = ["CityName", "LastUpdate"];
 
 const renderer = new SimpleRenderer({
@@ -30,9 +26,7 @@ let cityLimitsLayerView: FeatureLayerView | undefined;
  */
 export const cityLimitsLayer = new FeatureLayer({
   title: "City Limits",
-  portalItem: {
-    id: cityLimitsId,
-  },
+  url: "https://data.wsdot.wa.gov/arcgis/rest/services/Shared/CityLimits/MapServer/2",
   outFields,
   popupEnabled: false,
   renderer,
