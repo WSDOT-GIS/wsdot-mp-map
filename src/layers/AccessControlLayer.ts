@@ -59,17 +59,11 @@ const acCodeFieldName = "AccessControlTypeCode";
 function createAccessControlLayer() {
   const accessControlLayerUrl =
     "https://data.wsdot.wa.gov/arcgis/rest/services/Shared/RoadwayCharacteristicData/MapServer/1";
-  // const id = "35cd6f1a5e2f4553a8e83c9ff6edbfa7";
   /**
    * Roadway characteristics layer.
    */
   return new FeatureLayer({
     url: accessControlLayerUrl,
-
-    // portalItem: {
-    //   id,
-    // },
-
     title: accessControlTitle,
     outFields: [acDescriptionFieldName],
     fields: [
