@@ -1,22 +1,20 @@
 import Graphic from "@arcgis/core/Graphic";
-import PopupTemplate from "@arcgis/core/PopupTemplate";
-import Point from "@arcgis/core/geometry/Point";
 import type SpatialReference from "@arcgis/core/geometry/SpatialReference";
 import type Field from "@arcgis/core/layers/support/Field";
 import type FeatureLayerView from "@arcgis/core/views/layers/FeatureLayerView";
-import {
-  queryCityLimits,
-  queryCountyBoundaries,
-  querySectionTownship,
-} from ".";
-import type { AttributeValue } from "../common/arcgis/typesAndInterfaces";
-import {
-  objectIdFieldName,
-  type AttributesObject,
-  type TypedGraphic,
-} from "../types";
+import { objectIdFieldName } from "../types";
+import { popupTemplate } from "./MilepostLayerTemplate";
 
 type FieldProperties = Required<ConstructorParameters<typeof Field>>[0];
+
+export const enum fieldNames {
+  Route = "Route",
+  Srmp = "Srmp",
+  Back = "Back",
+  TownshipSubdivision = "Township Subdivision",
+  County = "County",
+  City = "City",
+}
 
 const fields = [
   {
@@ -45,121 +43,6 @@ const fields = [
     type: "string",
   },
 ] as FieldProperties[];
-
-interface MPAttributes extends AttributesObject {
-  oid: number;
-  Route: string;
-  Srmp: number;
-  Back: string;
-  "Township Subdivision": string | null;
-  County: string | null;
-  City: string | null;
-}
-
-interface TemplateTarget {
-  graphic: TypedGraphic<Point, MPAttributes>;
-}
-
-/**
- * Creates a definition list (dl) element based on the attributes provided, excluding specific keys.
- *
- * @param graphic - object containing attributes
- * @return HTML dl element containing key-value pairs of attributes
- */
-function createDL({ attributes }: TypedGraphic<Point, MPAttributes>) {
-  function createRow(
-    key: string,
-    value: AttributeValue | Promise<AttributeValue>
-  ) {
-    const dt = document.createElement("dt");
-    const dd = document.createElement("dd");
-    dt.textContent = key;
-    if (value instanceof Promise) {
-      const progress = document.createElement("progress");
-      progress.textContent = `Loading ${key}...`;
-      dd.append(progress);
-      value
-        .then((v) => {
-          const textElement = document.createTextNode(!v ? "" : `${v}`);
-          progress.replaceWith(textElement);
-        })
-        .catch((error) => console.error(error));
-    } else {
-      dd.textContent = !value ? "" : `${value}`;
-    }
-    return [dt, dd];
-  }
-  const dl = document.createElement("dl");
-  for (const [key, value] of Object.entries(attributes).filter(
-    ([key]) => !["OBJECTID", "Route", "Srmp", "Back"].includes(key)
-  )) {
-    dl.append(...createRow(key, value));
-  }
-
-  return dl;
-}
-
-async function createContent(target: TemplateTarget) {
-  const { graphic } = target;
-  const { attributes } = graphic;
-
-  /**
-   * This array will hold promises, which will be all awaited at the end.
-   */
-  const fieldPromises: ReturnType<
-    | typeof querySectionTownship
-    | typeof queryCityLimits
-    | typeof queryCountyBoundaries
-  >[] = [];
-
-  if (!attributes["Township Subdivision"]) {
-    const stPromise = querySectionTownship({
-      geometry: graphic.geometry,
-    });
-    stPromise
-      .then((v) => {
-        if (v) {
-          attributes["Township Subdivision"] = v;
-        }
-      })
-      .catch((error) =>
-        console.error("Error querying section/township", error)
-      );
-    fieldPromises.push(stPromise);
-  }
-
-  if (!attributes.City) {
-    // query city
-    const cityPromise = queryCityLimits(graphic.geometry);
-    cityPromise
-      .then(
-        (v) =>
-          (attributes.City = v
-            ? `${v.CityName} (last updated: ${new Date(v.LastUpdate).toLocaleDateString()})`
-            : "Outside City Limits")
-      )
-      .catch((error) => console.error("Error querying city", error));
-
-    fieldPromises.push(cityPromise);
-  }
-  if (!attributes.County) {
-    // query county
-    const countyPromise = queryCountyBoundaries(graphic.geometry);
-    countyPromise
-      .then((county) => (attributes.County = county))
-      .catch((error) => console.error("Error querying county", error));
-    fieldPromises.push(countyPromise);
-  }
-
-  await Promise.allSettled(fieldPromises);
-
-  return createDL(graphic);
-}
-
-const popupTemplate = new PopupTemplate({
-  title: "{Route} @ {Srmp}{Back}",
-  content: createContent,
-});
 
 /**
  * Esri's type defs for {@link __esri.FeatureLayerEditsEvent} don't match the actual properties of the event object.

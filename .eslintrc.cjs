@@ -22,5 +22,6 @@ module.exports = {
   rules: {
     "require-await": "error",
     "no-return-await": "warn",
+    "sonarjs/no-duplicate-string": "warn",
   },
 };
