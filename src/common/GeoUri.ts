@@ -99,7 +99,7 @@ export function createGeoUriString(options: GeoUrlOptions) {
 }
 
 /**
- * An object representing a GeoURI
+ * An object representing a {@link https://geouri.org GeoURI}
  */
 export class GeoUrl extends URL {
   x: number;
@@ -108,6 +108,11 @@ export class GeoUrl extends URL {
   crs?: CrsLabel;
   uncertainty?: number;
 
+  /**
+   * Constructs a GeoURI.
+   * @param options - Provides values.
+   * @see {@link https://geouri.org GeoURI}
+   */
   constructor(options: GeoUrlOptions) {
     super(createGeoUriString(options));
     this.x = options.x;
@@ -117,18 +122,23 @@ export class GeoUrl extends URL {
     this.uncertainty = options.uncertaintyInMeters;
   }
 
-  /**
-   * @inheritdoc
-   */
-  override toString(): GeoUriString {
-    return super.toString() as GeoUriString;
-  }
+  declare href: GeoUriString;
 
-  public get latLngTuple(): [x: number, y: number] {
+  declare toString: () => GeoUriString;
+
+  /**
+   * Returns a tuple of latitude and longitude
+   * @returns A tuple of latitude and longitude
+   */
+  public get latLngTuple(): [latitude: number, longitude: number] {
     return [this.y, this.x];
   }
 
-  public get xyTuple(): [number, number] {
+  /**
+   * Returns a tuple of X and Y coordinates.
+   * @returns A tuple of X and Y coordinates
+   */
+  public get xyTuple(): [x: number, y: number] {
     return [this.x, this.y];
   }
 }
