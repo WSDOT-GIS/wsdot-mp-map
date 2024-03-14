@@ -2,6 +2,11 @@
 /// <reference types="vitest" />
 import browserslistToEsbuild from "browserslist-to-esbuild";
 import { defineConfig } from "vite";
+import copy from "rollup-plugin-copy";
+
+const calciteAssetsDestDir =
+  "node_modules/@esri/calcite-components/dist/calcite/assets/";
+const calciteAssetsSourceDir = "public/";
 
 export default defineConfig({
   appType: "spa",
@@ -13,6 +18,16 @@ export default defineConfig({
     // This sets the target based on the `browserslist` file.
     target: browserslistToEsbuild(),
   },
+  plugins: [
+    copy({
+      targets: [
+        {
+          src: calciteAssetsDestDir,
+          dest: calciteAssetsSourceDir,
+        },
+      ],
+    }),
+  ],
   test: {
     name: "LocateMP",
     environment: "jsdom",

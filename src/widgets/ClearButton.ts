@@ -24,7 +24,7 @@ export function createClearButton(options: ClearButtonOptions) {
     "esri-widget",
     "esri-widget--button",
     "esri-component",
-    "tracts-clear-button"
+    "locate-mp-clear-button"
   );
 
   const iconSpan = document.createElement("span");

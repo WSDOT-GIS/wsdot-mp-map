@@ -204,31 +204,19 @@ function parseSrmp(mp: string): { srmp: number; back: boolean } {
 export function getElcParamsFromUrl(
   url: string | URL = window.location.href
 ): ValidRouteLocationForMPInput<Date, RouteGeometry> | null {
-  /* __PURE__ */ console.group(getElcParamsFromUrl.name);
-  /* __PURE__ */ console.debug("input url", url);
   url = typeof url === "string" ? new URL(url) : url;
-  /* __PURE__ */ console.debug("parsed url", url);
   const { searchParams } = url;
-  /* __PURE__ */ for (const [key, value] of searchParams.entries()) {
-    /* __PURE__ */ console.debug(key, value);
-  }
 
   let sr = getUrlSearchParameter(searchParams, "sr");
   const mp = getUrlSearchParameter(searchParams, "mp");
-  /* __PURE__ */ console.debug("sr, mp", { sr, mp });
 
   if (!sr || !mp) {
-    /* __PURE__ */ console.debug("missing sr a/o mp", { sr, mp });
-    /* __PURE__ */ console.groupEnd();
     return null;
   }
   sr = padRoute(sr);
-  /* __PURE__ */ console.debug("padded sr", sr);
 
   const rrt = getUrlSearchParameter(searchParams, "rrt") ?? "";
   const rrq = getUrlSearchParameter(searchParams, "rrq") ?? "";
-
-  /* __PURE__ */ console.debug("rrt, rrq", { rrt, rrq });
 
   const { srmp, back } = parseSrmp(mp);
 
@@ -239,7 +227,6 @@ export function getElcParamsFromUrl(
 
   const route = `${sr}${rrt}${rrq}`;
 
-  /* __PURE__ */ console.groupEnd();
   return {
     Route: route,
     Srmp: srmp,

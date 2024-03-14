@@ -2,7 +2,7 @@ import Graphic from "@arcgis/core/Graphic";
 import type SpatialReference from "@arcgis/core/geometry/SpatialReference";
 import type Field from "@arcgis/core/layers/support/Field";
 import type FeatureLayerView from "@arcgis/core/views/layers/FeatureLayerView";
-import { objectIdFieldName } from "../types";
+import { objectIdFieldName } from "../elc/types";
 import { popupTemplate } from "./MilepostLayerTemplate";
 
 const [

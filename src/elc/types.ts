@@ -1,3 +1,9 @@
+import type Graphic from "@arcgis/core/Graphic";
+import Point from "@arcgis/core/geometry/Point";
+import type { AttributeValue } from "../common";
+import { XAndY, type AttributesObject, type TypedGraphic } from "../types";
+export const objectIdFieldName = "OBJECTID";
+
 /**
  * Find Nearest Route Locations parameters
  */
@@ -10,38 +16,6 @@ export interface FindNearestRouteLocationParameters {
   routeFilter?: string;
   lrsYear?: "Current" | `${number}`;
 }
-
-/**
- * The bare minimum properties for defining a point.
- */
-export interface XAndY {
-  x: number;
-  y: number;
-}
-
-/**
- * Determines if an input geometry object has both "x" and "y"
- * properties which are both numbers.
- * @param geometry - Value from {@link RouteLocation.RouteGeometry}
- * @returns - `true` if {@link geometry} has "x" and "y" properties
- * with numeric values, `false` otherwise.
- */
-export const hasXAndY = (value: unknown): value is XAndY =>
-  typeof value === "object" &&
-  value !== null &&
-  "x" in value &&
-  "y" in value &&
-  typeof value.x === "number" &&
-  typeof value.y === "number";
-
-// export function hasPaths(geometry: unknown): geometry is { paths: number[][] } {
-//   return (
-//     geometry != null &&
-//     typeof geometry === "object" &&
-//     "paths" in geometry &&
-//     Array.isArray(geometry.paths)
-//   );
-// }
 
 export interface WkidSpatialReference {
   wkid: number;
@@ -140,4 +114,99 @@ export interface FindRouteLocationParameters<
   referenceDate?: Date;
   outSR: number;
   lrsYear?: "Current" | `${number}`;
+}
+
+/**
+ * The graphic attributes for a graphic in the Mileposts feature layer.
+ */
+export interface ElcAttributes
+  extends Required<
+    Pick<
+      RouteLocation<DateString, RouteGeometryPoint>,
+      "Route" | "Decrease" | "Srmp" | "Back"
+    >
+  > {
+  [key: string]: AttributeValue;
+  [objectIdFieldName]: number;
+  /**
+   * @inheritdoc
+   */
+  Route: string;
+  /**
+   * @inheritdoc
+   */
+  Srmp: number;
+}
+
+export interface LayerFeatureAttributes
+  extends ElcAttributes,
+    AttributesObject {
+  "Township Subdivision": string | null;
+  County: string | null;
+  City: string | null;
+}
+
+/**
+ * A milepost point {@link Graphic}.
+ */
+export type MilepostFeature = Graphic &
+  TypedGraphic<Point, LayerFeatureAttributes>;
+
+const elcFieldNames = [
+  "Route",
+  "Decrease",
+  objectIdFieldName,
+  "Srmp",
+  "Back",
+] as const;
+
+const featureLayerAttributesFieldNames = [
+  ...elcFieldNames,
+  "Township Subdivision",
+  "County",
+  "City",
+] as const;
+
+/**
+ * Determines if an object is a {@link ElcAttributes}.
+ * @param input - Input object, such as {@link Graphic.attributes}
+ * @returns - Returns true under the following conditions:
+ * - {@link isElcAttributes} returns `true`
+ * - Each string in {@link elcFieldNames} has
+ *   a corresponding property in the input object.
+ */
+function isElcAttributes(input: unknown): input is ElcAttributes {
+  return (
+    !!input &&
+    typeof input === "object" &&
+    elcFieldNames.every((fieldName) => Object.hasOwn(input, fieldName))
+  );
+}
+
+/**
+ * Determines if an object is a {@link LayerFeatureAttributes}.
+ * @param input - Input object
+ * @returns - Returns true under the following conditions:
+ * - {@link isElcAttributes} returns `true`
+ * - Each string in {@link featureLayerAttributesFieldNames} has
+ *   a corresponding property in the input object.
+ */
+function isValidAttributesObject(
+  input: unknown
+): input is LayerFeatureAttributes {
+  return (
+    isElcAttributes(input) &&
+    featureLayerAttributesFieldNames.every((fieldName) =>
+      Object.hasOwn(input, fieldName)
+    )
+  );
+}
+
+export function isMilepostFeature(
+  graphic: Graphic
+): graphic is MilepostFeature {
+  return (
+    graphic.geometry instanceof Point &&
+    isValidAttributesObject(graphic.attributes)
+  );
 }

@@ -25,6 +25,9 @@ export type GeoUriString =
   | `geo:${CoordinateList}${KeyValuePairWithSemicolonPrefix}`
   | `geo:${CoordinateList}${KeyValuePairWithSemicolonPrefix}${KeyValuePairWithSemicolonPrefix}`;
 
+/**
+ * Options for constructing a {@link GeoUrl}
+ */
 export interface GeoUrlOptions {
   /** Latitude */
   x: number;
@@ -39,7 +42,7 @@ export interface GeoUrlOptions {
    */
   crs?: CrsLabel;
   /**
-   * @see {@link https://www.rfc-editor.org/rfc/rfc5870#section-3.4.3}
+   * @see {@link https://www.rfc-editor.org/rfc/rfc5870#section-3.4.3| 3.4.3. Location Uncertainty}
    * > The 'u' ("uncertainty") parameter indicates the amount of uncertainty in the location as a value in meters.  Where a 'geo' URI is used to identify the location of a particular object, \<uval\> indicates the uncertainty with which the identified location of the subject is known.
    * >
    * > The 'u' parameter is optional and it can appear only once.  If it is not specified, this indicates that uncertainty is unknown or unspecified.  If the intent is to indicate a specific point in space, \<uval\> MAY be set to zero.  Zero uncertainty and absent uncertainty are never the same thing.
@@ -63,12 +66,12 @@ export function createGeoUriString(options: GeoUrlOptions) {
    * Create a mapping for additional,
    * semicolon separated parameters.
    */
-  const argsMap = new Map<string, string>();
+  const argsMap = new Map<CrsName | UncertaintyName, CrsLabel | `${number}`>();
   if (options.crs) {
     argsMap.set("crs", options.crs);
   }
   if (options.uncertaintyInMeters) {
-    argsMap.set("u", options.uncertaintyInMeters.toString());
+    argsMap.set("u", options.uncertaintyInMeters.toString() as `${number}`);
   }
 
   /**
@@ -99,13 +102,21 @@ export function createGeoUriString(options: GeoUrlOptions) {
 }
 
 /**
- * An object representing a {@link https://geouri.org GeoURI}
+ * An object representing a {@link https://geouri.org|GeoURI}
+ * @see {@link https://www.rfc-editor.org/rfc/rfc5870|RFC 5870 - A Uniform Resource Identifier for Geographic Locations ('geo' URI)}
  */
 export class GeoUrl extends URL {
+  /** Latitude */
   x: number;
+  /** Longitude */
   y: number;
+  /** Altitude */
   altitude?: number;
+  /** Coordinate Reference system. */
   crs?: CrsLabel;
+  /**
+   * {@link https://www.rfc-editor.org/rfc/rfc5870#section-3.4.3|Location Uncertainty}
+   */
   uncertainty?: number;
 
   /**
@@ -122,24 +133,30 @@ export class GeoUrl extends URL {
     this.uncertainty = options.uncertaintyInMeters;
   }
 
+  /**
+   * Returns a {@link https://geouri.org|GeoURI} string.
+   */
   declare href: GeoUriString;
 
+  /**
+   * Returns {@link href}
+   */
   declare toString: () => GeoUriString;
 
   /**
    * Returns a tuple of latitude and longitude
    * @returns A tuple of latitude and longitude
    */
-  public get latLngTuple(): [latitude: number, longitude: number] {
-    return [this.y, this.x];
+  public get latLngTuple(): Readonly<[latitude: number, longitude: number]> {
+    return [this.y, this.x] as const;
   }
 
   /**
    * Returns a tuple of X and Y coordinates.
    * @returns A tuple of X and Y coordinates
    */
-  public get xyTuple(): [x: number, y: number] {
-    return [this.x, this.y];
+  public get xyTuple(): Readonly<[x: number, y: number]> {
+    return [this.x, this.y] as const;
   }
 }
 
