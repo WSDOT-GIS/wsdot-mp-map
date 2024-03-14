@@ -4,9 +4,9 @@ import {
   type DateType,
   type RouteGeometry,
   type RouteLocation,
-  hasXAndY,
   type SrmpRouteLocation,
 } from "./types";
+import { hasXAndY } from "../types";
 
 /**
  * This variable will be increased for each new graphic
@@ -36,7 +36,7 @@ export function routeLocationToGraphic<
   G extends RouteGeometry = RouteGeometry,
 >(routeLocation: RouteLocation<D, G>) {
   let geometry;
-  if (hasXAndY(routeLocation.RouteGeometry)) {
+  if (routeLocation.RouteGeometry && hasXAndY(routeLocation.RouteGeometry)) {
     const { x, y, spatialReference } = routeLocation.RouteGeometry;
     geometry = new Point({ x, y, spatialReference });
   } else {

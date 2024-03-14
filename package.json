@@ -39,6 +39,7 @@
     "gh-pages": "^6.1.1",
     "jsdom": "^24.0.0",
     "prettier": "^3.2.5",
+    "rollup-plugin-copy": "^3.5.0",
     "typescript": "^5.4.2",
     "vite": "^5.1.6",
     "vitest": "^1.3.1",
@@ -58,5 +59,10 @@
     "linear-referencing"
   ],
   "author": "Jeff Jacobson",
-  "license": "Unlicense"
+  "license": "Unlicense",
+  "dependencies": {
+    "@esri/calcite-components": "^2.6.0",
+    "@types/geojson": "^7946.0.14",
+    "dms-conversion": "^3.1.3"
+  }
 }

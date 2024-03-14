@@ -9,6 +9,7 @@ body,
     width: 100%;
 }
 
-.tracts-clear-button {
+.locate-mp-clear-button,
+.locate-mp-export-button {
     border: unset;
 }

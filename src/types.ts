@@ -1,10 +1,5 @@
-import type Graphic from "@arcgis/core/Graphic";
 import type Geometry from "@arcgis/core/geometry/Geometry";
-import Point from "@arcgis/core/geometry/Point";
 import type { AttributeValue } from "./common";
-import type { DateString, RouteGeometryPoint, RouteLocation } from "./elc";
-
-export const objectIdFieldName = "OBJECTID";
 
 /**
  * An object like one used by {@link Graphic.attributes},
@@ -16,8 +11,7 @@ export type AttributesObject = Record<string, AttributeValue>;
 /**
  * An object that has an "attributes" property
  */
-export interface HasAttributes<T extends AttributesObject>
-  extends Pick<Graphic, "attributes"> {
+export interface HasAttributes<T extends AttributesObject> {
   /**
    * @inheritdoc
    */
@@ -44,7 +38,7 @@ export function hasAttributes<T extends AttributesObject>(
 
 /**
  * Extends {@link Graphic} to provide more strict type information for
- * {@link Graphic.attributes|attributes} and {@link Graphic.geometry|geometry}.
+ * {@link Graphic["attributes"]|attributes} and {@link Graphic["geometry"]|geometry}.
  */
 export interface TypedGraphic<
   G extends Geometry,
@@ -54,94 +48,6 @@ export interface TypedGraphic<
    * @inheritdoc
    */
   geometry: G;
-}
-
-/**
- * The graphic attributes for a graphic in the Mileposts feature layer.
- */
-export interface ElcAttributes
-  extends Required<
-    Pick<
-      RouteLocation<DateString, RouteGeometryPoint>,
-      "Route" | "Decrease" | "Srmp" | "Back"
-    >
-  > {
-  [key: string]: AttributeValue;
-  [objectIdFieldName]: number;
-  /**
-   * @inheritdoc
-   */
-  Route: string;
-  /**
-   * @inheritdoc
-   */
-  Srmp: number;
-}
-
-export interface LayerFeatureAttributes
-  extends ElcAttributes,
-    AttributesObject {
-  "Township Subdivision": string | null;
-  County: string | null;
-  City: string | null;
-}
-
-/**
- * A milepost point {@link Graphic}.
- */
-export type MilepostFeature = Graphic &
-  TypedGraphic<Point, LayerFeatureAttributes>;
-
-const elcFieldNames = ["Route", "Decrease", objectIdFieldName, "Srmp", "Back"];
-
-const featureLayerAttributesFieldNames = elcFieldNames.concat(
-  "Township Subdivision",
-  "County",
-  "City"
-);
-
-/**
- * Determines if an object is a {@link ElcAttributes}.
- * @param input - Input object, such as {@link Graphic.attributes}
- * @returns - Returns true under the following conditions:
- * - {@link isElcAttributes} returns `true`
- * - Each string in {@link elcFieldNames} has
- *   a corresponding property in the input object.
- */
-function isElcAttributes(input: unknown): input is ElcAttributes {
-  return (
-    !!input &&
-    typeof input === "object" &&
-    elcFieldNames.every((fieldName) => Object.hasOwn(input, fieldName))
-  );
-}
-
-/**
- * Determines if an object is a {@link LayerFeatureAttributes}.
- * @param input - Input object
- * @returns - Returns true under the following conditions:
- * - {@link isElcAttributes} returns `true`
- * - Each string in {@link featureLayerAttributesFieldNames} has
- *   a corresponding property in the input object.
- */
-function isValidAttributesObject(
-  input: unknown
-): input is LayerFeatureAttributes {
-  return (
-    isElcAttributes(input) &&
-    featureLayerAttributesFieldNames.every((fieldName) =>
-      Object.hasOwn(input, fieldName)
-    )
-  );
-}
-
-export function isMilepostFeature(
-  graphic: Graphic
-): graphic is MilepostFeature {
-  return (
-    graphic.geometry instanceof Point &&
-    isValidAttributesObject(graphic.attributes)
-  );
 }
 
 /**
@@ -184,4 +90,74 @@ export const enum UIAddPositions {
   topRight = "top-right",
   topTrailing = "top-trailing",
   manual = "manual",
+}
+/**
+ * The bare minimum properties for defining a point.
+ */
+export interface XAndY {
+  x: number;
+  y: number;
+}
+
+/**
+ * Determines if an input geometry object has both "x" and "y"
+ * properties which are both numbers.
+ * @param geometry - Value from {@link RouteLocation.RouteGeometry}
+ * @returns - `true` if {@link geometry} has "x" and "y" properties
+ * with numeric values, `false` otherwise.
+ */
+export const hasXAndY = <T extends object>(
+  value: T | undefined
+): value is T & XAndY =>
+  typeof value === "object" &&
+  value !== null &&
+  (["x", "y"] as (keyof T)[]).every(
+    (key) => key in value && typeof value[key] === "number"
+  );
+
+/**
+ * Checks if the input geometry has the "paths" property and is
+ * an array, and returns a boolean value.
+ *
+ * @param geometry - The input geometry object to be checked
+ * @return Returns true if the input geometry has the "paths" property and is an array, otherwise returns false
+ */
+export const hasPaths = <T extends object>(
+  geometry: T
+): geometry is T & Pick<__esri.Polyline, "paths"> =>
+  geometry != null &&
+  typeof geometry === "object" &&
+  "paths" in geometry &&
+  Array.isArray(geometry.paths);
+
+/**
+ * Checks if the input geometry has a "rings" property and is an array, and returns a boolean value.
+ * @param geometry - The input geometry object to be checked
+ * @returns - Returns true if the input geometry has a "rings" property and is an array, otherwise returns false.
+ */
+export function hasRings<T extends object>(
+  geometry: T
+): geometry is T & Pick<__esri.Polygon, "rings"> {
+  return (
+    geometry != null &&
+    typeof geometry === "object" &&
+    "rings" in geometry &&
+    Array.isArray(geometry.rings)
+  );
+}
+
+/**
+ * Checks if the input geometry has the "points" property and is an array, and returns a boolean value.
+ * @param geometry - The input geometry object to be checked
+ * @returns - Returns true if the input geometry has the "points" property and is an array, otherwise returns false
+ */
+export function hasPoints<T extends object>(
+  geometry: T
+): geometry is T & Pick<__esri.Multipoint, "points"> {
+  return (
+    geometry != null &&
+    typeof geometry === "object" &&
+    "points" in geometry &&
+    Array.isArray(geometry.points)
+  );
 }

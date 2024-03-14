@@ -1,15 +1,25 @@
 /**
- * Used for working with [GeoHack](https://www.mediawiki.org/wiki/GeoHack) URLs.
+ * @module Used for working with [GeoHack](https://www.mediawiki.org/wiki/GeoHack) URLs.
  */
 
-import type { LatLngExpression, LatLngTuple } from "./types";
+import type { LatLngExpression, LatLngLiteral, LatLngTuple } from "./types";
 
 /**
  * Detects if the input value is a {@link LatLngTuple}.
  * @param latLng - A {@link LatLngExpression}
  * @returns Returns true if it is a {@link LatLngTuple}, false otherwise.
  */
-function isLatLngTuple(latLng: LatLngExpression): latLng is LatLngTuple {
+function isLatLngTuple(
+  latLng: Readonly<LatLngTuple>
+): latLng is Readonly<LatLngTuple>;
+function isLatLngTuple(latLng: LatLngTuple): latLng is LatLngTuple;
+function isLatLngTuple(latLng: LatLngLiteral): false;
+function isLatLngTuple(
+  latLng: LatLngExpression
+): latLng is LatLngTuple | Readonly<LatLngTuple>;
+function isLatLngTuple(
+  latLng: LatLngExpression
+): latLng is LatLngTuple | Readonly<LatLngTuple> {
   return (
     Array.isArray(latLng) &&
     typeof latLng[0] === "number" &&
@@ -30,17 +40,11 @@ export function createGeoHackUrl(
   latLng: LatLngExpression,
   geohackUrl = "https://geohack.toolforge.org/geohack.php"
 ) {
-  let lat: number;
-  let lng: number;
-  if (isLatLngTuple(latLng)) {
-    [lat, lng] = latLng;
-  } else {
-    lat = latLng.lat;
-    lng = latLng.lng;
-  }
+  // Convert to an array if it isn't already
+  latLng = isLatLngTuple(latLng) ? latLng : [latLng.lat, latLng.lng];
 
   // Join the two numbers with a semicolon
-  const params = [lat, lng].join(";");
+  const params = latLng.join(";");
 
   const outUrl = new URL(geohackUrl);
   outUrl.searchParams.set("params", params);

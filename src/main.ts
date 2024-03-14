@@ -53,7 +53,7 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
     import("./widgets/setupSearch"),
     import("./types"),
     import("./layers"),
-  ]);
+  ] as const);
 
   /**
    * A function that handles the event of finding the nearest route location
@@ -81,14 +81,6 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
 
   config.applicationName = "WSDOT Mileposts";
   config.log.level = import.meta.env.DEV ? "info" : "error";
-
-  // config.log.interceptors = [
-
-  //   (level, module, ...args: undefined[]) => {
-  //     /* __PURE__ */ console.log("log intercepted", { level, module, args });
-  //     return false;
-  //   },
-  // ];
 
   const { request } = config;
   // This app only uses publicly available map services,
@@ -186,6 +178,21 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
   import("./setupForm")
     .then(({ setupForm }) => setupForm(view, milepostLayer))
     .catch((reason) => console.error("failed to setup form", reason));
+
+  if (import.meta.env.DEV) {
+    milepostLayer
+      .when(async () => {
+        const { createExportButton } = await import("./widgets/ExportButton");
+
+        const button = createExportButton({
+          layer: milepostLayer,
+        });
+        view.ui.add(button, UIAddPositions.bottomTrailing);
+      })
+      .catch((reason) =>
+        console.error("failed to create export button", reason)
+      );
+  }
 
   // Once the milepost layerview has been created, check for ELC data from the URL
   // and, if present, add the location to the map.
