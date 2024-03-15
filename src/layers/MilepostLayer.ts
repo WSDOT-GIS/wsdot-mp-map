@@ -1,9 +1,11 @@
 import Graphic from "@arcgis/core/Graphic";
 import type SpatialReference from "@arcgis/core/geometry/SpatialReference";
-import type Field from "@arcgis/core/layers/support/Field";
+import Field from "@arcgis/core/layers/support/Field";
+import CodedValueDomain from "@arcgis/core/layers/support/CodedValueDomain";
+
 import type FeatureLayerView from "@arcgis/core/views/layers/FeatureLayerView";
 import { objectIdFieldName } from "../elc/types";
-import { popupTemplate } from "./MilepostLayerTemplate";
+// import { popupTemplate } from "./MilepostLayerTemplate";
 
 const [
   { default: FeatureLayer },
@@ -21,8 +23,6 @@ const [
   import("../colors"),
 ]);
 
-type FieldProperties = Required<ConstructorParameters<typeof Field>>[0];
-
 export const enum fieldNames {
   Route = "Route",
   Srmp = "Srmp",
@@ -32,33 +32,54 @@ export const enum fieldNames {
   City = "City",
 }
 
-const fields = [
-  {
-    name: objectIdFieldName,
-    type: "oid",
-  },
-  {
-    name: "Route",
-    type: "string",
-  },
-  {
-    name: "Direction",
-    type: "string",
-    domain: {
-      type: "coded-value",
-      codedValues: [
-        {
-          code: "I",
-          name: "Increase",
-        },
-        {
-          code: "D",
-          name: "Decrease",
-        },
-      ],
-      name: "Direction",
+type FieldProperties = Required<ConstructorParameters<typeof Field>>[0];
+
+const directionDomain = new CodedValueDomain({
+  name: "Direction",
+  type: "coded-value",
+  codedValues: [
+    {
+      code: "I",
+      name: "Increase",
     },
-    defaultValue: "I",
+    {
+      code: "D",
+      name: "Decrease",
+    },
+  ],
+});
+const backDomain = new CodedValueDomain({
+  name: "Ahead / Back Indicator",
+  type: "coded-value",
+  codedValues: [
+    {
+      code: "A",
+      name: "Ahead",
+    },
+    {
+      code: "B",
+      name: "Back",
+    },
+  ],
+});
+const fieldConstructorProperties = [
+  { name: objectIdFieldName, type: "oid" },
+  { name: "Route", type: "string", nullable: true, valueType: "name-or-title" },
+  // { name: "RouteGeometry", type: "geometry" },
+  { name: "Srmp", type: "double", nullable: true, valueType: "measurement" },
+  { name: "Angle", type: "double", nullable: true },
+  { name: "Arm", type: "double", nullable: true },
+  {
+    name: "ArmCalcReturnCode",
+    alias: "ARM Calc Return Code",
+    type: "small-integer",
+    nullable: true,
+  },
+  {
+    name: "ArmCalcReturnMessage",
+    alias: "ARM Calc Return Message",
+    type: "string",
+    nullable: true,
   },
   {
     name: "Srmp",
@@ -67,17 +88,57 @@ const fields = [
   {
     name: "Back",
     type: "string",
+    length: "1",
+    nullable: true,
+    domain: backDomain,
   },
   {
-    name: "Township Subdivision",
+    name: "Direction",
+    type: "string",
+    length: "1",
+    nullable: true,
+    domain: directionDomain,
+  },
+  {
+    name: "Distance",
+    alias: "Distance in feet from input point",
+    type: "double",
+    defaultValue: 0,
+    nullable: true,
+    valueType: "measurement",
+  },
+  // { name: "EventPoint", type: "geometry" },
+  { name: "RealignmentDate", type: "date-only", nullable: true },
+  { name: "ReferenceDate", type: "date-only", nullable: true },
+  { name: "ResponseDate", type: "date-only", nullable: true },
+  {
+    name: "TownshipSubdivision",
+    alias: "Township Subdivision",
+    nullable: true,
     type: "string",
   },
-  { name: "County", type: "string" },
   {
     name: "City",
+    nullable: true,
     type: "string",
+    valueType: "location-or-place-name",
   },
-] as FieldProperties[];
+  {
+    name: "County",
+    nullable: true,
+    type: "string",
+    valueType: "location-or-place-name",
+  },
+] as const as FieldProperties[];
+
+const fields = fieldConstructorProperties.map((p) => {
+  try {
+    return new Field(p);
+  } catch (error) {
+    console.error("Failed to create field", { error, p });
+    return p;
+  }
+});
 
 /**
  * Esri's type defs for {@link __esri.FeatureLayerEditsEvent} don't match the actual properties of the event object.
@@ -108,6 +169,7 @@ interface Edits extends Record<string, unknown> {
     addFeatures: Graphic[];
   };
 }
+
 /**
  * Checks if the input item is of type {@link Edits}.
  * @param item - the input item to be checked
@@ -155,7 +217,7 @@ export function createMilepostLayer(spatialReference: SpatialReference) {
     geometryType: "point",
     objectIdField: objectIdFieldName,
     fullExtent: waExtent,
-    popupTemplate: popupTemplate,
+    // popupTemplate: popupTemplate,
     renderer,
     spatialReference,
     // Since there are no features at the beginning,

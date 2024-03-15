@@ -31,6 +31,31 @@ function hasValidSrmpData<D extends DateType, G extends RouteGeometry>(
 }
 
 /**
+ * Converts a date value into a number, as that's how Esri
+ * uses dates.
+ * @param dateValue - A value representing a date
+ * @returns - A numeric representation of the input date
+ * value for use with Esri feature layers.
+ */
+function convertDate(dateValue: unknown): number | null {
+  if (dateValue == null) {
+    return null;
+  } else if (dateValue instanceof Date) {
+    return dateValue.getTime();
+  } else if (typeof dateValue === "number") {
+    return dateValue;
+  } else if (typeof dateValue === "string") {
+    const output = Date.parse(dateValue);
+    if (!isNaN(output)) {
+      return output;
+    } else {
+      console.warn("Invalid date value", dateValue);
+    }
+  }
+  return null;
+}
+
+/**
  * Creates a {@link Graphic} from a {@link RouteLocation}
  * @param routeLocation - A route location
  * @returns - A {@link Graphic}.
@@ -48,13 +73,34 @@ export function routeLocationToGraphic<
   }
   let attributes;
   if (hasValidSrmpData(routeLocation)) {
-    const { Route, Srmp, Back, Decrease } = routeLocation;
+    const {
+      Route,
+      Srmp,
+      Back,
+      Angle,
+      Arm,
+      ArmCalcReturnCode,
+      ArmCalcReturnMessage,
+      Decrease,
+      Distance,
+      RealignmentDate,
+      ReferenceDate,
+      ResponseDate,
+    } = routeLocation;
     attributes = {
       OBJECTID: oid,
       Route,
-      Direction: Decrease ? "D" : "I",
       Srmp,
-      Back: Back ? "B" : "",
+      Back: Back ? "B" : "A",
+      Angle,
+      Arm,
+      ArmCalcReturnCode,
+      ArmCalcReturnMessage,
+      Direction: Decrease ? "D" : "I",
+      Distance,
+      RealignmentDate: convertDate(RealignmentDate),
+      ReferenceDate,
+      ResponseDate,
       "Township Subdivision": null,
       City: null,
       County: null,

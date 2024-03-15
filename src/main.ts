@@ -68,6 +68,8 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
     import("./widgets/expandGroups"),
     import("./widgets/setupSearch"),
     import("./types"),
+    import("./layers/AccessControlLayer"),
+    import("./layers/CityLimitsLayer"),
   ] as const);
 
   /**
