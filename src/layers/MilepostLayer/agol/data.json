@@ -1,0 +1,1378 @@
+{
+  "operationalLayers": [
+    {
+      "id": "18e3a16d5cd-layer-3",
+      "opacity": 0.28,
+      "disablePopup": true,
+      "title": "City Limits",
+      "url": "https://data.wsdot.wa.gov/arcgis/rest/services/Shared/PoliAdminBndryData/MapServer/1",
+      "visibility": true,
+      "itemId": "0d96ba84b802425aa1d2b9a99e422c5d",
+      "layerType": "ArcGISFeatureLayer",
+      "layerDefinition": {
+        "featureReduction": null
+      },
+      "popupInfo": {
+        "popupElements": [
+          {
+            "type": "fields",
+            "description": "",
+            "fieldInfos": [
+              {
+                "fieldName": "CityFIPSLongPlaceCode",
+                "isEditable": true,
+                "label": "City FIPS Long Place Code",
+                "visible": true
+              },
+              {
+                "fieldName": "CityGNISPlaceCode",
+                "format": {
+                  "digitSeparator": true,
+                  "places": 0
+                },
+                "isEditable": true,
+                "label": "City GNIS Place Code",
+                "visible": true
+              },
+              {
+                "fieldName": "CityName",
+                "isEditable": true,
+                "label": "City Name",
+                "visible": true
+              },
+              {
+                "fieldName": "CountyFIPSLongPlaceCode",
+                "isEditable": true,
+                "label": "County FIPS Long Place Code",
+                "visible": true
+              },
+              {
+                "fieldName": "CountySeat",
+                "isEditable": true,
+                "label": "County Seat",
+                "visible": true
+              },
+              {
+                "fieldName": "LastUpdate",
+                "isEditable": true,
+                "label": "Last Update",
+                "visible": true
+              },
+              {
+                "fieldName": "MajorCity",
+                "isEditable": true,
+                "label": "Major City",
+                "visible": true
+              },
+              {
+                "fieldName": "OFMCityCode",
+                "isEditable": true,
+                "label": "OFM City Code",
+                "visible": true
+              },
+              {
+                "fieldName": "SHAPE.STArea()",
+                "format": {
+                  "digitSeparator": true,
+                  "places": 2
+                },
+                "isEditable": true,
+                "label": "SHAPE.STArea()",
+                "visible": true
+              },
+              {
+                "fieldName": "SHAPE.STLength()",
+                "format": {
+                  "digitSeparator": true,
+                  "places": 2
+                },
+                "isEditable": true,
+                "label": "SHAPE.STLength()",
+                "visible": true
+              }
+            ],
+            "title": ""
+          }
+        ],
+        "fieldInfos": [
+          {
+            "fieldName": "OBJECTID",
+            "isEditable": false,
+            "label": "OBJECTID",
+            "visible": false
+          },
+          {
+            "fieldName": "CityFIPSLongPlaceCode",
+            "isEditable": true,
+            "label": "City FIPS Long Place Code",
+            "visible": true
+          },
+          {
+            "fieldName": "CityGNISPlaceCode",
+            "format": {
+              "digitSeparator": true,
+              "places": 0
+            },
+            "isEditable": true,
+            "label": "City GNIS Place Code",
+            "visible": true
+          },
+          {
+            "fieldName": "CityName",
+            "isEditable": true,
+            "label": "City Name",
+            "visible": true
+          },
+          {
+            "fieldName": "CountyFIPSLongPlaceCode",
+            "isEditable": true,
+            "label": "County FIPS Long Place Code",
+            "visible": true
+          },
+          {
+            "fieldName": "CountySeat",
+            "isEditable": true,
+            "label": "County Seat",
+            "visible": true
+          },
+          {
+            "fieldName": "GlobalID",
+            "isEditable": false,
+            "label": "GlobalID",
+            "visible": false
+          },
+          {
+            "fieldName": "LastUpdate",
+            "isEditable": true,
+            "label": "Last Update",
+            "visible": true
+          },
+          {
+            "fieldName": "MajorCity",
+            "isEditable": true,
+            "label": "Major City",
+            "visible": true
+          },
+          {
+            "fieldName": "OFMCityCode",
+            "isEditable": true,
+            "label": "OFM City Code",
+            "visible": true
+          },
+          {
+            "fieldName": "SHAPE.STArea()",
+            "format": {
+              "digitSeparator": true,
+              "places": 2
+            },
+            "isEditable": true,
+            "label": "SHAPE.STArea()",
+            "visible": true
+          },
+          {
+            "fieldName": "SHAPE.STLength()",
+            "format": {
+              "digitSeparator": true,
+              "places": 2
+            },
+            "isEditable": true,
+            "label": "SHAPE.STLength()",
+            "visible": true
+          }
+        ],
+        "title": "WSDOT - City Limits - City Limits: {CityName}"
+      }
+    },
+    {
+      "id": "18e3a8a79dc-layer-389",
+      "disablePopup": true,
+      "title": "Counties",
+      "url": "https://data.wsdot.wa.gov/arcgis/rest/services/Shared/CountyBoundaries/MapServer/0",
+      "layerType": "ArcGISFeatureLayer",
+      "popupInfo": {
+        "popupElements": [
+          {
+            "type": "fields",
+            "description": "",
+            "fieldInfos": [
+              {
+                "fieldName": "SHAPE.STArea()",
+                "format": {
+                  "digitSeparator": true,
+                  "places": 2
+                },
+                "isEditable": true,
+                "label": "Area (sq ft)",
+                "visible": true
+              },
+              {
+                "fieldName": "JURFIPSDSG",
+                "format": {
+                  "digitSeparator": true,
+                  "places": 2
+                },
+                "isEditable": true,
+                "label": "COUNTY FIPS CODE",
+                "visible": true
+              },
+              {
+                "fieldName": "JURDSG",
+                "format": {
+                  "digitSeparator": true,
+                  "places": 2
+                },
+                "isEditable": true,
+                "label": "COUNTY NUMBER",
+                "visible": true
+              },
+              {
+                "fieldName": "JURLBL",
+                "isEditable": true,
+                "label": "JURISDICTION LABEL",
+                "visible": true
+              },
+              {
+                "fieldName": "JURNM",
+                "isEditable": true,
+                "label": "JURISDICTION NAME",
+                "visible": true
+              },
+              {
+                "fieldName": "SHAPE.STLength()",
+                "format": {
+                  "digitSeparator": true,
+                  "places": 2
+                },
+                "isEditable": true,
+                "label": "Perimeter (sq ft)",
+                "visible": true
+              }
+            ],
+            "title": ""
+          }
+        ],
+        "fieldInfos": [
+          {
+            "fieldName": "OBJECTID",
+            "isEditable": false,
+            "label": "OBJECTID",
+            "visible": false
+          },
+          {
+            "fieldName": "SHAPE.STArea()",
+            "format": {
+              "digitSeparator": true,
+              "places": 2
+            },
+            "isEditable": true,
+            "label": "Area (sq ft)",
+            "visible": true
+          },
+          {
+            "fieldName": "JURFIPSDSG",
+            "format": {
+              "digitSeparator": true,
+              "places": 2
+            },
+            "isEditable": true,
+            "label": "COUNTY FIPS CODE",
+            "visible": true
+          },
+          {
+            "fieldName": "JURDSG",
+            "format": {
+              "digitSeparator": true,
+              "places": 2
+            },
+            "isEditable": true,
+            "label": "COUNTY NUMBER",
+            "visible": true
+          },
+          {
+            "fieldName": "JURLBL",
+            "isEditable": true,
+            "label": "JURISDICTION LABEL",
+            "visible": true
+          },
+          {
+            "fieldName": "JURNM",
+            "isEditable": true,
+            "label": "JURISDICTION NAME",
+            "visible": true
+          },
+          {
+            "fieldName": "SHAPE.STLength()",
+            "format": {
+              "digitSeparator": true,
+              "places": 2
+            },
+            "isEditable": true,
+            "label": "Perimeter (sq ft)",
+            "visible": true
+          }
+        ],
+        "title": "CountyBoundaries - County Boundaries: {JURLBL}"
+      }
+    },
+    {
+      "id": "18e3a831236-layer-386",
+      "disablePopup": true,
+      "title": "Township Subdivision",
+      "url": "https://gis.dnr.wa.gov/site3/rest/services/Public_Boundaries/WADNR_PUBLIC_Cadastre_OpenData/MapServer/7",
+      "itemId": "ae861d2304da4d099e0f7841fcbfa860",
+      "layerType": "ArcGISFeatureLayer",
+      "layerDefinition": {
+        "featureReduction": null
+      },
+      "popupInfo": {
+        "popupElements": [
+          {
+            "type": "fields",
+            "description": "",
+            "fieldInfos": [
+              {
+                "fieldName": "PLS_ALIQUOT_SUBDIV_LEVEL1_CD",
+                "isEditable": true,
+                "label": "ALIQUOT1",
+                "visible": true
+              },
+              {
+                "fieldName": "PLS_ALIQUOT_SUBDIV_LEVEL2_CD",
+                "isEditable": true,
+                "label": "ALIQUOT2",
+                "visible": true
+              },
+              {
+                "fieldName": "PLS_ALIQUOT_SUBDIV_LEVEL3_CD",
+                "isEditable": true,
+                "label": "ALIQUOT3",
+                "visible": true
+              },
+              {
+                "fieldName": "PLS_ALIQUOT_SUBDIV_LEVEL4_CD",
+                "isEditable": true,
+                "label": "ALIQUOT4",
+                "visible": true
+              },
+              {
+                "fieldName": "PLS_ALIQUOT_SUBDIV_LEVEL5_CD",
+                "isEditable": true,
+                "label": "ALIQUOT5",
+                "visible": true
+              },
+              {
+                "fieldName": "AQUATIC_LAND_FLG",
+                "isEditable": true,
+                "label": "AQFLG",
+                "visible": true
+              },
+              {
+                "fieldName": "EDIT_DATE",
+                "isEditable": true,
+                "label": "EDITDT",
+                "visible": true
+              },
+              {
+                "fieldName": "EDIT_WHO",
+                "isEditable": true,
+                "label": "EDITNM",
+                "visible": true
+              },
+              {
+                "fieldName": "EDIT_STATUS",
+                "format": {
+                  "digitSeparator": true,
+                  "places": 0
+                },
+                "isEditable": true,
+                "label": "EDITSTAT",
+                "visible": true
+              },
+              {
+                "fieldName": "LEGAL_DESC_DUP_STATUS_FLG",
+                "isEditable": true,
+                "label": "LDDUPFLG",
+                "visible": true
+              },
+              {
+                "fieldName": "LEGAL_DESC_EST_DT",
+                "isEditable": true,
+                "label": "LDESTDT",
+                "visible": true
+              },
+              {
+                "fieldName": "LEGAL_DESC_SYST_ID",
+                "format": {
+                  "digitSeparator": true,
+                  "places": 0
+                },
+                "isEditable": true,
+                "label": "LDID",
+                "visible": true
+              },
+              {
+                "fieldName": "LEGAL_DESC_TYPE_CD",
+                "format": {
+                  "digitSeparator": true,
+                  "places": 0
+                },
+                "isEditable": true,
+                "label": "LDTY",
+                "visible": true
+              },
+              {
+                "fieldName": "LEGAL_DESC_LABEL_NM",
+                "isEditable": true,
+                "label": "LEGAL_DESC_LABEL_NM",
+                "visible": true
+              },
+              {
+                "fieldName": "LEGAL_DESC_NM",
+                "isEditable": true,
+                "label": "LEGAL_DESC_NM",
+                "visible": true
+              },
+              {
+                "fieldName": "MARINE_PROTRACT_NM",
+                "isEditable": true,
+                "label": "MP",
+                "visible": true
+              },
+              {
+                "fieldName": "MARINE_PROTRACT_BLOCK_NO",
+                "format": {
+                  "digitSeparator": true,
+                  "places": 0
+                },
+                "isEditable": true,
+                "label": "MPBLK",
+                "visible": true
+              },
+              {
+                "fieldName": "MARINE_PROTRACT_SUBBLOCK_NO",
+                "isEditable": true,
+                "label": "MPSUBBLK",
+                "visible": true
+              },
+              {
+                "fieldName": "NON_PLS_SUBDIV_BLOCK",
+                "isEditable": true,
+                "label": "NON_PLS_SUBDIV_BLOCK",
+                "visible": true
+              },
+              {
+                "fieldName": "NON_PLS_SUBDIV_NM",
+                "isEditable": true,
+                "label": "NON_PLS_SUBDIV_NM",
+                "visible": true
+              },
+              {
+                "fieldName": "NON_PLS_SUBDIV_TRACT",
+                "isEditable": true,
+                "label": "NON_PLS_SUBDIV_TRACT",
+                "visible": true
+              },
+              {
+                "fieldName": "NON_PLS_TYPE_CD",
+                "format": {
+                  "digitSeparator": true,
+                  "places": 0
+                },
+                "isEditable": true,
+                "label": "NON_PLS_TYPE_CD",
+                "visible": true
+              },
+              {
+                "fieldName": "NON_PLS_SUBDIV_BUILDING",
+                "isEditable": true,
+                "label": "NPLSBUILD",
+                "visible": true
+              },
+              {
+                "fieldName": "NON_PLS_SUBDIV_LOT",
+                "isEditable": true,
+                "label": "NPLSLOT",
+                "visible": true
+              },
+              {
+                "fieldName": "NON_PLS_PORTION_TXT",
+                "isEditable": true,
+                "label": "NPLSPRTN",
+                "visible": true
+              },
+              {
+                "fieldName": "NON_PLS_SUBDIV_UNIT",
+                "isEditable": true,
+                "label": "NPLSUNIT",
+                "visible": true
+              },
+              {
+                "fieldName": "PLS_RNG_DIR_CD",
+                "isEditable": true,
+                "label": "PLS_RNG_DIR_CD",
+                "visible": true
+              },
+              {
+                "fieldName": "PLS_RNG_FRACT_CD",
+                "format": {
+                  "digitSeparator": true,
+                  "places": 0
+                },
+                "isEditable": true,
+                "label": "PLS_RNG_FRACT_CD",
+                "visible": true
+              },
+              {
+                "fieldName": "PLS_RNG_NO",
+                "format": {
+                  "digitSeparator": true,
+                  "places": 0
+                },
+                "isEditable": true,
+                "label": "PLS_RNG_NO",
+                "visible": true
+              },
+              {
+                "fieldName": "PLS_TWP_DIR_CD",
+                "isEditable": true,
+                "label": "PLS_TWP_DIR_CD",
+                "visible": true
+              },
+              {
+                "fieldName": "PLS_TWP_FRACT_CD",
+                "format": {
+                  "digitSeparator": true,
+                  "places": 0
+                },
+                "isEditable": true,
+                "label": "PLS_TWP_FRACT_CD",
+                "visible": true
+              },
+              {
+                "fieldName": "PLS_TWP_NO",
+                "format": {
+                  "digitSeparator": true,
+                  "places": 0
+                },
+                "isEditable": true,
+                "label": "PLS_TWP_NO",
+                "visible": true
+              },
+              {
+                "fieldName": "PLS_TWP_SUBDIV_NO",
+                "format": {
+                  "digitSeparator": true,
+                  "places": 0
+                },
+                "isEditable": true,
+                "label": "PLS_TWP_SUBDIV_NO",
+                "visible": true
+              },
+              {
+                "fieldName": "PLS_TWP_SUBDIV_TYPE_CD",
+                "format": {
+                  "digitSeparator": true,
+                  "places": 0
+                },
+                "isEditable": true,
+                "label": "PLS_TWP_SUBDIV_TYPE_CD",
+                "visible": true
+              },
+              {
+                "fieldName": "PLS_LOT_PARCEL_NO",
+                "format": {
+                  "digitSeparator": true,
+                  "places": 0
+                },
+                "isEditable": true,
+                "label": "PLSLOTPRCL",
+                "visible": true
+              },
+              {
+                "fieldName": "PLS_MERIDIAN_CD",
+                "format": {
+                  "digitSeparator": true,
+                  "places": 0
+                },
+                "isEditable": true,
+                "label": "PLSMER",
+                "visible": true
+              },
+              {
+                "fieldName": "PLS_SECT_SUBDIV_TYPE_CD",
+                "format": {
+                  "digitSeparator": true,
+                  "places": 0
+                },
+                "isEditable": true,
+                "label": "SECTSUBTY",
+                "visible": true
+              },
+              {
+                "fieldName": "SHAPE.AREA",
+                "format": {
+                  "digitSeparator": true,
+                  "places": 2
+                },
+                "isEditable": true,
+                "label": "SHAPE.AREA",
+                "visible": true
+              },
+              {
+                "fieldName": "SHAPE.LEN",
+                "format": {
+                  "digitSeparator": true,
+                  "places": 2
+                },
+                "isEditable": true,
+                "label": "SHAPE.LEN",
+                "visible": true
+              },
+              {
+                "fieldName": "PLS_TWP_SUBDIV_NM",
+                "isEditable": true,
+                "label": "TWPSUBNM",
+                "visible": true
+              }
+            ],
+            "title": ""
+          }
+        ],
+        "fieldInfos": [
+          {
+            "fieldName": "OBJECTID",
+            "isEditable": false,
+            "label": "OBJECTID",
+            "visible": false
+          },
+          {
+            "fieldName": "PLS_ALIQUOT_SUBDIV_LEVEL1_CD",
+            "isEditable": true,
+            "label": "ALIQUOT1",
+            "visible": true
+          },
+          {
+            "fieldName": "PLS_ALIQUOT_SUBDIV_LEVEL2_CD",
+            "isEditable": true,
+            "label": "ALIQUOT2",
+            "visible": true
+          },
+          {
+            "fieldName": "PLS_ALIQUOT_SUBDIV_LEVEL3_CD",
+            "isEditable": true,
+            "label": "ALIQUOT3",
+            "visible": true
+          },
+          {
+            "fieldName": "PLS_ALIQUOT_SUBDIV_LEVEL4_CD",
+            "isEditable": true,
+            "label": "ALIQUOT4",
+            "visible": true
+          },
+          {
+            "fieldName": "PLS_ALIQUOT_SUBDIV_LEVEL5_CD",
+            "isEditable": true,
+            "label": "ALIQUOT5",
+            "visible": true
+          },
+          {
+            "fieldName": "AQUATIC_LAND_FLG",
+            "isEditable": true,
+            "label": "AQFLG",
+            "visible": true
+          },
+          {
+            "fieldName": "EDIT_DATE",
+            "isEditable": true,
+            "label": "EDITDT",
+            "visible": true
+          },
+          {
+            "fieldName": "EDIT_WHO",
+            "isEditable": true,
+            "label": "EDITNM",
+            "visible": true
+          },
+          {
+            "fieldName": "EDIT_STATUS",
+            "format": {
+              "digitSeparator": true,
+              "places": 0
+            },
+            "isEditable": true,
+            "label": "EDITSTAT",
+            "visible": true
+          },
+          {
+            "fieldName": "GLOBALID",
+            "isEditable": false,
+            "label": "GLOBALID",
+            "visible": false
+          },
+          {
+            "fieldName": "LEGAL_DESC_DUP_STATUS_FLG",
+            "isEditable": true,
+            "label": "LDDUPFLG",
+            "visible": true
+          },
+          {
+            "fieldName": "LEGAL_DESC_EST_DT",
+            "isEditable": true,
+            "label": "LDESTDT",
+            "visible": true
+          },
+          {
+            "fieldName": "LEGAL_DESC_SYST_ID",
+            "format": {
+              "digitSeparator": true,
+              "places": 0
+            },
+            "isEditable": true,
+            "label": "LDID",
+            "visible": true
+          },
+          {
+            "fieldName": "LEGAL_DESC_TYPE_CD",
+            "format": {
+              "digitSeparator": true,
+              "places": 0
+            },
+            "isEditable": true,
+            "label": "LDTY",
+            "visible": true
+          },
+          {
+            "fieldName": "LEGAL_DESC_LABEL_NM",
+            "isEditable": true,
+            "label": "LEGAL_DESC_LABEL_NM",
+            "visible": true
+          },
+          {
+            "fieldName": "LEGAL_DESC_NM",
+            "isEditable": true,
+            "label": "LEGAL_DESC_NM",
+            "visible": true
+          },
+          {
+            "fieldName": "MARINE_PROTRACT_NM",
+            "isEditable": true,
+            "label": "MP",
+            "visible": true
+          },
+          {
+            "fieldName": "MARINE_PROTRACT_BLOCK_NO",
+            "format": {
+              "digitSeparator": true,
+              "places": 0
+            },
+            "isEditable": true,
+            "label": "MPBLK",
+            "visible": true
+          },
+          {
+            "fieldName": "MARINE_PROTRACT_SUBBLOCK_NO",
+            "isEditable": true,
+            "label": "MPSUBBLK",
+            "visible": true
+          },
+          {
+            "fieldName": "NON_PLS_SUBDIV_BLOCK",
+            "isEditable": true,
+            "label": "NON_PLS_SUBDIV_BLOCK",
+            "visible": true
+          },
+          {
+            "fieldName": "NON_PLS_SUBDIV_NM",
+            "isEditable": true,
+            "label": "NON_PLS_SUBDIV_NM",
+            "visible": true
+          },
+          {
+            "fieldName": "NON_PLS_SUBDIV_TRACT",
+            "isEditable": true,
+            "label": "NON_PLS_SUBDIV_TRACT",
+            "visible": true
+          },
+          {
+            "fieldName": "NON_PLS_TYPE_CD",
+            "format": {
+              "digitSeparator": true,
+              "places": 0
+            },
+            "isEditable": true,
+            "label": "NON_PLS_TYPE_CD",
+            "visible": true
+          },
+          {
+            "fieldName": "NON_PLS_SUBDIV_BUILDING",
+            "isEditable": true,
+            "label": "NPLSBUILD",
+            "visible": true
+          },
+          {
+            "fieldName": "NON_PLS_SUBDIV_LOT",
+            "isEditable": true,
+            "label": "NPLSLOT",
+            "visible": true
+          },
+          {
+            "fieldName": "NON_PLS_PORTION_TXT",
+            "isEditable": true,
+            "label": "NPLSPRTN",
+            "visible": true
+          },
+          {
+            "fieldName": "NON_PLS_SUBDIV_UNIT",
+            "isEditable": true,
+            "label": "NPLSUNIT",
+            "visible": true
+          },
+          {
+            "fieldName": "PLS_RNG_DIR_CD",
+            "isEditable": true,
+            "label": "PLS_RNG_DIR_CD",
+            "visible": true
+          },
+          {
+            "fieldName": "PLS_RNG_FRACT_CD",
+            "format": {
+              "digitSeparator": true,
+              "places": 0
+            },
+            "isEditable": true,
+            "label": "PLS_RNG_FRACT_CD",
+            "visible": true
+          },
+          {
+            "fieldName": "PLS_RNG_NO",
+            "format": {
+              "digitSeparator": true,
+              "places": 0
+            },
+            "isEditable": true,
+            "label": "PLS_RNG_NO",
+            "visible": true
+          },
+          {
+            "fieldName": "PLS_TWP_DIR_CD",
+            "isEditable": true,
+            "label": "PLS_TWP_DIR_CD",
+            "visible": true
+          },
+          {
+            "fieldName": "PLS_TWP_FRACT_CD",
+            "format": {
+              "digitSeparator": true,
+              "places": 0
+            },
+            "isEditable": true,
+            "label": "PLS_TWP_FRACT_CD",
+            "visible": true
+          },
+          {
+            "fieldName": "PLS_TWP_NO",
+            "format": {
+              "digitSeparator": true,
+              "places": 0
+            },
+            "isEditable": true,
+            "label": "PLS_TWP_NO",
+            "visible": true
+          },
+          {
+            "fieldName": "PLS_TWP_SUBDIV_NO",
+            "format": {
+              "digitSeparator": true,
+              "places": 0
+            },
+            "isEditable": true,
+            "label": "PLS_TWP_SUBDIV_NO",
+            "visible": true
+          },
+          {
+            "fieldName": "PLS_TWP_SUBDIV_TYPE_CD",
+            "format": {
+              "digitSeparator": true,
+              "places": 0
+            },
+            "isEditable": true,
+            "label": "PLS_TWP_SUBDIV_TYPE_CD",
+            "visible": true
+          },
+          {
+            "fieldName": "PLS_LOT_PARCEL_NO",
+            "format": {
+              "digitSeparator": true,
+              "places": 0
+            },
+            "isEditable": true,
+            "label": "PLSLOTPRCL",
+            "visible": true
+          },
+          {
+            "fieldName": "PLS_MERIDIAN_CD",
+            "format": {
+              "digitSeparator": true,
+              "places": 0
+            },
+            "isEditable": true,
+            "label": "PLSMER",
+            "visible": true
+          },
+          {
+            "fieldName": "PLS_SECT_SUBDIV_TYPE_CD",
+            "format": {
+              "digitSeparator": true,
+              "places": 0
+            },
+            "isEditable": true,
+            "label": "SECTSUBTY",
+            "visible": true
+          },
+          {
+            "fieldName": "SHAPE.AREA",
+            "format": {
+              "digitSeparator": true,
+              "places": 2
+            },
+            "isEditable": true,
+            "label": "SHAPE.AREA",
+            "visible": true
+          },
+          {
+            "fieldName": "SHAPE.LEN",
+            "format": {
+              "digitSeparator": true,
+              "places": 2
+            },
+            "isEditable": true,
+            "label": "SHAPE.LEN",
+            "visible": true
+          },
+          {
+            "fieldName": "PLS_TWP_SUBDIV_NM",
+            "isEditable": true,
+            "label": "TWPSUBNM",
+            "visible": true
+          }
+        ],
+        "title": "WA Public Land Survey Sections - Public Land Survey Sections: {LEGAL_DESC_DUP_STATUS_FLG}"
+      }
+    },
+    {
+      "id": "18e3a895bce-layer-388",
+      "disablePopup": true,
+      "title": "Access Control",
+      "url": "https://data.wsdot.wa.gov/arcgis/rest/services/Shared/RoadwayCharacteristicData/MapServer/1",
+      "itemId": "35cd6f1a5e2f4553a8e83c9ff6edbfa7",
+      "layerType": "ArcGISFeatureLayer",
+      "popupInfo": {
+        "popupElements": [
+          {
+            "type": "fields",
+            "description": "",
+            "fieldInfos": [
+              {
+                "fieldName": "AccessControlTypeCode",
+                "isEditable": true,
+                "label": "AccessControlTypeCode",
+                "visible": true
+              },
+              {
+                "fieldName": "AccessControlTypeDescription",
+                "isEditable": true,
+                "label": "AccessControlTypeDescription",
+                "visible": true
+              },
+              {
+                "fieldName": "BeginAccumulatedRouteMile",
+                "format": {
+                  "digitSeparator": true,
+                  "places": 0
+                },
+                "isEditable": true,
+                "label": "BeginAccumulatedRouteMile",
+                "visible": true
+              },
+              {
+                "fieldName": "BeginAheadBackIndicator",
+                "isEditable": true,
+                "label": "BeginAheadBackIndicator",
+                "visible": true
+              },
+              {
+                "fieldName": "BeginStateRouteMilepost",
+                "format": {
+                  "digitSeparator": true,
+                  "places": 0
+                },
+                "isEditable": true,
+                "label": "BeginStateRouteMilepost",
+                "visible": true
+              },
+              {
+                "fieldName": "EndAccumulatedRouteMile",
+                "format": {
+                  "digitSeparator": true,
+                  "places": 0
+                },
+                "isEditable": true,
+                "label": "EndAccumulatedRouteMile",
+                "visible": true
+              },
+              {
+                "fieldName": "EndAheadBackIndicator",
+                "isEditable": true,
+                "label": "EndAheadBackIndicator",
+                "visible": true
+              },
+              {
+                "fieldName": "EndStateRouteMilepost",
+                "format": {
+                  "digitSeparator": true,
+                  "places": 0
+                },
+                "isEditable": true,
+                "label": "EndStateRouteMilepost",
+                "visible": true
+              },
+              {
+                "fieldName": "LRSDate",
+                "isEditable": true,
+                "label": "LRSDate",
+                "visible": true
+              },
+              {
+                "fieldName": "RouteIdentifier",
+                "isEditable": true,
+                "label": "RouteIdentifier",
+                "visible": true
+              },
+              {
+                "fieldName": "SHAPE.STLength()",
+                "format": {
+                  "digitSeparator": true,
+                  "places": 2
+                },
+                "isEditable": true,
+                "label": "SHAPE.STLength()",
+                "visible": true
+              },
+              {
+                "fieldName": "SnapshotDate",
+                "isEditable": true,
+                "label": "SnapshotDate",
+                "visible": true
+              }
+            ],
+            "title": ""
+          }
+        ],
+        "fieldInfos": [
+          {
+            "fieldName": "OBJECTID",
+            "isEditable": false,
+            "label": "OBJECTID",
+            "visible": false
+          },
+          {
+            "fieldName": "AccessControlTypeCode",
+            "isEditable": true,
+            "label": "AccessControlTypeCode",
+            "visible": true
+          },
+          {
+            "fieldName": "AccessControlTypeDescription",
+            "isEditable": true,
+            "label": "AccessControlTypeDescription",
+            "visible": true
+          },
+          {
+            "fieldName": "BeginAccumulatedRouteMile",
+            "format": {
+              "digitSeparator": true,
+              "places": 0
+            },
+            "isEditable": true,
+            "label": "BeginAccumulatedRouteMile",
+            "visible": true
+          },
+          {
+            "fieldName": "BeginAheadBackIndicator",
+            "isEditable": true,
+            "label": "BeginAheadBackIndicator",
+            "visible": true
+          },
+          {
+            "fieldName": "BeginStateRouteMilepost",
+            "format": {
+              "digitSeparator": true,
+              "places": 0
+            },
+            "isEditable": true,
+            "label": "BeginStateRouteMilepost",
+            "visible": true
+          },
+          {
+            "fieldName": "EndAccumulatedRouteMile",
+            "format": {
+              "digitSeparator": true,
+              "places": 0
+            },
+            "isEditable": true,
+            "label": "EndAccumulatedRouteMile",
+            "visible": true
+          },
+          {
+            "fieldName": "EndAheadBackIndicator",
+            "isEditable": true,
+            "label": "EndAheadBackIndicator",
+            "visible": true
+          },
+          {
+            "fieldName": "EndStateRouteMilepost",
+            "format": {
+              "digitSeparator": true,
+              "places": 0
+            },
+            "isEditable": true,
+            "label": "EndStateRouteMilepost",
+            "visible": true
+          },
+          {
+            "fieldName": "LRSDate",
+            "isEditable": true,
+            "label": "LRSDate",
+            "visible": true
+          },
+          {
+            "fieldName": "RouteIdentifier",
+            "isEditable": true,
+            "label": "RouteIdentifier",
+            "visible": true
+          },
+          {
+            "fieldName": "SHAPE.STLength()",
+            "format": {
+              "digitSeparator": true,
+              "places": 2
+            },
+            "isEditable": true,
+            "label": "SHAPE.STLength()",
+            "visible": true
+          },
+          {
+            "fieldName": "SnapshotDate",
+            "isEditable": true,
+            "label": "SnapshotDate",
+            "visible": true
+          }
+        ],
+        "title": "WSDOT - Roadway Data Access Control - Access Control: {RouteIdentifier}"
+      }
+    },
+    {
+      "id": "18e3a043e80-layer-2",
+      "title": "Sample mileposts",
+      "url": "https://services.arcgis.com/IYrj3otxNjPsrTRD/arcgis/rest/services/Sample_mileposts/FeatureServer/0",
+      "itemId": "40c0d3ccfe374775816eeee7a843db06",
+      "layerType": "ArcGISFeatureLayer",
+      "showLabels": true,
+      "popupInfo": {
+        "popupElements": [
+          {
+            "type": "fields",
+            "description": "",
+            "fieldInfos": [
+              {
+                "fieldName": "expression/expr1",
+                "isEditable": true,
+                "visible": true
+              },
+              {
+                "fieldName": "expression/expr3",
+                "isEditable": true,
+                "visible": true
+              },
+              {
+                "fieldName": "expression/expr4",
+                "isEditable": true,
+                "visible": true
+              },
+              {
+                "fieldName": "Township_Subdivision",
+                "isEditable": true,
+                "label": "Township Subdivision",
+                "visible": true
+              }
+            ],
+            "title": ""
+          }
+        ],
+        "expressionInfos": [
+          {
+            "name": "expr0",
+            "title": "SRMP",
+            "expression": "// Concatenates label for SRMP value\n\nConcatenate(Round($feature.Srmp, 3) + $feature.Back)\n",
+            "returnType": "string"
+          },
+          {
+            "name": "expr1",
+            "title": "City",
+            "expression": "var cityFeature = First(Within(FeatureSetByName($map, \"City Limits\", ['CityName', 'LastUpdate']), $userInput))\n\nif (cityFeature == null) {\n  return \"Not within a city\"\n}\n\nvar city = cityFeature[\"CityName\"]\nvar lastUpdate = DateOnly(cityFeature[\"LastUpdate\"])\n\nif (lastUpdate == null) {\n  city\n} else {\n  return city + \" (Last updated \" + lastUpdate + \")\"\n}\n",
+            "returnType": "string"
+          },
+          {
+            "name": "expr2",
+            "title": "Route at SRMP Label",
+            "expression": "$feature.Route +  \" @ \" + Round($feature.Srmp, 3) + DefaultValue($feature.Back, \"\")",
+            "returnType": "string"
+          },
+          {
+            "name": "expr3",
+            "title": "County",
+            "expression": "var fs = FeatureSetByName($map, \"Counties\", [\"JURLBL\"])\nFirst(Within(fs, $userInput)).JURLBL",
+            "returnType": "string"
+          },
+          {
+            "name": "expr4",
+            "title": "Access Control",
+            "expression": "/**\n * Returns the Access Control type of the current feature\n */\n\n// Specify which fields you want to return.\n// Order of field names DOES NOT determine order\n// of fields in returned feature set.\nvar fields = [\n  \"AccessControlTypeDescription\",\n];\nvar fs = FeatureSetByName($map, \"Access Control\", fields);\nvar currentGeometry = Geometry($feature);\nvar bufferedGeometry = BufferGeodetic(currentGeometry, 4, \"feet\");\nvar intersectingFeatures = First(Distinct(Intersects(fs, bufferedGeometry), fields))[fields[0]];\n\nintersectingFeatures",
+            "returnType": "string"
+          },
+          {
+            "name": "expr5",
+            "title": "Township Subdivision",
+            "expression": "var featureSetName = \"Township Subdivision\";\nvar fieldName = \"LEGAL_DESC_NM\"\nvar fs = FeatureSetByName($map, featureSetName, [fieldName]);\nvar filteredFS = Within(fs, $feature);\nreturn First(filteredFS)[fieldName];",
+            "returnType": "string"
+          }
+        ],
+        "fieldInfos": [
+          {
+            "fieldName": "OBJECTID",
+            "isEditable": false,
+            "label": "OBJECTID",
+            "visible": false
+          },
+          {
+            "fieldName": "Back",
+            "isEditable": true,
+            "label": "Back",
+            "visible": false
+          },
+          {
+            "fieldName": "City",
+            "isEditable": true,
+            "label": "City",
+            "visible": false
+          },
+          {
+            "fieldName": "County",
+            "isEditable": true,
+            "label": "County",
+            "visible": false
+          },
+          {
+            "fieldName": "Route",
+            "isEditable": true,
+            "label": "Route",
+            "visible": false
+          },
+          {
+            "fieldName": "Srmp",
+            "format": {
+              "digitSeparator": true,
+              "places": 0
+            },
+            "isEditable": true,
+            "label": "Srmp",
+            "visible": false
+          },
+          {
+            "fieldName": "Township_Subdivision",
+            "isEditable": true,
+            "label": "Township Subdivision",
+            "visible": true
+          },
+          {
+            "fieldName": "expression/expr0",
+            "isEditable": true,
+            "visible": false
+          },
+          {
+            "fieldName": "expression/expr1",
+            "isEditable": true,
+            "visible": true
+          },
+          {
+            "fieldName": "expression/expr2",
+            "isEditable": true,
+            "visible": false
+          },
+          {
+            "fieldName": "expression/expr3",
+            "isEditable": true,
+            "visible": true
+          },
+          {
+            "fieldName": "expression/expr4",
+            "isEditable": true,
+            "visible": true
+          },
+          {
+            "fieldName": "expression/expr5",
+            "isEditable": true,
+            "visible": false
+          }
+        ],
+        "title": "{expression/expr2}"
+      }
+    }
+  ],
+  "baseMap": {
+    "baseMapLayers": [
+      {
+        "id": "World_Imagery_Firefly_7705",
+        "showLegend": true,
+        "opacity": 1,
+        "title": "World Imagery (Firefly)",
+        "url": "https://fly.maptiles.arcgis.com/arcgis/rest/services/World_Imagery_Firefly/MapServer",
+        "visibility": true,
+        "itemId": "a66bfb7dd3b14228bf7ba42b138fe2ea",
+        "layerType": "ArcGISTiledMapServiceLayer"
+      },
+      {
+        "id": "VectorTile_9411",
+        "opacity": 1,
+        "title": "Hybrid Reference Layer",
+        "visibility": true,
+        "itemId": "30d6b8271e1849cd9c3042060001f425",
+        "layerType": "VectorTileLayer",
+        "styleUrl": "https://www.arcgis.com/sharing/rest/content/items/30d6b8271e1849cd9c3042060001f425/resources/styles/root.json"
+      }
+    ],
+    "title": "Firefly Imagery Hybrid"
+  },
+  "authoringApp": "ArcGISMapViewer",
+  "authoringAppVersion": "2024.1",
+  "initialState": {
+    "viewpoint": {
+      "targetGeometry": {
+        "spatialReference": {
+          "latestWkid": 3857,
+          "wkid": 102100
+        },
+        "xmin": -13618162.133367129,
+        "ymin": 6050441.876198836,
+        "xmax": -13615907.241032656,
+        "ymax": 6052424.461620035
+      }
+    }
+  },
+  "spatialReference": {
+    "latestWkid": 3857,
+    "wkid": 102100
+  },
+  "timeZone": "system",
+  "version": "2.30"
+}
