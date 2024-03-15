@@ -42,6 +42,25 @@ const fields = [
     type: "string",
   },
   {
+    name: "Direction",
+    type: "string",
+    domain: {
+      type: "coded-value",
+      codedValues: [
+        {
+          code: "I",
+          name: "Increase",
+        },
+        {
+          code: "D",
+          name: "Decrease",
+        },
+      ],
+      name: "Direction",
+    },
+    defaultValue: "I",
+  },
+  {
     name: "Srmp",
     type: "double",
   },

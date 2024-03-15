@@ -51,7 +51,7 @@ function createDL({ attributes }: TypedGraphic<Point, MPAttributes>) {
   }
   const dl = document.createElement("dl");
   for (const [key, value] of Object.entries(attributes).filter(
-    ([key]) => !["OBJECTID", "Route", "Srmp", "Back"].includes(key)
+    ([key]) => !["OBJECTID", "Route", "Srmp", "Back", "Direction"].includes(key)
   )) {
     dl.append(...createRow(key, value));
   }
@@ -117,6 +117,6 @@ async function createContent(target: TemplateTarget) {
 }
 
 export const popupTemplate = new PopupTemplate({
-  title: "{Route} @ {Srmp}{Back}",
+  title: "{Route} ({Direction}) @ {Srmp}{Back}",
   content: createContent,
 });

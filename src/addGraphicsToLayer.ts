@@ -16,12 +16,14 @@ function getAddedGraphics(editsResult: __esri.EditsResult): Graphic[] | null {
     return null;
   }
 
-  return editedFeatures
-    // Get the "adds" from the feature lists.
-    // If "adds" is undefined, return an empty array instead.
-    .map((f) => f.adds ?? [])
-    // Convert Graphic[][] to a single Graphic[] containing all of the graphics.
-    .flat();
+  return (
+    editedFeatures
+      // Get the "adds" from the feature lists.
+      // If "adds" is undefined, return an empty array instead.
+      .map((f) => f.adds ?? [])
+      // Convert Graphic[][] to a single Graphic[] containing all of the graphics.
+      .flat()
+  );
 }
 
 /**
@@ -49,6 +51,11 @@ export async function addGraphicsToLayer(
       addFeatures: locationGraphics,
     },
     {}
+  );
+
+  /* __PURE__ */ console.debug(
+    `${addGraphicsToLayer.name}: editsResult`,
+    editsResult
   );
 
   return getAddedGraphics(editsResult);
