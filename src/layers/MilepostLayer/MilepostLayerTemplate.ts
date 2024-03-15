@@ -1,9 +1,9 @@
 import PopupTemplate from "@arcgis/core/PopupTemplate";
-import type { AttributeValue } from "../common";
-import type { AttributesObject, TypedGraphic } from "../types";
-import { queryCityLimits } from "./CityLimitsLayer";
-import { queryCountyBoundaries } from "./CountyBoundariesLayer";
-import { querySectionTownship } from "./LandSurveyLayer";
+import type { AttributeValue } from "../../common";
+import type { AttributesObject, TypedGraphic } from "../../types";
+import { queryCityLimits } from "../CityLimitsLayer";
+import { queryCountyBoundaries } from "../CountyBoundariesLayer";
+import { querySectionTownship } from "../LandSurveyLayer";
 import type Point from "@arcgis/core/geometry/Point";
 
 interface MPAttributes extends AttributesObject {
@@ -11,7 +11,7 @@ interface MPAttributes extends AttributesObject {
   Route: string;
   Srmp: number;
   Back: string;
-  "Township Subdivision": string | null;
+  TownshipSubdivision: string | null;
   County: string | null;
   City: string | null;
 }

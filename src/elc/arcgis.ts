@@ -101,7 +101,7 @@ export function routeLocationToGraphic<
       RealignmentDate: convertDate(RealignmentDate),
       ReferenceDate,
       ResponseDate,
-      "Township Subdivision": null,
+      TownshipSubdivision: null,
       City: null,
       County: null,
     };

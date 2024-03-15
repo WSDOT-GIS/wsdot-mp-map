@@ -4,8 +4,8 @@ import Field from "@arcgis/core/layers/support/Field";
 import CodedValueDomain from "@arcgis/core/layers/support/CodedValueDomain";
 
 import type FeatureLayerView from "@arcgis/core/views/layers/FeatureLayerView";
-import { objectIdFieldName } from "../elc/types";
-// import { popupTemplate } from "./MilepostLayerTemplate";
+import { objectIdFieldName } from "../../elc/types";
+import { popupTemplate } from "./MilepostLayerTemplate";
 
 const [
   { default: FeatureLayer },
@@ -18,19 +18,19 @@ const [
   import("@arcgis/core/layers/FeatureLayer"),
   import("@arcgis/core/renderers/SimpleRenderer"),
   import("@arcgis/core/symbols/SimpleMarkerSymbol"),
-  import("../WAExtent"),
-  import("./labelClass"),
-  import("../colors"),
+  import("../../WAExtent"),
+  import("../labelClass"),
+  import("../../colors"),
 ]);
 
-export const enum fieldNames {
-  Route = "Route",
-  Srmp = "Srmp",
-  Back = "Back",
-  TownshipSubdivision = "Township Subdivision",
-  County = "County",
-  City = "City",
-}
+export const fieldNamesToAliasMap = new Map([
+  ["Route", "Route"],
+  ["Srmp", "Srmp"],
+  ["Back", "Back"],
+  ["TownshipSubdivision", "Township Subdivision"],
+  ["County", "County"],
+  ["City", "City"],
+] as const);
 
 type FieldProperties = Required<ConstructorParameters<typeof Field>>[0];
 
@@ -217,7 +217,7 @@ export function createMilepostLayer(spatialReference: SpatialReference) {
     geometryType: "point",
     objectIdField: objectIdFieldName,
     fullExtent: waExtent,
-    // popupTemplate: popupTemplate,
+    popupTemplate,
     renderer,
     spatialReference,
     // Since there are no features at the beginning,
