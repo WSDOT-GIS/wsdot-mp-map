@@ -1,9 +1,9 @@
 {
   "typescript.tsdk": "node_modules\\typescript\\lib",
-  "editor.formatOnSave": true,
+  "editor.formatOnSave": false,
   "files.readonlyFromPermissions": true,
   "files.readonlyInclude": {
-    "**/dist/**/*.*": true
+    "**/dist/**/*": true
   },
   "json.schemas": [
     {
@@ -20,8 +20,14 @@
     ]
   },
   "eslint.experimental.useFlatConfig": false,
-  "editor.codeActionsOnSave": {
-    "source.fixAll": "explicit",
-    "organizeImports": "explicit"
-  },
+  "[typescript]": {
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "modificationsIfAvailable",
+    "editor.formatOnType": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll": "explicit",
+      "organizeImports": "always",
+    },
+    "editor.formatOnPaste": true
+  }
 }

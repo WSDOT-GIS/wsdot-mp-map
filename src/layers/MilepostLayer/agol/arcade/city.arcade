@@ -1,0 +1,19 @@
+var cityFeature = First(
+  Within(
+    FeatureSetByName($map, "City Limits", ["CityName", "LastUpdate"]),
+    $userInput
+  )
+);
+
+if (cityFeature == null) {
+  return "Not within a city";
+}
+
+var city = cityFeature["CityName"];
+var lastUpdate = DateOnly(cityFeature["LastUpdate"]);
+
+if (lastUpdate == null) {
+  city;
+} else {
+  return city + " (Last updated " + lastUpdate + ")";
+}

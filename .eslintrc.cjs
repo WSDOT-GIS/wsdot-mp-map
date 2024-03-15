@@ -18,7 +18,7 @@ module.exports = {
     "*.js",
     "*.d.ts",
     "vite.config.ts",
-    "*.test.ts",
+    "*.test.ts", "**/agol/**/*",
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
