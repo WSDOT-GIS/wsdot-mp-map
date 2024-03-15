@@ -44,10 +44,11 @@ export function routeLocationToGraphic<
   }
   let attributes;
   if (hasValidSrmpData(routeLocation)) {
-    const { Route, Srmp, Back } = routeLocation;
+    const { Route, Srmp, Back, Decrease } = routeLocation;
     attributes = {
       OBJECTID: oid,
       Route,
+      Direction: Decrease ? "D" : "I",
       Srmp,
       Back: Back ? "B" : "",
       "Township Subdivision": null,
