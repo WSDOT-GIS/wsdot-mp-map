@@ -23,36 +23,42 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
   // Asynchronously import modules. This helps build generate smaller chunks.
   const [
     { default: Basemap },
-    { default: EsriMap },
     { default: config },
+    { default: Graphic },
+    { default: EsriMap },
     { default: MapView },
     { default: ScaleBar },
     { default: Home },
     { addGraphicsToLayer },
-    { createMilepostLayer },
-    { waExtent },
     { routeLocationToGraphic, findNearestRouteLocations },
     { callElcFromUrl },
+    { isGraphicHit, UIAddPositions },
+    { createMilepostLayer },
+    { accessControlLayer: roadwayCharacteristicDataLayer },
+    { cityLimitsLayer },
+    { tempLayer },
+    { waExtent },
     { setupWidgets },
     { setupSearch },
-    { isGraphicHit, UIAddPositions },
-    { cityLimitsLayer, accessControlLayer: roadwayCharacteristicDataLayer },
   ] = await Promise.all([
     import("@arcgis/core/Basemap"),
-    import("@arcgis/core/Map"),
     import("@arcgis/core/config"),
+    import("@arcgis/core/Graphic"),
+    import("@arcgis/core/Map"),
     import("@arcgis/core/views/MapView"),
     import("@arcgis/core/widgets/ScaleBar"),
     import("@arcgis/core/widgets/Home"),
     import("./addGraphicsToLayer"),
-    import("./layers/MilepostLayer"),
-    import("./WAExtent"),
     import("./elc"),
     import("./elc/url"),
+    import("./types"),
+    import("./layers/MilepostLayer"),
+    import("./layers/AccessControlLayer"),
+    import("./layers/CityLimitsLayer"),
+    import("./layers/TempLayer"),
+    import("./WAExtent"),
     import("./widgets/expandGroups"),
     import("./widgets/setupSearch"),
-    import("./types"),
-    import("./layers"),
   ] as const);
 
   /**
@@ -61,22 +67,17 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
    *
    * @param event - the event object containing map click details
    */
-  function callFindNearestRouteLocation(event: __esri.ViewClickEvent) {
+  async function callFindNearestRouteLocation(event: __esri.ViewClickEvent) {
     const { x, y, spatialReference } = event.mapPoint;
-    findNearestRouteLocations({
+    const locations = await findNearestRouteLocations({
       coordinates: [x, y],
       inSR: spatialReference.wkid,
       referenceDate: new Date(),
       routeFilter: elcMainlinesOnlyFilter,
       searchRadius: defaultSearchRadius,
-    })
-      .then(async (locations) => {
-        const locationGraphics = locations.map(routeLocationToGraphic);
-        await addGraphicsToLayer(milepostLayer, locationGraphics);
-      })
-      .catch((reason) =>
-        console.error("findNearestRouteLocations failed", reason)
-      );
+    });
+    const locationGraphics = locations.map(routeLocationToGraphic);
+    return addGraphicsToLayer(milepostLayer, locationGraphics);
   }
 
   config.applicationName = "WSDOT Mileposts";
@@ -101,7 +102,12 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
   });
   const map = new EsriMap({
     basemap,
-    layers: [cityLimitsLayer, roadwayCharacteristicDataLayer, milepostLayer],
+    layers: [
+      cityLimitsLayer,
+      roadwayCharacteristicDataLayer,
+      tempLayer,
+      milepostLayer,
+    ],
   });
 
   const view = new MapView({
@@ -153,16 +159,72 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
     (reason) => console.error("Failed to setup clear button", reason)
   );
 
+  /**
+   * Handle the click event on the view.
+   *
+   * @param event - The click event on the view.
+   */
   const handleViewOnClick: __esri.ViewClickEventHandler = (event) => {
-    const handleHitTestResult = (hitTestResult: __esri.HitTestResult): void => {
+    /**
+     * If the hit test results are not graphic hits, call findNearestRouteLocations.
+     * Otherwise, open the popup.
+     * @param hitTestResult - The hit test results
+     */
+    const handleHitTestResult = async (hitTestResult: __esri.HitTestResult) => {
       // Filter out hit test results that are not graphic hits.
       const graphicHits = hitTestResult.results.filter(isGraphicHit);
 
+      // If the user clicked on a graphic, open its popup.
       if (graphicHits.length > 0) {
         openPopup(graphicHits, view);
-      } else {
-        // Call findNearestRouteLocations
-        callFindNearestRouteLocation(event);
+        return;
+      }
+
+      // Add graphic to temp layer
+
+      const tempGraphic = new Graphic({
+        geometry: event.mapPoint,
+      });
+
+      const tempAddResults = await tempLayer.applyEdits({
+        addFeatures: [tempGraphic],
+      });
+
+      tempAddResults.addFeatureResults.forEach((r) => {
+        if (r.error) {
+          console.error(
+            "There was an error adding the temporary graphic where the user clicked.",
+            r.error
+          );
+        }
+      });
+
+      // Call findNearestRouteLocations
+      const results = await callFindNearestRouteLocation(event);
+
+      // Remove the temporary graphic
+      tempLayer
+        .applyEdits({
+          deleteFeatures: [tempGraphic],
+        })
+        .catch((reason) =>
+          console.error("Failed to remove temporary graphic", reason)
+        );
+
+      if (!results || results.length === 0) {
+        const message = "Could not find a route location near this location.";
+        view
+          .openPopup({
+            title: "Route Location Not Found",
+            content: message,
+            location: event.mapPoint,
+          })
+          .catch((reason: unknown) =>
+            console.error(`Popup with message "${message}" failed.`, {
+              reason,
+              event,
+            })
+          );
       }
     };
     view
