@@ -17,7 +17,7 @@ const [
   import("@arcgis/core/renderers/SimpleRenderer"),
   import("@arcgis/core/symbols/SimpleMarkerSymbol"),
   import("../WAExtent"),
-  import("../labelClass"),
+  import("./labelClass"),
   import("../colors"),
 ]);
 

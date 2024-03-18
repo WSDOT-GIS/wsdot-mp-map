@@ -1,6 +1,6 @@
 import TextSymbol from "@arcgis/core/symbols/TextSymbol";
 import LabelClass from "@arcgis/core/layers/support/LabelClass";
-import { highwaySignTextColor, highwaySignBackgroundColor } from "./colors";
+import { highwaySignTextColor, highwaySignBackgroundColor } from "../colors";
 // import Font from "@arcgis/core/symbols/Font";
 
 // const labelFont = new Font({
@@ -23,7 +23,7 @@ export const milepostSignLabelTextSymbol = new TextSymbol({
  */
 export const labelClass = new LabelClass({
   labelExpressionInfo: {
-    expression: String.raw`Concatenate($feature.Route, TextFormatting.NewLine, $feature.SRMP, $feature.Back)`,
+    expression: String.raw`Concatenate(LEFT($feature.Route, 5), TextFormatting.NewLine, $feature.SRMP, $feature.Back)`,
   },
   labelPlacement: "above-center",
   symbol: milepostSignLabelTextSymbol,
