@@ -1,19 +1,19 @@
-// import { objectIdFieldName } from "../elc/types";
-
-import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer";
+import { objectIdFieldName } from "../elc/types";
 
 const [
   { default: Collection },
+  { default: SpatialReference },
   { default: FeatureLayer },
   { default: Field },
+  { default: SimpleRenderer },
   { loadingSymbol },
-  { objectIdFieldName },
 ] = await Promise.all([
   import("@arcgis/core/core/Collection"),
+  import("@arcgis/core/geometry/SpatialReference"),
   import("@arcgis/core/layers/FeatureLayer"),
   import("@arcgis/core/layers/support/Field"),
+  import("@arcgis/core/renderers/SimpleRenderer"),
   import("./loadingSymbol"),
-  import("../elc/types"),
 ]);
 
 /**
@@ -29,6 +29,7 @@ export const tempLayer = new FeatureLayer({
   }),
   title: "Temporary Layer",
   geometryType: "point",
+  spatialReference: SpatialReference.WebMercator,
   id: "tempLayer",
   fields: [
     new Field({

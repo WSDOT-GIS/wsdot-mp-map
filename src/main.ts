@@ -68,6 +68,8 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
    * @param event - the event object containing map click details
    */
   async function callFindNearestRouteLocation(event: __esri.ViewClickEvent) {
+    /* __PURE__ */ console.group(callFindNearestRouteLocation.name);
+    /* __PURE__ */ console.debug("input event", event);
     const { x, y, spatialReference } = event.mapPoint;
     const locations = await findNearestRouteLocations({
       coordinates: [x, y],
@@ -76,8 +78,27 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
       routeFilter: elcMainlinesOnlyFilter,
       searchRadius: defaultSearchRadius,
     });
+    /* __PURE__ */ console.debug(
+      "locations returned by ELC for this location",
+      locations
+    );
+    if (locations == null) {
+      /* __PURE__ */ console.log(
+        "No locations returned. Returned value is null."
+      );
+    } else if (!locations.length) {
+      /* __PURE__ */ console.log(
+        "No locations returned. Returned value is an empty array."
+      );
+    }
     const locationGraphics = locations.map(routeLocationToGraphic);
-    return addGraphicsToLayer(milepostLayer, locationGraphics);
+    const addResults = addGraphicsToLayer(milepostLayer, locationGraphics);
+    /* __PURE__ */ console.debug(
+      "addResults returned by addGraphicsToLayer",
+      addResults
+    );
+    /* __PURE__ */ console.groupEnd();
+    return locations;
   }
 
   config.applicationName = "WSDOT Mileposts";
@@ -211,6 +232,7 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
           console.error("Failed to remove temporary graphic", reason)
         );
 
+      /* __PURE__ */ console.debug("ELC Results", results);
       if (!results || results.length === 0) {
         const message = "Could not find a route location near this location.";
         view
