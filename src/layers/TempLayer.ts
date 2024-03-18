@@ -29,6 +29,8 @@ export const tempLayer = new FeatureLayer({
   }),
   title: "Temporary Layer",
   geometryType: "point",
+  legendEnabled: false,
+  listMode: "hide",
   spatialReference: SpatialReference.WebMercator,
   id: "tempLayer",
   fields: [
