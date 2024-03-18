@@ -19,7 +19,7 @@
     "watch": "vite build -- --watch"
   },
   "devDependencies": {
-    "@arcgis/core": "^4.29.7",
+    "@arcgis/core": "^4.29.8",
     "@eslint/js": "^8.57.0",
     "@esri/arcgis-rest-request": "^4.2.0",
     "@fontsource/overpass": "^5.0.17",
