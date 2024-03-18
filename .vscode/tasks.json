@@ -174,7 +174,18 @@
       },
       "problemMatcher": [],
       "label": "Vite production build and preview",
-      "detail": "Creates a production build of the site and opens it in the browser.",
+      "detail": "Creates a production build of the site and opens it in the browser."
+    },
+    {
+      "type": "npm",
+      "script": "clean",
+      "problemMatcher": [],
+      "label": "Clean folder",
+      "icon": {
+        "id": "trash",
+        "color": "terminal.ansiGreen"
+      },
+      "detail": "Removes all files that are not stored in the repo, except for \"node_modules/**\" \".mailmap\"."
     }
   ]
 }
