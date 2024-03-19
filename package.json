@@ -6,6 +6,9 @@
   "type": "module",
   "scripts": {
     "build": "tsc && vite build",
+    "postbuild": "tsx tools/cleanup-assets.mts ",
+    "watch": "vite build -- --watch",
+    "preview": "vite preview",
     "build-and-preview": "npm run build && npm run preview -- --open",
     "clean": "git clean -dfx --exclude \"node_modules/**\" --exclude \".mailmap\"",
     "dev": "vite",
@@ -38,7 +41,7 @@
     "gh-pages": "^6.1.1",
     "jsdom": "^24.0.0",
     "prettier": "^3.2.5",
-    "rollup-plugin-copy": "^3.5.0",
+    "tsx": "^4.7.0",
     "typescript": "^5.4.2",
     "vite": "^5.1.6",
     "vitest": "^1.4.0",
