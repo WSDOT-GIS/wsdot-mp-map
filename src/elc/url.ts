@@ -20,19 +20,21 @@ The options are SP for Spur, CO for Couplet and AR for Alternate.
 www.snagmp.com/link3.php?SR=503&MP=35.23&RT=SP
 */
 
-import {
-  type ValidRouteLocationForMPInput,
-  type RouteGeometry,
-  findRouteLocations,
-  routeLocationToGraphic,
-  type FindNearestRouteLocationParameters,
-  type FindRouteLocationParameters,
-} from ".";
+import { findRouteLocations } from ".";
 import { addGraphicsToLayer } from "../addGraphicsToLayer";
 import FormatError from "../common/FormatError";
 import { padRoute } from "../utils";
+import { routeLocationToGraphic } from "./arcgis";
+import type {
+  FindNearestRouteLocationParameters,
+  FindRouteLocationParameters,
+  ValidRouteLocationForMPInput,
+  RouteGeometry,
+} from "./types";
 
-type UrlParamMapKey = "sr" | "rrt" | "rrq" | "dir" | "mp";
+const urlKeys = ["sr", "rrt", "rrq", "dir", "mp"] as const;
+
+type UrlParamMapKey = (typeof urlKeys)[number];
 
 /**
  * Regular expression patterns to validate URL parameters.
@@ -132,6 +134,11 @@ export function* enumerateUrlParameters(
   }
 }
 
+/**
+ * Populates the URL parameters with the given parameters using the request URL.
+ * @param parameters - The parameters to populate the URL with.
+ * @param requestUrl - The URL to populate with the parameters.
+ */
 export function populateUrlParameters(
   parameters: FindNearestRouteLocationParameters | FindRouteLocationParameters,
   requestUrl: URL
@@ -158,7 +165,6 @@ export function populateUrlParameters(
  * If the input string does not match the regular expression, or
  * if the named capture groups are not present or are not in the
  * expected format, a {@link FormatError} is thrown.
- *
  * @param mp - The string to parse
  * @returns - The parsed milepost and back indicator
  */
@@ -198,14 +204,28 @@ function parseSrmp(mp: string): { srmp: number; back: boolean } {
 
 /**
  * Retrieves and processes route and milepost information from the URL.
- * @param url - The URL to process. If omitted, the browsers {@link window.location.href} is used.
+ * @param url - The {@link URL} or {@link URLSearchParams} to process.
+ * If omitted, the browsers {@link window.location.href} is used.
  * @returns Location object with route, milepost, direction, and date information
  */
 export function getElcParamsFromUrl(
-  url: string | URL = window.location.href
+  url: string | URL | URLSearchParams = window.location.href
 ): ValidRouteLocationForMPInput<Date, RouteGeometry> | null {
-  url = typeof url === "string" ? new URL(url) : url;
-  const { searchParams } = url;
+  // If the URL is a URL object, use its search params.
+  let searchParams: URLSearchParams;
+  if (url instanceof URL) {
+    searchParams = url.searchParams;
+  } else if (url instanceof URLSearchParams) {
+    searchParams = url;
+  } else {
+    // If string is empty or otherwise falsy, return null.
+    if (!url) {
+      return null;
+    }
+    searchParams = /^https?:\/\//.test(url)
+      ? new URL(url).searchParams
+      : new URLSearchParams(url);
+  }
 
   let sr = getUrlSearchParameter(searchParams, "sr");
   const mp = getUrlSearchParameter(searchParams, "mp");
@@ -217,7 +237,6 @@ export function getElcParamsFromUrl(
 
   const rrt = getUrlSearchParameter(searchParams, "rrt") ?? "";
   const rrq = getUrlSearchParameter(searchParams, "rrq") ?? "";
-
   const { srmp, back } = parseSrmp(mp);
 
   const direction = getUrlSearchParameter(searchParams, "dir") ?? "i";
@@ -237,6 +256,12 @@ export function getElcParamsFromUrl(
   };
 }
 
+/**
+ * Adds graphics to the layer based on the route and milepost information from the URL.
+ * @param milepostLayer - The feature layer for mileposts
+ * @param options - Options for {@link findRouteLocations}.
+ * @returns - The graphics added to the layer
+ */
 export async function callElcFromUrl(
   milepostLayer: __esri.FeatureLayer,
   options: Pick<FindRouteLocationParameters, "outSR"> = { outSR: 3857 }

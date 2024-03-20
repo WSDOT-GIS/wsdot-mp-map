@@ -9,6 +9,7 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-type-checked",
     "plugin:sonarjs/recommended",
+    "plugin:jsdoc/recommended-typescript",
     "prettier",
   ],
   ignorePatterns: [
@@ -24,11 +25,17 @@ module.exports = {
     tsconfigRootDir: __dirname,
     project: ["./tsconfig.eslint.json"],
   },
-  plugins: ["@typescript-eslint", "sonarjs"],
+  plugins: ["@typescript-eslint", "sonarjs", "jsdoc"],
   root: true,
   rules: {
     "require-await": "error",
     "no-return-await": "warn",
     "sonarjs/no-duplicate-string": "warn",
+    "jsdoc/require-jsdoc": [
+      "warn",
+      {
+        enableFixer: false,
+      },
+    ],
   },
 };

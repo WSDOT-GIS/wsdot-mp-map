@@ -1,12 +1,16 @@
-import Graphic from "@arcgis/core/Graphic";
-import Point from "@arcgis/core/geometry/Point";
 import {
   type DateType,
   type RouteGeometry,
   type RouteLocation,
   type SrmpRouteLocation,
 } from "./types";
-import { hasXAndY } from "../types";
+
+const [{ default: Graphic }, { default: Point }, { hasXAndY }] =
+  await Promise.all([
+    import("@arcgis/core/Graphic"),
+    import("@arcgis/core/geometry/Point"),
+    import("../types"),
+  ]);
 
 /**
  * This variable will be increased for each new graphic

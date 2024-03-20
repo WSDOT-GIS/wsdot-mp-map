@@ -23,7 +23,9 @@ export interface HasAttributes<T extends AttributesObject> {
  * an attributes property that
  * is also an {@link Object}.
  * @param input - An input object.
- * @returns
+ * @returns - Returns true if the input is an {@link Object} with an
+ * "attributes" property that is also an {@link Object},
+ * otherwise returns false.
  */
 export function hasAttributes<T extends AttributesObject>(
   input: unknown
@@ -63,6 +65,11 @@ export function isGraphicHit(
   return viewHit.type === "graphic";
 }
 
+/**
+ * Checks if the given item is an instance of {@link __esri.FeatureEditResult}.
+ * @param item - The item to check.
+ * @returns - Returns true if the item is an instance of {@link __esri.FeatureEditResult}, otherwise false.
+ */
 export function isFeatureEditResult(
   item: unknown
 ): item is __esri.FeatureEditResult {
@@ -102,7 +109,7 @@ export interface XAndY {
 /**
  * Determines if an input geometry object has both "x" and "y"
  * properties which are both numbers.
- * @param geometry - Value from {@link RouteLocation.RouteGeometry}
+ * @param value - Value from {@link RouteLocation.RouteGeometry}
  * @returns - `true` if {@link geometry} has "x" and "y" properties
  * with numeric values, `false` otherwise.
  */
@@ -118,9 +125,8 @@ export const hasXAndY = <T extends object>(
 /**
  * Checks if the input geometry has the "paths" property and is
  * an array, and returns a boolean value.
- *
  * @param geometry - The input geometry object to be checked
- * @return Returns true if the input geometry has the "paths" property and is an array, otherwise returns false
+ * @returns Returns true if the input geometry has the "paths" property and is an array, otherwise returns false
  */
 export const hasPaths = <T extends object>(
   geometry: T

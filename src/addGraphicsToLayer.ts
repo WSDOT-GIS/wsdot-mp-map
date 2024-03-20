@@ -3,9 +3,8 @@ import type FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 
 /**
  * Retrieves the added graphics from the given edits result.
- *
  * @param editsResult - The edits result to retrieve added graphics from
- * @return The added graphics, or null if no added graphics are found
+ * @returns The added graphics, or null if no added graphics are found
  */
 function getAddedGraphics(editsResult: __esri.EditsResult): Graphic[] | null {
   const editedFeatures = editsResult.editedFeatureResults?.map(
@@ -28,7 +27,6 @@ function getAddedGraphics(editsResult: __esri.EditsResult): Graphic[] | null {
 
 /**
  * Adds graphics to a given layer and returns the result of the edits along with the added features.
- *
  * @param milepostLayer - The layer to which the graphics will be added
  * @param locationGraphics - The graphics to be added to the layer
  * @returns An array of the graphics that were added.

@@ -1,15 +1,16 @@
 import Graphic from "@arcgis/core/Graphic";
 import Point from "@arcgis/core/geometry/Point";
 import { expect, suite, test } from "vitest";
+import { findNearestRouteLocations } from "../src/elc";
+import { routeLocationToGraphic } from "../src/elc/arcgis";
 import {
-  findNearestRouteLocations,
+  type FindNearestRouteLocationParameters,
   isDateString,
   type DateString,
-  type FindNearestRouteLocationParameters,
   type RouteGeometryPoint,
   type RouteLocation,
 } from "../src/elc";
-import { routeLocationToGraphic } from "../src/elc/arcgis";
+
 import { hasXAndY } from "../src/types";
 
 suite("elc", () => {

@@ -21,9 +21,8 @@ export type RouteInputEvent = CustomEvent<RouteEventObject>;
 
 /**
  * Checks if the provided event is a RouteInputEvent.
- *
  * @param event - the event to be checked
- * @return true if the event is a RouteInputEvent, false otherwise
+ * @returns true if the event is a RouteInputEvent, false otherwise
  */
 export function isRouteInputEvent(event: Event): event is RouteInputEvent {
   return (
@@ -88,9 +87,9 @@ type UIAddPosition = UIAddParameters[1];
 
 /**
  * Creates an SRMP input form and adds it to the specified UI at the given position.
- *
- * @param - ui - The UI to which the form will be added
- * @param - position - The position at which the form will be added to the UI
+ * @param ui - The UI to which the form will be added
+ * @param position - The position at which the form will be added to the UI
+ * @param template - The template to use for the form
  * @returns - The created SRMP input form
  */
 export function createSrmpInputForm(

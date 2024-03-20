@@ -89,7 +89,6 @@ const fields = [
  * added features (Graphic objects).
  *
  * Note that additional properties also exist but this app is not using them so they are not documented here.
- *
  * @example
  * ```typescript
  * const { editedFeatures: editedFeatureResult } = event;
@@ -111,9 +110,8 @@ interface Edits extends Record<string, unknown> {
 }
 /**
  * Checks if the input item is of type {@link Edits}.
- *
  * @param item - the input item to be checked
- * @return - `true` if the input item is of type
+ * @returns - `true` if the input item is of type
  * {@link Edits}, `false` otherwise.
  */
 function isEdits(item: unknown): item is Edits {
@@ -129,6 +127,7 @@ function isEdits(item: unknown): item is Edits {
 
 /**
  * Creates the {@link FeatureLayer} that displays located mileposts.
+ * @param spatialReference
  * @returns - A {@link FeatureLayer}
  */
 export function createMilepostLayer(spatialReference: SpatialReference) {

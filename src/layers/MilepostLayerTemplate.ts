@@ -22,11 +22,19 @@ interface TemplateTarget {
 
 /**
  * Creates a definition list (dl) element based on the attributes provided, excluding specific keys.
- *
  * @param graphic - object containing attributes
- * @return HTML dl element containing key-value pairs of attributes
+ * @param graphic.attributes
+ * @returns HTML dl element containing key-value pairs of attributes
  */
-function createDL({ attributes }: TypedGraphic<Point, MPAttributes>) {
+function createDL(graphic: TypedGraphic<Point, MPAttributes>) {
+  const { attributes } = graphic;
+
+  /**
+   * Create a row for a key-value pair, handling promises and non-promises.
+   * @param key - the key for the key-value pair
+   * @param value - the value for the key-value pair, which can be a promise or non-promise
+   * @returns - an array containing the created `<dt>` and `<dd>` elements
+   */
   function createRow(
     key: string,
     value: AttributeValue | Promise<AttributeValue>

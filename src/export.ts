@@ -6,9 +6,8 @@ import { hasXAndY, hasPaths, hasPoints, hasRings } from "./types";
 
 /**
  * Convert ArcGIS geometry to GeoJSON format.
- *
  * @param geometry - the input ArcGis geometry to be converted
- * @return the converted GeoJSON geometry
+ * @returns the converted GeoJSON geometry
  */
 export function convertArcGisGeometryToGeoJson(geometry: __esri.Geometry) {
   if (hasXAndY(geometry)) {
@@ -46,7 +45,6 @@ export function convertArcGisGeometryToGeoJson(geometry: __esri.Geometry) {
 
 /**
  * Converts an ArcGIS Feature into a GeoJSON Feature.
- *
  * @param feature - the feature to be converted
  * @returns - the GeoJSON representation of the feature
  */
@@ -69,9 +67,8 @@ export function convertArcGisGraphicToGeoJson<
 
 /**
  * Converts an ArcGis feature set to GeoJson format.
- *
  * @param featureSet - the ArcGis feature set to be converted
- * @return the GeoJson feature collection
+ * @returns the GeoJson feature collection
  */
 export function convertArcGisFeatureSetToGeoJson(featureSet: FeatureSet) {
   const geoJsonFeatures = featureSet.features.map((f) =>

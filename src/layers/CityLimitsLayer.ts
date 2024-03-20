@@ -66,7 +66,6 @@ export interface CityLimitsAttributes extends AttributesObject {
 
 /**
  * Queries the city limits based on the provided point.
- *
  * @param point - The point to query the city limits for.
  * @returns - The city limits attributes for the provided point, or null if no city limits are found.
  */

@@ -18,9 +18,8 @@ export function padRoute<
 >(route: T): string;
 /**
  * Pads the route with leading zeros if it is a single or double digit number.
- *
  * @param route - The route to be padded.
- * @return The padded route. If the {@link route} is not a single- or double-
+ * @returns The padded route. If the {@link route} is not a single- or double-
  * digit number, the original {@link route} is returned.
  */
 export function padRoute(route: string): string {
@@ -32,8 +31,7 @@ export function padRoute(route: string): string {
 }
 /**
  * Returns the current date with the time set to 00:00:00:00.
- *
- * @return The current date with the time set to 00:00:00:00.
+ * @returns The current date with the time set to 00:00:00:00.
  */
 export function getToday() {
   const today = new Date();
