@@ -93,10 +93,9 @@ const lvCreateHandler = accessControlLayer.on(
 
 /**
  * Asynchronously queries the given layer view with the specified point and returns unique access control types.
- *
  * @param layerView - The feature layer or feature layer view to query.
  * @param point - The point to use for the query geometry.
- * @return An array of unique access control types.
+ * @returns An array of unique access control types.
  */
 export async function queryAccessControl(point: Point) {
   const layerOrView = accessControlLayerView ?? accessControlLayer;

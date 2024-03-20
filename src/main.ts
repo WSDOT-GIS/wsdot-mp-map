@@ -7,6 +7,11 @@ const defaultSearchRadius = 3000;
 const elcMainlinesOnlyFilter =
   "LIKE '___' OR RelRouteType IN ('SP', 'CO', 'AR')";
 
+/**
+ * Opens a popup with the features that were hit by the hit test.
+ * @param hits - An array of graphic hits.
+ * @param view - The map view.
+ */
 function openPopup(hits: __esri.GraphicHit[], view: MapView) {
   // Get the features that were hit by the hit test.
   const features = hits.map(({ graphic }) => graphic);
@@ -27,12 +32,12 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
     { default: Graphic },
     { default: EsriMap },
     { default: MapView },
-    { default: ScaleBar },
     { default: Home },
+    { default: ScaleBar },
     { addGraphicsToLayer },
-    { routeLocationToGraphic, findNearestRouteLocations },
+    { findNearestRouteLocations },
+    { routeLocationToGraphic },
     { callElcFromUrl },
-    { isGraphicHit, UIAddPositions },
     { accessControlLayer },
     { cityLimitsLayer },
     { createMilepostLayer },
@@ -41,18 +46,19 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
     { waExtent },
     { setupWidgets },
     { setupSearch },
+    { isGraphicHit, UIAddPositions },
   ] = await Promise.all([
     import("@arcgis/core/Basemap"),
     import("@arcgis/core/config"),
     import("@arcgis/core/Graphic"),
     import("@arcgis/core/Map"),
     import("@arcgis/core/views/MapView"),
-    import("@arcgis/core/widgets/ScaleBar"),
     import("@arcgis/core/widgets/Home"),
+    import("@arcgis/core/widgets/ScaleBar"),
     import("./addGraphicsToLayer"),
     import("./elc"),
+    import("./elc/arcgis"),
     import("./elc/url"),
-    import("./types"),
     import("./layers/AccessControlLayer"),
     import("./layers/CityLimitsLayer"),
     import("./layers/MilepostLayer"),
@@ -61,13 +67,14 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
     import("./WAExtent"),
     import("./widgets/expandGroups"),
     import("./widgets/setupSearch"),
+    import("./types"),
   ] as const);
 
   /**
    * A function that handles the event of finding the nearest route location
    * when the user clicks on the map.
-   *
    * @param event - the event object containing map click details
+   * @returns - a promise that resolves to an array of {@link RouteLocation|RouteLocations}
    */
   async function callFindNearestRouteLocation(event: __esri.ViewClickEvent) {
     /* __PURE__ */ console.group(callFindNearestRouteLocation.name);
@@ -185,7 +192,6 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
 
   /**
    * Handle the click event on the view.
-   *
    * @param event - The click event on the view.
    */
   const handleViewOnClick: __esri.ViewClickEventHandler = (event) => {

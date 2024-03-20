@@ -26,6 +26,9 @@ function* createCoordinateDataElements(...items: LatLngTuple) {
  * representation of the input {@link LatLngTuple}.
  * Output will also be backward compatible with the earlier
  * [Geo](https://microformats.org/wiki/geo) format.
+ * @param latLng - A latitude,longitude value.
+ * @param tagName - The HTML tag name to use.
+ * @returns - An [h-geo](https://microformats.org/wiki/h-geo) representation.
  */
 export function createGeoMicroformat(
   latLng: LatLngTuple,

@@ -30,10 +30,9 @@ type FeatureLayerViewMixinQueryFeaturesOptions = NonNullable<
 
 /**
  * Queries the county boundaries based on a given point and returns the county name.
- *
  * @param point - the point to query county boundaries for
  * @param options - (optional) additional options for the query
- * @return the name of the county
+ * @returns the name of the county
  */
 export async function queryCountyBoundaries(
   point: Point,

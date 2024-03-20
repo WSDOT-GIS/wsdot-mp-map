@@ -21,7 +21,6 @@ interface SectionTownshipFeature
 
 /**
  * Creates a land survey layer using the specified portal item.
- *
  * @returns The created land survey layer.
  */
 export function createLandSurveyLayer() {

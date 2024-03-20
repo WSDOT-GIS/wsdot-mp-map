@@ -26,6 +26,7 @@ function getSearchSources() {
 
 /**
  * Dynamically imports the "Search" widget module and creates a Search widget.
+ * @param view - The map or scene view.
  * @returns A Search widget.
  */
 export function setupSearch(view: MapView | SceneView) {

@@ -58,9 +58,8 @@ export type DateString = `${number}/${number}/${number}`;
 /**
  * Determines if a given string is a valid date in the format "M/D/YYYY" or "MM/DD/YYYY".
  * Leading zeros in month and day are not required.
- *
- * @param {string} value - The string to validate as a date string.
- * @return {boolean} True if the string is a valid date string, false otherwise.
+ * @param value - The string to validate as a date string.
+ * @returns True if the string is a valid date string, false otherwise.
  */
 export function isDateString(value: unknown): value is DateString {
   return typeof value === "string" && /^\d{1,2}\/\d{1,2}\/\d{4}$/.test(value);

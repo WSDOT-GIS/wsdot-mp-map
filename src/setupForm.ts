@@ -12,7 +12,6 @@ import {
 
 /**
  * Sets up the form for user input and adds event listener to capture SRMP input.
- *
  * @param view - The map view object
  * @param milepostLayer - The feature layer for mileposts
  * @returns - The created SRMP input form
@@ -37,11 +36,10 @@ export function setupForm(view: MapView, milepostLayer: FeatureLayer) {
 }
 /**
  * Add SRMP from form to the map view.
- *
  * @param event - the route input event
  * @param view - the map view
  * @param milepostLayer - the feature layer for mileposts
- * @return a promise that resolves when the function is complete
+ * @returns a promise that resolves when the function is complete
  */
 async function addSrmpFromForm(
   event: RouteInputEvent,

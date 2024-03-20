@@ -15,7 +15,6 @@ export interface ExportButtonOptions {
 
 /**
  * A function to perform export.
- *
  * @param layer - the layer to export
  * @returns - a promise that resolves to the exported GeoJSON
  */
@@ -42,10 +41,9 @@ async function performExport(layer: FeatureLayer) {
 
 /**
  * Generates a download link for a given GeoJSON feature collection.
- *
  * @param featureCollection - The GeoJSON feature collection to be downloaded.
  * @param layer - The layer associated with the feature collection.
- * @return The download link element.
+ * @returns The download link element.
  */
 function createDownloadLink(
   featureCollection: object, // ReturnType<typeof convertArcGisFeatureSetToGeoJson>,

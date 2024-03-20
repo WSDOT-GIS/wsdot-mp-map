@@ -83,7 +83,6 @@ export async function findNearestRouteLocations(
 
 /**
  * Find route locations based on the given parameters and URL.
- *
  * @param routeLocations - the parameters for finding route locations
  * @param url - the URL for finding route locations
  * @returns - an array of route locations

@@ -27,8 +27,8 @@ type ExpandProperties = NonNullable<ConstructorParameters<typeof Expand>[0]>;
 
 /**
  * Determines if the input string is a valid {@link UIPosition}.
- * @param input
- * @returns
+ * @param input - Input string
+ * @returns - Returns true if the input string is a valid {@link UIPosition}
  */
 export const isValidUIPosition = (input: unknown): input is UIPosition =>
   typeof input === "string" && uiPositionRe.test(input);
@@ -101,14 +101,19 @@ type LayerListItemCreateEvent = {
   item: ListItem;
 };
 
+/**
+ * Checks if the provided event is a {@link LayerListItemCreateEvent}.
+ * @param event - an event object
+ * @returns - true if the event is a {@link LayerListItemCreateEvent}, false otherwise
+ */
 function hasListItem(event: unknown): event is LayerListItemCreateEvent {
   return !!event && Object.hasOwn(event, "item");
 }
 
 /**
  * Performs further setup tasks on a layer list item, such as adding a legend.
- * @param param0 - Layer list item creation event object,
- * which contains an "item" ListItem property.
+ * @param event - Layer list item creation event object,
+ * which contains an "item" {@link ListItem} property.
  */
 const setupLayerListItems: __esri.LayerListListItemCreatedHandler = (event) => {
   if (!hasListItem(event)) {
@@ -126,7 +131,6 @@ type ExpandGroupSetupParams = Parameters<typeof setupExpandGroup>;
 
 /**
  * Set up widgets for the given view using the provided options.
- *
  * @param view - The map or scene view to set up widgets for.
  * @param viewAddOptions - The options for adding the view.
  * @param expandOptions - The options for the expand group.

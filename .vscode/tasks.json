@@ -174,18 +174,29 @@
       },
       "problemMatcher": [],
       "label": "Vite production build and preview",
-      "detail": "Creates a production build of the site and opens it in the browser."
+      {
+        "type": "npm",
+        "script": "clean",
+        "problemMatcher": [],
+        "label": "Clean folder",
+        "icon": {
+          "id": "trash",
+          "color": "terminal.ansiGreen"
+        },
+        "detail": "Removes all files that are not stored in the repo, except for \"node_modules/**\" \".mailmap\"."
+      }
     },
     {
-      "type": "npm",
-      "script": "clean",
-      "problemMatcher": [],
-      "label": "Clean folder",
+      "type": "shell",
+      "label": "Vite build watch",
+      "command": "npx vite build --watch",
+      "group": "build",
+      "isBackground": true,
       "icon": {
-        "id": "trash",
-        "color": "terminal.ansiGreen"
+        "id": "eye-watch",
+        "color": "terminal.ansiCyan"
       },
-      "detail": "Removes all files that are not stored in the repo, except for \"node_modules/**\" \".mailmap\"."
+      "problemMatcher": []
     }
   ]
 }

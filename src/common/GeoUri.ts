@@ -17,7 +17,6 @@ export type CoordinateList = `${number},${number}${
 
 /**
  * A [GeoURI](https://geouri.org)
- *
  * @see {@link https://geouri.org GeoURI}
  */
 export type GeoUriString =

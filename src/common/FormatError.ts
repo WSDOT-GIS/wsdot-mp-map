@@ -13,7 +13,8 @@ export default class FormatError extends Error {
   constructor(
     public value: string,
     public regex: RegExp,
-    ...[message, errorOptions]: ConstructorParameters<typeof Error>
+    message?: string,
+    errorOptions?: ErrorOptions
   ) {
     super(
       message ?? `"${value}" does not match ${regex}`,

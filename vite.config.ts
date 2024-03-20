@@ -17,6 +17,11 @@ export default defineConfig({
   build: {
     // This sets the target based on the `browserslist` file.
     target: browserslistToEsbuild(),
+    rollupOptions: {
+      input: {
+        main: "./index.html",
+      },
+    },
   },
   plugins: [
     // copy({

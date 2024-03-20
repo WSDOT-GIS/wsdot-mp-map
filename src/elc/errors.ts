@@ -31,7 +31,6 @@ export interface ElcErrorResponse {
 
 /**
  * Checks if the input is an error object.
- *
  * @param input - the input to be checked
  * @returns - true if the input is an error object, false otherwise
  */
@@ -130,7 +129,6 @@ export class ArcGisError extends Error implements ArcGisErrorObject {
 
 /**
  * Check if the input is an {@link ArcGisErrorResponse}.
- *
  * @param input - the value to check
  * @returns - `true` if the input is an {@link ArcGisErrorResponse}, `false` otherwise.
  */
@@ -141,9 +139,8 @@ export const isArcGisErrorResponse = (
 
 /**
  * Checks if the input is an instance of ArcGisError.
- *
  * @param input - the input to be checked
- * @return `true` if the input is an instance of ArcGisError, `false` otherwise
+ * @returns `true` if the input is an instance of ArcGisError, `false` otherwise
  */
 export const isArcGisError = (input: unknown): input is ArcGisError =>
   input != null &&

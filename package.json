@@ -13,13 +13,11 @@
     "clean": "git clean -dfx --exclude \"node_modules/**\" --exclude \".mailmap\"",
     "dev": "vite",
     "lint": "eslint . --fix",
-    "preview": "vite preview",
     "prettier": "prettier .",
     "publish": "npm run build && node tools/publish.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
-    "spell": "cspell .",
-    "watch": "vite build -- --watch"
+    "spell": "cspell ."
   },
   "devDependencies": {
     "@arcgis/core": "^4.29.8",
@@ -37,6 +35,7 @@
     "cspell": "^8.6.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-jsdoc": "^48.2.1",
     "eslint-plugin-sonarjs": "^0.24.0",
     "gh-pages": "^6.1.1",
     "jsdom": "^24.0.0",

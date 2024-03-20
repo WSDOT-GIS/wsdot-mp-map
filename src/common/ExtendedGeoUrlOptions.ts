@@ -33,9 +33,8 @@ export type ExtendedGeoUrl = `${GeoUriString}${"" | `;${string}=${string}`}${
 
 /**
  * This is for non-standard extensions to GeoURI
- *
  * @example
- * * Examples from [RFC 5870](https://www.rfc-editor.org/rfc/rfc5870)
+ * Examples from [RFC 5870](https://www.rfc-editor.org/rfc/rfc5870)
  * > * `geo:323482,4306480;crs=EPSG:32618;u=20`
  * > * `geo:37.786971,-122.399677;crs=Moon-2011;u=35`
  * > * `geo:323482,4306480;CRS=epsg:32718;U=20;mapcolors=for_daltonic`
