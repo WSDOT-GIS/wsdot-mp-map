@@ -136,10 +136,12 @@ export interface RouteFilterOptions {
   allowedRrts?: RrtValue[];
 }
 
+export const defaultRrts = ["SP", "CO", "AR"] as const;
+
 const defaultFilterOptions: RouteFilterOptions = {
   includeMainlines: true,
-  includeRamps: true,
-  allowedRrts: undefined,
+  includeRamps: false,
+  allowedRrts: [...defaultRrts],
 };
 
 /**

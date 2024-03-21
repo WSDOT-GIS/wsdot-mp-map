@@ -17,8 +17,8 @@ import { routeLocationToGraphic } from "./elc/arcgis";
  * @param milepostLayer - The feature layer for mileposts
  * @returns - The created SRMP input form
  */
-export function setupForm(view: MapView, milepostLayer: FeatureLayer) {
-  const form = createSrmpInputForm(view.ui, {
+export async function setupForm(view: MapView, milepostLayer: FeatureLayer) {
+  const form = await createSrmpInputForm(view.ui, {
     index: 0,
     position: "top-leading",
   });

@@ -1,4 +1,6 @@
 import type UI from "@arcgis/core/views/ui/UI";
+import RouteSelect from "./RouteSelect";
+
 /*
 <select id="routetype">
     <option value=" "></option>
@@ -7,6 +9,8 @@ import type UI from "@arcgis/core/views/ui/UI";
     <option value="AR">Alternate</option>
 </select>
 */
+
+await import("./RouteSelect");
 
 /**
  * The object that is passed to the `srmp-input` event.
@@ -92,7 +96,7 @@ type UIAddPosition = UIAddParameters[1];
  * @param template - The template to use for the form
  * @returns - The created SRMP input form
  */
-export function createSrmpInputForm(
+export async function createSrmpInputForm(
   ui: UI,
   position: UIAddPosition,
   template?: HTMLTemplateElement
@@ -109,6 +113,8 @@ export function createSrmpInputForm(
 
   const formDocFrag = template.content;
 
+  await customElements.whenDefined("route-select");
+
   const form = formDocFrag
     .querySelector("form")
     ?.cloneNode(true) as SrmpInputForm;
@@ -116,8 +122,16 @@ export function createSrmpInputForm(
   if (!form) {
     throw new Error("Form was not created correctly.");
   }
+
+  const routeSelectElement = document.createElement("select", {
+    is: "route-select",
+  }) as RouteSelect;
+
+  form.append(routeSelectElement);
+
   // form must be added to the document before event handling can be set up.
   ui.add(form, position);
+
   form.addEventListener("submit", (event) => {
     try {
       const customEvent = new CustomEvent("srmp-input", {
