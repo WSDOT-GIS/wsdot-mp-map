@@ -4,6 +4,28 @@ import { XAndY, type AttributesObject, type TypedGraphic } from "../types";
 import type { AttributeValue } from "../common/arcgis/typesAndInterfaces";
 export const objectIdFieldName = "OBJECTID";
 
+type Digit = `${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`;
+
+export type NonZeroDigit = Exclude<Digit, "0">;
+export type ThreeDigit = `${Digit}${TwoDigit}`;
+export type TwoDigit = `${Digit}${Digit}`;
+export type Year = "1999" | `20${TwoDigit}`;
+
+export enum RouteTypes {
+  Increase = 1,
+  Decrease = 2,
+  Both = 3,
+  Ramp = 4,
+}
+
+export type RouteIdString = `${ThreeDigit}${string}`;
+
+export interface RoutesSet extends Record<RouteIdString, RouteTypes> {}
+
+export interface RoutesResponse extends Record<Year, RoutesSet> {
+  Current: RoutesSet;
+}
+
 /**
  * Find Nearest Route Locations parameters
  */
@@ -201,6 +223,12 @@ function isValidAttributesObject(
   );
 }
 
+/**
+ * Checks if the given graphic is a valid {@link MilepostFeature}.
+ * @param graphic - The graphic to check.
+ * @returns True if the graphic is a valid {@link MilepostFeature},
+ * false otherwise.
+ */
 export function isMilepostFeature(
   graphic: Graphic
 ): graphic is MilepostFeature {

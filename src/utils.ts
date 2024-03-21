@@ -4,11 +4,7 @@
  * @returns
  */
 
-type Digit = `${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`;
-type NonZeroDigit = Exclude<Digit, "0">;
-
-export type ThreeDigit = `${Digit}${TwoDigit}`;
-export type TwoDigit = `${Digit}${Digit}`;
+import type { NonZeroDigit, ThreeDigit, TwoDigit } from "./elc/types";
 
 export function padRoute<T extends ThreeDigit>(route: T): T;
 export function padRoute<T extends TwoDigit>(route: T): `0${T}`;

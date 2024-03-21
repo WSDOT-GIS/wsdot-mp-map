@@ -1,10 +1,20 @@
-import type {
-  DateString,
-  FindNearestRouteLocationParameters,
-  FindRouteLocationParameters,
-  RouteGeometry,
-  RouteGeometryPoint,
-  RouteLocation,
+import { RouteDescription, type RrtValue } from "wsdot-route-utils";
+import {
+  ArcGisError,
+  isArcGisErrorResponse,
+  type ArcGisErrorResponse,
+} from "./errors";
+import {
+  type DateString,
+  type FindNearestRouteLocationParameters,
+  type FindRouteLocationParameters,
+  type RouteGeometry,
+  type RouteGeometryPoint,
+  type RouteIdString,
+  type RouteLocation,
+  type RoutesResponse,
+  type RoutesSet,
+  type RouteTypes,
 } from "./types";
 import { populateUrlParameters } from "./url";
 
@@ -27,11 +37,16 @@ export type ElcFindNearestUrlString =
 export type ElcFindUrlString =
   `${ElcSoeUrlString}Find${Space}Route${Space}Locations/`;
 
-const defaultFindNearestUrl: ElcFindNearestUrlString =
-  "https://data.wsdot.wa.gov/arcgis/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe/Find Nearest Route Locations/";
+export type ElcRoutesUrlString = `${ElcSoeUrlString}routes/`;
 
-const defaultFindUrl: ElcFindUrlString =
-  "https://data.wsdot.wa.gov/arcgis/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe/Find Route Locations/";
+const defaultExtensionRoot =
+  "https://data.wsdot.wa.gov/arcgis/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe/";
+
+export const defaultFindNearestUrl: ElcFindNearestUrlString = `${defaultExtensionRoot}Find Nearest Route Locations/`;
+
+export const defaultFindUrl: ElcFindUrlString = `${defaultExtensionRoot}Find Route Locations/`;
+
+export const defaultRoutesUrl: ElcRoutesUrlString = `${defaultExtensionRoot}routes/`;
 
 /**
  * Find nearest route locations
@@ -97,5 +112,90 @@ export async function findRouteLocations(
     throw new Error(JSON.stringify(result));
   }
 
+  return result;
+}
+
+let routes: RoutesResponse | null = null;
+
+export interface RouteFilterOptions {
+  /**
+   * Determines if mainlines are included.
+   * Any non-false value will be interpreted as true.
+   */
+  includeMainlines?: boolean;
+  /**
+   * Determines if ramps should be included.
+   * Any non-false value will be interpreted as true.
+   */
+  includeRamps?: boolean;
+  /**
+   * A list of RRTs that will be returned.
+   * Any RRTs not in the list will be skipped.
+   * If undefined, all RRTs will be returned.
+   */
+  allowedRrts?: RrtValue[];
+}
+
+const defaultFilterOptions: RouteFilterOptions = {
+  includeMainlines: true,
+  includeRamps: true,
+  allowedRrts: undefined,
+};
+
+/**
+ * Enumerates through a set of routes, converting the route
+ * ID strings to {@link RouteDescription} objects.
+ * @param routes - The set of routes for one specific year
+ * as returned by the ELC "routes" endpoint.
+ * @param options - Options for filtering yielded results.
+ * @yields - tuples consisting of a {@link RouteDescription} and a {@link RouteTypes}
+ */
+export function* enumerateRouteDescriptions(
+  routes: RoutesSet,
+  options: RouteFilterOptions = defaultFilterOptions
+): Generator<
+  readonly [route: RouteDescription, routeType: RouteTypes],
+  void,
+  unknown
+> {
+  for (const [routeId, routeType] of Object.entries(routes) as [
+    RouteIdString,
+    RouteTypes,
+  ][]) {
+    const route = new RouteDescription(routeId);
+    if (
+      (route.isRamp && options.includeRamps === false) ||
+      (route.isMainline && options.includeMainlines === false) ||
+      (options.allowedRrts !== undefined &&
+        route.rrt !== null &&
+        !options.allowedRrts.includes(route.rrt))
+    ) {
+      continue;
+    }
+    yield [route, routeType] as const;
+  }
+}
+
+/**
+ * Retrieves a list of routes from the ELC service.
+ * @param url - ELC SOE "routes" endpoint URL.
+ * @returns - An array of routes.
+ */
+export async function getRoutes(url: ElcRoutesUrlString = defaultRoutesUrl) {
+  // If the routes list has already been retrieved, return it and exit.
+  if (routes !== null) {
+    return routes;
+  }
+  const requestUrl = new URL(url);
+  requestUrl.searchParams.set("f", "json");
+  const response = await fetch(requestUrl);
+  const result = (await response.json()) as
+    | RoutesResponse
+    | ArcGisErrorResponse;
+
+  if (isArcGisErrorResponse(result)) {
+    throw new ArcGisError(result);
+  }
+  routes = result;
   return result;
 }

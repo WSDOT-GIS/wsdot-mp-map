@@ -1,7 +1,7 @@
 import Graphic from "@arcgis/core/Graphic";
 import Point from "@arcgis/core/geometry/Point";
 import { expect, suite, test } from "vitest";
-import { findNearestRouteLocations } from "../src/elc";
+import { findNearestRouteLocations, getRoutes } from "../src/elc";
 import { routeLocationToGraphic } from "../src/elc/arcgis";
 import { hasXAndY } from "../src/types";
 import {
@@ -89,6 +89,14 @@ suite("elc", () => {
     expect(actual.Arm).toEqual(expected.Arm);
     expect(actual.ArmCalcReturnCode).toEqual(expected.ArmCalcReturnCode);
     expect(actual.ArmCalcReturnMessage).toEqual(expected.ArmCalcReturnMessage);
+  });
+
+  test("getRoutes", async () => {
+    const result = await getRoutes();
+    expect(result).not.toBeNull();
+    expect(result).toHaveProperty("Current");
+    const currentYear = result.Current;
+    expect(currentYear).toBeTypeOf("object");
   });
 });
 
