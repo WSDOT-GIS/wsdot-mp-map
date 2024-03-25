@@ -164,19 +164,6 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
     popupEnabled: false,
   });
 
-  view.watch(
-    ["constraints/geometry", "constraints/minZoom"],
-    (
-      newValue: __esri.MapViewConstraints,
-      oldValue: __esri.MapViewConstraints
-    ) => {
-      /* __PURE__ */ console.debug("View constraints changed", {
-        oldValue,
-        newValue,
-      });
-    }
-  );
-
   import("@arcgis/core/widgets/BasemapToggle")
     .then(({ default: BasemapToggle }) => {
       const toggle = new BasemapToggle({
