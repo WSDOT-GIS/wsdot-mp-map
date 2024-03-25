@@ -17,8 +17,8 @@ dependencies:
 
 devDependencies:
   '@arcgis/core':
-    specifier: ^4.29.8
-    version: 4.29.8
+    specifier: ^4.29.10
+    version: 4.29.10
   '@eslint/js':
     specifier: ^8.57.0
     version: 8.57.0
@@ -107,8 +107,8 @@ packages:
       '@jridgewell/trace-mapping': 0.3.25
     dev: true
 
-  /@arcgis/core@4.29.8:
-    resolution: {integrity: sha512-H6vdmGwmGdX80wRMiTxEyTHcDG69a5iEWTi46sC+apAVGnubAbAqU8fsGj/5K3qiTqkZdGIVKSB9WqDH0oenfw==}
+  /@arcgis/core@4.29.10:
+    resolution: {integrity: sha512-EMJOJkeXG7sYeKLrjEWvF3cKWCFB4CFEjcsfRi0j9UlULv9NV9IarVryG1oLCg17CtEzcKjl7EZXiPnZsX5M2Q==}
     dependencies:
       '@esri/arcgis-html-sanitizer': 3.0.1
       '@esri/calcite-colors': 6.1.0
