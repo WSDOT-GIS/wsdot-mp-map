@@ -14,6 +14,9 @@ trigger:
       - "qa/**"
       - "dev/**"
 
+variables:
+  pnpm_config_cache: $(Pipeline.Workspace)/.pnpm-store
+
 # The pool section specifies the agent pool that will run the jobs in this pipeline.
 # 'Default' is typically the name of the Microsoft-hosted agent pool provided by Azure DevOps.
 pool:
@@ -37,21 +40,29 @@ stages:
             inputs:
               version: 20.X
 
-          # Install project dependencies using npm in a clean state.
-          - task: Npm@1
-            name: npm_install
-            displayName: NPM Clean Install (CI)
+          - task: Cache@2
             inputs:
-              # The npm command to run. 'ci' installs dependencies based on the lock file.
-              command: ci
-
-          - task: Npm@1
-            name: npm_test
-            displayName: NPM Test
+              key: 'pnpm | "$(Agent.OS)" | pnpm-lock.yaml'
+              path: $(pnpm_config_cache)
+            displayName: Cache pnpm
             continueOnError: true
-            inputs:
-              command: custom
-              customCommand: test
+
+          - script: |
+              corepack enable
+              corepack prepare pnpm@latest-8 --activate
+              pnpm config set store-dir $(pnpm_config_cache)
+            displayName: "Setup pnpm"
+
+          - script: |
+              pnpm install
+              pnpm run build
+            displayName: "pnpm install and build"
+            workingDirectory: $(Build.SourcesDirectory)
+
+          - script: |
+              pnpm test
+            continueOnError: true
+            displayName: Unit tests
 
           - task: PublishTestResults@2
             name: publish_test_results
@@ -68,17 +79,6 @@ stages:
             continueOnError: true
             inputs:
               summaryFileLocation: coverage/cobertura-coverage.xml
-
-          # Run the npm build script to compile the project.
-          - task: Npm@1
-            name: run_build
-            displayName: NPM Build
-            inputs:
-              command: custom
-              # The npm command to run the build script defined in package.json.
-              customCommand: run build
-              # Sets the current working directory for this task to the sources directory.
-              workingDir: $(Build.SourcesDirectory)
 
           # Copy the build output (dist folder) to the staging directory for artifact publishing.
           - task: CopyFiles@2
