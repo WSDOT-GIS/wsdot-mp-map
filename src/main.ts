@@ -30,6 +30,7 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
     { default: Basemap },
     { default: config },
     { default: Graphic },
+    { default: PortalItem },
     { default: EsriMap },
     { default: MapView },
     { default: Home },
@@ -51,6 +52,7 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
     import("@arcgis/core/Basemap"),
     import("@arcgis/core/config"),
     import("@arcgis/core/Graphic"),
+    import("@arcgis/core/portal/PortalItem"),
     import("@arcgis/core/Map"),
     import("@arcgis/core/views/MapView"),
     import("@arcgis/core/widgets/Home"),
@@ -125,13 +127,23 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
 
   const milepostLayer = createMilepostLayer(waExtent.spatialReference);
 
-  const basemap = new Basemap({
-    portalItem: {
+  const imageryHybridBasemap = new Basemap({
+    portalItem: new PortalItem({
       id: "952d28d8d68c4e9ca2db7c7d68307af0",
-    },
+    }),
   });
+
+  // https://wsdot.maps.arcgis.com/home/item.html?id=2d8f6dfc64244464926dd87d0eb9be86
+
+  const grayBasemap = new Basemap({
+    id: "gray",
+    portalItem: new PortalItem({
+      id: "2d8f6dfc64244464926dd87d0eb9be86",
+    }),
+  });
+
   const map = new EsriMap({
-    basemap,
+    basemap: imageryHybridBasemap,
     layers: [
       cityLimitsLayer,
       accessControlLayer,
@@ -151,6 +163,34 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
     extent: waExtent,
     popupEnabled: false,
   });
+
+  view.watch(
+    ["constraints/geometry", "constraints/minZoom"],
+    (
+      newValue: __esri.MapViewConstraints,
+      oldValue: __esri.MapViewConstraints
+    ) => {
+      /* __PURE__ */ console.debug("View constraints changed", {
+        oldValue,
+        newValue,
+      });
+    }
+  );
+
+  import("@arcgis/core/widgets/BasemapToggle")
+    .then(({ default: BasemapToggle }) => {
+      const toggle = new BasemapToggle({
+        view,
+        nextBasemap: grayBasemap,
+      });
+      view.ui.add(toggle, {
+        index: 0,
+        position: "bottom-trailing",
+      });
+    })
+    .catch((error) =>
+      console.error("Failed to import BasemapToggle module.", error)
+    );
 
   // Add the loading indicator widget to the map.
   import("./widgets/LoadingIndicator").then(
