@@ -16,6 +16,11 @@ function isFalse(attrValue: string | null): boolean {
   return !(typeof attrValue === "string" && /false/i.test(attrValue));
 }
 
+/**
+ * Creates a label for the given route.
+ * @param route - The route.
+ * @returns - A label for the route.
+ */
 function createLabel(route: RouteDescription) {
   let output: string;
   if (route.isMainline) {
@@ -30,7 +35,14 @@ function createLabel(route: RouteDescription) {
   return output;
 }
 
-function* getOptions(...args: Parameters<typeof enumerateRouteDescriptions>) {
+/**
+ * Generates options based on the route descriptions.
+ * @param args - Arguments for enumerateRouteDescriptions function
+ * @yields - {@link HTMLOptionElement|HTML option elements}
+ */
+function* getOptions(
+  ...args: Parameters<typeof enumerateRouteDescriptions>
+): Generator<HTMLOptionElement, void, unknown> {
   const routeDescriptions = [...enumerateRouteDescriptions(...args)];
   routeDescriptions.sort(([routeA], [routeB]) => {
     return routeA.toString().localeCompare(routeB.toString());
