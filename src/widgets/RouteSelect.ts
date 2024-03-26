@@ -1,6 +1,5 @@
 import type { RouteDescription, RrtValue, Suffix } from "wsdot-route-utils";
 import {
-  defaultRoutesUrl,
   enumerateRouteDescriptions,
   getRoutes,
   type ElcRoutesUrlString,
@@ -86,6 +85,13 @@ export class RouteSelect extends HTMLSelectElement {
   private static readonly includeRampsAttributeName = "include-ramps";
   private static readonly urlAttributeName = "url";
 
+  static readonly observedAttributes = [
+    this.allowedRrtsPropertyName,
+    this.urlAttributeName,
+    this.includeMainlinesPropertyName,
+    this.includeRampsAttributeName,
+  ];
+
   private async addOptions(url: string) {
     const routesResponse = await getRoutes(url as ElcRoutesUrlString);
     for (const option of getOptions(routesResponse.Current)) {
@@ -168,10 +174,6 @@ export class RouteSelect extends HTMLSelectElement {
 
   constructor() {
     super();
-    /* __PURE__ */ console.debug("RouteSelect constructor");
-    this.addOptions(defaultRoutesUrl).catch((error) =>
-      console.error("error adding route options from constructor", error)
-    );
   }
 
   connectedCallback() {

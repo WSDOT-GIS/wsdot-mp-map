@@ -1,16 +1,6 @@
 import type UI from "@arcgis/core/views/ui/UI";
-import RouteSelect from "./RouteSelect";
 
-/*
-<select id="routetype">
-    <option value=" "></option>
-    <option value="SP">Spur</option>
-    <option value="CO">Couplet</option>
-    <option value="AR">Alternate</option>
-</select>
-*/
-
-await import("./RouteSelect");
+import("./RouteSelect");
 
 /**
  * The object that is passed to the `srmp-input` event.
@@ -122,12 +112,6 @@ export async function createSrmpInputForm(
   if (!form) {
     throw new Error("Form was not created correctly.");
   }
-
-  const routeSelectElement = document.createElement("select", {
-    is: "route-select",
-  }) as RouteSelect;
-
-  form.append(routeSelectElement);
 
   // form must be added to the document before event handling can be set up.
   ui.add(form, position);
