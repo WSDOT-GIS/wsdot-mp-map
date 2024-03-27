@@ -172,10 +172,6 @@ export class RouteSelect extends HTMLSelectElement {
     }
   }
 
-  constructor() {
-    super();
-  }
-
   connectedCallback() {
     /* __PURE__ */ console.debug("Custom element added to page.");
   }
