@@ -40,7 +40,11 @@ stages:
             inputs:
               version: 20.X
 
+          # Disabled the caching task due to failure. The 'tar' executable is not being found, which is required for the caching.
+          # [error]Failed to start the required dependency 'tar'.  Please verify the correct version is installed and available on the path.
+          # https://dev.azure.com/WSDOT/WSDOT%20Milepost%20Map/_build/results?buildId=56866&view=logs&j=7c5e00f5-6d44-5185-0361-33c997f96b71&t=85979f5e-202b-465d-a158-92b3fb379bbe&l=24
           - task: Cache@2
+            enabled: false
             inputs:
               key: 'pnpm | "$(Agent.OS)" | pnpm-lock.yaml'
               path: $(pnpm_config_cache)
