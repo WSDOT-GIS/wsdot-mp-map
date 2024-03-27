@@ -1,5 +1,5 @@
 import type Geometry from "@arcgis/core/geometry/Geometry";
-import type { AttributeValue } from "./common";
+import type { AttributeValue } from "./common/arcgis/typesAndInterfaces";
 
 /**
  * An object like one used by {@link Graphic.attributes},

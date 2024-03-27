@@ -223,8 +223,8 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
    */
   const handleViewOnClick: __esri.ViewClickEventHandler = (event) => {
     /**
-     * If the hit test results are not graphic hits, call findNearestRouteLocations.
-     * Otherwise, open the popup.
+     * If the hit test results are not graphic hits, call
+     * {@link findNearestRouteLocations}. Otherwise, open the popup.
      * @param hitTestResult - The hit test results
      */
     const handleHitTestResult = async (hitTestResult: __esri.HitTestResult) => {
@@ -259,18 +259,21 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
       // Call findNearestRouteLocations
       const results = await callFindNearestRouteLocation(event);
 
-      // Remove the temporary graphic
-      tempLayer
-        .applyEdits({
+      /**
+       * Removes the temporary graphic.
+       * @returns - a promise that resolves when the graphic is removed.
+       */
+      const removeTempGraphic = () => {
+        // Remove the temporary graphic
+        return tempLayer.applyEdits({
           deleteFeatures: [tempGraphic],
-        })
-        .catch((reason) =>
-          console.error("Failed to remove temporary graphic", reason)
-        );
+        });
+      };
 
       /* __PURE__ */ console.debug("ELC Results", results);
       if (!results || results.length === 0) {
         const message = "Could not find a route location near this location.";
+
         view
           .openPopup({
             title: "Route Location Not Found",
@@ -282,7 +285,12 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
               reason,
               event,
             })
-          );
+          )
+          .finally(() => {
+            removeTempGraphic().catch((reason) =>
+              console.error("Failed to remove temporary graphic", reason)
+            );
+          });
       }
     };
     view

@@ -1,10 +1,10 @@
 import PopupTemplate from "@arcgis/core/PopupTemplate";
-import type { AttributeValue } from "../common";
 import type { AttributesObject, TypedGraphic } from "../types";
 import { queryCityLimits } from "./CityLimitsLayer";
 import { queryCountyBoundaries } from "./CountyBoundariesLayer";
 import { querySectionTownship } from "./LandSurveyLayer";
 import type Point from "@arcgis/core/geometry/Point";
+import type { AttributeValue } from "../common/arcgis/typesAndInterfaces";
 
 interface MPAttributes extends AttributesObject {
   oid: number;
