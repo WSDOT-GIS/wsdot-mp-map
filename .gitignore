@@ -284,3 +284,5 @@ public/assets/tip-manager
 public/assets/value-list
 
 #endregion calicte
+
+*.cpuprofile
