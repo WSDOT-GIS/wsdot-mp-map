@@ -1,12 +1,13 @@
 import type FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import type MapView from "@arcgis/core/views/MapView";
 import { addGraphicsToLayer } from "./addGraphicsToLayer";
-import { findRouteLocations, routeLocationToGraphic } from "./elc";
+import { findRouteLocations } from "./elc";
 import { padRoute } from "./utils";
 import {
   createSrmpInputForm,
   type RouteInputEvent,
 } from "./widgets/SrmpInputForm";
+import { routeLocationToGraphic } from "./elc/arcgis";
 
 // type GoToTarget2D = __esri.GoToTarget2D;
 

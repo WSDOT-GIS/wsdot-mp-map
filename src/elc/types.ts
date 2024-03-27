@@ -1,7 +1,7 @@
 import type Graphic from "@arcgis/core/Graphic";
 import Point from "@arcgis/core/geometry/Point";
-import type { AttributeValue } from "../common";
 import { XAndY, type AttributesObject, type TypedGraphic } from "../types";
+import type { AttributeValue } from "../common/arcgis/typesAndInterfaces";
 export const objectIdFieldName = "OBJECTID";
 
 /**

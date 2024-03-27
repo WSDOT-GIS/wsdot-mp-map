@@ -3,15 +3,14 @@ import Point from "@arcgis/core/geometry/Point";
 import { expect, suite, test } from "vitest";
 import { findNearestRouteLocations } from "../src/elc";
 import { routeLocationToGraphic } from "../src/elc/arcgis";
+import { hasXAndY } from "../src/types";
 import {
   type FindNearestRouteLocationParameters,
   isDateString,
+  type RouteLocation,
   type DateString,
   type RouteGeometryPoint,
-  type RouteLocation,
-} from "../src/elc";
-
-import { hasXAndY } from "../src/types";
+} from "../src/elc/types";
 
 suite("elc", () => {
   test("findNearestRouteLocations", async () => {
