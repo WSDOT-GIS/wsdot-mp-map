@@ -14,9 +14,6 @@ trigger:
       - "qa/**"
       - "dev/**"
 
-variables:
-  pnpm_config_cache: $(Pipeline.Workspace)/.pnpm-store
-
 # The pool section specifies the agent pool that will run the jobs in this pipeline.
 # 'Default' is typically the name of the Microsoft-hosted agent pool provided by Azure DevOps.
 pool:
@@ -40,33 +37,21 @@ stages:
             inputs:
               version: 20.X
 
-          # Disabled the caching task due to failure. The 'tar' executable is not being found, which is required for the caching.
-          # [error]Failed to start the required dependency 'tar'.  Please verify the correct version is installed and available on the path.
-          # https://dev.azure.com/WSDOT/WSDOT%20Milepost%20Map/_build/results?buildId=56866&view=logs&j=7c5e00f5-6d44-5185-0361-33c997f96b71&t=85979f5e-202b-465d-a158-92b3fb379bbe&l=24
-          - task: Cache@2
-            enabled: false
+          # Install project dependencies using npm in a clean state.
+          - task: Npm@1
+            name: npm_install
+            displayName: NPM Clean Install (CI)
             inputs:
-              key: 'pnpm | "$(Agent.OS)" | pnpm-lock.yaml'
-              path: $(pnpm_config_cache)
-            displayName: Cache pnpm
+              # The npm command to run. 'ci' installs dependencies based on the lock file.
+              command: ci
+
+          - task: Npm@1
+            name: npm_test
+            displayName: NPM Test
             continueOnError: true
-
-          - script: |
-              corepack enable
-              corepack prepare pnpm@latest-8 --activate
-              pnpm config set store-dir $(pnpm_config_cache)
-            displayName: "Setup pnpm"
-
-          - script: |
-              pnpm install
-              pnpm run build
-            displayName: "pnpm install and build"
-            workingDirectory: $(Build.SourcesDirectory)
-
-          - script: |
-              pnpm test
-            continueOnError: true
-            displayName: Unit tests
+            inputs:
+              command: custom
+              customCommand: test
 
           - task: PublishTestResults@2
             name: publish_test_results
@@ -83,6 +68,17 @@ stages:
             continueOnError: true
             inputs:
               summaryFileLocation: coverage/cobertura-coverage.xml
+
+          # Run the npm build script to compile the project.
+          - task: Npm@1
+            name: run_build
+            displayName: NPM Build
+            inputs:
+              command: custom
+              # The npm command to run the build script defined in package.json.
+              customCommand: run build
+              # Sets the current working directory for this task to the sources directory.
+              workingDir: $(Build.SourcesDirectory)
 
           # Copy the build output (dist folder) to the staging directory for artifact publishing.
           - task: CopyFiles@2
