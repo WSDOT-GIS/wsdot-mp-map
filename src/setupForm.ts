@@ -2,12 +2,12 @@ import type FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import type MapView from "@arcgis/core/views/MapView";
 import { addGraphicsToLayer } from "./addGraphicsToLayer";
 import { findRouteLocations } from "./elc";
-import { padRoute } from "./utils";
 import {
   createSrmpInputForm,
   type RouteInputEvent,
 } from "./widgets/SrmpInputForm";
 import { routeLocationToGraphic } from "./elc/arcgis";
+import type Graphic from "@arcgis/core/Graphic";
 
 // type GoToTarget2D = __esri.GoToTarget2D;
 
@@ -47,25 +47,36 @@ async function addSrmpFromForm(
   view: MapView,
   milepostLayer: FeatureLayer
 ) {
-  const { route, mp, type } = event.detail;
+  /* __PURE__ */ console.group(addSrmpFromForm.name);
+  /* __PURE__ */ console.debug("event", event);
+  const { route, mp, back } = event.detail;
 
   // Pad the route if necessary and append the type if there is one.
-  const routeId = `${padRoute(route)}${type ?? ""}`;
+  const routeId = route.toString().replace(/[idr]$/, "");
+  const decrease = route.isDecrease;
   // Create the reference date for ELC call to now, then set time to midnight.
   const referenceDate = new Date();
   referenceDate.setHours(0, 0, 0, 0);
 
   const routeLocations = await findRouteLocations({
-    locations: [{ Route: routeId, Srmp: mp }],
+    locations: [{ Route: routeId, Srmp: mp, Back: back, Decrease: decrease }],
     outSR: view.spatialReference.wkid,
     referenceDate,
   });
+  /* @__PURE__ */ console.debug("routeLocations", routeLocations);
   const graphics = routeLocations.map(routeLocationToGraphic);
-  const addFeatureResults = await addGraphicsToLayer(milepostLayer, graphics);
-  /* @__PURE__ */ console.debug("addedFeatures", {
-    allGraphics: graphics,
-    addFeatureResults,
-  });
+  /* __PURE__ */ console.debug("graphics", graphics);
+  let addFeatureResults: Graphic[] | null = null;
+  try {
+    addFeatureResults = await addGraphicsToLayer(milepostLayer, graphics);
+    /* @__PURE__ */ console.debug("addedFeatures", {
+      allGraphics: graphics,
+      addFeatureResults,
+    });
+  } catch (error) {
+    console.error("Error adding SRMP from form", error);
+  }
+  /* __PURE__ */ console.groupEnd();
   return addFeatureResults;
 }
 
