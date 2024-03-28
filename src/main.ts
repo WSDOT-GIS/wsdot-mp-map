@@ -266,22 +266,15 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
       });
 
       // Call findNearestRouteLocations
-      const results = await callFindNearestRouteLocation(event);
+      try {
+        const results = await callFindNearestRouteLocation(event);
+        /* __PURE__ */ console.debug("ELC Results", results);
+      } catch (error) {
+        let message = "Could not find a route location near this location.";
 
-      /**
-       * Removes the temporary graphic.
-       * @returns - a promise that resolves when the graphic is removed.
-       */
-      const removeTempGraphic = () => {
-        // Remove the temporary graphic
-        return tempLayer.applyEdits({
-          deleteFeatures: [tempGraphic],
-        });
-      };
-
-      /* __PURE__ */ console.debug("ELC Results", results);
-      if (!results || results.length === 0) {
-        const message = "Could not find a route location near this location.";
+        if (import.meta.env.DEV && error instanceof Error) {
+          message += `\n${error.message}`;
+        }
 
         view
           .openPopup({
@@ -301,6 +294,17 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
             );
           });
       }
+
+      /**
+       * Removes the temporary graphic.
+       * @returns - a promise that resolves when the graphic is removed.
+       */
+      const removeTempGraphic = () => {
+        // Remove the temporary graphic
+        return tempLayer.applyEdits({
+          deleteFeatures: [tempGraphic],
+        });
+      };
     };
     view
       .hitTest(event, {

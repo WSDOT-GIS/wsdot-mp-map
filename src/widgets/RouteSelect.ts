@@ -1,4 +1,4 @@
-import type { RouteDescription, RrtValue, Suffix } from "wsdot-route-utils";
+import { RouteDescription, RrtValue, Suffix } from "wsdot-route-utils";
 import {
   enumerateRouteDescriptions,
   getRoutes,
@@ -21,13 +21,16 @@ function isFalse(attrValue: string | null): boolean {
  * @returns - A label for the route.
  */
 function createLabel(route: RouteDescription) {
-  let output: string;
+  let output: string = `${route.shield === "IS" ? "I-" : route.shield + " "}${parseInt(route.sr)}`;
   if (route.isMainline) {
-    output = `${route.shield} ${parseInt(route.sr)}`;
+    output += route.isDecrease ? " (Mainline, decrease)" : " (Mainline)";
   } else {
-    output = `${route.sr} ${route.rrtDescription}`;
+    output = `${parseInt(route.sr, 10)} ${route.rrtDescription}`;
     if (route.rrqDescription) {
       output += ` ${route.rrqDescription}`;
+    }
+    if (route.isDecrease) {
+      output += " (decrease)";
     }
   }
 
@@ -46,6 +49,16 @@ function* getOptions(
   routeDescriptions.sort(([routeA], [routeB]) => {
     return routeA.toString().localeCompare(routeB.toString());
   });
+
+  // Add an empty option before the route options.
+  const emptyOption = document.createElement("option");
+  emptyOption.value = "";
+  emptyOption.textContent = "Select a route";
+  emptyOption.selected = true;
+  emptyOption.hidden = true;
+  emptyOption.disabled = true;
+  yield emptyOption;
+
   for (const [route, routeType] of routeDescriptions) {
     const typesArray: Suffix[] = [];
     if (routeType === RouteTypes.Ramp) {
@@ -61,13 +74,16 @@ function* getOptions(
       const option = document.createElement("option");
       option.value = `${route.toString()}${routeType}`;
 
-      let label = createLabel(route);
-
-      if (routeType === "d") {
-        label += " (dec.)";
-      }
+      const label = createLabel(
+        // Create a new RouteDescription, this time with direction suffix included.
+        new RouteDescription(route.toString() + routeType, {
+          allowedSuffixes: ["i", "d"] as const,
+          suffixesAreOptional: false,
+        })
+      );
 
       option.label = label;
+      option.textContent = label;
       option.title = label;
 
       yield option;
@@ -189,13 +205,17 @@ export class RouteSelect extends HTMLSelectElement {
       `Attribute ${name} has changed from ${oldValue} to ${newValue}.`
     );
     if (name === RouteSelect.urlAttributeName) {
-      for (const option of this.querySelectorAll("option")) {
-        option.remove();
-      }
-      this.addOptions(newValue).catch((error) =>
-        console.error("error adding options", error)
-      );
+      this.resetOptions(newValue);
     }
+  }
+
+  private resetOptions(newValue: string) {
+    for (const option of this.querySelectorAll("option")) {
+      option.remove();
+    }
+    this.addOptions(newValue).catch((error) =>
+      console.error("error adding options", error)
+    );
   }
 }
 

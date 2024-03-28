@@ -50,6 +50,35 @@ export const defaultFindUrl: ElcFindUrlString = `${defaultExtensionRoot}Find Rou
 
 export const defaultRoutesUrl: ElcRoutesUrlString = `${defaultExtensionRoot}routes/`;
 
+type SuccessType = RouteLocation<DateString, RouteGeometryPoint>;
+
+/**
+ * Splits an array of ELC results, some of the objects potentially
+ * {@link Error Errors}, into two {@link Map mappings}:
+ * one of errors and one of non-errors. The maps are keyed
+ * by the index of the input array.
+ * @param elcResults - An array of results from the input array.
+ * @returns
+ */
+function splitErrorResults<T>(elcResults: T[]) {
+  type NonError = Exclude<T, Error>;
+  const successes = new Map<number, NonError>();
+  const errors = new Map<number, Error>();
+
+  for (const [i, item] of elcResults.entries()) {
+    if (item instanceof Error) {
+      errors.set(i, item);
+    } else {
+      successes.set(i, item as NonError);
+    }
+  }
+
+  return {
+    successes,
+    errors,
+  };
+}
+
 /**
  * Find nearest route locations
  * @param options - the input parameters
@@ -60,22 +89,50 @@ export async function findNearestRouteLocations(
   options: FindNearestRouteLocationParameters,
   url: ElcFindNearestUrlString = defaultFindNearestUrl
 ) {
+  /* __PURE__ */ console.group(findNearestRouteLocations.name);
+  /* __PURE__ */ console.debug("parameters", { options, url });
   const queryUrl = new URL(url);
   populateUrlParameters(options, queryUrl);
+  /* __PURE__ */ console.debug("Calling REST endpoint", queryUrl);
   const response = await fetch(queryUrl);
-  const result = (await response.json()) as RouteLocation<
-    DateString,
-    RouteGeometryPoint
-  >[];
+
+  /* __PURE__ */ console.debug("Parsing response JSON...", response);
+  const responseJson = await response.text();
+  const result = JSON.parse(responseJson, elcReviver) as (
+    | SuccessType
+    | ArcGisError
+    | ElcError
+  )[];
+  /* __PURE__ */ console.debug("Parsed JSON", result);
+
+  if (!result.length) {
+    /* __PURE__ */ console.debug("Result was an empty array.");
+    /* __PURE__ */ console.groupEnd();
+    return result;
+  }
+
+  const { successes, errors } = splitErrorResults(result);
+
+  /* __PURE__ */ if (errors.size) {
+    /* __PURE__ */ console.error(
+      "Errors",
+      Object.fromEntries(errors.entries())
+    );
+  }
+
+  const successValues = [...successes.values()];
 
   const secondPassInput = {
-    locations: result.map(({ Arm, Route, Decrease, ReferenceDate, Id }) => ({
-      Arm,
-      Route,
-      Decrease,
-      ReferenceDate,
-      Id,
-    })),
+    // Filter out all of the error responses.
+    locations: successValues.map(
+      ({ Arm, Route, Decrease, ReferenceDate, Id }) => ({
+        Arm,
+        Route,
+        Decrease,
+        ReferenceDate,
+        Id,
+      })
+    ),
     outSR: options.outSR ?? options.inSR,
     lrsYear: options.lrsYear ?? "Current",
     referenceDate: options.referenceDate,
@@ -83,17 +140,20 @@ export async function findNearestRouteLocations(
   const result2 = await findRouteLocations(secondPassInput);
 
   // Restore old distance values.
-  result2
-    .filter((rl) => !(rl instanceof ElcError))
-    .forEach((routeLocation, i) => {
-      const oldLoc = result[i];
-      if (!(routeLocation instanceof ElcError)) {
-        routeLocation.EventPoint = oldLoc.EventPoint;
-        routeLocation.Distance = oldLoc.Distance;
-        routeLocation.Angle = oldLoc.Angle;
-      }
-    });
+  const successesAndErrors = splitErrorResults(result2);
 
+  /* __PURE__ */ console.debug("2nd pass", successesAndErrors);
+
+  for (const [i, routeLocation] of [
+    ...successesAndErrors.successes.values(),
+  ].entries()) {
+    const oldLoc = successValues[i];
+    routeLocation.EventPoint = oldLoc.EventPoint;
+    routeLocation.Distance = oldLoc.Distance;
+    routeLocation.Angle = oldLoc.Angle;
+  }
+
+  /* __PURE__ */ console.groupEnd();
   return result2;
 }
 

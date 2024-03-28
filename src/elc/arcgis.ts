@@ -43,7 +43,7 @@ export function routeLocationToGraphic<
   if (routeLocation instanceof ElcError) {
     throw routeLocation;
   }
-  let geometry;
+  let geometry: __esri.Point | undefined;
   if (routeLocation.RouteGeometry && hasXAndY(routeLocation.RouteGeometry)) {
     const { x, y, spatialReference } = routeLocation.RouteGeometry;
     geometry = new Point({ x, y, spatialReference });
@@ -52,7 +52,23 @@ export function routeLocationToGraphic<
   }
   let attributes;
   if (hasValidSrmpData(routeLocation)) {
-    const { Route, Srmp, Back, Decrease } = routeLocation;
+    const {
+      Route,
+      Srmp,
+      Back,
+      Decrease,
+      // Angle,
+      // Arm,
+      // ArmCalcReturnCode,
+      // ArmCalcReturnMessage,
+      // Distance,
+      // EventPoint,
+      // Id,
+      // RealignmentDate,
+      // ReferenceDate,
+      // ResponseDate,
+      // RouteGeometry,
+    } = routeLocation;
     attributes = {
       OBJECTID: oid,
       Route,
