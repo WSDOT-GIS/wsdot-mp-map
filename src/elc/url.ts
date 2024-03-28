@@ -25,6 +25,7 @@ import { addGraphicsToLayer } from "../addGraphicsToLayer";
 import FormatError from "../common/FormatError";
 import { padRoute } from "../utils";
 import { routeLocationToGraphic } from "./arcgis";
+import { ElcError } from "./errors";
 import type {
   FindNearestRouteLocationParameters,
   FindRouteLocationParameters,
@@ -138,6 +139,7 @@ export function* enumerateUrlParameters(
  * Populates the URL parameters with the given parameters using the request URL.
  * @param parameters - The parameters to populate the URL with.
  * @param requestUrl - The URL to populate with the parameters.
+ * @returns - {@link requestUrl}, now with the URL parameters populated.
  */
 export function populateUrlParameters(
   parameters: FindNearestRouteLocationParameters | FindRouteLocationParameters,
@@ -146,6 +148,7 @@ export function populateUrlParameters(
   for (const [key, value] of enumerateUrlParameters(parameters)) {
     requestUrl.searchParams.set(key, value);
   }
+  return requestUrl;
 }
 
 /**
@@ -281,7 +284,12 @@ export async function callElcFromUrl(
     return null;
   }
 
-  const graphics = elcResults.map((r) => routeLocationToGraphic(r));
+  const location = elcResults[0];
+  if (location instanceof ElcError) {
+    throw location;
+  }
 
-  return addGraphicsToLayer(milepostLayer, graphics);
+  const graphic = routeLocationToGraphic(location);
+
+  return addGraphicsToLayer(milepostLayer, [graphic]);
 }

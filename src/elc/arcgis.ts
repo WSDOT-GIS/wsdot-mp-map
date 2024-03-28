@@ -1,3 +1,4 @@
+import { ElcError } from "./errors";
 import {
   type DateType,
   type RouteGeometry,
@@ -39,7 +40,10 @@ export function routeLocationToGraphic<
   D extends DateType = DateType,
   G extends RouteGeometry = RouteGeometry,
 >(routeLocation: RouteLocation<D, G>) {
-  let geometry;
+  if (routeLocation instanceof ElcError) {
+    throw routeLocation;
+  }
+  let geometry: __esri.Point | undefined;
   if (routeLocation.RouteGeometry && hasXAndY(routeLocation.RouteGeometry)) {
     const { x, y, spatialReference } = routeLocation.RouteGeometry;
     geometry = new Point({ x, y, spatialReference });
@@ -48,7 +52,23 @@ export function routeLocationToGraphic<
   }
   let attributes;
   if (hasValidSrmpData(routeLocation)) {
-    const { Route, Srmp, Back, Decrease } = routeLocation;
+    const {
+      Route,
+      Srmp,
+      Back,
+      Decrease,
+      // Angle,
+      // Arm,
+      // ArmCalcReturnCode,
+      // ArmCalcReturnMessage,
+      // Distance,
+      // EventPoint,
+      // Id,
+      // RealignmentDate,
+      // ReferenceDate,
+      // ResponseDate,
+      // RouteGeometry,
+    } = routeLocation;
     attributes = {
       OBJECTID: oid,
       Route,

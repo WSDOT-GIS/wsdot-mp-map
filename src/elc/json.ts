@@ -1,3 +1,10 @@
+import {
+  ArcGisError,
+  ElcError,
+  isArcGisErrorResponse,
+  isElcErrorResponse,
+} from "./errors";
+
 /**
  * JSON reviver function for ELC route location objects.
  * - Empty strings are converted to `null`.
@@ -6,12 +13,18 @@
  * @returns The processed value, with empty strings converted to `null`.
  */
 export function elcReviver<T>(
-  this: ThisType<unknown>,
+  this: ThisType<T>,
   _key: string,
-  value: T
-): typeof value | null {
+  value: unknown
+): unknown {
+  if (isArcGisErrorResponse(value)) {
+    return new ArcGisError(value);
+  }
   if (value === "") {
     return null;
+  }
+  if (isElcErrorResponse(value)) {
+    return new ElcError(value);
   }
   return value;
 }
