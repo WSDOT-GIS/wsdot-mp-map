@@ -1,6 +1,7 @@
 import { RouteDescription, type RrtValue } from "wsdot-route-utils";
 import {
   ArcGisError,
+  ElcError,
   isArcGisErrorResponse,
   type ArcGisErrorResponse,
 } from "./errors";
@@ -17,6 +18,7 @@ import {
   type RouteTypes,
 } from "./types";
 import { populateUrlParameters } from "./url";
+import { elcReviver } from "./json";
 
 /*
 TODO: Test the responses from the ELC requests for the presence of an "error" property
@@ -81,12 +83,16 @@ export async function findNearestRouteLocations(
   const result2 = await findRouteLocations(secondPassInput);
 
   // Restore old distance values.
-  result2.forEach((routeLocation, i) => {
-    const oldLoc = result[i];
-    routeLocation.EventPoint = oldLoc.EventPoint;
-    routeLocation.Distance = oldLoc.Distance;
-    routeLocation.Angle = oldLoc.Angle;
-  });
+  result2
+    .filter((rl) => !(rl instanceof ElcError))
+    .forEach((routeLocation, i) => {
+      const oldLoc = result[i];
+      if (!(routeLocation instanceof ElcError)) {
+        routeLocation.EventPoint = oldLoc.EventPoint;
+        routeLocation.Distance = oldLoc.Distance;
+        routeLocation.Angle = oldLoc.Angle;
+      }
+    });
 
   return result2;
 }
@@ -96,22 +102,32 @@ export async function findNearestRouteLocations(
  * @param routeLocations - the parameters for finding route locations
  * @param url - the URL for finding route locations
  * @returns - an array of route locations
+ * @throws {ArcGisError} if the ArcGIS server responds with an error.
  */
 export async function findRouteLocations(
   routeLocations: FindRouteLocationParameters,
   url: ElcFindUrlString = defaultFindUrl
 ) {
+  /* __PURE__ */ console.group(findRouteLocations.name);
   const requestUrl = new URL(url);
+  /* __PURE__ */ console.debug(
+    "Adding parameters to request URL...",
+    requestUrl.href
+  );
   populateUrlParameters(routeLocations, requestUrl);
+  /* __PURE__ */ console.debug("Request URL:", requestUrl.href);
   const response = await fetch(requestUrl);
-  const result = (await response.json()) as RouteLocation<
-    DateString,
-    RouteGeometry
-  >[];
-  if ("error" in (result as unknown as Record<string, unknown>)) {
-    throw new Error(JSON.stringify(result));
+  const resultJson = await response.text();
+  const result = JSON.parse(resultJson, elcReviver) as (
+    | RouteLocation<DateString, RouteGeometry>
+    | ElcError
+  )[];
+  if (isArcGisErrorResponse(result)) {
+    console.error("Error from ArcGIS server.", result);
+    throw new ArcGisError(result);
   }
 
+  /* __PURE__ */ console.groupEnd();
   return result;
 }
 

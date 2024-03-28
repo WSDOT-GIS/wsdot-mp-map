@@ -8,6 +8,7 @@ import {
 } from "./widgets/SrmpInputForm";
 import { routeLocationToGraphic } from "./elc/arcgis";
 import type Graphic from "@arcgis/core/Graphic";
+import { ElcError } from "./elc/errors";
 
 // type GoToTarget2D = __esri.GoToTarget2D;
 
@@ -64,20 +65,40 @@ async function addSrmpFromForm(
     referenceDate,
   });
   /* @__PURE__ */ console.debug("routeLocations", routeLocations);
-  const graphics = routeLocations.map(routeLocationToGraphic);
-  /* __PURE__ */ console.debug("graphics", graphics);
-  let addFeatureResults: Graphic[] | null = null;
-  try {
-    addFeatureResults = await addGraphicsToLayer(milepostLayer, graphics);
-    /* @__PURE__ */ console.debug("addedFeatures", {
-      allGraphics: graphics,
-      addFeatureResults,
-    });
-  } catch (error) {
-    console.error("Error adding SRMP from form", error);
+
+  // Separate success and error route location results.
+  const graphics: Graphic[] = [];
+  const errors = new Map<number, ElcError>();
+  for (const [i, rl] of routeLocations.entries()) {
+    if (rl instanceof ElcError) {
+      errors.set(i, rl);
+    } else {
+      graphics.push(routeLocationToGraphic(rl));
+    }
   }
-  /* __PURE__ */ console.groupEnd();
-  return addFeatureResults;
+
+  if (errors.size > 0) {
+    console.error(
+      `ELC encountered errors with ${errors.size} locations`,
+      errors
+    );
+  }
+
+  if (graphics.length > 0) {
+    /* __PURE__ */ console.debug("graphics", graphics);
+    let addFeatureResults: Graphic[] | null = null;
+    try {
+      addFeatureResults = await addGraphicsToLayer(milepostLayer, graphics);
+      /* @__PURE__ */ console.debug("addedFeatures", {
+        allGraphics: graphics,
+        addFeatureResults,
+      });
+    } catch (error) {
+      console.error("Error adding SRMP from form", error);
+    }
+    /* __PURE__ */ console.groupEnd();
+    return addFeatureResults;
+  }
 }
 
 export default setupForm;

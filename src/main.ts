@@ -97,13 +97,22 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
       /* __PURE__ */ console.log(
         "No locations returned. Returned value is null."
       );
+      throw new TypeError(
+        "No locations returned. Returned value is null or undefined."
+      );
     } else if (!locations.length) {
       /* __PURE__ */ console.log(
         "No locations returned. Returned value is an empty array."
       );
     }
-    const locationGraphics = locations.map(routeLocationToGraphic);
-    const addResults = addGraphicsToLayer(milepostLayer, locationGraphics);
+    const location = locations[0];
+
+    if (location instanceof Error) {
+      throw location;
+    }
+
+    const locationGraphic = routeLocationToGraphic(location);
+    const addResults = addGraphicsToLayer(milepostLayer, [locationGraphic]);
     /* __PURE__ */ console.debug(
       "addResults returned by addGraphicsToLayer",
       addResults
@@ -127,13 +136,13 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
 
   const milepostLayer = createMilepostLayer(waExtent.spatialReference);
 
+  // Create basemaps
+
   const imageryHybridBasemap = new Basemap({
     portalItem: new PortalItem({
       id: "952d28d8d68c4e9ca2db7c7d68307af0",
     }),
   });
-
-  // https://wsdot.maps.arcgis.com/home/item.html?id=2d8f6dfc64244464926dd87d0eb9be86
 
   const grayBasemap = new Basemap({
     id: "gray",

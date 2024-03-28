@@ -20,13 +20,67 @@
 import type { DateString } from "./types";
 
 export interface ElcErrorResponse {
+  /**
+   * A unique ID for the ELC location in the request.
+   */
   Id?: number;
+  /**
+   * ARM Calc return code
+   */
   ArmCalcReturnCode: Omit<number, 0>;
+  /**
+   * ARM Calc return message that corresponds to {@link ArmCalcReturnCode}.
+   */
   ArmCalcReturnMessage: Omit<string, "">;
+  /**
+   * The date of the realignment.
+   */
   RealignmentDate?: DateString;
+  /**
+   * Reference date
+   */
   ReferenceDate?: DateString;
+  /**
+   * Response date
+   */
   ResponseDate?: DateString;
+  /**
+   * Route ID
+   */
   Route?: "";
+}
+
+/**
+ * An error response from the ELC REST SOE.
+ * @param elcErrorResponse - error response from the ELC REST SOE
+ */
+export class ElcError extends Error implements ElcErrorResponse {
+  Id?: number;
+  ArmCalcReturnCode;
+  ArmCalcReturnMessage;
+  RealignmentDate;
+  ReferenceDate;
+  ResponseDate;
+  Route;
+  constructor(elcErrorResponse: ElcErrorResponse, options?: ErrorOptions) {
+    const {
+      ArmCalcReturnCode,
+      ArmCalcReturnMessage,
+      RealignmentDate,
+      ReferenceDate,
+      ResponseDate,
+      Route,
+    } = elcErrorResponse;
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+    const message = `ArmCalc Error: ${ArmCalcReturnCode}: ${ArmCalcReturnMessage}`;
+    super(message, options);
+    this.ArmCalcReturnCode = ArmCalcReturnCode;
+    this.ArmCalcReturnMessage = ArmCalcReturnMessage;
+    this.RealignmentDate = RealignmentDate;
+    this.ReferenceDate = ReferenceDate;
+    this.ResponseDate = ResponseDate;
+    this.Route = Route ?? undefined;
+  }
 }
 
 /**
@@ -34,9 +88,9 @@ export interface ElcErrorResponse {
  * @param input - the input to be checked
  * @returns - true if the input is an error object, false otherwise
  */
-export function isErrorObject(
-  input: unknown
-): input is { [key: string]: unknown; error: Record<string, unknown> } {
+export function isErrorObject<T>(
+  input: T
+): input is T & { error: Record<string, unknown> } {
   if (!input) {
     return false;
   }
@@ -52,14 +106,14 @@ export function isErrorObject(
  * @param response - Response from ELC call.
  * @returns - Returns true if the input is an {@link ElcErrorResponse}, false otherwise.
  */
-export const isElcErrorResponse = (
+export function isElcErrorResponse(
   response: unknown
-): response is ElcErrorResponse => {
+): response is ElcErrorResponse {
   if (!(response != null && typeof response === "object")) {
     return false;
   }
   return "ArmCalcReturnCode" in response && response.ArmCalcReturnCode !== 0;
-};
+}
 
 /**
  * The error object from an ArcGIS error response.

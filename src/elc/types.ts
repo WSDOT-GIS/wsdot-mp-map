@@ -63,6 +63,21 @@ export interface RouteGeometryPolyline extends RouteGeometryBase {
   paths: number[][][];
 }
 
+/**
+ * Checks if the input is of type RouteGeometryPoint.
+ * @param input - The input to be checked.
+ * @returns Returns true if the input is of type RouteGeometryPoint, otherwise returns false.
+ */
+export function isRouteGeometryPoint(
+  input: unknown
+): input is RouteGeometryPoint {
+  return (
+    input !== null &&
+    typeof input === "object" &&
+    Object.hasOwn(input, "__type")
+  );
+}
+
 export type RouteGeometry = RouteGeometryPoint | RouteGeometryPolyline;
 
 /**

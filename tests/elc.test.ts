@@ -31,7 +31,7 @@ suite("elc", () => {
         Angle: 155.47073472103284,
         Arm: 0,
         ArmCalcReturnCode: 0,
-        ArmCalcReturnMessage: "",
+        ArmCalcReturnMessage: null,
         Back: false,
         Decrease: false,
         Distance: 0,

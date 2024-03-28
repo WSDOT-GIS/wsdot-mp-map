@@ -1,3 +1,4 @@
+import { ElcError } from "./errors";
 import {
   type DateType,
   type RouteGeometry,
@@ -39,6 +40,9 @@ export function routeLocationToGraphic<
   D extends DateType = DateType,
   G extends RouteGeometry = RouteGeometry,
 >(routeLocation: RouteLocation<D, G>) {
+  if (routeLocation instanceof ElcError) {
+    throw routeLocation;
+  }
   let geometry;
   if (routeLocation.RouteGeometry && hasXAndY(routeLocation.RouteGeometry)) {
     const { x, y, spatialReference } = routeLocation.RouteGeometry;
