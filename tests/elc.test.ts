@@ -68,33 +68,39 @@ suite("elc", () => {
       throw actual;
     }
 
-    expect(actual.Distance).toEqual(expected.Distance);
-    expect(actual.EventPoint);
-    expect(actual.EventPoint?.x).toEqual(expected.EventPoint.x);
-    expect(actual.EventPoint?.y).toEqual(expected.EventPoint.y);
-    expect(actual.Id).toEqual(expected.Id);
+    if (!(actual instanceof Error)) {
+      expect(actual.Distance).toEqual(expected.Distance);
+      expect(actual.EventPoint);
+      expect(actual.EventPoint?.x).toEqual(expected.EventPoint.x);
+      expect(actual.EventPoint?.y).toEqual(expected.EventPoint.y);
+      expect(actual.Id).toEqual(expected.Id);
 
-    expect(isDateString(actual.RealignmentDate)).toBe(true);
-    expect(isDateString(actual.ReferenceDate)).toBe(true);
-    expect(isDateString(actual.ResponseDate)).toBe(true);
+      expect(isDateString(actual.RealignmentDate)).toBe(true);
+      expect(isDateString(actual.ReferenceDate)).toBe(true);
+      expect(isDateString(actual.ResponseDate)).toBe(true);
 
-    expect(actual.Route).toEqual(expected.Route);
-    expect(actual.RouteGeometry?.__type).toEqual(expected.RouteGeometry.__type);
-    expect(actual.RouteGeometry?.spatialReference.wkid).toEqual(
-      expected.RouteGeometry.spatialReference.wkid
-    );
-    expect(hasXAndY(actual.RouteGeometry)).toBe(true);
-    // TypeScript doesn't detect the hasXAndY
-    if (!hasXAndY(actual.RouteGeometry)) {
-      throw new Error("RouteGeometry should have x and y properties");
+      expect(actual.Route).toEqual(expected.Route);
+      expect(actual.RouteGeometry?.__type).toEqual(
+        expected.RouteGeometry.__type
+      );
+      expect(actual.RouteGeometry?.spatialReference.wkid).toEqual(
+        expected.RouteGeometry.spatialReference.wkid
+      );
+      expect(hasXAndY(actual.RouteGeometry)).toBe(true);
+      // TypeScript doesn't detect the hasXAndY
+      if (!hasXAndY(actual.RouteGeometry)) {
+        throw new Error("RouteGeometry should have x and y properties");
+      }
+      expect(actual.RouteGeometry.x).toBeCloseTo(expected.RouteGeometry.x);
+      expect(actual.RouteGeometry.y).toBeCloseTo(expected.RouteGeometry.y);
+      expect(actual.Srmp).toEqual(expected.Srmp);
+      expect(actual.Angle).toEqual(expected.Angle);
+      expect(actual.Arm).toEqual(expected.Arm);
+      expect(actual.ArmCalcReturnCode).toEqual(expected.ArmCalcReturnCode);
+      expect(actual.ArmCalcReturnMessage).toEqual(
+        expected.ArmCalcReturnMessage
+      );
     }
-    expect(actual.RouteGeometry.x).toBeCloseTo(expected.RouteGeometry.x);
-    expect(actual.RouteGeometry.y).toBeCloseTo(expected.RouteGeometry.y);
-    expect(actual.Srmp).toEqual(expected.Srmp);
-    expect(actual.Angle).toEqual(expected.Angle);
-    expect(actual.Arm).toEqual(expected.Arm);
-    expect(actual.ArmCalcReturnCode).toEqual(expected.ArmCalcReturnCode);
-    expect(actual.ArmCalcReturnMessage).toEqual(expected.ArmCalcReturnMessage);
   });
 
   test("getRoutes", async () => {
