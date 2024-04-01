@@ -62,7 +62,7 @@
   "author": "Jeff Jacobson",
   "license": "Unlicense",
   "dependencies": {
-    "@esri/calcite-components": "^2.7.0",
+    "@esri/calcite-components": "^2.7.1",
     "@types/geojson": "^7946.0.14",
     "dms-conversion": "^3.1.3"
   }
