@@ -1,0 +1,78 @@
+# Bun configuration file.
+# See https://bun.sh/docs/runtime/bunfig
+
+# # scripts to run before `bun run`-ing a file or script
+# # register plugins by adding them to this list
+# preload = ["./preload.ts"]
+
+# # Configure how Bun handles JSX. You can also set these fields in the 
+# # compilerOptions of your tsconfig.json, but they are supported here as 
+# # well for non-TypeScript projects.
+# jsx = "react"
+# jsxFactory = "h"
+# jsxFragment = "Fragment"
+# jsxImportSource = "react"
+
+# # Reduce memory usage at the cost of performance
+# smol = true
+
+# [define]
+# # Replace any usage of "process.env.bagel" with the string `lox`.
+# # The values are parsed as JSON, except single-quoted strings are supported and `'undefined'` becomes `undefined` in JS.
+# # This will probably change in a future release to be just regular TOML instead. It is a holdover from the CLI argument parsing.
+# "process.env.bagel" = "'lox'"
+
+# # Configure how Bun maps file extensions to loaders. This is useful for loading files that aren't natively supported by Bun.
+# # Bun supports the following loaders:
+# # - jsx
+# # - js
+# # - ts
+# # - tsx
+# # - css
+# # - file
+# # - json
+# # - toml
+# # - wasm
+# # - napi
+# # - base64
+# # - dataurl
+# # - text
+# [loader]
+# # when a .bagel file is imported, treat it like a tsx file
+# ".bagel" = "tsx"
+
+# # The telemetry field permit to enable/disable the analytics records.
+# # Bun records bundle timings (so we can answer with data, "is Bun 
+# # getting faster?") and feature usage (e.g., "are people actually using macros?").
+# # The request body size is about 60 bytes, so it's not a lot of data.
+# # By default the telemetry is enabled. Equivalent of DO_NOT_TRACK env variable.
+# telemetry = false
+
+# # Test configuration
+# [test]
+# # The root directory to run tests from. Default `.`.
+# root = "."
+# # Same as the top-level `preload` and `smol` fields, but only apply to `bun test`.
+# preload = ["./setup.ts"]
+# smol = true
+
+# # Enables coverage reporting. Default false. Use --coverage to override.
+# coverage = false
+# # To specify a coverage threshold. By default, no threshold is set.
+# # If your test suite does not meet or exceed this threshold, bun test will
+# # exit with a non-zero exit code to indicate the failure.
+# # For example,
+# # to require 90% line-level and function-level coverage
+# # coverageThreshold = 0.9
+# # Different thresholds can be specified for line-wise, function-wise, and statement-wise coverage.
+# # coverageThreshold = { line = 0.7, function = 0.8, statement = 0.9 }
+
+# # Whether to skip test files when computing coverage statistics. Default false.
+# coverageSkipTestFiles = false
+
+[run]
+shell = "bun"
+# equivalent to `bun --bun` for all `bun run` commands
+bun = true
+# When true, suppresses the output of the command being run by bun run or bun.
+silent = false
