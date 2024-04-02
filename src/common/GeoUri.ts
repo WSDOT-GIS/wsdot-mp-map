@@ -77,8 +77,11 @@ export function createGeoUriString(options: GeoUrlOptions) {
    * Enumerate over the items in the Map and yield
    * "key=value" strings.
    * @param map - A Map.
+   * @yields - A "key=value" string.
    */
-  function* enumerateMapAsKeyEqualsValueStrings<K, V>(map: Map<K, V>) {
+  function* enumerateMapAsKeyEqualsValueStrings<K, V>(
+    map: Map<K, V>
+  ): Generator<string, void, unknown> {
     for (const keyValuePair of map) {
       yield keyValuePair.join("=");
     }
