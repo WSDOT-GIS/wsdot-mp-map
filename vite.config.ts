@@ -23,6 +23,7 @@ export default defineConfig({
         main: "./index.html",
       },
     },
+    sourcemap: command === "serve",
   },
   plugins: [
     checker({
