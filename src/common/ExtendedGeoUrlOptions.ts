@@ -11,6 +11,12 @@ export type Authority = AuthorityUppercase | Lowercase<AuthorityUppercase>;
 export type CoordinateReferenceSystem = CrsLabel | `${Authority}:${number}`;
 export const crsRe = /^(?<authority>\w{4}):(?<wkid>\d+)$/i;
 
+/**
+ * Check if the input is a valid {@link CoordinateReferenceSystem}.
+ * @param input - the input to be checked
+ * @returns true if the input is a valid
+ * {@link CoordinateReferenceSystem}, false otherwise.
+ */
 export function isCrs(input: string): input is CoordinateReferenceSystem {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
   return !!input && (input === CrsLabel.wgs84 || crsRe.test(input));
