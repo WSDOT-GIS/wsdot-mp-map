@@ -62,6 +62,12 @@ suite("elc", () => {
     const actual = result[0];
     const expected = expectedResult[0];
 
+    expect(actual).not.instanceOf(Error);
+
+    if (actual instanceof Error) {
+      throw actual;
+    }
+
     expect(actual.Distance).toEqual(expected.Distance);
     expect(actual.EventPoint);
     expect(actual.EventPoint?.x).toEqual(expected.EventPoint.x);
