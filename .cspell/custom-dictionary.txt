@@ -19,6 +19,7 @@ Rrts
 snagmp
 sonarjs
 SRMP
+tseslint
 Vite
 Voxel
 wkid

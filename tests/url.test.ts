@@ -17,8 +17,8 @@ suite("URL search parameters", () => {
       Srmp: 123.45,
       Back: true,
       Decrease: false,
-      ReferenceDate: expect.any(Date),
-      ResponseDate: expect.any(Date),
+      ReferenceDate: expect.any(Date) as Date,
+      ResponseDate: expect.any(Date) as Date,
     };
     const url = `${urlRoot}?sr=005&mp=123.45B`;
     const actual = getElcParamsFromUrl(url);
