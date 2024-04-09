@@ -2,6 +2,7 @@
 /// <reference types="vitest" />
 import browserslistToEsbuild from "browserslist-to-esbuild";
 import { defineConfig } from "vite";
+import checker from "vite-plugin-checker";
 // import copy from "rollup-plugin-copy";
 
 // const calciteAssetsDestDir =
@@ -24,6 +25,13 @@ export default defineConfig({
     },
   },
   plugins: [
+    checker({
+      typescript: true,
+      eslint: {
+        lintCommand: "eslint .",
+        useFlatConfig: true,
+      },
+    }),
     // copy({
     //   targets: [
     //     {

@@ -2,6 +2,7 @@
 ArcGIS
 Avenir
 brotli
+cobertura
 dirents
 divs
 EPSG
@@ -13,6 +14,7 @@ JURDSG
 JURFIPSDSG
 JURNM
 latlng
+lcov
 nojekyll
 RDWY
 Rrts
