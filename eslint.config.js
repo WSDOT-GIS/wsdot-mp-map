@@ -26,7 +26,12 @@ export default tseslint.config(
       },
     },
     rules: {
-      "jsdoc/require-jsdoc": ["warn", {}],
+      "jsdoc/require-jsdoc": [
+        "warn",
+        {
+          enableFixer: false,
+        },
+      ],
     },
   },
   {
