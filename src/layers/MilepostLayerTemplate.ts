@@ -23,7 +23,6 @@ interface TemplateTarget {
 /**
  * Creates a definition list (dl) element based on the attributes provided, excluding specific keys.
  * @param graphic - object containing attributes
- * @param graphic.attributes
  * @returns HTML dl element containing key-value pairs of attributes
  */
 function createDL(graphic: TypedGraphic<Point, MPAttributes>) {
@@ -48,11 +47,15 @@ function createDL(graphic: TypedGraphic<Point, MPAttributes>) {
       dd.append(progress);
       value
         .then((v) => {
+          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
           const textElement = document.createTextNode(!v ? "" : `${v}`);
           progress.replaceWith(textElement);
         })
-        .catch((error) => console.error(error));
+        .catch((error: unknown) => {
+          console.error(error);
+        });
     } else {
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       dd.textContent = !value ? "" : `${value}`;
     }
     return [dt, dd];
@@ -90,9 +93,9 @@ async function createContent(target: TemplateTarget) {
           attributes["Township Subdivision"] = v;
         }
       })
-      .catch((error) =>
-        console.error("Error querying section/township", error)
-      );
+      .catch((error: unknown) => {
+        console.error("Error querying section/township", error);
+      });
     fieldPromises.push(stPromise);
   }
 
@@ -106,7 +109,9 @@ async function createContent(target: TemplateTarget) {
             ? `${v.CityName} (last updated: ${new Date(v.LastUpdate).toLocaleDateString()})`
             : "Outside City Limits")
       )
-      .catch((error) => console.error("Error querying city", error));
+      .catch((error: unknown) => {
+        console.error("Error querying city", error);
+      });
 
     fieldPromises.push(cityPromise);
   }
@@ -115,7 +120,9 @@ async function createContent(target: TemplateTarget) {
     const countyPromise = queryCountyBoundaries(graphic.geometry);
     countyPromise
       .then((county) => (attributes.County = county))
-      .catch((error) => console.error("Error querying county", error));
+      .catch((error: unknown) => {
+        console.error("Error querying county", error);
+      });
     fieldPromises.push(countyPromise);
   }
 

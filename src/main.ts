@@ -21,7 +21,9 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
       updateLocationEnabled: true,
       shouldFocus: true,
     })
-    .catch((reason) => console.error("openPopup failed", reason));
+    .catch((reason: unknown) => {
+      console.error("openPopup failed", reason);
+    });
 }
 
 (async () => {
@@ -93,14 +95,7 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
       "locations returned by ELC for this location",
       locations
     );
-    if (locations == null) {
-      /* __PURE__ */ console.log(
-        "No locations returned. Returned value is null."
-      );
-      throw new TypeError(
-        "No locations returned. Returned value is null or undefined."
-      );
-    } else if (!locations.length) {
+    if (!locations.length) {
       /* __PURE__ */ console.log(
         "No locations returned. Returned value is an empty array."
       );
@@ -184,14 +179,16 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
         position: "bottom-trailing",
       });
     })
-    .catch((error) =>
-      console.error("Failed to import BasemapToggle module.", error)
-    );
+    .catch((error: unknown) => {
+      console.error("Failed to import BasemapToggle module.", error);
+    });
 
   // Add the loading indicator widget to the map.
   import("./widgets/LoadingIndicator").then(
     ({ setupViewLoadingIndicator }) => setupViewLoadingIndicator(view),
-    (reason) => console.error(`Failed to add loading indicator: ${reason}`)
+    (reason: unknown) => {
+      console.error("Failed to add loading indicator", reason);
+    }
   );
 
   const sb = new ScaleBar({
@@ -223,7 +220,9 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
       });
       view.ui.add([home, clearButton], UIAddPositions.topTrailing);
     },
-    (reason) => console.error("Failed to setup clear button", reason)
+    (reason) => {
+      console.error("Failed to setup clear button", reason);
+    }
   );
 
   /**
@@ -282,16 +281,16 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
             content: message,
             location: event.mapPoint,
           })
-          .catch((reason: unknown) =>
+          .catch((reason: unknown) => {
             console.error(`Popup with message "${message}" failed.`, {
               reason,
               event,
-            })
-          )
+            });
+          })
           .finally(() => {
-            removeTempGraphic().catch((reason) =>
-              console.error("Failed to remove temporary graphic", reason)
-            );
+            removeTempGraphic().catch((reason: unknown) => {
+              console.error("Failed to remove temporary graphic", reason);
+            });
           });
       }
 
@@ -311,14 +310,18 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
         include: milepostLayer,
       })
       .then(handleHitTestResult)
-      .catch((reason) => console.error("hitTest failed", reason));
+      .catch((reason: unknown) => {
+        console.error("hitTest failed", reason);
+      });
   };
   view.on("click", handleViewOnClick);
 
   // Set up the form for inputting SRMPdata.
   import("./setupForm")
     .then(({ setupForm }) => setupForm(view, milepostLayer))
-    .catch((reason) => console.error("failed to setup form", reason));
+    .catch((reason: unknown) => {
+      console.error("failed to setup form", reason);
+    });
 
   if (import.meta.env.DEV) {
     milepostLayer
@@ -330,9 +333,9 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
         });
         view.ui.add(button, UIAddPositions.bottomTrailing);
       })
-      .catch((reason) =>
-        console.error("failed to create export button", reason)
-      );
+      .catch((reason: unknown) => {
+        console.error("failed to create export button", reason);
+      });
   }
 
   // Once the milepost layerview has been created, check for ELC data from the URL
@@ -345,14 +348,18 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
             milepostLayer,
             elcGraphics
           );
-          view.goTo(addedFeatures).catch((reason: unknown) =>
+          view.goTo(addedFeatures).catch((reason: unknown) => {
             console.error('failed to "goTo" features from URL', {
               reason,
               features: addedFeatures,
-            })
-          );
+            });
+          });
         }
       })
-      .catch((reason) => console.error("Calling ELC from URL failed.", reason));
+      .catch((reason: unknown) => {
+        console.error("Calling ELC from URL failed.", reason);
+      });
   });
-})().catch((reason) => console.error(reason));
+})().catch((reason: unknown) => {
+  console.error(reason);
+});

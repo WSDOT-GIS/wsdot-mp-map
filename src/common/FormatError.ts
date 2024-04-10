@@ -17,7 +17,7 @@ export default class FormatError extends Error {
     errorOptions?: ErrorOptions
   ) {
     super(
-      message ?? `"${value}" does not match ${regex}`,
+      message ?? `"${value}" does not match ${regex.source}`,
       errorOptions ?? {
         cause: {
           value,

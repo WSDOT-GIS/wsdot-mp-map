@@ -32,6 +32,7 @@ export default tseslint.config(
           enableFixer: false,
         },
       ],
+      "@typescript-eslint/no-unnecessary-condition": "warn",
     },
   },
   {

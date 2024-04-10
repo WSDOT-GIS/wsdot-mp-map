@@ -81,5 +81,9 @@ export function convertArcGisFeatureSetToGeoJson(featureSet: FeatureSet) {
   return {
     features: geoJsonFeatures,
     type: "FeatureCollection",
-  } as GJ.FeatureCollection<G, P>;
+  } as GJ.FeatureCollection<
+    G,
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-arguments
+    P
+  >;
 }

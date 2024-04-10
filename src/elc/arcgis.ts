@@ -28,7 +28,7 @@ let oid = 0;
 function hasValidSrmpData<D extends DateType, G extends RouteGeometry>(
   routeLocation: RouteLocation<D, G>
 ): routeLocation is SrmpRouteLocation<D, G> {
-  return routeLocation?.Route != null && routeLocation.Srmp != null;
+  return routeLocation.Route != null && routeLocation.Srmp != null;
 }
 
 /**

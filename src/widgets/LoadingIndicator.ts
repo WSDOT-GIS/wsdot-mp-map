@@ -2,7 +2,7 @@ import type View from "@arcgis/core/views/View";
 
 /**
  * Sets up the loading indicator for a map view.
- * @param view
+ * @param view - map view
  * @returns - The handle for watching the view's updating property.
  */
 export function setupViewLoadingIndicator(view: View) {

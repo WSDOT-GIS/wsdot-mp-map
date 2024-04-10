@@ -58,7 +58,7 @@ type SuccessType = RouteLocation<DateString, RouteGeometryPoint>;
  * one of errors and one of non-errors. The maps are keyed
  * by the index of the input array.
  * @param elcResults - An array of results from the input array.
- * @returns
+ * @returns An object with two maps: errors and successes.
  */
 function splitErrorResults<T>(elcResults: T[]) {
   type NonError = Exclude<T, Error>;
@@ -231,11 +231,7 @@ const defaultFilterOptions: RouteFilterOptions = {
 export function* enumerateRouteDescriptions(
   routes: RoutesSet,
   options: RouteFilterOptions = defaultFilterOptions
-): Generator<
-  readonly [route: RouteDescription, routeType: RouteTypes],
-  void,
-  unknown
-> {
+): Generator<readonly [route: RouteDescription, routeType: RouteTypes], void> {
   for (const [routeId, routeType] of Object.entries(routes) as [
     RouteIdString,
     RouteTypes,

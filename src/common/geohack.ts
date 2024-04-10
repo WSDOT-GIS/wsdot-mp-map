@@ -4,11 +4,6 @@
 
 import type { LatLngExpression, LatLngLiteral, LatLngTuple } from "./types";
 
-/**
- * Detects if the input value is a {@link LatLngTuple}.
- * @param latLng - A {@link LatLngExpression}
- * @returns Returns true if it is a {@link LatLngTuple}, false otherwise.
- */
 function isLatLngTuple(
   latLng: Readonly<LatLngTuple>
 ): latLng is Readonly<LatLngTuple>;
@@ -17,6 +12,11 @@ function isLatLngTuple(latLng: LatLngLiteral): false;
 function isLatLngTuple(
   latLng: LatLngExpression
 ): latLng is LatLngTuple | Readonly<LatLngTuple>;
+/**
+ * Detects if the input value is a {@link LatLngTuple}.
+ * @param latLng - A {@link LatLngExpression}
+ * @returns Returns true if it is a {@link LatLngTuple}, false otherwise.
+ */
 function isLatLngTuple(
   latLng: LatLngExpression
 ): latLng is LatLngTuple | Readonly<LatLngTuple> {

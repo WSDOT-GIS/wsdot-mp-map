@@ -95,9 +95,7 @@ export function isErrorObject<T>(
     return false;
   }
   return (
-    typeof input === "object" &&
-    input !== null &&
-    "error" in (input as Record<string, unknown>)
+    typeof input === "object" && "error" in (input as Record<string, unknown>)
   );
 }
 

@@ -91,8 +91,12 @@ for (const dirent of dirents) {
 // Log whether or not they were successful.
 const rmPromises = filesToDelete.map((file) =>
   rm(file, {})
-    .then(() => console.log(`Deleted ${file}`))
-    .catch((error) => console.error(`Failed to delete ${file}`, error))
+    .then(() => {
+      console.log(`Deleted ${file}`);
+    })
+    .catch((error: unknown) => {
+      console.error(`Failed to delete ${file}`, error);
+    })
 );
 
 // Wait for all the deletes to complete.

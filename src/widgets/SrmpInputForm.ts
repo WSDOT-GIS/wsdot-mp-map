@@ -106,7 +106,7 @@ export async function createSrmpInputForm(
 
   const form = formDocFrag
     .querySelector("form")
-    ?.cloneNode(true) as SrmpInputForm;
+    ?.cloneNode(true) as SrmpInputForm | null;
 
   if (!form) {
     throw new Error("Form was not created correctly.");
