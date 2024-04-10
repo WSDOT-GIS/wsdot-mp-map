@@ -97,9 +97,9 @@ export function setupExpandGroup(
   return expands;
 }
 
-type LayerListItemCreateEvent = {
+interface LayerListItemCreateEvent {
   item: ListItem;
-};
+}
 
 /**
  * Checks if the provided event is a {@link LayerListItemCreateEvent}.

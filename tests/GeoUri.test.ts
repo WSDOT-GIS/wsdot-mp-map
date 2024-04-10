@@ -16,7 +16,7 @@ describe("GeoURI", () => {
     };
 
     // Expected output
-    const expectedHref = `geo:${options.y},${options.x},${options.altitude},crs=${options.crs},u=${options.uncertaintyInMeters}`;
+    const expectedHref = `geo:${options.y.toString()},${options.x.toString()},${options.altitude.toString()},crs=${options.crs},u=${options.uncertaintyInMeters.toString()}`;
     const expectedX = 1;
     const expectedY = 2;
     const expectedAltitude = 3;
@@ -44,7 +44,7 @@ describe("GeoURI", () => {
     };
 
     // Expected output
-    const expectedHref = `geo:${options.y},${options.x}`;
+    const expectedHref = `geo:${options.y.toString()},${options.x.toString()}`;
     const expectedX = options.x;
     const expectedY = options.y;
 

@@ -173,9 +173,9 @@ export function createMilepostLayer(spatialReference: SpatialReference) {
       if (isEdits(event) && event.edits.addFeatures.length) {
         const features = event.edits.addFeatures;
         // Zoom to the features that were just added.
-        view
-          .goTo(features)
-          .catch((reason) => console.error("goTo failed", reason));
+        view.goTo(features).catch((reason: unknown) => {
+          console.error("goTo failed", reason);
+        });
 
         // TODO: When the popup opens, it does not show the content.
         // The openPopup code will commented-out until this can be fixed.

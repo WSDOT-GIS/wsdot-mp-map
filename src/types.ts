@@ -116,8 +116,7 @@ export interface XAndY {
 export const hasXAndY = <T extends object>(
   value: T | undefined
 ): value is T & XAndY =>
-  typeof value === "object" &&
-  value !== null &&
+  !!value &&
   (["x", "y"] as (keyof T)[]).every(
     (key) => key in value && typeof value[key] === "number"
   );
@@ -131,7 +130,6 @@ export const hasXAndY = <T extends object>(
 export const hasPaths = <T extends object>(
   geometry: T
 ): geometry is T & Pick<__esri.Polyline, "paths"> =>
-  geometry != null &&
   typeof geometry === "object" &&
   "paths" in geometry &&
   Array.isArray(geometry.paths);
@@ -144,12 +142,7 @@ export const hasPaths = <T extends object>(
 export function hasRings<T extends object>(
   geometry: T
 ): geometry is T & Pick<__esri.Polygon, "rings"> {
-  return (
-    geometry != null &&
-    typeof geometry === "object" &&
-    "rings" in geometry &&
-    Array.isArray(geometry.rings)
-  );
+  return "rings" in geometry && Array.isArray(geometry.rings);
 }
 
 /**

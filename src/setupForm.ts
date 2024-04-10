@@ -26,7 +26,7 @@ export async function setupForm(view: MapView, milepostLayer: FeatureLayer) {
   form.addEventListener(
     "srmp-input",
     (event: RouteInputEvent) => {
-      addSrmpFromForm(event, view, milepostLayer).catch((error) => {
+      addSrmpFromForm(event, view, milepostLayer).catch((error: unknown) => {
         console.error("Error adding SRMP from form", error);
       });
     },
@@ -79,7 +79,7 @@ async function addSrmpFromForm(
 
   if (errors.size > 0) {
     console.error(
-      `ELC encountered errors with ${errors.size} locations`,
+      `ELC encountered errors with ${errors.size.toString()} locations`,
       errors
     );
   }

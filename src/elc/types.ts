@@ -20,7 +20,7 @@ export enum RouteTypes {
 
 export type RouteIdString = `${ThreeDigit}${string}`;
 
-export interface RoutesSet extends Record<RouteIdString, RouteTypes> {}
+export type RoutesSet = Record<RouteIdString, RouteTypes>
 
 export interface RoutesResponse extends Record<Year, RoutesSet> {
   Current: RoutesSet;

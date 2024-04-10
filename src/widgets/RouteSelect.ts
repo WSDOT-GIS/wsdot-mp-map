@@ -21,13 +21,19 @@ function isFalse(attrValue: string | null): boolean {
  * @returns - A label for the route.
  */
 function createLabel(route: RouteDescription) {
-  let output: string = `${route.shield === "IS" ? "I-" : route.shield + " "}${parseInt(route.sr)}`;
+  let shieldLabel = "";
+  if (route.shield !== null) {
+    shieldLabel = route.shield === "IS" ? "I-" : route.shield + " ";
+  }
+  let output = `${shieldLabel}${parseInt(route.sr).toString()}`;
   if (route.isMainline) {
     output += route.isDecrease ? " (Mainline, decrease)" : " (Mainline)";
   } else {
-    output = `${parseInt(route.sr, 10)} ${route.rrtDescription}`;
-    if (route.rrqDescription) {
-      output += ` ${route.rrqDescription}`;
+    if (route.rrtDescription) {
+      output = `${parseInt(route.sr, 10).toString()} ${route.rrtDescription}`;
+      if (route.rrqDescription) {
+        output += ` ${route.rrqDescription}`;
+      }
     }
     if (route.isDecrease) {
       output += " (decrease)";
@@ -44,7 +50,7 @@ function createLabel(route: RouteDescription) {
  */
 function* getOptions(
   ...args: Parameters<typeof enumerateRouteDescriptions>
-): Generator<HTMLOptionElement, void, unknown> {
+): Generator<HTMLOptionElement, void> {
   const routeDescriptions = [...enumerateRouteDescriptions(...args)];
   routeDescriptions.sort(([routeA], [routeB]) => {
     return routeA.toString().localeCompare(routeB.toString());
@@ -67,7 +73,7 @@ function* getOptions(
       typesArray.push("i", "d");
     } else if (routeType === RouteTypes.Decrease) {
       typesArray.push("d");
-    } else if (routeType) {
+    } else {
       typesArray.push("i");
     }
     for (const routeType of typesArray) {
@@ -213,9 +219,9 @@ export class RouteSelect extends HTMLSelectElement {
     for (const option of this.querySelectorAll("option")) {
       option.remove();
     }
-    this.addOptions(newValue).catch((error) =>
-      console.error("error adding options", error)
-    );
+    this.addOptions(newValue).catch((error: unknown) => {
+      console.error("error adding options", error);
+    });
   }
 }
 

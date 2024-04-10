@@ -61,13 +61,13 @@ const mapPositionHashRe = new RegExp(
   }(?<${groupNames.slice(-1)[0]}>.+)?$`
 );
 
-export type MapPosition = {
+export interface MapPosition {
   zoom: number;
   center: [number, number];
   bearing: number;
   pitch: number;
   qs: Record<string, string>;
-};
+}
 
 interface MPMatch extends RegExpExecArray {
   length: 7;
@@ -77,7 +77,7 @@ interface MPMatch extends RegExpExecArray {
     centerY: `${number}`;
     bearing: `${number}`;
     pitch: `${number}`;
-    qs: string;
+    qs?: string;
   };
 }
 
