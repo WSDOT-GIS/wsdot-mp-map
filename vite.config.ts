@@ -3,7 +3,7 @@
 
 import type { ExternalOption } from "rollup";
 import browserslistToEsbuild from "browserslist-to-esbuild";
-import { defineConfig } from "vite";
+import { defineConfig, type PluginOption } from "vite";
 import checker from "vite-plugin-checker";
 // import copy from "rollup-plugin-copy";
 
@@ -18,6 +18,13 @@ type ExternalFunction = Exclude<ExternalOption, string | RegExp | unknown[]>;
  */
 const languageRe = /^(?<lang>[a-z]{2})_(?<region>([A-Z]{2})|([a-zA-Z]{4}))/;
 
+/**
+ * Determines if the module name is for a non-English language using
+ * {@link languageRe}.
+ * @param name - module name
+ * @returns true if the module name is for a non-English language,
+ * false otherwise.
+ */
 function isNonEnglishLanguage(name: string) {
   // If the filename matches the language pattern, check if it's not English.
   const langMatch = languageRe.exec(name);
@@ -80,6 +87,19 @@ const external: ExternalFunction = (id /*, parentId, isResolved */) => {
 };
 
 export default defineConfig((env) => {
+  const plugins: PluginOption[] = [];
+  if (env.mode !== "test") {
+    plugins.push(
+      checker({
+        typescript: true,
+        eslint: {
+          lintCommand: "eslint .",
+          useFlatConfig: true,
+        },
+      })
+    );
+  }
+
   return {
     appType: "spa",
     base: "/data/tools/LocateMP",
@@ -97,26 +117,7 @@ export default defineConfig((env) => {
       },
       sourcemap: env.command === "serve",
     },
-    plugins: [
-      checker({
-        typescript: true,
-        overlay: {
-          initialIsOpen: "error",
-        },
-        eslint: {
-          lintCommand: "eslint .",
-          useFlatConfig: true,
-        },
-      }),
-      // copy({
-      //   targets: [
-      //     {
-      //       src: calciteAssetsDestDir,
-      //       dest: calciteAssetsSourceDir,
-      //     },
-      //   ],
-      // }),
-    ],
+    plugins: plugins,
     test: {
       name: "LocateMP",
       environment: "jsdom",
