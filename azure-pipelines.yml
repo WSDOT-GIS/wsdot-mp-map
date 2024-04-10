@@ -33,28 +33,31 @@ stages:
       - job: installAndBuild
         displayName: Install and Build
         steps:
-          # Install the LTS version of Node
-          - task: UseNode@1
-            name: use_node
-            displayName: Install Node
-            inputs:
-              version: 22.X
-
-          # Install project dependencies using npm in a clean state.
           - task: Npm@1
-            name: npm_install
-            displayName: NPM Clean Install (CI)
+            name: install_bun
+            displayName: Install bun using NPM
             inputs:
-              # The npm command to run. 'ci' installs dependencies based on the lock file.
-              command: ci
+              command: "custom"
+              customCommand: "install -g bun"
+              verbose: true
 
-          - task: Npm@1
-            name: npm_test
-            displayName: NPM Test
+          # Install project dependencies using bun.
+          - script: |
+              bun install --frozen-lockfile
+            name: bun_install
+            displayName: Install dependencies
+
+          # Run tests using bun.
+          #
+          # Note that this is `bun run test`,
+          # different than `bun test`, bun's native
+          # tesing tool. Not all of our tests work
+          # with `bun test` yet.
+          - script: |
+              bun run test
+            name: test
             continueOnError: true
-            inputs:
-              command: custom
-              customCommand: test
+            displayName: Run tests
 
           - task: PublishTestResults@2
             name: publish_test_results
@@ -77,16 +80,13 @@ stages:
             inputs:
               summaryFileLocation: coverage/cobertura-coverage.xml
 
-          # Run the npm build script to compile the project.
-          - task: Npm@1
-            name: run_build
-            displayName: NPM Build
-            inputs:
-              command: custom
-              # The npm command to run the build script defined in package.json.
-              customCommand: run build
-              # Sets the current working directory for this task to the sources directory.
-              workingDir: $(Build.SourcesDirectory)
+          # Run the package.json "build" script to compile the project.
+          - script: |
+              bun --bun run build
+            name: build
+            displayName: Build app
+            # Sets the current working directory for this task to the sources directory.
+            workingDirectory: $(Build.SourcesDirectory)
 
           # Copy the build output (dist folder) to the staging directory for artifact publishing.
           - task: CopyFiles@2
