@@ -2,6 +2,7 @@
 ArcGIS
 Avenir
 brotli
+cobertura
 dirents
 divs
 EPSG
@@ -13,12 +14,14 @@ JURDSG
 JURFIPSDSG
 JURNM
 latlng
+lcov
 nojekyll
 RDWY
 Rrts
 snagmp
 sonarjs
 SRMP
+tseslint
 Vite
 Voxel
 wkid

@@ -34,6 +34,10 @@ export function createClearButton(options: ClearButtonOptions) {
 
   const { layer } = options;
 
+  /**
+   * Clears all of the features from the layer.
+   * @param this - the clear button
+   */
   function clearFeatures(this: HTMLButtonElement): void {
     layer
       .queryFeatures()
@@ -42,7 +46,9 @@ export function createClearButton(options: ClearButtonOptions) {
           deleteFeatures: features.features,
         })
       )
-      .catch(console.error);
+      .catch((reason: unknown) => {
+        console.error(reason);
+      });
   }
 
   button.addEventListener("click", clearFeatures);

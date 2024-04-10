@@ -16,8 +16,7 @@ const displayField = "LEGAL_DESC_NM";
 // T19-0N R2-0E S11
 export type Label = `T${number}-${number}N R${number}-${number}E S${number}`;
 
-interface SectionTownshipFeature
-  extends TypedGraphic<Point, AttributesObject & { LEGAL_DESC_NM: string }> {}
+type SectionTownshipFeature = TypedGraphic<Point, AttributesObject & { LEGAL_DESC_NM: string }>
 
 /**
  * Creates a land survey layer using the specified portal item.

@@ -95,11 +95,6 @@ export function createExportButton(options: ExportButtonOptions) {
    * triggers the click event on the link to initiate the download.
    */
   function buttonEventListener() {
-    if (!layer) {
-      console.error("no layer specified for ExportButton");
-      return;
-    }
-
     performExport(layer)
       .then((featureCollection) => {
         if (!featureCollection) {
@@ -110,7 +105,9 @@ export function createExportButton(options: ExportButtonOptions) {
         const link = createDownloadLink(featureCollection, layer);
         link.click();
       })
-      .catch(console.error);
+      .catch((reason: unknown) => {
+        console.error("Error exporting", reason);
+      });
   }
 
   button.addEventListener("click", buttonEventListener, {

@@ -75,7 +75,11 @@ type KeyValueRegExpTuple = [keyRegexp: RegExp, valueRegexp: RegExp];
 const regExpMap = new Map<UrlParamMapKey, KeyValueRegExpTuple>(
   [...keyRegExps.entries()].map(([key, value]) => [
     key,
-    [value, valueRegExps.get(key)!],
+    [
+      value,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      valueRegExps.get(key)!,
+    ],
   ])
 );
 
@@ -114,11 +118,13 @@ export function getUrlSearchParameter(
  */
 export function* enumerateUrlParameters(
   parameters: FindNearestRouteLocationParameters | FindRouteLocationParameters
-): Generator<[key: string, value: string], void, unknown> {
+): Generator<[key: string, value: string], void> {
   yield ["f", "json"];
   for (const [key, value] of Object.entries(parameters)) {
     if (typeof value === "string") {
       yield [key, value];
+      continue;
+    } else if (value == null) {
       continue;
     }
     let outValue: string;
@@ -129,6 +135,7 @@ export function* enumerateUrlParameters(
     } else if (Array.isArray(value)) {
       outValue = JSON.stringify(value);
     } else {
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       outValue = `${value}`;
     }
     yield [key, outValue];
@@ -199,7 +206,7 @@ function parseSrmp(mp: string): { srmp: number; back: boolean } {
 
   // If there is a named capture group "back" with a value of "B", set the
   // back indicator to true. Otherwise, set it to false.
-  const back = match.groups?.back !== undefined && /B/i.test(match.groups.back);
+  const back = /B/i.test(match.groups.back);
 
   // Return the milepost and back indicator
   return { srmp, back };

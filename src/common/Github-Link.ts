@@ -37,6 +37,14 @@ export function isGithubPagesUrl(url: string | URL): url is GithubPagesUrl {
   return githubPagesUrlRe.test(url instanceof URL ? url.toString() : url);
 }
 
+export function getGithubUrlFromGithubPages(
+  throwErrorOnMismatch: true,
+  githubPagesUrl?: GithubPagesUrl
+): GithubRepoUrl;
+export function getGithubUrlFromGithubPages(
+  throwErrorOnMismatch?: false,
+  githubPagesUrl?: GithubPagesUrl
+): GithubRepoUrl | null;
 /**
  * Get the source URL of a Github Pages page.
  * @param throwErrorOnMismatch - If true, throw an error if URL can't
@@ -46,19 +54,11 @@ export function isGithubPagesUrl(url: string | URL): url is GithubPagesUrl {
  * @returns A URL
  */
 export function getGithubUrlFromGithubPages(
-  throwErrorOnMismatch: true,
-  githubPagesUrl?: GithubPagesUrl
-): GithubRepoUrl;
-export function getGithubUrlFromGithubPages(
-  throwErrorOnMismatch?: false,
-  githubPagesUrl?: GithubPagesUrl
-): GithubRepoUrl | null;
-export function getGithubUrlFromGithubPages(
   throwErrorOnMismatch?: boolean,
   githubPagesUrl?: GithubPagesUrl
-) {
+): GithubRepoUrl | null {
   const currentUrl = githubPagesUrl ?? location.href;
-  const match = currentUrl.match(githubPagesUrlRe);
+  const match = githubPagesUrlRe.exec(currentUrl);
   if (!match) {
     if (throwErrorOnMismatch) {
       throw new Error("Could not parse source URL from this page");
@@ -70,28 +70,28 @@ export function getGithubUrlFromGithubPages(
   return `https://github.com/${org}/${repo}`;
 }
 
+export function getGithubPagesUrlFromGithubRepoUrl(
+  throwErrorOnMismatch: true,
+  githubRepoUrl?: GithubRepoUrl
+): GithubPagesUrl;
+export function getGithubPagesUrlFromGithubRepoUrl(
+  throwErrorOnMismatch?: false,
+  githubRepoUrl?: GithubRepoUrl
+): GithubPagesUrl | null;
 /**
  * Get the Github Pages URL for the given repo
+ * @param throwErrorOnMismatch - If true, throw an error if URL can't
  * @param githubRepoUrl - The URL to convert. Optional in browsers,
  * where it will default to {@link location.href}.
- * @param throwErrorOnMismatch - If true, throw an error if URL can't
  * be parsed. Otherwise, null will be returned.
  * @returns A URL
  */
 export function getGithubPagesUrlFromGithubRepoUrl(
-  throwErrorOnMismatch: true,
-  githubRepoUrl?: GithubRepoUrl
-): GithubRepoUrl;
-export function getGithubPagesUrlFromGithubRepoUrl(
-  throwErrorOnMismatch?: false,
-  githubRepoUrl?: GithubRepoUrl
-): GithubRepoUrl | null;
-export function getGithubPagesUrlFromGithubRepoUrl(
   throwErrorOnMismatch?: boolean,
   githubRepoUrl?: GithubRepoUrl
-) {
+): GithubPagesUrl | null {
   const currentUrl = githubRepoUrl ?? location.href;
-  const match = currentUrl.match(githubRepoUrlRe);
+  const match = githubRepoUrlRe.exec(currentUrl);
   if (!match) {
     if (throwErrorOnMismatch) {
       throw new Error("Could not parse repo URL");
@@ -100,7 +100,7 @@ export function getGithubPagesUrlFromGithubRepoUrl(
     }
   }
   const [org, repo] = [...match].slice(1).map((s) => s.toLowerCase());
-  return `https://${org}.github.io/${repo}` as GithubRepoUrl;
+  return `https://${org}.github.io/${repo}`;
 }
 
 /**
@@ -116,7 +116,7 @@ export function createGithubLink(
   const a = document.createElement("a");
   // a.append(githubSvg);
   a.textContent = "Source code";
-  a.href = getGithubUrlFromGithubPages() || fallbackUrl;
+  a.href = getGithubUrlFromGithubPages() ?? fallbackUrl;
   a.target = "_blank";
   return a;
 }
