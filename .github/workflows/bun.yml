@@ -1,0 +1,27 @@
+# Build with Bun, an alternative to Node.js and NPM.
+
+name: bun-types
+
+on:
+  push:
+    branches: [bun]
+  pull_request:
+    branches: [bun]
+
+jobs:
+  build:
+    name: build-app
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+      - name: Install bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+      - name: Install dependencies
+        run: bun install
+      - name: test
+        run: bun run test
+      - name: Build app
+        run: bun run build
