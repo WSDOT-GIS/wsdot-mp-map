@@ -33,6 +33,32 @@ stages:
       - job: installAndBuild
         displayName: Install and Build
         steps:
+          - pwsh: |
+              # Get the version of Node that is currently install.
+              $node_version = [semver]([regex]::Match((node --version), '(?<=v).+').Value)
+
+              # Specify the minimum required version
+              $min_required_version = [semver]'20.0.0'
+
+              if ($node_version -lt $min_required_version) {
+                Write-Warning "Node version $node_version is less than $min_required_version. Please upgrade Node to continue."
+              } else {
+                Write-Host "Currently installed Node version $is node_version which meets the minimum requirement of $min_required_version."
+              }
+            name: check_node_version
+            displayName: Check Node Version
+            continueOnError: true
+
+          # TODO: Only install Node if it is not LTS
+
+          # Install the LTS version of Node
+          # Version 16 was on the build agent rather than LTS.
+          - task: UseNode@1
+            name: use_node
+            displayName: Install Node
+            inputs:
+              version: 20.X
+
           - task: Npm@1
             name: install_bun
             displayName: Install bun using NPM
