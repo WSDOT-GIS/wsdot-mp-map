@@ -5,8 +5,7 @@
   "description": "Milepost map written with ArcGIS Maps API for JavaScript",
   "type": "module",
   "scripts": {
-    "build": "tsc && vite build",
-    "postbuild": "tsx tools/cleanup-assets.mts ",
+    "build": "vite build",
     "watch": "vite build -- --watch",
     "preview": "vite preview",
     "build-and-preview": "npm run build && npm run preview -- --open",
