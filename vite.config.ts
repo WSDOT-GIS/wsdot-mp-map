@@ -81,7 +81,7 @@ const external: ExternalFunction = (id /*, parentId, isResolved */) => {
 
 export default defineConfig((env) => {
   console.debug(defineConfig.name, { env });
-  const config: UserConfig = {
+  return {
     appType: "spa",
     base: "/data/tools/LocateMP",
     resolve: {
@@ -101,6 +101,9 @@ export default defineConfig((env) => {
     plugins: [
       checker({
         typescript: true,
+        overlay: {
+          initialIsOpen: "error",
+        },
         eslint: {
           lintCommand: "eslint .",
           useFlatConfig: true,
@@ -147,6 +150,4 @@ export default defineConfig((env) => {
       },
     },
   };
-
-  return config;
 });

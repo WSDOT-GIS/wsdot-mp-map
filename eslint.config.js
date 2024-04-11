@@ -8,6 +8,7 @@ import jsdoc from "eslint-plugin-jsdoc";
 export default tseslint.config(
   {
     files: ["**/*.ts", "**/*.tsx", "**/*.mts"],
+    ignores: ["vite.config.ts"],
     plugins: {
       "@typescript-eslint": tseslint.plugin,
       jsdoc,
@@ -30,6 +31,7 @@ export default tseslint.config(
         "warn",
         {
           enableFixer: false,
+          publicOnly: true,
         },
       ],
       "@typescript-eslint/no-unnecessary-condition": "warn",
