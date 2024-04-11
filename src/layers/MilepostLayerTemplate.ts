@@ -1,4 +1,5 @@
 import PopupTemplate from "@arcgis/core/PopupTemplate";
+import { webMercatorToGeographic } from "@arcgis/core/geometry/support/webMercatorUtils";
 import type { AttributesObject, TypedGraphic } from "../types";
 import { queryCityLimits } from "./CityLimitsLayer";
 import { queryCountyBoundaries } from "./CountyBoundariesLayer";
@@ -66,6 +67,10 @@ function createDL(graphic: TypedGraphic<Point, MPAttributes>) {
   )) {
     dl.append(...createRow(key, value));
   }
+
+  const point = webMercatorToGeographic(graphic.geometry) as Point;
+  const { x, y } = point;
+  dl.append(...createRow("x", x), ...createRow("y", y));
 
   return dl;
 }
