@@ -58,6 +58,10 @@ export function convertArcGisGraphicToGeoJson<
   const gjGeometry = convertArcGisGeometryToGeoJson(geometry);
   return {
     // Omit OID if it is NaN or is null.
+    // Not sure if typing is correct, so checking for
+    // null & undefined even though eslint says it is
+    // unnecessary.
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     id: isNaN(oid) || oid == null ? undefined : oid,
     geometry: gjGeometry,
     properties: properties,

@@ -35,6 +35,7 @@ export async function addGraphicsToLayer(
   milepostLayer: FeatureLayer,
   locationGraphics: Graphic[]
 ) {
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   if (!locationGraphics || locationGraphics.length === 0) {
     console.warn(`${addGraphicsToLayer.name}: No graphics to add`, {
       milepostLayer,

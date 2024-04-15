@@ -88,8 +88,9 @@ export interface ExtendedGeoUrlOptions extends Omit<GeoUrlOptions, "crs"> {
 
 /**
  * Constructs GeoURI with non-standard features.
- * @param options
+ * @param options - Options for creating the GeoURI
  * @see {@link createGeoUriString}
+ * @returns - A GeoURI string
  */
 export function createExtendedGeoUri(options: ExtendedGeoUrlOptions) {
   let url: string = createGeoUriString(options as GeoUrlOptions);

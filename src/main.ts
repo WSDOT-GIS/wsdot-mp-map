@@ -256,12 +256,10 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
       });
 
       tempAddResults.addFeatureResults.forEach((r) => {
-        if (r.error) {
-          console.error(
-            "There was an error adding the temporary graphic where the user clicked.",
-            r.error
-          );
-        }
+        console.error(
+          "There was an error adding the temporary graphic where the user clicked.",
+          r.error
+        );
       });
 
       // Call findNearestRouteLocations

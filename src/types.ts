@@ -154,7 +154,6 @@ export function hasPoints<T extends object>(
   geometry: T
 ): geometry is T & Pick<__esri.Multipoint, "points"> {
   return (
-    geometry != null &&
     typeof geometry === "object" &&
     "points" in geometry &&
     Array.isArray(geometry.points)

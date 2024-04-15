@@ -3,7 +3,7 @@
 
 import type { ExternalOption } from "rollup";
 import browserslistToEsbuild from "browserslist-to-esbuild";
-import { defineConfig, type UserConfig } from "vite";
+import { defineConfig } from "vite";
 import checker from "vite-plugin-checker";
 // import copy from "rollup-plugin-copy";
 
@@ -80,7 +80,6 @@ const external: ExternalFunction = (id /*, parentId, isResolved */) => {
 };
 
 export default defineConfig((env) => {
-  console.debug(defineConfig.name, { env });
   return {
     appType: "spa",
     base: "/data/tools/LocateMP",
