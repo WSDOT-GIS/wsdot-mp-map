@@ -127,7 +127,7 @@ function isEdits(item: unknown): item is Edits {
 
 /**
  * Creates the {@link FeatureLayer} that displays located mileposts.
- * @param spatialReference
+ * @param spatialReference - The {@link SpatialReference} of the layer.
  * @returns - A {@link FeatureLayer}
  */
 export function createMilepostLayer(spatialReference: SpatialReference) {
