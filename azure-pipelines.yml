@@ -59,19 +59,27 @@ stages:
             inputs:
               version: 20.X
 
-          - task: Npm@1
-            name: install_bun
+          # Install bun
+          - task: PowerShell@2
+            name: bun_install
             displayName: Install bun using NPM
             inputs:
-              command: "custom"
-              customCommand: "install -g bun"
-              verbose: true
-
-          # Install project dependencies using bun.
-          - script: |
-              bun install --frozen-lockfile
-            name: bun_install
-            displayName: Install dependencies
+              pwsh: true
+              script: |
+                Write-Host "Installing bun..."
+                npm install -g bun
+                $bunCommand = Get-Command bun -ErrorAction Ignore
+                if ($null -eq $bunCommand) {
+                  Write-Warning "Could not find bun command."
+                } else {
+                  Write-Host "bun command found: $($bunCommand.Path)"
+                }
+                # After install, bun cannot be found:
+                # > Unexpected accessing temporary directory. Please set $BUN_TMPDIR or $BUN_INSTALL
+                Write-Host "Setting $env:BUN_TMPDIR to $env:TEMP"
+                $env:BUN_TMPDIR = $env:TEMP
+              targetType: "inline"
+              showWarnings: true
 
           # Run tests using bun.
           #
