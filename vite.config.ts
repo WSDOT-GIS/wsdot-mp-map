@@ -43,8 +43,11 @@ function isNonEnglishLanguage(name: string) {
   return false;
 }
 
-const external: ExternalFunction = (id /*, parentId, isResolved */) => {
-  // TODO: implement logic to skip unwanted @arcgis/core modules.
+/**
+ * Specifies which modules can be excluded.
+ * @see {@link https://community.esri.com/t5/arcgis-javascript-maps-sdk-questions/building-in-vite-includes-unnecessary-files/m-p/1237759|"Building in vite includes unnecessary files" on _Esri Community_}
+ */
+const external: ExternalFunction = (id, _parentId, _isResolved) => {
   if (!/\bnode_modules([/\\])@arcgis\1core\b/i.test(id)) {
     return false;
   }

@@ -4,11 +4,15 @@ import eslint from "@eslint/js";
 import tseslint from "typescript-eslint";
 import eslintConfigPrettier from "eslint-config-prettier";
 import jsdoc from "eslint-plugin-jsdoc";
-import gitignore from 'eslint-config-flat-gitignore'
+import gitignore from "eslint-config-flat-gitignore";
 
 export default tseslint.config(
+  gitignore({
+    root: true,
+  }),
+  // { ignores: ["coverage/", "dist/", "node_modules/", "test-results/"] },
   {
-    files: ["**/*.ts", "**/*.tsx", "**/*.mts"],
+    files: ["{src,tests,tools}/**/*.{ts,tsx,mts}"],
     ignores: ["vite.config.ts"],
     plugins: {
       "@typescript-eslint": tseslint.plugin,
@@ -40,7 +44,7 @@ export default tseslint.config(
     },
   },
   {
-    files: ["**/*.js"],
+    files: ["{src,tests,tools}/**/*.{js,jsx,mjs}"],
     extends: [tseslint.configs.disableTypeChecked],
     rules: {
       // turn off other type-aware rules
