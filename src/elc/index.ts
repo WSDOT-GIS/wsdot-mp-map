@@ -220,6 +220,11 @@ const defaultFilterOptions: RouteFilterOptions = {
   allowedRrts: [...defaultRrts],
 };
 
+export type RouteAndTypeTuple = [
+  route: RouteDescription,
+  routeType: RouteTypes,
+];
+
 /**
  * Enumerates through a set of routes, converting the route
  * ID strings to {@link RouteDescription} objects.
@@ -231,7 +236,7 @@ const defaultFilterOptions: RouteFilterOptions = {
 export function* enumerateRouteDescriptions(
   routes: RoutesSet,
   options: RouteFilterOptions = defaultFilterOptions
-): Generator<readonly [route: RouteDescription, routeType: RouteTypes], void> {
+): Generator<Readonly<RouteAndTypeTuple>, void> {
   for (const [routeId, routeType] of Object.entries(routes) as [
     RouteIdString,
     RouteTypes,

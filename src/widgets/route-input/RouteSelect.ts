@@ -1,10 +1,13 @@
-import { RouteDescription, RrtValue, Suffix } from "wsdot-route-utils";
+import type { RrtValue } from "wsdot-route-utils";
 import {
   enumerateRouteDescriptions,
   getRoutes,
   type ElcRoutesUrlString,
-} from "../elc";
-import { RouteTypes } from "../elc/types";
+} from "../../elc";
+
+import RouteOption from "./RouteOption";
+
+await customElements.whenDefined("route-option");
 
 /**
  * Determines if the given attribute value is false.
@@ -13,34 +16,6 @@ import { RouteTypes } from "../elc/types";
  */
 function isFalse(attrValue: string | null): boolean {
   return !(typeof attrValue === "string" && /false/i.test(attrValue));
-}
-
-/**
- * Creates a label for the given route.
- * @param route - The route.
- * @returns - A label for the route.
- */
-function createLabel(route: RouteDescription) {
-  let shieldLabel = "";
-  if (route.shield !== null) {
-    shieldLabel = route.shield === "IS" ? "I-" : route.shield + " ";
-  }
-  let output = `${shieldLabel}${parseInt(route.sr).toString()}`;
-  if (route.isMainline) {
-    output += route.isDecrease ? " (Mainline, decrease)" : " (Mainline)";
-  } else {
-    if (route.rrtDescription) {
-      output = `${parseInt(route.sr, 10).toString()} ${route.rrtDescription}`;
-      if (route.rrqDescription) {
-        output += ` ${route.rrqDescription}`;
-      }
-    }
-    if (route.isDecrease) {
-      output += " (decrease)";
-    }
-  }
-
-  return output;
 }
 
 /**
@@ -59,41 +34,15 @@ function* getOptions(
   // Add an empty option before the route options.
   const emptyOption = document.createElement("option");
   emptyOption.value = "";
+  emptyOption.defaultSelected = true;
   emptyOption.textContent = "Select a route";
   emptyOption.selected = true;
   emptyOption.hidden = true;
   emptyOption.disabled = true;
   yield emptyOption;
 
-  for (const [route, routeType] of routeDescriptions) {
-    const typesArray: Suffix[] = [];
-    if (routeType === RouteTypes.Ramp) {
-      typesArray.push("r");
-    } else if (routeType === RouteTypes.Both) {
-      typesArray.push("i", "d");
-    } else if (routeType === RouteTypes.Decrease) {
-      typesArray.push("d");
-    } else {
-      typesArray.push("i");
-    }
-    for (const routeType of typesArray) {
-      const option = document.createElement("option");
-      option.value = `${route.toString()}${routeType}`;
-
-      const label = createLabel(
-        // Create a new RouteDescription, this time with direction suffix included.
-        new RouteDescription(route.toString() + routeType, {
-          allowedSuffixes: ["i", "d"] as const,
-          suffixesAreOptional: false,
-        })
-      );
-
-      option.label = label;
-      option.textContent = label;
-      option.title = label;
-
-      yield option;
-    }
+  for (const o of RouteOption.enumerateRouteOptions(routeDescriptions)) {
+    yield o;
   }
 }
 

@@ -1,6 +1,8 @@
 import type UI from "@arcgis/core/views/ui/UI";
-import type RouteSelect from "./RouteSelect";
+import RouteSelect from "./RouteSelect";
 import { RouteDescription } from "wsdot-route-utils";
+import type RouteOption from "./RouteOption";
+import { RouteTypes } from "../../elc/types";
 
 import("./RouteSelect");
 
@@ -51,6 +53,7 @@ export interface SrmpInputForm extends HTMLFormElement {
    */
   mp: HTMLInputElement;
   back: HTMLInputElement;
+  decrease: HTMLInputElement;
 
   /*
   addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLOutputElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
@@ -112,6 +115,18 @@ export async function createSrmpInputForm(
     throw new Error("Form was not created correctly.");
   }
 
+  form.route.addEventListener("change", (event) => {
+    if (event.target instanceof RouteSelect) {
+      const lrsType =
+        (event.target.selectedOptions.item(0) as RouteOption | null)?.lrsType ??
+        null;
+      const d = form.decrease;
+      d.disabled =
+        lrsType === RouteTypes.Increase || lrsType === RouteTypes.Decrease;
+      d.checked = lrsType === RouteTypes.Decrease;
+    }
+  });
+
   // form must be added to the document before event handling can be set up.
   ui.add(form, position);
 
@@ -120,9 +135,7 @@ export async function createSrmpInputForm(
     try {
       const customEvent = new CustomEvent("srmp-input", {
         detail: {
-          route: new RouteDescription(form.route.value, {
-            allowedSuffixes: ["i", "d"],
-          }),
+          route: new RouteDescription(form.route.value),
           mp: form.mp.valueAsNumber,
           back: form.back.checked,
         },
