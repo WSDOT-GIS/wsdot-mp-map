@@ -1,16 +1,14 @@
+import type Graphic from "@arcgis/core/Graphic";
 import type FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import type MapView from "@arcgis/core/views/MapView";
 import { addGraphicsToLayer } from "./addGraphicsToLayer";
 import { findRouteLocations } from "./elc";
+import { routeLocationToGraphic } from "./elc/arcgis";
+import { ElcError } from "./elc/errors";
 import {
   createSrmpInputForm,
   type RouteInputEvent,
-} from "./widgets/SrmpInputForm";
-import { routeLocationToGraphic } from "./elc/arcgis";
-import type Graphic from "@arcgis/core/Graphic";
-import { ElcError } from "./elc/errors";
-
-// type GoToTarget2D = __esri.GoToTarget2D;
+} from "./widgets/route-input/SrmpInputForm";
 
 /**
  * Sets up the form for user input and adds event listener to capture SRMP input.
