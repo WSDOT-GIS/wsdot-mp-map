@@ -28,21 +28,21 @@ function* createCoordinateDataElements(...items: LatLngTuple) {
  * [Geo](https://microformats.org/wiki/geo) format.
  * @param latLng - A latitude,longitude value.
  * @param tagName - The HTML tag name to use.
+ * @param format - Determines which order to display the coordinates in.
  * @returns - An [h-geo](https://microformats.org/wiki/h-geo) representation.
  */
 export function createGeoMicroformat(
   latLng: LatLngTuple,
-  tagName: keyof HTMLElementTagNameMap
+  tagName: keyof HTMLElementTagNameMap = "span",
+  format: "xy" | "latlng" = "xy"
 ) {
   const geoSpan = document.createElement(tagName);
   geoSpan.classList.add("h-geo", "geo");
-  let isFirst = true;
-  for (const dataElement of createCoordinateDataElements(...latLng)) {
-    if (!isFirst) {
-      geoSpan.append(",");
-    }
-    geoSpan.append(dataElement);
-    isFirst = false;
+  const [yElement, xElement] = createCoordinateDataElements(...latLng);
+  if (format === "xy") {
+    geoSpan.append(xElement, ",", yElement);
+  } else {
+    geoSpan.append(yElement, ",", xElement);
   }
   return geoSpan;
 }
