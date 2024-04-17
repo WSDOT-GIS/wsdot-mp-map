@@ -151,6 +151,7 @@ export function createMilepostLayer(spatialReference: SpatialReference) {
     labelingInfo: [labelClass],
     title: "Mileposts",
     id: "mileposts",
+    listMode: "hide",
     fields: fields,
     geometryType: "point",
     objectIdField: objectIdFieldName,
