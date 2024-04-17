@@ -216,7 +216,7 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
   import("./widgets/ClearButton").then(
     ({ createClearButton }) => {
       const clearButton = createClearButton({
-        layer: milepostLayer,
+        layers: [milepostLayer, tempLayer],
       });
       view.ui.add([home, clearButton], UIAddPositions.topTrailing);
     },
