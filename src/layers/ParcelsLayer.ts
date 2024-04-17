@@ -24,6 +24,7 @@ const outlineColor = "light-gray";
 
 const renderer = new SimpleRenderer({
   symbol: new SimpleFillSymbol({
+    style: "none",
     outline: new SimpleLineSymbol({
       color: outlineColor,
       style: "dash-dot",
@@ -156,7 +157,7 @@ export const parcelsLayer = new FeatureLayer({
   id: "parcels",
   title: "Parcels",
   fields,
-  labelsVisible: true,
+  labelsVisible: false,
   labelingInfo: [
     new LabelClass({
       labelExpressionInfo: {
