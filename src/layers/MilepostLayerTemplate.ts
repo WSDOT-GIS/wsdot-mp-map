@@ -6,6 +6,8 @@ import { queryCountyBoundaries } from "./CountyBoundariesLayer";
 import { querySectionTownship } from "./LandSurveyLayer";
 import type Point from "@arcgis/core/geometry/Point";
 import type { AttributeValue } from "../common/arcgis/typesAndInterfaces";
+import { createGeoMicroformat } from "../common/formatting";
+import GeoUrl from "../common/GeoUri";
 
 interface MPAttributes extends AttributesObject {
   oid: number;
@@ -37,7 +39,7 @@ function createDL(graphic: TypedGraphic<Point, MPAttributes>) {
    */
   function createRow(
     key: string,
-    value: AttributeValue | Promise<AttributeValue>
+    value: AttributeValue | Promise<AttributeValue> | string | Node
   ) {
     const dt = document.createElement("dt");
     const dd = document.createElement("dd");
@@ -55,11 +57,12 @@ function createDL(graphic: TypedGraphic<Point, MPAttributes>) {
         .catch((error: unknown) => {
           console.error(error);
         });
+    } else if (value instanceof Node || typeof value === "string") {
+      dd.append(value);
     } else {
-      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-      dd.textContent = !value ? "" : `${value}`;
+      dd.textContent = !value ? "" : value.toString();
     }
-    return [dt, dd];
+    return [dt, dd] as const;
   }
   const dl = document.createElement("dl");
   for (const [key, value] of Object.entries(attributes).filter(
@@ -70,7 +73,12 @@ function createDL(graphic: TypedGraphic<Point, MPAttributes>) {
 
   const point = webMercatorToGeographic(graphic.geometry) as Point;
   const { x, y } = point;
-  dl.append(...createRow("x", x), ...createRow("y", y));
+  const geoSpan = createGeoMicroformat([y, x], "span");
+  const geoUrl = new GeoUrl({ x, y });
+  const geoLink = document.createElement("a");
+  geoLink.href = geoUrl.href;
+  geoLink.append(geoSpan);
+  dl.append(...createRow("Coordinates", geoLink));
 
   return dl;
 }
