@@ -1,13 +1,18 @@
+import type Graphic from "@arcgis/core/Graphic";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
+import { on } from "@arcgis/core/core/reactiveUtils";
+import Point from "@arcgis/core/geometry/Point";
 import { webMercatorToGeographic } from "@arcgis/core/geometry/support/webMercatorUtils";
+import ActionButton from "@arcgis/core/support/actions/ActionButton";
+import type MapView from "@arcgis/core/views/MapView";
+import GeoUrl from "../common/GeoUri";
+import type { AttributeValue } from "../common/arcgis/typesAndInterfaces";
+import { createGeoMicroformat } from "../common/formatting";
+import { GoogleUrl } from "../common/google";
 import type { AttributesObject, TypedGraphic } from "../types";
 import { queryCityLimits } from "./CityLimitsLayer";
 import { queryCountyBoundaries } from "./CountyBoundariesLayer";
 import { querySectionTownship } from "./LandSurveyLayer";
-import type Point from "@arcgis/core/geometry/Point";
-import type { AttributeValue } from "../common/arcgis/typesAndInterfaces";
-import { createGeoMicroformat } from "../common/formatting";
-import GeoUrl from "../common/GeoUri";
 
 interface MPAttributes extends AttributesObject {
   oid: number;
@@ -144,7 +149,38 @@ async function createContent(target: TemplateTarget) {
   return createDL(graphic);
 }
 
+const googleActionButton = new ActionButton({
+  title: "Google Maps",
+  id: "google",
+});
+
 export const popupTemplate = new PopupTemplate({
+  actions: [googleActionButton],
   title: "{Route} ({Direction}) @ {Srmp}{Back}",
   content: createContent,
 });
+
+/**
+ * Sets up popup actions for the view.
+ * @param view - a view
+ */
+export const setupActions = (view: MapView) => {
+  const handleTriggerAction: __esri.PopupTriggerActionEventHandler = (
+    event
+  ) => {
+    /* __PURE__ */ console.debug("popup action triggered", event);
+    if (event.action.id === "google") {
+      openGoogleMaps(view.popup.selectedFeature);
+    }
+  };
+  on(() => view.popup, "trigger-action", handleTriggerAction);
+};
+
+function openGoogleMaps(feature: Graphic) {
+  const geometry = feature.geometry;
+  if (geometry instanceof Point) {
+    const { x, y } = webMercatorToGeographic(geometry) as Point;
+    const url = GoogleUrl.fromLatLng(y, x);
+    window.open(url, "LocateMP-Google", "noreferrer,popup=yes");
+  }
+}
