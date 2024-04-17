@@ -7,7 +7,7 @@ export interface ClearButtonOptions {
   /**
    * The layer that will be controlled by the button
    */
-  layer: FeatureLayer;
+  layers: FeatureLayer[];
 }
 
 /**
@@ -32,23 +32,25 @@ export function createClearButton(options: ClearButtonOptions) {
   iconSpan.classList.add("esri-icon", "esri-icon-erase");
   button.append(iconSpan);
 
-  const { layer } = options;
+  const { layers } = options;
 
   /**
    * Clears all of the features from the layer.
    * @param this - the clear button
    */
   function clearFeatures(this: HTMLButtonElement): void {
-    layer
-      .queryFeatures()
-      .then((features) =>
-        layer.applyEdits({
-          deleteFeatures: features.features,
-        })
-      )
-      .catch((reason: unknown) => {
-        console.error(reason);
-      });
+    for (const layer of layers) {
+      layer
+        .queryFeatures()
+        .then((features) =>
+          layer.applyEdits({
+            deleteFeatures: features.features,
+          })
+        )
+        .catch((reason: unknown) => {
+          console.error(reason);
+        });
+    }
   }
 
   button.addEventListener("click", clearFeatures);
