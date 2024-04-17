@@ -16,6 +16,8 @@ JURNM
 latlng
 lcov
 nojekyll
+noreferrer
+NOSONAR
 RDWY
 Rrts
 snagmp

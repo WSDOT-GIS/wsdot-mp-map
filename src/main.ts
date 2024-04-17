@@ -1,4 +1,5 @@
 import type MapView from "@arcgis/core/views/MapView";
+import { setupActions } from "./layers/MilepostLayerTemplate";
 
 import("./index.css");
 
@@ -339,6 +340,7 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
   // Once the milepost layerview has been created, check for ELC data from the URL
   // and, if present, add the location to the map.
   milepostLayer.on("layerview-create", () => {
+    setupActions(view);
     callElcFromUrl(milepostLayer)
       .then(async (elcGraphics) => {
         if (elcGraphics) {
