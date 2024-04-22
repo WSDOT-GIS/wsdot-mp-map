@@ -1,5 +1,6 @@
 import { expect, test } from "vitest";
-import { createGeoHackUrl, createGeoHackAnchor } from "../src/common/geohack";
+import { createGeoHackUrl } from "../src/common/geohack";
+import { createGeoHackAnchor } from "../src/common/geohack/createGeoHackAnchor";
 
 function createExpectedUrl(lat: number, lng: number) {
   // Create regex to account for URL encoding of ";" character.

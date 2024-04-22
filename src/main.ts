@@ -1,5 +1,4 @@
 import type MapView from "@arcgis/core/views/MapView";
-import { setupActions } from "./layers/MilepostLayerTemplate";
 
 import("./index.css");
 
@@ -94,11 +93,11 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
     });
     /* __PURE__ */ console.debug(
       "locations returned by ELC for this location",
-      locations
+      locations,
     );
     if (!locations.length) {
       /* __PURE__ */ console.log(
-        "No locations returned. Returned value is an empty array."
+        "No locations returned. Returned value is an empty array.",
       );
     }
     const location = locations[0];
@@ -111,7 +110,7 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
     const addResults = addGraphicsToLayer(milepostLayer, [locationGraphic]);
     /* __PURE__ */ console.debug(
       "addResults returned by addGraphicsToLayer",
-      addResults
+      addResults,
     );
     /* __PURE__ */ console.groupEnd();
     return locations;
@@ -189,7 +188,7 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
     ({ setupViewLoadingIndicator }) => setupViewLoadingIndicator(view),
     (reason: unknown) => {
       console.error("Failed to add loading indicator", reason);
-    }
+    },
   );
 
   const sb = new ScaleBar({
@@ -223,7 +222,7 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
     },
     (reason) => {
       console.error("Failed to setup clear button", reason);
-    }
+    },
   );
 
   /**
@@ -259,7 +258,7 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
       tempAddResults.addFeatureResults.forEach((r) => {
         console.error(
           "There was an error adding the temporary graphic where the user clicked.",
-          r.error
+          r.error,
         );
       });
 
@@ -340,13 +339,12 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
   // Once the milepost layerview has been created, check for ELC data from the URL
   // and, if present, add the location to the map.
   milepostLayer.on("layerview-create", () => {
-    setupActions(view);
     callElcFromUrl(milepostLayer)
       .then(async (elcGraphics) => {
         if (elcGraphics) {
           const addedFeatures = await addGraphicsToLayer(
             milepostLayer,
-            elcGraphics
+            elcGraphics,
           );
           view.goTo(addedFeatures).catch((reason: unknown) => {
             console.error('failed to "goTo" features from URL', {

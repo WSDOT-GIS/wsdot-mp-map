@@ -16,6 +16,7 @@ JURNM
 latlng
 lcov
 nojekyll
+noopener
 noreferrer
 NOSONAR
 RDWY
@@ -23,6 +24,7 @@ Rrts
 snagmp
 sonarjs
 SRMP
+trivago
 tseslint
 Vite
 Voxel
