@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@arcgis/core": "^4.29.10",
-    "@eslint/js": "^9.0.0",
+    "@eslint/js": "^9.1.1",
     "@esri/arcgis-rest-request": "^4.2.1",
     "@fontsource/overpass": "^5.0.17",
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
