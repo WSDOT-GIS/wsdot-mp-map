@@ -8,6 +8,9 @@
 
 # The trigger section specifies which branches will trigger the pipeline when new commits are pushed.
 trigger:
+  branches:
+   include:
+     - "master"
   tags:
     include:
       - "release/**"
