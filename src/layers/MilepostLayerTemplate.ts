@@ -1,13 +1,10 @@
-import type Graphic from "@arcgis/core/Graphic";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
-import { on } from "@arcgis/core/core/reactiveUtils";
 import Point from "@arcgis/core/geometry/Point";
 import { webMercatorToGeographic } from "@arcgis/core/geometry/support/webMercatorUtils";
-import ActionButton from "@arcgis/core/support/actions/ActionButton";
-import type MapView from "@arcgis/core/views/MapView";
 import GeoUrl from "../common/GeoUri";
 import type { AttributeValue } from "../common/arcgis/typesAndInterfaces";
 import { createGeoMicroformat } from "../common/formatting";
+import { createGeoHackUrl } from "../common/geohack";
 import { GoogleUrl } from "../common/google";
 import type { AttributesObject, TypedGraphic } from "../types";
 import { queryCityLimits } from "./CityLimitsLayer";
@@ -44,7 +41,7 @@ function createDL(graphic: TypedGraphic<Point, MPAttributes>) {
    */
   function createRow(
     key: string,
-    value: AttributeValue | Promise<AttributeValue> | string | Node
+    value: AttributeValue | Promise<AttributeValue> | string | Node,
   ) {
     const dt = document.createElement("dt");
     const dd = document.createElement("dd");
@@ -71,21 +68,75 @@ function createDL(graphic: TypedGraphic<Point, MPAttributes>) {
   }
   const dl = document.createElement("dl");
   for (const [key, value] of Object.entries(attributes).filter(
-    ([key]) => !["OBJECTID", "Route", "Srmp", "Back", "Direction"].includes(key)
+    ([key]) =>
+      !["OBJECTID", "Route", "Srmp", "Back", "Direction"].includes(key),
   )) {
     dl.append(...createRow(key, value));
   }
 
+  return dl;
+}
+
+function createAnchor(
+  options: Pick<HTMLAnchorElement, "href" | "target" | "text">,
+) {
+  const anchor = document.createElement("a");
+  anchor.href = options.href;
+  anchor.target = options.target;
+  anchor.rel = "noopener noreferrer external";
+  anchor.text = options.text;
+  return anchor;
+}
+
+/**
+ * Create a {@link HTMLDetailsElement} element with links to external
+ * mapping applications.
+ * @param graphic - A graphic with a point geometry.
+ * @returns HTML details element with links to external mapping applications.
+ */
+function createCoordsDetails(graphic: TypedGraphic<Point, MPAttributes>) {
   const point = webMercatorToGeographic(graphic.geometry) as Point;
   const { x, y } = point;
-  const geoSpan = createGeoMicroformat([y, x], "span");
-  const geoUrl = new GeoUrl({ x, y });
-  const geoLink = document.createElement("a");
-  geoLink.href = geoUrl.href;
-  geoLink.append(geoSpan);
-  dl.append(...createRow("Coordinates", geoLink));
 
-  return dl;
+  // Create the details element.
+
+  const list = document.createElement("ul");
+  list.classList.add("map-links-list");
+  let li: HTMLLIElement = createGeoMicroformat([y, x], "li") as HTMLLIElement;
+  list.append(li);
+
+  const geoUrl = new GeoUrl({ x, y });
+
+  let a: HTMLAnchorElement;
+
+  li = document.createElement("li");
+  const googleUrl = GoogleUrl.fromLatLng(y, x);
+  a = createAnchor({
+    href: googleUrl.href,
+    target: "googlemaps",
+    text: "Google Maps",
+  });
+  li.appendChild(a);
+  list.appendChild(li);
+
+  li = document.createElement("li");
+  a = createAnchor({
+    href: createGeoHackUrl([y, x]).href,
+    target: "geohack",
+    text: "Geohack",
+  });
+  li.appendChild(a);
+  list.appendChild(li);
+
+  li = document.createElement("li");
+  a = createAnchor({
+    href: geoUrl.href,
+    target: "geouri",
+    text: "GeoURI 📱",
+  });
+  li.appendChild(a);
+  list.appendChild(li);
+  return list;
 }
 
 async function createContent(target: TemplateTarget) {
@@ -125,7 +176,7 @@ async function createContent(target: TemplateTarget) {
         (v) =>
           (attributes.City = v
             ? `${v.CityName} (last updated: ${new Date(v.LastUpdate).toLocaleDateString()})`
-            : "Outside City Limits")
+            : "Outside City Limits"),
       )
       .catch((error: unknown) => {
         console.error("Error querying city", error);
@@ -146,41 +197,13 @@ async function createContent(target: TemplateTarget) {
 
   await Promise.allSettled(fieldPromises);
 
-  return createDL(graphic);
+  const output = document.createElement("div");
+  output.append(createCoordsDetails(graphic));
+  output.append(createDL(graphic));
+  return output;
 }
 
-const googleActionButton = new ActionButton({
-  title: "Google Maps",
-  id: "google",
-});
-
 export const popupTemplate = new PopupTemplate({
-  actions: [googleActionButton],
   title: "{Route} ({Direction}) @ {Srmp}{Back}",
   content: createContent,
 });
-
-/**
- * Sets up popup actions for the view.
- * @param view - a view
- */
-export const setupActions = (view: MapView) => {
-  const handleTriggerAction: __esri.PopupTriggerActionEventHandler = (
-    event
-  ) => {
-    /* __PURE__ */ console.debug("popup action triggered", event);
-    if (event.action.id === "google") {
-      openGoogleMaps(view.popup.selectedFeature);
-    }
-  };
-  on(() => view.popup, "trigger-action", handleTriggerAction);
-};
-
-function openGoogleMaps(feature: Graphic) {
-  const geometry = feature.geometry;
-  if (geometry instanceof Point) {
-    const { x, y } = webMercatorToGeographic(geometry) as Point;
-    const url = GoogleUrl.fromLatLng(y, x);
-    window.open(url, "LocateMP-Google", "noreferrer,popup=yes");
-  }
-}

@@ -5,6 +5,9 @@ import tseslint from "typescript-eslint";
 import eslintConfigPrettier from "eslint-config-prettier";
 import jsdoc from "eslint-plugin-jsdoc";
 
+// TODO: Figure out how to exclude the "./coverage" folder.
+// Eslint keeps scanning coverage folder for some reason.
+
 export default tseslint.config(
   {
     files: ["**/*.ts", "**/*.tsx", "**/*.mts"],
