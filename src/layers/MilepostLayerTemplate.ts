@@ -1,6 +1,3 @@
-import PopupTemplate from "@arcgis/core/PopupTemplate";
-import Point from "@arcgis/core/geometry/Point";
-import { webMercatorToGeographic } from "@arcgis/core/geometry/support/webMercatorUtils";
 import GeoUrl from "../common/GeoUri";
 import type { AttributeValue } from "../common/arcgis/typesAndInterfaces";
 import { createGeoMicroformat } from "../common/formatting";
@@ -10,6 +7,9 @@ import type { AttributesObject, TypedGraphic } from "../types";
 import { queryCityLimits } from "./CityLimitsLayer";
 import { queryCountyBoundaries } from "./CountyBoundariesLayer";
 import { querySectionTownship } from "./LandSurveyLayer";
+import PopupTemplate from "@arcgis/core/PopupTemplate";
+import Point from "@arcgis/core/geometry/Point";
+import { webMercatorToGeographic } from "@arcgis/core/geometry/support/webMercatorUtils";
 
 interface MPAttributes extends AttributesObject {
   oid: number;
@@ -121,7 +121,12 @@ function createCoordsDetails(graphic: TypedGraphic<Point, MPAttributes>) {
 
   li = document.createElement("li");
   a = createAnchor({
-    href: createGeoHackUrl([y, x]).href,
+    href: createGeoHackUrl({
+      params: {
+        coordinates: [y, x] as const,
+      },
+      pagename: `${graphic.attributes.Route} ${graphic.attributes.Srmp.toString()}${graphic.attributes.Back ? "B" : ""}`,
+    }).href,
     target: "geohack",
     text: "Geohack",
   });
