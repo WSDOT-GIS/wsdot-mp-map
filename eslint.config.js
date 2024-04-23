@@ -4,9 +4,7 @@ import eslint from "@eslint/js";
 import tseslint from "typescript-eslint";
 import eslintConfigPrettier from "eslint-config-prettier";
 import jsdoc from "eslint-plugin-jsdoc";
-
-// TODO: Figure out how to exclude the "./coverage" folder.
-// Eslint keeps scanning coverage folder for some reason.
+import gitignore from 'eslint-config-flat-gitignore'
 
 export default tseslint.config(
   {
@@ -17,6 +15,7 @@ export default tseslint.config(
       jsdoc,
     },
     extends: [
+      gitignore(),
       eslint.configs.recommended,
       ...tseslint.configs.strictTypeChecked,
       ...tseslint.configs.stylisticTypeChecked,
