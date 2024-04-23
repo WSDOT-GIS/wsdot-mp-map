@@ -15,10 +15,12 @@ JURFIPSDSG
 JURNM
 latlng
 lcov
+mmscale
 nojekyll
 noopener
 noreferrer
 NOSONAR
+osmzoom
 RDWY
 Rrts
 snagmp
