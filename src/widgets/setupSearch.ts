@@ -3,6 +3,10 @@ import type SceneView from "@arcgis/core/views/SceneView";
 import Search from "@arcgis/core/widgets/Search";
 import LocatorSearchSource from "@arcgis/core/widgets/Search/LocatorSearchSource";
 
+/**
+ * Retrieves the search sources for the application.
+ * @returns An array containing the {@link LocatorSearchSource} for WA location search.
+ */
 function getSearchSources() {
   const waLocationSearchSource = new LocatorSearchSource({
     // Use the WSDOT Customized view of the Geocoder
