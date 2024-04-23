@@ -11,8 +11,7 @@ FYI, gets converted to:
 https://www.google.com/maps/place/47%C2%B036'32.8%22N+120%C2%B014'31.6%22W/@47.6091,-120.2421,45607m/data=!3m1!1e3!4m4!3m3!8m2!3d47.6091!4d-120.2421?hl=en&entry=ttu
 ...but we won't be constructing this version.
 */
-
-import type { LatLngTuple } from "../types";
+import type { LatLngTuple } from "../../common/types";
 
 /**
  * Options for constructing a Google Maps URL.
@@ -67,7 +66,7 @@ interface ConvertToStringOptions {
  */
 function convertToString(
   value: unknown,
-  options: ConvertToStringOptions = {}
+  options: ConvertToStringOptions = {},
 ): string | undefined {
   // Just return the value if it's already a string.
   if (typeof value === "string") {
@@ -144,7 +143,7 @@ export class GoogleUrl extends URL implements Pick<GoogleMapsUrlOptions, "ll"> {
    */
   constructor(
     options: GoogleMapsUrlOptions,
-    base: URLConstructorParameters[1] = defaultUrl
+    base: URLConstructorParameters[1] = defaultUrl,
   ) {
     // Create the URL.
     super("", base);

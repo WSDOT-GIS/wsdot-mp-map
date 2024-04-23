@@ -2,7 +2,11 @@
  * Used for working with [GeoHack](https://www.mediawiki.org/wiki/GeoHack) URLs.
  * @see {@link https://www.mediawiki.org/wiki/GeoHack GeoHack docs} for more information.
  */
-import type { LatLngExpression, LatLngLiteral, LatLngTuple } from "../types";
+import type {
+  LatLngExpression,
+  LatLngLiteral,
+  LatLngTuple,
+} from "../../common/types";
 
 function isLatLngTuple(
   latLng: Readonly<LatLngTuple>,

@@ -1,5 +1,5 @@
-import { createGeoHackUrl } from "../src/common/geohack";
-import { createGeoHackAnchor } from "../src/common/geohack/createGeoHackAnchor";
+import { createGeoHackUrl } from "../src/urls/geohack";
+import { createGeoHackAnchor } from "../src/urls/geohack/createGeoHackAnchor";
 import { expect, test } from "vitest";
 
 function createExpectedUrl(lat: number, lng: number) {
