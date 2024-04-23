@@ -1,6 +1,3 @@
-import type Graphic from "@arcgis/core/Graphic";
-import type FeatureLayer from "@arcgis/core/layers/FeatureLayer";
-import type MapView from "@arcgis/core/views/MapView";
 import { addGraphicsToLayer } from "./addGraphicsToLayer";
 import { findRouteLocations } from "./elc";
 import { routeLocationToGraphic } from "./elc/arcgis";
@@ -9,6 +6,9 @@ import {
   createSrmpInputForm,
   type RouteInputEvent,
 } from "./widgets/route-input/SrmpInputForm";
+import type Graphic from "@arcgis/core/Graphic";
+import type FeatureLayer from "@arcgis/core/layers/FeatureLayer";
+import type MapView from "@arcgis/core/views/MapView";
 
 /**
  * Sets up the form for user input and adds event listener to capture SRMP input.
@@ -30,7 +30,7 @@ export async function setupForm(view: MapView, milepostLayer: FeatureLayer) {
     },
     {
       passive: true,
-    }
+    },
   );
   return form;
 }
@@ -44,7 +44,7 @@ export async function setupForm(view: MapView, milepostLayer: FeatureLayer) {
 async function addSrmpFromForm(
   event: RouteInputEvent,
   view: MapView,
-  milepostLayer: FeatureLayer
+  milepostLayer: FeatureLayer,
 ) {
   /* __PURE__ */ console.group(addSrmpFromForm.name);
   /* __PURE__ */ console.debug("event", event);
@@ -76,10 +76,13 @@ async function addSrmpFromForm(
   }
 
   if (errors.size > 0) {
-    console.error(
-      `ELC encountered errors with ${errors.size.toString()} locations`,
-      errors
-    );
+    const { route, mp, back } = event.detail;
+    const errorList = [...errors.values()]
+      .map(({ message }) => message)
+      .join("\n");
+    const message = `Error locating ${mp.toString()}${back ? "B" : ""} on ${route.toString()}:\n${errorList}`;
+    console.error(message, { input: event.detail, errors });
+    alert(message);
   }
 
   if (graphics.length > 0) {
