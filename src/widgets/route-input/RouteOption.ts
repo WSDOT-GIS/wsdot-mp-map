@@ -1,6 +1,6 @@
-import { RouteDescription } from "wsdot-route-utils";
-import { RouteTypes } from "../../elc/types";
 import type { RouteAndTypeTuple } from "../../elc";
+import { RouteTypes } from "../../elc/types";
+import { RouteDescription } from "wsdot-route-utils";
 
 /**
  * Retrieves the corresponding value from the {@link RouteTypes} object based on the input string.
@@ -69,10 +69,6 @@ export class RouteOption extends HTMLOptionElement {
   override set value(v: string) {
     try {
       const route = new RouteDescription(v);
-      /* __PURE__ */ console.debug(
-        `Successfully parsed "${v} to ${RouteDescription.name}.`,
-        route
-      );
       super.value = v;
       const labelText = createLabelText(route);
       this.textContent = labelText;
@@ -80,7 +76,7 @@ export class RouteOption extends HTMLOptionElement {
     } catch (error) {
       console.error(
         `Error parsing string to ${RouteDescription.name}: ${v}.`,
-        error
+        error,
       );
     }
   }
@@ -93,15 +89,11 @@ export class RouteOption extends HTMLOptionElement {
   public get valueAsRouteDescription(): RouteDescription | null {
     try {
       const route = new RouteDescription(this.value);
-      /* __PURE__ */ console.debug(
-        `Successfully parsed "${this.value} to ${RouteDescription.name}.`,
-        route
-      );
       return route;
     } catch (error) {
       console.error(
         `Error parsing string to ${RouteDescription.name}: ${this.value}.`,
-        error
+        error,
       );
       return null;
     }
@@ -119,11 +111,6 @@ export class RouteOption extends HTMLOptionElement {
     }
   }
 
-  constructor() {
-    super();
-    /* __PURE__ */ console.debug("route-option element created.");
-  }
-
   public get supportsDecrease(): boolean | null {
     if (this.lrsType === null) {
       return null;
@@ -139,7 +126,7 @@ export class RouteOption extends HTMLOptionElement {
    * @yields - A {@link RouteOption} element.
    */
   public static *enumerateRouteOptions(
-    routes: Iterable<Readonly<RouteAndTypeTuple>>
+    routes: Iterable<Readonly<RouteAndTypeTuple>>,
   ) {
     for (const [route, routeType] of routes) {
       const option = document.createElement("option", {
@@ -165,7 +152,7 @@ export class RouteOption extends HTMLOptionElement {
 
   attributeChangedCallback(name: string, oldValue: string, newValue: string) {
     /* __PURE__ */ console.debug(
-      `${RouteOption.name} attribute "${name}" has changed from "${oldValue}" to "${newValue}".`
+      `${RouteOption.name} attribute "${name}" has changed from "${oldValue}" to "${newValue}".`,
     );
 
     if (name === "lrs-type") {
