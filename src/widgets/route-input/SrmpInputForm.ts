@@ -1,16 +1,18 @@
-import type UI from "@arcgis/core/views/ui/UI";
-import RouteSelect from "./RouteSelect";
-import { RouteDescription } from "wsdot-route-utils";
 import type RouteOption from "./RouteOption";
-import { RouteTypes } from "../../elc/types";
+import type UI from "@arcgis/core/views/ui/UI";
 
-import("./RouteSelect");
+const [{ RouteDescription }, { default: RouteSelect }, { RouteTypes }] =
+  await Promise.all([
+    import("wsdot-route-utils"),
+    import("./RouteSelect"),
+    import("../../elc/types"),
+  ]);
 
 /**
  * The object that is passed to the `srmp-input` event.
  */
 export interface RouteEventObject {
-  route: RouteDescription;
+  route: InstanceType<typeof RouteDescription>;
   mp: number;
   back: boolean;
 }
@@ -47,7 +49,7 @@ export interface SrmpInputForm extends HTMLFormElement {
   /**
    * The route input field.
    */
-  route: RouteSelect;
+  route: InstanceType<typeof RouteSelect>;
   /**
    * The milepost input field.
    */
@@ -66,14 +68,14 @@ export interface SrmpInputForm extends HTMLFormElement {
     this: SrmpInputForm,
     type: K,
     listener: (this: SrmpInputForm, ev: SrmpInputFormEventMap[K]) => unknown,
-    options?: boolean | AddEventListenerOptions
+    options?: boolean | AddEventListenerOptions,
   ): void;
 
   removeEventListener<K extends keyof SrmpInputFormEventMap>(
     this: SrmpInputForm,
     type: K,
     listener: (this: SrmpInputForm, ev: SrmpInputFormEventMap[K]) => unknown,
-    options?: boolean | EventListenerOptions
+    options?: boolean | EventListenerOptions,
   ): void;
 }
 
@@ -91,7 +93,7 @@ type UIAddPosition = UIAddParameters[1];
 export async function createSrmpInputForm(
   ui: UI,
   position: UIAddPosition,
-  template?: HTMLTemplateElement
+  template?: HTMLTemplateElement,
 ) {
   // Set up default template if one is not provided.
   if (!template) {
@@ -115,7 +117,7 @@ export async function createSrmpInputForm(
     throw new Error("Form was not created correctly.");
   }
 
-  form.route.addEventListener("change", (event) => {
+  form.route.addEventListener("change", (event: Event) => {
     if (event.target instanceof RouteSelect) {
       const lrsType =
         (event.target.selectedOptions.item(0) as RouteOption | null)?.lrsType ??

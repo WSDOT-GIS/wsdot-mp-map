@@ -3,7 +3,7 @@ import {
   createGeoUriString,
   type GeoUriString,
   type GeoUrlOptions,
-} from "./GeoUri";
+} from "../urls/GeoUri";
 
 export type AuthorityUppercase = "EPSG" | "ESRI";
 export type Authority = AuthorityUppercase | Lowercase<AuthorityUppercase>;
