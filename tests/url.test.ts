@@ -1,5 +1,5 @@
-import { suite, expect, test } from "vitest";
 import { getElcParamsFromUrl } from "../src/elc/url.js";
+import { describe, expect, test } from "vitest";
 
 const urlRoot = "https://example.com/data/tools/Locatemp/";
 
@@ -7,7 +7,7 @@ const urlRoot = "https://example.com/data/tools/Locatemp/";
 // This is just to aid readability.
 type ExpectedType = Exclude<ReturnType<typeof getElcParamsFromUrl>, null>;
 
-suite("URL search parameters", () => {
+describe("URL search parameters", () => {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
