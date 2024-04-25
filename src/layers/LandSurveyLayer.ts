@@ -1,8 +1,7 @@
 // https://wadnr.maps.arcgis.com/home/item.html?id=ae861d2304da4d099e0f7841fcbfa860
-
+import type { AttributesObject, TypedGraphic } from "../types";
 import type Point from "@arcgis/core/geometry/Point";
 import type FeatureLayerView from "@arcgis/core/views/layers/FeatureLayerView";
-import type { AttributesObject, TypedGraphic } from "../types";
 
 const [{ default: FeatureLayer }, { default: PortalItem }, { default: Query }] =
   await Promise.all([
@@ -71,7 +70,7 @@ export async function querySectionTownship(
   layer:
     | ReturnType<typeof createLandSurveyLayer>
     | FeatureLayerView = landSurveyLayer,
-  options?: QueryOptions
+  options?: QueryOptions,
 ) {
   // Assign the default options to the query.
   query = new Query({ ...defaultOptions, ...query });

@@ -39,11 +39,11 @@ export function isGithubPagesUrl(url: string | URL): url is GithubPagesUrl {
 
 export function getGithubUrlFromGithubPages(
   throwErrorOnMismatch: true,
-  githubPagesUrl?: GithubPagesUrl
+  githubPagesUrl?: GithubPagesUrl,
 ): GithubRepoUrl;
 export function getGithubUrlFromGithubPages(
   throwErrorOnMismatch?: false,
-  githubPagesUrl?: GithubPagesUrl
+  githubPagesUrl?: GithubPagesUrl,
 ): GithubRepoUrl | null;
 /**
  * Get the source URL of a Github Pages page.
@@ -55,7 +55,7 @@ export function getGithubUrlFromGithubPages(
  */
 export function getGithubUrlFromGithubPages(
   throwErrorOnMismatch?: boolean,
-  githubPagesUrl?: GithubPagesUrl
+  githubPagesUrl?: GithubPagesUrl,
 ): GithubRepoUrl | null {
   const currentUrl = githubPagesUrl ?? location.href;
   const match = githubPagesUrlRe.exec(currentUrl);
@@ -72,11 +72,11 @@ export function getGithubUrlFromGithubPages(
 
 export function getGithubPagesUrlFromGithubRepoUrl(
   throwErrorOnMismatch: true,
-  githubRepoUrl?: GithubRepoUrl
+  githubRepoUrl?: GithubRepoUrl,
 ): GithubPagesUrl;
 export function getGithubPagesUrlFromGithubRepoUrl(
   throwErrorOnMismatch?: false,
-  githubRepoUrl?: GithubRepoUrl
+  githubRepoUrl?: GithubRepoUrl,
 ): GithubPagesUrl | null;
 /**
  * Get the Github Pages URL for the given repo
@@ -88,7 +88,7 @@ export function getGithubPagesUrlFromGithubRepoUrl(
  */
 export function getGithubPagesUrlFromGithubRepoUrl(
   throwErrorOnMismatch?: boolean,
-  githubRepoUrl?: GithubRepoUrl
+  githubRepoUrl?: GithubRepoUrl,
 ): GithubPagesUrl | null {
   const currentUrl = githubRepoUrl ?? location.href;
   const match = githubRepoUrlRe.exec(currentUrl);
@@ -110,7 +110,7 @@ export function getGithubPagesUrlFromGithubRepoUrl(
  * @returns An HTML anchor linking to app source code.
  */
 export function createGithubLink(
-  fallbackUrl = "https://github.com/wsdot-gis/wsdot-mp-map"
+  fallbackUrl = "https://github.com/wsdot-gis/wsdot-mp-map",
 ) {
   // const githubSvg = convertSimpleIconToSvgElement(siGithub);
   const a = document.createElement("a");

@@ -88,7 +88,7 @@ const lvCreateHandler = accessControlLayer.on(
   ({ layerView }) => {
     accessControlLayerView = layerView as FeatureLayerView;
     lvCreateHandler.remove();
-  }
+  },
 );
 
 /**
@@ -112,7 +112,7 @@ export async function queryAccessControl(point: Point) {
     Required<Pick<AccessControlAttributes, "AccessControlTypeDescription">>;
 
   const attributes = features.map(
-    (f) => f.attributes as HasAccessControlTypeDescription
+    (f) => f.attributes as HasAccessControlTypeDescription,
   );
   let acTypes: Iterable<AccessControlTypeDescription>;
   acTypes = attributes.map((f) => f.AccessControlTypeDescription);

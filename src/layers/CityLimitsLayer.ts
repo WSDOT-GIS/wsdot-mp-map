@@ -1,10 +1,10 @@
+import type { AttributesObject } from "../types";
 import type Point from "@arcgis/core/geometry/Point";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer";
 import SimpleFillSymbol from "@arcgis/core/symbols/SimpleFillSymbol";
 import SimpleLineSymbol from "@arcgis/core/symbols/SimpleLineSymbol";
 import type FeatureLayerView from "@arcgis/core/views/layers/FeatureLayerView";
-import type { AttributesObject } from "../types";
 
 const outFields = ["CityName", "LastUpdate"];
 

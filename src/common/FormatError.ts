@@ -14,7 +14,7 @@ export default class FormatError extends Error {
     public value: string,
     public regex: RegExp,
     message?: string,
-    errorOptions?: ErrorOptions
+    errorOptions?: ErrorOptions,
   ) {
     super(
       message ?? `"${value}" does not match ${regex.source}`,
@@ -23,7 +23,7 @@ export default class FormatError extends Error {
           value,
           regex,
         },
-      }
+      },
     );
   }
 }

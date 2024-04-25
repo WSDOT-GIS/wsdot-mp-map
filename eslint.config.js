@@ -1,10 +1,9 @@
 // @ts-check
-
 import eslint from "@eslint/js";
-import tseslint from "typescript-eslint";
+import gitignore from "eslint-config-flat-gitignore";
 import eslintConfigPrettier from "eslint-config-prettier";
 import jsdoc from "eslint-plugin-jsdoc";
-import gitignore from "eslint-config-flat-gitignore";
+import tseslint from "typescript-eslint";
 
 export default tseslint.config(
   gitignore({
@@ -54,5 +53,5 @@ export default tseslint.config(
       // turn off rules that don't apply to JS code
       "@typescript-eslint/explicit-function-return-type": "off",
     },
-  }
+  },
 );

@@ -1,9 +1,5 @@
-import Graphic from "@arcgis/core/Graphic";
-import Point from "@arcgis/core/geometry/Point";
-import { expect, suite, test } from "vitest";
 import { findNearestRouteLocations, getRoutes } from "../src/elc";
 import { routeLocationToGraphic } from "../src/elc/arcgis";
-import { hasXAndY } from "../src/types";
 import {
   type FindNearestRouteLocationParameters,
   isDateString,
@@ -11,8 +7,12 @@ import {
   type DateString,
   type RouteGeometryPoint,
 } from "../src/elc/types";
+import { hasXAndY } from "../src/types";
+import Graphic from "@arcgis/core/Graphic";
+import Point from "@arcgis/core/geometry/Point";
+import { expect, describe, test } from "vitest";
 
-suite("elc", () => {
+describe("elc", () => {
   test("findNearestRouteLocations", async () => {
     const options: FindNearestRouteLocationParameters = {
       coordinates: [1083893.182, 111526.885],
@@ -81,10 +81,10 @@ suite("elc", () => {
 
       expect(actual.Route).toEqual(expected.Route);
       expect(actual.RouteGeometry?.__type).toEqual(
-        expected.RouteGeometry.__type
+        expected.RouteGeometry.__type,
       );
       expect(actual.RouteGeometry?.spatialReference.wkid).toEqual(
-        expected.RouteGeometry.spatialReference.wkid
+        expected.RouteGeometry.spatialReference.wkid,
       );
       expect(hasXAndY(actual.RouteGeometry)).toBe(true);
       // TypeScript doesn't detect the hasXAndY
@@ -98,7 +98,7 @@ suite("elc", () => {
       expect(actual.Arm).toEqual(expected.Arm);
       expect(actual.ArmCalcReturnCode).toEqual(expected.ArmCalcReturnCode);
       expect(actual.ArmCalcReturnMessage).toEqual(
-        expected.ArmCalcReturnMessage
+        expected.ArmCalcReturnMessage,
       );
     }
   });
@@ -112,7 +112,7 @@ suite("elc", () => {
   });
 });
 
-suite("arcgis", () => {
+describe("arcgis", () => {
   test("creates a Graphic with correct geometry from a valid RouteLocation", () => {
     const routeLocation: RouteLocation<DateString, RouteGeometryPoint> = {
       RouteGeometry: {
@@ -130,7 +130,7 @@ suite("arcgis", () => {
       expect(graphic.geometry.x).toBe(routeLocation.RouteGeometry?.x);
       expect(graphic.geometry.y).toBe(routeLocation.RouteGeometry?.y);
       expect(graphic.geometry.spatialReference.wkid).toEqual(
-        routeLocation.RouteGeometry?.spatialReference.wkid
+        routeLocation.RouteGeometry?.spatialReference.wkid,
       );
     }
   });

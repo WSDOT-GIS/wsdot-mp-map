@@ -1,31 +1,32 @@
-@import url('https://js.arcgis.com/4.29/esri/themes/light/main.css');
+@import url("https://js.arcgis.com/4.29/esri/themes/light/main.css");
 
 html,
 body,
 #viewDiv {
-    padding: 0;
-    margin: 0;
-    height: 100%;
-    width: 100%;
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
 }
 
 .locate-mp-clear-button,
 .locate-mp-export-button {
-    border: unset;
+  border: unset;
 }
 
 .map-links-list {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    gap: 0.5rem;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }
 
 .map-links-list li {
-    display: inline;
-}
-
-.map-links-list li:not(:last-child)::after {
-    content: " | ";
+  display: inline-flex;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 8px;
+  border-color: lightgray;
+  text-align: center;
+  margin: 0.2rem;
+  padding: 0.1rem;
 }

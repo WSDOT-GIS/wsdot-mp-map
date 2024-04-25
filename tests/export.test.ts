@@ -1,11 +1,11 @@
-import FeatureSet from "@arcgis/core/rest/support/FeatureSet";
-import { suite, expect, test } from "vitest";
 import { convertArcGisFeatureSetToGeoJson } from "../src/export";
+import arcgisSample from "./mileposts-sample.arcgis.json";
 // TODO: figure out how to import using correct ".geojson" extension.
 import geoJsonSample from "./mileposts-sample.geojson.json";
-import arcgisSample from "./mileposts-sample.arcgis.json";
+import FeatureSet from "@arcgis/core/rest/support/FeatureSet";
+import { describe, expect, test } from "vitest";
 
-suite("ArcGIS to GeoJSON export", () => {
+describe("ArcGIS to GeoJSON export", () => {
   test("test", () => {
     const featureSet = FeatureSet.fromJSON(arcgisSample);
     const actualGeoJsonFeatureCollection =

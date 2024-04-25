@@ -1,7 +1,8 @@
+import type { AttributeValue } from "../common/arcgis/typesAndInterfaces";
+import { XAndY, type AttributesObject, type TypedGraphic } from "../types";
 import type Graphic from "@arcgis/core/Graphic";
 import Point from "@arcgis/core/geometry/Point";
-import { XAndY, type AttributesObject, type TypedGraphic } from "../types";
-import type { AttributeValue } from "../common/arcgis/typesAndInterfaces";
+
 export const objectIdFieldName = "OBJECTID";
 
 type Digit = `${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}`;
@@ -20,7 +21,7 @@ export enum RouteTypes {
 
 export type RouteIdString = `${ThreeDigit}${string}`;
 
-export type RoutesSet = Record<RouteIdString, RouteTypes>
+export type RoutesSet = Record<RouteIdString, RouteTypes>;
 
 export interface RoutesResponse extends Record<Year, RoutesSet> {
   Current: RoutesSet;
@@ -69,7 +70,7 @@ export interface RouteGeometryPolyline extends RouteGeometryBase {
  * @returns Returns true if the input is of type RouteGeometryPoint, otherwise returns false.
  */
 export function isRouteGeometryPoint(
-  input: unknown
+  input: unknown,
 ): input is RouteGeometryPoint {
   return (
     input !== null &&
@@ -228,12 +229,12 @@ function isElcAttributes(input: unknown): input is ElcAttributes {
  *   a corresponding property in the input object.
  */
 function isValidAttributesObject(
-  input: unknown
+  input: unknown,
 ): input is LayerFeatureAttributes {
   return (
     isElcAttributes(input) &&
     featureLayerAttributesFieldNames.every((fieldName) =>
-      Object.hasOwn(input, fieldName)
+      Object.hasOwn(input, fieldName),
     )
   );
 }
@@ -245,7 +246,7 @@ function isValidAttributesObject(
  * false otherwise.
  */
 export function isMilepostFeature(
-  graphic: Graphic
+  graphic: Graphic,
 ): graphic is MilepostFeature {
   return (
     graphic.geometry instanceof Point &&

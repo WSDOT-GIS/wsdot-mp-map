@@ -1,6 +1,5 @@
 // https://geohack.toolforge.org/geohack.php?params=47.4965%3B-122.3248
 // https://geohack.toolforge.org/geohack.php?params=47.49654884262268%3B-122.32481234040759
-
 import type { LatLngTuple } from "./types";
 
 const fractionDigits = 6;
@@ -31,11 +30,9 @@ function* createCoordinateDataElements(...items: LatLngTuple) {
  * @param format - Determines which order to display the coordinates in.
  * @returns - An [h-geo](https://microformats.org/wiki/h-geo) representation.
  */
-export function createGeoMicroformat(
-  latLng: LatLngTuple,
-  tagName: keyof HTMLElementTagNameMap = "span",
-  format: "xy" | "latlng" = "xy"
-) {
+export function createGeoMicroformat<
+  T extends keyof HTMLElementTagNameMap = "span",
+>(latLng: LatLngTuple, tagName: T, format: "xy" | "latlng" = "xy") {
   const geoSpan = document.createElement(tagName);
   geoSpan.classList.add("h-geo", "geo");
   const [yElement, xElement] = createCoordinateDataElements(...latLng);

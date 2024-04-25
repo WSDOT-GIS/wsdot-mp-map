@@ -1,8 +1,8 @@
+import type { AttributesObject } from "../types";
 import type Point from "@arcgis/core/geometry/Point";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import Query from "@arcgis/core/rest/support/Query";
 import FeatureLayerView from "@arcgis/core/views/layers/FeatureLayerView";
-import type { AttributesObject } from "../types";
 
 const layerUrl =
   "https://data.wsdot.wa.gov/arcgis/rest/services/Shared/CountyBoundaries/MapServer/0/";
@@ -36,7 +36,7 @@ type FeatureLayerViewMixinQueryFeaturesOptions = NonNullable<
  */
 export async function queryCountyBoundaries(
   point: Point,
-  options?: FeatureLayerViewMixinQueryFeaturesOptions
+  options?: FeatureLayerViewMixinQueryFeaturesOptions,
 ): Promise<string> {
   const query = new Query({
     geometry: point,

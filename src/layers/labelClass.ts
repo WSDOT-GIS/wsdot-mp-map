@@ -1,6 +1,7 @@
-import TextSymbol from "@arcgis/core/symbols/TextSymbol";
-import LabelClass from "@arcgis/core/layers/support/LabelClass";
 import { highwaySignTextColor, highwaySignBackgroundColor } from "../colors";
+import LabelClass from "@arcgis/core/layers/support/LabelClass";
+import TextSymbol from "@arcgis/core/symbols/TextSymbol";
+
 // import Font from "@arcgis/core/symbols/Font";
 
 // const labelFont = new Font({

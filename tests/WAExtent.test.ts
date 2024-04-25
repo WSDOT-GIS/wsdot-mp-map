@@ -1,5 +1,5 @@
-import { describe, expect, it } from "vitest";
 import { waExtent } from "../src/WAExtent";
+import { describe, expect, it } from "vitest";
 
 describe("waExtent", () => {
   it("has the correct spatial reference", () => {
