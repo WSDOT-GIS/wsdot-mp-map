@@ -39,8 +39,8 @@ pre-commit:
   commands:
     lint: 
       glob: "*.{ts,mts,tsx}"
-      run: eslint --fix {staged_files}
+      run: npx eslint --fix {staged_files}
     prettier:
       tags: frontend style
       glob: "{src,tests,tools,public}/**/*.{js,jsx,ts,tsx,css,scss,html}"
-      run: prettier --write {staged_files}
+      run: npx prettier --write {staged_files}
