@@ -1,3 +1,4 @@
+import type { LatLngTuple } from "../src/common/types";
 import { createGeoHackUrl } from "../src/urls/geohack";
 import { createGeoHackAnchor } from "../src/urls/geohack/createGeoHackAnchor";
 import { expect, test } from "vitest";
@@ -10,7 +11,7 @@ function createExpectedUrl(lat: number, lng: number) {
 }
 
 test("create geohack URL with a tuple", () => {
-  const coordinates = [45.6448, -122.6617] as const;
+  const coordinates: LatLngTuple = [45.6448, -122.6617] as const;
   const url = createGeoHackUrl({
     params: {
       coordinates,
@@ -34,7 +35,7 @@ test("create geohack URL with an object", () => {
 });
 
 test("create geohack anchor", () => {
-  const latLng = [45.6448, -122.6617] as const;
+  const latLng: LatLngTuple = [45.6448, -122.6617] as const;
   const anchor = createGeoHackAnchor({
     params: {
       coordinates: latLng,
