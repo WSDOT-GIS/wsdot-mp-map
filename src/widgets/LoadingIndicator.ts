@@ -13,6 +13,6 @@ export function setupViewLoadingIndicator(view: View) {
   // Make the view loading indicator only show up when the map is updating.
   return view.watch(
     "updating",
-    (updating) => (viewProgress.hidden = !updating)
+    (updating) => (viewProgress.hidden = !updating),
   );
 }

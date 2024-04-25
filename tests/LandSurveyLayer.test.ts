@@ -1,6 +1,6 @@
+import { querySectionTownship } from "../src/layers/LandSurveyLayer";
 import Point from "@arcgis/core/geometry/Point";
 import { describe, expect, test } from "vitest";
-import { querySectionTownship } from "../src/layers/LandSurveyLayer";
 
 describe("LandSurveyLayer tests", () => {
   test("querySectionTownship", async () => {

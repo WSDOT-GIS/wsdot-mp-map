@@ -16,7 +16,6 @@
 //     Route: "",
 //   },
 // ];
-
 import type { DateString } from "./types";
 
 export interface ElcErrorResponse {
@@ -89,7 +88,7 @@ export class ElcError extends Error implements ElcErrorResponse {
  * @returns - true if the input is an error object, false otherwise
  */
 export function isErrorObject<T>(
-  input: T
+  input: T,
 ): input is T & { error: Record<string, unknown> } {
   if (!input) {
     return false;
@@ -105,7 +104,7 @@ export function isErrorObject<T>(
  * @returns - Returns true if the input is an {@link ElcErrorResponse}, false otherwise.
  */
 export function isElcErrorResponse(
-  response: unknown
+  response: unknown,
 ): response is ElcErrorResponse {
   if (!(response != null && typeof response === "object")) {
     return false;
@@ -167,7 +166,7 @@ export class ArcGisError extends Error implements ArcGisErrorObject {
     otherInfo?: Record<string, undefined> & {
       request?: Parameters<typeof fetch>;
       response?: Response;
-    }
+    },
   ) {
     super(arcGisErrorResponse.error.message, {
       cause: otherInfo
@@ -185,7 +184,7 @@ export class ArcGisError extends Error implements ArcGisErrorObject {
  * @returns - `true` if the input is an {@link ArcGisErrorResponse}, `false` otherwise.
  */
 export const isArcGisErrorResponse = (
-  input: unknown
+  input: unknown,
 ): input is ArcGisErrorResponse =>
   typeof input === "object" && input !== null && "error" in input;
 

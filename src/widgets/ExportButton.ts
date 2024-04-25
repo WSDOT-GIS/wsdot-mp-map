@@ -33,7 +33,7 @@ async function performExport(layer: FeatureLayer) {
   const featureCollection = convertArcGisFeatureSetToGeoJson(featureset);
   /* __PURE__ */ console.log(
     "exported GeoJSON feature collection",
-    featureCollection
+    featureCollection,
   );
 
   return featureCollection;
@@ -47,7 +47,7 @@ async function performExport(layer: FeatureLayer) {
  */
 function createDownloadLink(
   featureCollection: object, // ReturnType<typeof convertArcGisFeatureSetToGeoJson>,
-  layer: FeatureLayer
+  layer: FeatureLayer,
 ): HTMLAnchorElement {
   const json = JSON.stringify(featureCollection);
 
@@ -77,7 +77,7 @@ export function createExportButton(options: ExportButtonOptions) {
     "esri-widget",
     "esri-widget--button",
     "esri-component",
-    "locate-mp-clear-button"
+    "locate-mp-clear-button",
   );
 
   const iconSpan = document.createElement("span");

@@ -19,7 +19,6 @@ use the following url structure. RT represents Route Type.
 The options are SP for Spur, CO for Couplet and AR for Alternate.
 www.snagmp.com/link3.php?SR=503&MP=35.23&RT=SP
 */
-
 import { findRouteLocations } from ".";
 import { addGraphicsToLayer } from "../addGraphicsToLayer";
 import FormatError from "../common/FormatError";
@@ -80,7 +79,7 @@ const regExpMap = new Map<UrlParamMapKey, KeyValueRegExpTuple>(
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       valueRegExps.get(key)!,
     ],
-  ])
+  ]),
 );
 
 /**
@@ -91,7 +90,7 @@ const regExpMap = new Map<UrlParamMapKey, KeyValueRegExpTuple>(
  */
 export function getUrlSearchParameter(
   urlParams: URLSearchParams,
-  key: UrlParamMapKey
+  key: UrlParamMapKey,
 ) {
   const reTuple = regExpMap.get(key);
   if (!reTuple) {
@@ -117,7 +116,7 @@ export function getUrlSearchParameter(
  * @see {@link populateUrlParameters} for example usage.
  */
 export function* enumerateUrlParameters(
-  parameters: FindNearestRouteLocationParameters | FindRouteLocationParameters
+  parameters: FindNearestRouteLocationParameters | FindRouteLocationParameters,
 ): Generator<[key: string, value: string], void> {
   yield ["f", "json"];
   for (const [key, value] of Object.entries(parameters)) {
@@ -150,7 +149,7 @@ export function* enumerateUrlParameters(
  */
 export function populateUrlParameters(
   parameters: FindNearestRouteLocationParameters | FindRouteLocationParameters,
-  requestUrl: URL
+  requestUrl: URL,
 ) {
   for (const [key, value] of enumerateUrlParameters(parameters)) {
     requestUrl.searchParams.set(key, value);
@@ -185,7 +184,7 @@ function parseSrmp(mp: string): { srmp: number; back: boolean } {
   // Throw an error if the regular expression is not present in the mapping
   if (!mpValueRegexp) {
     throw new TypeError(
-      `No regular expression found for key 'mp' in valueRegExps`
+      `No regular expression found for key 'mp' in valueRegExps`,
     );
   }
 
@@ -197,7 +196,7 @@ function parseSrmp(mp: string): { srmp: number; back: boolean } {
     throw new FormatError(
       mp,
       mpValueRegexp,
-      "The URL does not have valid milepost information."
+      "The URL does not have valid milepost information.",
     );
   }
 
@@ -219,7 +218,7 @@ function parseSrmp(mp: string): { srmp: number; back: boolean } {
  * @returns Location object with route, milepost, direction, and date information
  */
 export function getElcParamsFromUrl(
-  url: string | URL | URLSearchParams = window.location.href
+  url: string | URL | URLSearchParams = window.location.href,
 ): ValidRouteLocationForMPInput<Date, RouteGeometry> | null {
   // If the URL is a URL object, use its search params.
   let searchParams: URLSearchParams;
@@ -274,7 +273,7 @@ export function getElcParamsFromUrl(
  */
 export async function callElcFromUrl(
   milepostLayer: __esri.FeatureLayer,
-  options: Pick<FindRouteLocationParameters, "outSR"> = { outSR: 3857 }
+  options: Pick<FindRouteLocationParameters, "outSR"> = { outSR: 3857 },
 ) {
   const routeLocation = getElcParamsFromUrl();
 

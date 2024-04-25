@@ -14,9 +14,7 @@
         "kind": "build",
         "isDefault": true
       },
-      "problemMatcher": [
-        "$tsc"
-      ]
+      "problemMatcher": ["$tsc"]
     },
     {
       "label": "vite dev",
@@ -63,9 +61,7 @@
         "showReuseMessage": true,
         "clear": false
       },
-      "problemMatcher": [
-        "$tsc-watch"
-      ],
+      "problemMatcher": ["$tsc-watch"],
       "group": "build"
     },
     {
@@ -107,9 +103,7 @@
         "id": "checklist",
         "color": "terminal.ansiYellow"
       },
-      "problemMatcher": [
-        "$eslint-stylish"
-      ],
+      "problemMatcher": ["$eslint-stylish"],
       "presentation": {
         "echo": true,
         "reveal": "always",
@@ -146,24 +140,6 @@
       }
     },
     {
-      "type": "process",
-      "label": "Watch",
-      "detail": "Watches TypeScript, Vite, and Vitest",
-      "icon": {
-        "id": "eye-watch",
-        "color": "terminal.ansiCyan"
-      },
-      "dependsOn": [
-        "vite dev",
-        "TypeScript: Watch",
-        "Test (watch)"
-      ],
-      "problemMatcher": [
-        "$tsc-watch"
-      ],
-      "isBackground": true
-    },
-    {
       "type": "npm",
       "script": "build-and-preview",
       "group": "build",
@@ -173,18 +149,18 @@
         "color": "terminal.ansiRed"
       },
       "problemMatcher": [],
-      "label": "Vite production build and preview",
-      {
-        "type": "npm",
-        "script": "clean",
-        "problemMatcher": [],
-        "label": "Clean folder",
-        "icon": {
-          "id": "trash",
-          "color": "terminal.ansiGreen"
-        },
-        "detail": "Removes all files that are not stored in the repo, except for \"node_modules/**\" \".mailmap\"."
-      }
+      "label": "Vite production build and preview"
+    },
+    {
+      "type": "npm",
+      "script": "clean",
+      "problemMatcher": [],
+      "label": "Clean folder",
+      "icon": {
+        "id": "trash",
+        "color": "terminal.ansiGreen"
+      },
+      "detail": "Removes all files that are not stored in the repo, except for \"node_modules/**\" \".mailmap\"."
     },
     {
       "type": "shell",

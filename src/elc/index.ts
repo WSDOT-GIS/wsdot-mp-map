@@ -1,10 +1,10 @@
-import { RouteDescription, type RrtValue } from "wsdot-route-utils";
 import {
   ArcGisError,
   ElcError,
   isArcGisErrorResponse,
   type ArcGisErrorResponse,
 } from "./errors";
+import { elcReviver } from "./json";
 import {
   type DateString,
   type FindNearestRouteLocationParameters,
@@ -18,7 +18,7 @@ import {
   type RouteTypes,
 } from "./types";
 import { populateUrlParameters } from "./url";
-import { elcReviver } from "./json";
+import { RouteDescription, type RrtValue } from "wsdot-route-utils";
 
 /*
 TODO: Test the responses from the ELC requests for the presence of an "error" property
@@ -87,7 +87,7 @@ function splitErrorResults<T>(elcResults: T[]) {
  */
 export async function findNearestRouteLocations(
   options: FindNearestRouteLocationParameters,
-  url: ElcFindNearestUrlString = defaultFindNearestUrl
+  url: ElcFindNearestUrlString = defaultFindNearestUrl,
 ) {
   /* __PURE__ */ console.group(findNearestRouteLocations.name);
   /* __PURE__ */ console.debug("parameters", { options, url });
@@ -116,7 +116,7 @@ export async function findNearestRouteLocations(
   /* __PURE__ */ if (errors.size) {
     /* __PURE__ */ console.error(
       "Errors",
-      Object.fromEntries(errors.entries())
+      Object.fromEntries(errors.entries()),
     );
   }
 
@@ -131,7 +131,7 @@ export async function findNearestRouteLocations(
         Decrease,
         ReferenceDate,
         Id,
-      })
+      }),
     ),
     outSR: options.outSR ?? options.inSR,
     lrsYear: options.lrsYear ?? "Current",
@@ -166,13 +166,13 @@ export async function findNearestRouteLocations(
  */
 export async function findRouteLocations(
   routeLocations: FindRouteLocationParameters,
-  url: ElcFindUrlString = defaultFindUrl
+  url: ElcFindUrlString = defaultFindUrl,
 ) {
   /* __PURE__ */ console.group(findRouteLocations.name);
   const requestUrl = new URL(url);
   /* __PURE__ */ console.debug(
     "Adding parameters to request URL...",
-    requestUrl.href
+    requestUrl.href,
   );
   populateUrlParameters(routeLocations, requestUrl);
   /* __PURE__ */ console.debug("Request URL:", requestUrl.href);
@@ -235,7 +235,7 @@ export type RouteAndTypeTuple = [
  */
 export function* enumerateRouteDescriptions(
   routes: RoutesSet,
-  options: RouteFilterOptions = defaultFilterOptions
+  options: RouteFilterOptions = defaultFilterOptions,
 ): Generator<Readonly<RouteAndTypeTuple>, void> {
   for (const [routeId, routeType] of Object.entries(routes) as [
     RouteIdString,

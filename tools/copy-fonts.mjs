@@ -3,16 +3,15 @@
  * @example
  * $ node packages/arcgis-mp/tools/copy-fonts.mjs
  */
-
-import { fileURLToPath } from "node:url";
-import { dirname, join } from "node:path";
 import { cp, opendir } from "node:fs/promises";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 
 const thisScriptPath = fileURLToPath(import.meta.url);
 
 const arcgisMPPath = dirname(
   // tools
-  dirname(thisScriptPath)
+  dirname(thisScriptPath),
 );
 const rootDirPath =
   // (root)
@@ -20,8 +19,8 @@ const rootDirPath =
     // packages
     dirname(
       // arcgis-mp
-      arcgisMPPath
-    )
+      arcgisMPPath,
+    ),
   );
 
 const publicFolder = join(arcgisMPPath, "public");
@@ -31,7 +30,7 @@ const overpassPath = join(
   "node_modules",
   "@fontsource",
   "overpass",
-  "files"
+  "files",
 );
 
 /**

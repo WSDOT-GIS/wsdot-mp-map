@@ -4,13 +4,12 @@
  * Tests the functions that convert from GitHub repo URLs to
  * Github Pages URLs and vice-versa.
  */
-
-import { expect, test, describe } from "vitest";
 import {
   getGithubUrlFromGithubPages,
   getGithubPagesUrlFromGithubRepoUrl,
   isGithubRepoUrl,
 } from "../src/common/Github-Link";
+import { expect, test, describe } from "vitest";
 
 const pagesUrl = "https://wsdot-gis.github.io/wsdot-mp-map";
 const repoUrl = "https://github.com/WSDOT-GIS/wsdot-mp-map";
@@ -24,8 +23,8 @@ const [pagesRe, repoRe] = [pagesUrl, repoUrl].map(
         // Excape the periods so they won't match any character.
         .replace(".", String.raw`\.`),
       // Make case-insensitive
-      "i"
-    )
+      "i",
+    ),
 );
 
 test("create github repo link", () => {

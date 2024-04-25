@@ -1,11 +1,10 @@
-import type { RrtValue } from "wsdot-route-utils";
 import {
   enumerateRouteDescriptions,
   getRoutes,
   type ElcRoutesUrlString,
 } from "../../elc";
-
 import RouteOption from "./RouteOption";
+import type { RrtValue } from "wsdot-route-utils";
 
 await customElements.whenDefined("route-option");
 
@@ -80,21 +79,21 @@ export class RouteSelect extends HTMLSelectElement {
     } else {
       this.setAttribute(
         RouteSelect.urlAttributeName,
-        v instanceof URL ? v.href : v
+        v instanceof URL ? v.href : v,
       );
     }
   }
 
   public get includeMainlines(): boolean {
     const attrValue = this.getAttribute(
-      RouteSelect.includeMainlinesPropertyName
+      RouteSelect.includeMainlinesPropertyName,
     );
     return isFalse(attrValue);
   }
   public set includeMainlines(v: boolean) {
     this.setAttribute(
       RouteSelect.includeMainlinesPropertyName,
-      v ? "true" : "false"
+      v ? "true" : "false",
     );
   }
 
@@ -105,13 +104,13 @@ export class RouteSelect extends HTMLSelectElement {
   public set includeRamps(v: boolean) {
     this.setAttribute(
       RouteSelect.includeRampsAttributeName,
-      v ? "true" : "false"
+      v ? "true" : "false",
     );
   }
 
   public get allowedRrts(): RrtValue[] | null {
     const attributeValue = this.getAttribute(
-      RouteSelect.allowedRrtsPropertyName
+      RouteSelect.allowedRrtsPropertyName,
     );
     if (!attributeValue) {
       const splitRe = /[^[a-z0-9]]+/i;
@@ -157,7 +156,7 @@ export class RouteSelect extends HTMLSelectElement {
 
   attributeChangedCallback(name: string, oldValue: string, newValue: string) {
     /* __PURE__ */ console.debug(
-      `Attribute ${name} has changed from ${oldValue} to ${newValue}.`
+      `Attribute ${name} has changed from ${oldValue} to ${newValue}.`,
     );
     if (name === RouteSelect.urlAttributeName) {
       this.resetOptions(newValue);

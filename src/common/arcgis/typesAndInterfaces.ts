@@ -17,7 +17,7 @@ export class LayerDef<W extends string, F extends string> {
   constructor(
     public layerId: number,
     public where: W,
-    public outFields?: F[]
+    public outFields?: F[],
   ) {}
 }
 

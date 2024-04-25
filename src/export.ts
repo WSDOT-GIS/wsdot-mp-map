@@ -1,8 +1,8 @@
-import type * as GJ from "geojson";
-import FeatureSet from "@arcgis/core/rest/support/FeatureSet";
 import NotImplementedError from "./common/NotImplementedError";
-import type Graphic from "@arcgis/core/Graphic";
 import { hasXAndY, hasPaths, hasPoints, hasRings } from "./types";
+import type Graphic from "@arcgis/core/Graphic";
+import FeatureSet from "@arcgis/core/rest/support/FeatureSet";
+import type * as GJ from "geojson";
 
 /**
  * Convert ArcGIS geometry to GeoJSON format.
@@ -39,7 +39,7 @@ export function convertArcGisGeometryToGeoJson(geometry: __esri.Geometry) {
     } as GJ.Polygon;
   }
   throw new NotImplementedError(
-    `This type of geometry is not yet supported: ${geometry.type}`
+    `This type of geometry is not yet supported: ${geometry.type}`,
   );
 }
 
@@ -76,7 +76,7 @@ export function convertArcGisGraphicToGeoJson<
  */
 export function convertArcGisFeatureSetToGeoJson(featureSet: FeatureSet) {
   const geoJsonFeatures = featureSet.features.map((f) =>
-    convertArcGisGraphicToGeoJson(f)
+    convertArcGisGraphicToGeoJson(f),
   );
   type F = (typeof geoJsonFeatures)[number];
   type G = F["geometry"];

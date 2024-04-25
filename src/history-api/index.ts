@@ -58,7 +58,7 @@ const mapPositionHashRe = new RegExp(
       // Join the RegExp groups with a "/".
       .join("/")
     // Append the optional query string group.
-  }(?<${groupNames.slice(-1)[0]}>.+)?$`
+  }(?<${groupNames.slice(-1)[0]}>.+)?$`,
 );
 
 export interface MapPosition {
@@ -87,7 +87,7 @@ interface MPMatch extends RegExpExecArray {
  * @returns The parsed map position object
  */
 export function parseMapPositionHash(
-  mapPositionHash: URL["hash"]
+  mapPositionHash: URL["hash"],
 ): MapPosition {
   const match = mapPositionHashRe.exec(mapPositionHash);
   const matchIsValid = (match: ReturnType<RegExp["exec"]>): match is MPMatch =>
@@ -107,7 +107,7 @@ export function parseMapPositionHash(
     bearing: parseFloat(groups.bearing),
     pitch: parseFloat(groups.pitch),
     qs: Object.fromEntries(
-      new URLSearchParams(groups.qs ?? undefined).entries()
+      new URLSearchParams(groups.qs ?? undefined).entries(),
     ),
   };
 }

@@ -15,7 +15,7 @@ import {
 export function elcReviver<T>(
   this: ThisType<T>,
   _key: string,
-  value: unknown
+  value: unknown,
 ): unknown {
   if (isArcGisErrorResponse(value)) {
     return new ArcGisError(value);
