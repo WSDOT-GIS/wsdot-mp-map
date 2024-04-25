@@ -1,10 +1,10 @@
 /// <reference types="vite/client" />
 /// <reference types="vitest" />
-
-import type { ExternalOption } from "rollup";
 import browserslistToEsbuild from "browserslist-to-esbuild";
+import type { ExternalOption } from "rollup";
 import { defineConfig, type PluginOption } from "vite";
 import checker from "vite-plugin-checker";
+
 // import copy from "rollup-plugin-copy";
 
 // const calciteAssetsDestDir =
@@ -32,7 +32,7 @@ function isNonEnglishLanguage(name: string) {
     const { lang, region } = langMatch.groups;
     console.log(
       // Log the filename and the language it matches.
-      `${name} is a language: ${lang}-${region}.`
+      `${name} is a language: ${lang}-${region}.`,
     );
     // If the language doesn't match English, add it to the delete list.
     if (langMatch.groups.lang !== "en") {
@@ -99,7 +99,7 @@ export default defineConfig((env) => {
           lintCommand: "eslint .",
           useFlatConfig: true,
         },
-      })
+      }),
     );
   }
 

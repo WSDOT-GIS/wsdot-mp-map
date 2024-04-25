@@ -1,9 +1,9 @@
+import { queryAccessControl } from "../src/layers/AccessControlLayer.js";
 import Point from "@arcgis/core/geometry/Point.js";
 import SpatialReference from "@arcgis/core/geometry/SpatialReference.js";
-import { expect, suite, test } from "vitest";
-import { queryAccessControl } from "../src/layers/AccessControlLayer.js";
+import { expect, describe, test } from "vitest";
 
-suite("AccessControlLayer", () => {
+describe("AccessControlLayer", () => {
   test("query", async () => {
     const [x, y] = [-13377854.691900361, 6068328.6911837095];
     const point = new Point({

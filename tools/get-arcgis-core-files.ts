@@ -12,7 +12,7 @@ import { stderr, stdout } from "node:process";
  * @yields non-excluded file paths
  */
 export async function* getArcGisFiles(
-  excludeRegExes: RegExp[] | null = [/(\.(d\.ts)|(pdf))$/]
+  excludeRegExes: RegExp[] | null = [/(\.(d\.ts)|(pdf))$/],
 ) {
   const root = "node_modules/@arcgis/core";
   /**

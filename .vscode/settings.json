@@ -8,10 +8,7 @@
   },
   "json.schemas": [
     {
-      "fileMatch": [
-        ".ncurc",
-        ".ncurc.json",
-      ],
+      "fileMatch": [".ncurc", ".ncurc.json"],
       "url": "https://raw.githubusercontent.com/raineorshine/npm-check-updates/main/src/types/RunOptions.json"
     }
   ],
@@ -19,9 +16,7 @@
     "https://raw.githubusercontent.com/raineorshine/npm-check-updates/main/src/types/RunOptions.json": [
       ".ncurc.yml"
     ],
-    "https://json.schemastore.org/lefthook.json": [
-      "lefthook.yml"
-    ]
+    "https://json.schemastore.org/lefthook.json": ["lefthook.yml"]
   },
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit",
@@ -29,5 +24,5 @@
   },
   "eslint.experimental.useFlatConfig": true,
   "eslint.lintTask.enable": true,
-  "eslint.useESLintClass": true,
+  "eslint.useESLintClass": true
 }

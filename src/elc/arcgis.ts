@@ -26,7 +26,7 @@ let oid = 0;
  * @returns - True if all property values are valid, false otherwise.
  */
 function hasValidSrmpData<D extends DateType, G extends RouteGeometry>(
-  routeLocation: RouteLocation<D, G>
+  routeLocation: RouteLocation<D, G>,
 ): routeLocation is SrmpRouteLocation<D, G> {
   return routeLocation.Route != null && routeLocation.Srmp != null;
 }

@@ -1,6 +1,7 @@
 # Custom Dictionary Words
 ArcGIS
 Avenir
+bbox
 brotli
 cobertura
 dirents
@@ -15,6 +16,8 @@ JURFIPSDSG
 JURNM
 latlng
 lcov
+mlat
+mlon
 mmscale
 nojekyll
 noopener

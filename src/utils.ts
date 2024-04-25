@@ -3,7 +3,6 @@
  * @param route - Route ID
  * @returns
  */
-
 import type { NonZeroDigit, ThreeDigit, TwoDigit } from "./elc/types";
 
 export function padRoute<T extends ThreeDigit>(route: T): T;

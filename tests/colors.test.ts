@@ -1,11 +1,11 @@
-import Color from "@arcgis/core/Color.js";
-import { expect, test, suite } from "vitest";
 import {
   highwaySignBackgroundColor,
   highwaySignTextColor,
 } from "../src/colors.js";
+import Color from "@arcgis/core/Color.js";
+import { expect, test, describe } from "vitest";
 
-suite("colors", () => {
+describe("colors", () => {
   test("highwaySignBackgroundColor", () => {
     expect(highwaySignBackgroundColor).toBeInstanceOf(Color);
   });

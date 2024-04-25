@@ -1,6 +1,7 @@
-import { test, expect, suite } from "vitest";
 import { parseMapPositionHash } from "../src/history-api";
-suite("parseMapPositionHash", () => {
+import { test, expect, describe } from "vitest";
+
+describe("parseMapPositionHash", () => {
   test("Can parse hash with search parameters", () => {
     const url =
       "http://path/to/my/page.html#map=2.59/39.26/53.07/-24.1/60&foo=bar";

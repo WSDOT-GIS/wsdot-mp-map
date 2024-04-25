@@ -1,5 +1,6 @@
 import type { AttributeValue } from "../common/arcgis/typesAndInterfaces";
 import type { AttributesObject, TypedGraphic } from "../types";
+import { OpenStreetMapUrl } from "../urls/osm";
 import type { Point } from "@arcgis/core/geometry";
 
 const [
@@ -91,10 +92,13 @@ function createDL(graphic: TypedGraphic<Point, MPAttributes>) {
 }
 
 function createAnchor(
-  options: Pick<HTMLAnchorElement, "href" | "target" | "text">,
+  options: Pick<HTMLAnchorElement, "target" | "text"> & {
+    href: HTMLAnchorElement["href"] | URL;
+  },
 ) {
   const anchor = document.createElement("a");
-  anchor.href = options.href;
+  anchor.href =
+    typeof options.href === "string" ? options.href : options.href.href;
   anchor.target = options.target;
   anchor.rel = "noopener noreferrer external";
   anchor.text = options.text;
@@ -111,49 +115,60 @@ function createCoordsDetails(graphic: TypedGraphic<Point, MPAttributes>) {
   const point = webMercatorToGeographic(graphic.geometry) as Point;
   const { x, y } = point;
 
-  // Create the details element.
-
+  /**
+   * Create the list element with links to external mapping applications.
+   */
   const list = document.createElement("ul");
   list.classList.add("map-links-list");
-  let li: HTMLLIElement = createGeoMicroformat([y, x], "li") as HTMLLIElement;
+
+  const li = createGeoMicroformat([y, x], "li");
   list.append(li);
 
-  const geoUrl = new GeoUrl({ x, y });
+  /**
+   * Create a list item with an anchor element and add it to the list.
+   * @param options - The options for creating the anchor element.
+   */
+  function createLI(options: Parameters<typeof createAnchor>[0]) {
+    const li = document.createElement("li");
+    const a = createAnchor(options);
+    li.appendChild(a);
+    list.appendChild(li);
+  }
 
-  let a: HTMLAnchorElement;
-
-  li = document.createElement("li");
-  const googleUrl = GoogleUrl.fromLatLng(y, x);
-  a = createAnchor({
-    href: googleUrl.href,
-    target: "googlemaps",
+  createLI({
+    href: GoogleUrl.fromLatLng(y, x),
     text: "Google Maps",
+    target: "googlemaps",
   });
-  li.appendChild(a);
-  list.appendChild(li);
 
-  li = document.createElement("li");
-  a = createAnchor({
+  createLI({
+    href: new OpenStreetMapUrl({
+      search: {
+        mlat: y,
+        mlon: x,
+      },
+    }),
+    text: "OpenStreetMap",
+    target: "openstreetmap",
+  });
+
+  createLI({
     href: createGeoHackUrl({
       params: {
         coordinates: [y, x] as const,
       },
       pagename: `${graphic.attributes.Route} ${graphic.attributes.Srmp.toString()}${graphic.attributes.Back ? "B" : ""}`,
-    }).href,
+    }),
+    text: "GeoHack",
     target: "geohack",
-    text: "Geohack",
   });
-  li.appendChild(a);
-  list.appendChild(li);
 
-  li = document.createElement("li");
-  a = createAnchor({
-    href: geoUrl.href,
+  createLI({
+    href: new GeoUrl({ x, y }),
+    text: "GeoURI",
     target: "geouri",
-    text: "GeoURI 📱",
   });
-  li.appendChild(a);
-  list.appendChild(li);
+
   return list;
 }
 

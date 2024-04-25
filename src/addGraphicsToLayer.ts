@@ -8,7 +8,7 @@ import type FeatureLayer from "@arcgis/core/layers/FeatureLayer";
  */
 function getAddedGraphics(editsResult: __esri.EditsResult): Graphic[] | null {
   const editedFeatures = editsResult.editedFeatureResults?.map(
-    (r) => r.editedFeatures
+    (r) => r.editedFeatures,
   );
 
   if (!editedFeatures?.length) {
@@ -33,7 +33,7 @@ function getAddedGraphics(editsResult: __esri.EditsResult): Graphic[] | null {
  */
 export async function addGraphicsToLayer(
   milepostLayer: FeatureLayer,
-  locationGraphics: Graphic[]
+  locationGraphics: Graphic[],
 ) {
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   if (!locationGraphics || locationGraphics.length === 0) {
@@ -49,12 +49,12 @@ export async function addGraphicsToLayer(
     {
       addFeatures: locationGraphics,
     },
-    {}
+    {},
   );
 
   /* __PURE__ */ console.debug(
     `${addGraphicsToLayer.name}: editsResult`,
-    editsResult
+    editsResult,
   );
 
   return getAddedGraphics(editsResult);

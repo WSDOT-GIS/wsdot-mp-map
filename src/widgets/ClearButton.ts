@@ -24,7 +24,7 @@ export function createClearButton(options: ClearButtonOptions) {
     "esri-widget",
     "esri-widget--button",
     "esri-component",
-    "locate-mp-clear-button"
+    "locate-mp-clear-button",
   );
 
   const iconSpan = document.createElement("span");
@@ -45,7 +45,7 @@ export function createClearButton(options: ClearButtonOptions) {
         .then((features) =>
           layer.applyEdits({
             deleteFeatures: features.features,
-          })
+          }),
         )
         .catch((reason: unknown) => {
           console.error(reason);
