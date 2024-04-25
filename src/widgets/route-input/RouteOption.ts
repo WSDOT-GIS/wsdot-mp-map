@@ -22,16 +22,40 @@ const getLrsType = (v: string) => {
 };
 
 /**
+ * Options for creating a label for the given route.
+ */
+export interface CreateLabelOptions {
+  /**
+   * Determines if the shield label should be included.
+   * Set to `true` if the shield label should be included.
+   * Set to `false` if the shield label should not be included.
+   */
+  includeShieldLabel?: boolean;
+  /**
+   * Determines if the route number should be padded with zeros.
+   * Set to `true` if the route number should not be padded.
+   * Set to `false` if the route number should be padded.
+   */
+  removeRouteNumberPadding?: boolean;
+}
+
+/**
  * Creates a label for the given route.
  * @param route - The route.
+ * @param options - Options for creating the label.
  * @returns - A label for the route.
  */
-function createLabelText(route: RouteDescription) {
-  let shieldLabel = "";
-  if (route.shield !== null) {
-    shieldLabel = route.shield === "IS" ? "I-" : `${route.shield} `;
+function createLabelText(
+  route: RouteDescription,
+  options?: CreateLabelOptions,
+) {
+  let output = "";
+  if (options?.includeShieldLabel && route.shield !== null) {
+    output += route.shield === "IS" ? "I-" : `${route.shield} `;
   }
-  let output = `${shieldLabel}${parseInt(route.sr).toString()}`;
+  output += options?.removeRouteNumberPadding
+    ? parseInt(route.sr).toString()
+    : route.sr;
   if (!route.isMainline && route.rrtDescription) {
     output += ` ${route.rrtDescription}`;
     if (route.rrqDescription) {
@@ -48,9 +72,16 @@ function createLabelText(route: RouteDescription) {
 export class RouteOption extends HTMLOptionElement {
   private _lrsType: RouteTypes | null = null;
 
+  /**
+   * Indicates route type: increase, decrease, or ramp.
+   * @returns - The route type, derived from the `lrs-type` attribute.
+   */
   public get lrsType(): RouteTypes | null {
     return this._lrsType;
   }
+  /**
+   * Sets the "lrs-type" attribute.
+   */
   public set lrsType(v: RouteTypes | null) {
     this._lrsType = v;
 
