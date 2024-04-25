@@ -24,19 +24,26 @@ describe("URL search parameters", () => {
     const actual = getElcParamsFromUrl(url);
     expect(actual).toEqual(expected);
   });
-  // test("AR specified", () => {
-  //   const p = {
-  //     SR: "503",
-  //     MP: "35.23",
-  //     RT: "SP",
-  //   };
-  //   const expected: ExpectedType = {
-  //     Route: "503",
-  //     Srmp: 35.23,
-  //     Back: false,
-  //     Decrease: false,
-  //     ReferenceDate: expect.any(Date),
-  //     ResponseDate: expect.any(Date),
-  //   };
-  // });
+  test("AR specified", () => {
+    const p = new URLSearchParams([
+      ["SR", "503"],
+      ["MP", "35.23"],
+      ["RT", "SP"],
+    ] as const);
+
+    const expected: ExpectedType = {
+      Route: "503SP",
+      Srmp: 35.23,
+      Back: false,
+      Decrease: false,
+      ReferenceDate: expect.any(Date) as Date,
+      ResponseDate: expect.any(Date) as Date,
+    };
+
+    const url = new URL(`${urlRoot}?${p.toString()}`);
+
+    const actual = getElcParamsFromUrl(url);
+
+    expect(actual).toEqual(expected);
+  });
 });
