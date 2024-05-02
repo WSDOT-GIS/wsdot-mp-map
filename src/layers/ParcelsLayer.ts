@@ -155,7 +155,7 @@ const labelSymbol = new TextSymbol({
  */
 export const parcelsLayer = new FeatureLayer({
   id: "parcels",
-  title: "Parcels",
+  title: "Parcels From geo.wa.gov",
   fields,
   labelsVisible: false,
   labelingInfo: [
