@@ -29,6 +29,31 @@ function* createCoordinateDataElements(...items: LatLngTuple) {
  * @param tagName - The HTML tag name to use.
  * @param format - Determines which order to display the coordinates in.
  * @returns - An [h-geo](https://microformats.org/wiki/h-geo) representation.
+ * @example
+ * ```ts
+ * import { createGeoMicroformat } from "../common/formatting";
+ * const geo = createGeoMicroformat(
+ *    [45.618118664637244, -122.67503545489325],
+ *    "li", "latlng"
+ * );
+ * ```
+ * Will result in:
+ * ```html
+ * <li class="h-geo geo">
+ *    <data
+ *      title="-122.67503545489325"
+ *      value="-122.67503545489325"
+ *      class="p-longitude longitude">
+ *      -122.675035
+ *    </data>,
+ *    <data
+ *      title="45.618118664637244"
+ *      value="45.618118664637244"
+ *      class="p-latitude latitude">
+ *      45.618119
+ *    </data>
+ * </li>
+ * ```
  */
 export function createGeoMicroformat<
   T extends keyof HTMLElementTagNameMap = "span",

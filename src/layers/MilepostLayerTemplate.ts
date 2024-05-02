@@ -94,15 +94,20 @@ function createDL(graphic: TypedGraphic<Point, MPAttributes>) {
 
 function createAnchor(
   options: Pick<HTMLAnchorElement, "target" | "text"> & {
-    href: HTMLAnchorElement["href"] | URL;
+    href?: HTMLAnchorElement["href"] | URL;
   },
+  anchor?: HTMLAnchorElement,
 ) {
-  const anchor = document.createElement("a");
-  anchor.href =
-    typeof options.href === "string" ? options.href : options.href.href;
-  anchor.target = options.target;
-  anchor.rel = "noopener noreferrer external";
-  anchor.text = options.text;
+  if (!anchor) {
+    anchor = document.createElement("a");
+    if (options.href) {
+      anchor.href =
+        typeof options.href === "string" ? options.href : options.href.href;
+    }
+    anchor.target = options.target;
+    anchor.rel = "noopener noreferrer external";
+    anchor.text = options.text;
+  }
   return anchor;
 }
 
@@ -121,7 +126,10 @@ function createCoordsDetails(graphic: TypedGraphic<Point, MPAttributes>) {
    */
   const list = document.createElement("ul");
   list.classList.add("map-links-list");
-  const li = createGeoMicroformat([y, x], "li");
+
+  const a = createXYLink([x, y], "xy");
+  const li = document.createElement("li");
+  li.appendChild(a);
   list.append(li);
 
   /**
@@ -176,6 +184,49 @@ function createCoordsDetails(graphic: TypedGraphic<Point, MPAttributes>) {
   });
 
   return list;
+}
+
+function copyXYToClipboard(this: HTMLAnchorElement, event: MouseEvent) {
+  const lng = this.querySelector<HTMLDataElement>(
+    "data.longitude[value]",
+  )?.value;
+  const lat = this.querySelector<HTMLDataElement>(
+    "data.latitude[value]",
+  )?.value;
+  if (lng && lat) {
+    navigator.clipboard
+      .writeText(`${lat},${lng}`)
+      .then(() => {
+        alert("Copied to clipboard");
+      })
+      .catch((error: unknown) => {
+        alert(
+          `There was an error copying the coordinates to the clipboard: ${JSON.stringify(error)}`,
+        );
+      });
+  }
+  event.preventDefault();
+}
+
+/**
+ * The {@link createXYLink} function takes the first and third
+ * arguments from {@link createGeoMicroformat}
+ */
+type GeoMF = Parameters<typeof createGeoMicroformat>;
+
+/**
+ * Creates an anchor element with a geo-microformat that represents a link to a coordinate on a map.
+ * @param latLng - The latitude and longitude coordinates of the link.
+ * @param format - The format of the coordinate pair.
+ * @returns - The anchor element with the geo-microformat and click event listener.
+ */
+function createXYLink(latLng: GeoMF[0], format: GeoMF[2] = "xy") {
+  const a = createGeoMicroformat(latLng, "a", format);
+  const [x, y] =
+    format === "xy" ? [latLng[0], latLng[1]] : [latLng[1], latLng[0]];
+  a.href = new GeoUrl({ x, y }).href;
+  a.addEventListener("click", copyXYToClipboard);
+  return a;
 }
 
 async function createContent(target: TemplateTarget) {
