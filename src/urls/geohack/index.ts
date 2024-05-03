@@ -2,10 +2,34 @@
  * Used for working with [GeoHack](https://www.mediawiki.org/wiki/GeoHack) URLs.
  * @see {@link https://www.mediawiki.org/wiki/GeoHack GeoHack docs} for more information.
  */
-import {
-  convertToLatLngTuple,
-  type LatLngExpression,
+import type {
+  LatLngExpression,
+  LatLngLiteral,
+  LatLngTuple,
 } from "../../common/types";
+
+function isLatLngTuple(
+  latLng: Readonly<LatLngTuple>,
+): latLng is Readonly<LatLngTuple>;
+function isLatLngTuple(latLng: LatLngTuple): latLng is LatLngTuple;
+function isLatLngTuple(latLng: LatLngLiteral): false;
+function isLatLngTuple(
+  latLng: LatLngExpression,
+): latLng is LatLngTuple | Readonly<LatLngTuple>;
+/**
+ * Detects if the input value is a {@link LatLngTuple}.
+ * @param latLng - A {@link LatLngExpression}
+ * @returns Returns true if it is a {@link LatLngTuple}, false otherwise.
+ */
+function isLatLngTuple(
+  latLng: LatLngExpression,
+): latLng is LatLngTuple | Readonly<LatLngTuple> {
+  return (
+    Array.isArray(latLng) &&
+    typeof latLng[0] === "number" &&
+    typeof latLng[1] === "number"
+  );
+}
 
 /**
  * > The following are types GeoHack recognizes along with the calculated default scale.
@@ -43,9 +67,11 @@ type GeoHackType =
   | "railwaystation";
 
 /**
- * > Coordinates, optionally followed by other location-related parameters (underscore-separated, in a `key:value` fo\[r\]mat). Example: `1.292836_N_103.856878_E_type:landmark_dim:500`
+ * > Coordinates, optionally followed by other location-related parameters (underscore-separated, in a `key:value` fomat). Example: `1.292836_N_103.856878_E_type:landmark_dim:500`
  * >
  * > The coordinates are in one of the formats `D_M_S_N_D_M_S_E`, `D_M_N_D_M_E`, `D_N_D_E`, or `D;D` where `D` is degrees, `M` is minutes, `S` is seconds, and `NS/EWO` are the directions. Decimal numbers are accepted, especially for the last position.
+ * >
+ * > _TODO Document me_: boxed range syntax `D_N_D_E_to_D_N_D_E`
  * >
  * > Restrictions:
  * >
@@ -81,6 +107,18 @@ export interface GeoHackOptions {
   pagename?: string;
   params: GeoHackParams;
 }
+
+/**
+ * Converts the given coordinates to a tuple of latitude and longitude.
+ * @param coordinates - The coordinates to be converted.
+ * @returns The converted latitude and longitude tuple.
+ */
+const convertToLatLngTuple = (
+  coordinates: LatLngExpression,
+): Readonly<LatLngTuple> =>
+  isLatLngTuple(coordinates)
+    ? coordinates
+    : ([coordinates.lat, coordinates.lng] as const);
 
 /**
  * Generates an iterator that yields each key-value pair in the given GeoHackParams object
