@@ -1,6 +1,5 @@
 import type { AttributeValue } from "../common/arcgis/typesAndInterfaces";
 import type { AttributesObject, TypedGraphic } from "../types";
-import BingMapsUrl from "../urls/bing";
 import { OpenStreetMapUrl } from "../urls/osm";
 import type { Point } from "@arcgis/core/geometry";
 
@@ -146,13 +145,7 @@ function createCoordsDetails(graphic: TypedGraphic<Point, MPAttributes>) {
   createLI({
     href: GoogleUrl.fromLatLng(y, x),
     text: "Google Maps",
-    target: "google-maps",
-  });
-
-  createLI({
-    href: new BingMapsUrl([y, x]),
-    text: "Bing Maps",
-    target: "bing-maps",
+    target: "googlemaps",
   });
 
   createLI({
