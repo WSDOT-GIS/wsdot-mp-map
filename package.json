@@ -41,7 +41,7 @@
     "lefthook": "^1.6.10",
     "optionator": "^0.9.4",
     "prettier": "^3.2.5",
-    "tsx": "^4.7.3",
+    "tsx": "^4.9.3",
     "typescript": "^5.4.5",
     "typescript-eslint": "^7.8.0",
     "vite": "^5.2.10",
