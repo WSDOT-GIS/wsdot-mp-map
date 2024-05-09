@@ -163,7 +163,7 @@ export class ArcGisError extends Error implements ArcGisErrorObject {
    */
   constructor(
     arcGisErrorResponse: ArcGisErrorResponse,
-    otherInfo?: Record<string, undefined> & {
+    otherInfo?: Record<string, unknown> & {
       request?: Parameters<typeof fetch>;
       response?: Response;
     },
