@@ -7,6 +7,7 @@ import {
 import { elcReviver } from "./json";
 import {
   type DateString,
+  type DateType,
   type FindNearestRouteLocationParameters,
   type FindRouteLocationParameters,
   type RouteGeometry,
@@ -16,6 +17,7 @@ import {
   type RoutesResponse,
   type RoutesSet,
   type RouteTypes,
+  type ValidRouteLocationForMPInput,
 } from "./types";
 import { populateUrlParameters } from "./url";
 import { RouteDescription, type RrtValue } from "wsdot-route-utils";
@@ -77,6 +79,45 @@ function splitErrorResults<T>(elcResults: T[]) {
     successes,
     errors,
   };
+}
+
+/**
+ * Corrects the route information in an error by adding it to a new {@link ElcError} object.
+ * The original error will be the {@link ElcError.cause|cause} of the new error.
+ * @param resultItem - The original {@link ElcError} object.
+ * @param location - The route location to add to the new error.
+ * @returns The new {@link ElcError} object with the corrected route information.
+ */
+function correctRouteInfoInError(
+  resultItem: ElcError,
+  location: ValidRouteLocationForMPInput<DateType, RouteGeometry>,
+) {
+  const newError = new ElcError(resultItem, {
+    cause: resultItem,
+  });
+  Object.assign(newError, location);
+  return newError;
+}
+
+/**
+ * Updates the errors in the result array with additional information from the routeLocations.
+ * @param result - The array of errors and route locations.
+ * @param routeLocations - The parameters used to find the route locations.
+ */
+function addInfoToErrors(
+  result: (
+    | ElcError
+    | RouteLocation<`${number}/${number}/${number}`, RouteGeometry>
+  )[],
+  routeLocations: FindRouteLocationParameters,
+) {
+  for (const [i, resultItem] of result.entries()) {
+    if (resultItem instanceof ElcError) {
+      const location = routeLocations.locations[i];
+      const newError = correctRouteInfoInError(resultItem, location);
+      result[i] = newError;
+    }
+  }
 }
 
 /**
@@ -182,10 +223,13 @@ export async function findRouteLocations(
     | RouteLocation<DateString, RouteGeometry>
     | ElcError
   )[];
+
   if (isArcGisErrorResponse(result)) {
     console.error("Error from ArcGIS server.", result);
-    throw new ArcGisError(result);
+    throw new ArcGisError(result, { routeLocations, requestUrl, response });
   }
+
+  addInfoToErrors(result, routeLocations);
 
   /* __PURE__ */ console.groupEnd();
   return result;

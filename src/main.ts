@@ -1,4 +1,12 @@
+import { emitErrorEvent } from "./errorEvent";
 import type MapView from "@arcgis/core/views/MapView";
+
+addEventListener("elc-error", (event) => {
+  /* __PURE__ */ console.group("elc-error event listener");
+  const reason = event.detail;
+  /* __PURE__ */ console.error("elc error", reason);
+  /* __PURE__ */ console.groupEnd();
+});
 
 import("./index.css");
 
@@ -273,6 +281,10 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
           message += `\n${error.message}`;
         }
 
+        const handleError = (reason: unknown) => {
+          console.error("Failed to remove temporary graphic", reason);
+        };
+
         view
           .openPopup({
             title: "Route Location Not Found",
@@ -286,9 +298,7 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
             });
           })
           .finally(() => {
-            removeTempGraphic().catch((reason: unknown) => {
-              console.error("Failed to remove temporary graphic", reason);
-            });
+            removeTempGraphic().catch(handleError);
           });
       }
 
@@ -339,24 +349,19 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
   // Once the milepost layerview has been created, check for ELC data from the URL
   // and, if present, add the location to the map.
   milepostLayer.on("layerview-create", () => {
-    callElcFromUrl(milepostLayer)
-      .then(async (elcGraphics) => {
-        if (elcGraphics) {
-          const addedFeatures = await addGraphicsToLayer(
-            milepostLayer,
-            elcGraphics,
-          );
-          view.goTo(addedFeatures).catch((reason: unknown) => {
-            console.error('failed to "goTo" features from URL', {
-              reason,
-              features: addedFeatures,
-            });
-          });
-        }
-      })
-      .catch((reason: unknown) => {
-        console.error("Calling ELC from URL failed.", reason);
-      });
+    const callElc = async () => {
+      const elcGraphics = await callElcFromUrl(milepostLayer);
+      if (elcGraphics) {
+        const addedFeatures = await addGraphicsToLayer(
+          milepostLayer,
+          elcGraphics,
+        );
+        await view.goTo(addedFeatures);
+      }
+    };
+    callElc().catch((reason: unknown) => {
+      emitErrorEvent(reason);
+    });
   });
 })().catch((reason: unknown) => {
   console.error(reason);
