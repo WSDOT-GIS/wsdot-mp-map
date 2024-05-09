@@ -87,6 +87,7 @@ const regExpMap = new Map<UrlParamMapKey, KeyValueRegExpTuple>(
  * @param urlParams - the URL search parameters
  * @param key - the key to search for
  * @returns - the value associated with the key
+ * @throws {ReferenceError} if the key is not found
  */
 export function getUrlSearchParameter(
   urlParams: URLSearchParams,
@@ -94,7 +95,7 @@ export function getUrlSearchParameter(
 ) {
   const reTuple = regExpMap.get(key);
   if (!reTuple) {
-    throw new Error(`Invalid URL parameter key: ${key}`);
+    throw new ReferenceError(`Invalid URL parameter key: ${key}`);
   }
   const [keyRe, valueRe] = reTuple;
   let output: string | null = null;
@@ -270,6 +271,8 @@ export function getElcParamsFromUrl(
  * @param milepostLayer - The feature layer for mileposts
  * @param options - Options for {@link findRouteLocations}.
  * @returns - The graphics added to the layer
+ * @throws - {@link FormatError} if the URL does not contain valid route and milepost information
+ * @throws - {@link ElcError} if the URL contains invalid route and milepost information
  */
 export async function callElcFromUrl(
   milepostLayer: __esri.FeatureLayer,
