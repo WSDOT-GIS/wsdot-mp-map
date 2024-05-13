@@ -30,7 +30,7 @@
     "@vitest/coverage-istanbul": "^1.6.0",
     "@vitest/coverage-v8": "^1.6.0",
     "browserslist-to-esbuild": "^2.1.1",
-    "cspell": "^8.8.0",
+    "cspell": "^8.8.1",
     "eslint": "^9.2.0",
     "eslint-config-flat-gitignore": "^0.1.5",
     "eslint-config-prettier": "^9.1.0",
