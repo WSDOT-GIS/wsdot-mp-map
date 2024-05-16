@@ -1,4 +1,4 @@
-@import url("https://js.arcgis.com/4.29/esri/themes/light/main.css");
+
 
 html,
 body,
@@ -9,24 +9,24 @@ body,
   width: 100%;
 }
 
-.locate-mp-clear-button,
-.locate-mp-export-button {
-  border: unset;
+body {
+  display: flex;
 }
 
-.map-links-list {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
+calcite-loader {
+  align-self: center;
+  justify-self: center;
 }
 
-.map-links-list li {
-  display: inline-flex;
-  border-width: 1px;
-  border-style: solid;
-  border-radius: 8px;
-  border-color: lightgray;
-  text-align: center;
-  margin: 0.2rem;
-  padding: 0.1rem;
+#header-title {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+#info-content {
+  padding: 0.75rem;
+}
+
+calcite-rating {
+  margin-top: 0.25rem;
 }

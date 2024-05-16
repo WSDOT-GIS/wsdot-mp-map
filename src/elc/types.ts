@@ -121,6 +121,7 @@ export interface RouteLocation<D extends DateType, G extends RouteGeometry> {
   Route?: string;
   RouteGeometry?: G;
   Srmp?: number;
+  LocatingError?: string | null;
 }
 
 export type ArmRouteLocation<

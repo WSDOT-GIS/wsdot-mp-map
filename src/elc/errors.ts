@@ -1,36 +1,21 @@
-// const sampleErrors = [
-//   {
-//     ArmCalcReturnCode: 286,
-//     ArmCalcReturnMessage: "Invalid SR, Invalid RDWY Type requested",
-//     RealignmentDate: "1/1/1900",
-//     ReferenceDate: "2/13/2024",
-//     ResponseDate: "12/31/2022",
-//     Route: "",
-//   },
-//   {
-//     ArmCalcReturnCode: 272,
-//     ArmCalcReturnMessage: "SR, RRT, RRQ, or SRMP/ARM not found on file",
-//     RealignmentDate: "1/1/1900",
-//     ReferenceDate: "2/13/2024",
-//     ResponseDate: "12/31/2022",
-//     Route: "",
-//   },
-// ];
-import type { DateString } from "./types";
+import type { DateString, RouteGeometry, RouteLocation } from "./types";
 
-export interface ElcErrorResponse {
+export interface ElcErrorResponse
+  extends RouteLocation<DateString, RouteGeometry> {
   /**
    * A unique ID for the ELC location in the request.
    */
   Id?: number;
   /**
    * ARM Calc return code
+   * Should never be 0.
    */
-  ArmCalcReturnCode: Omit<number, 0>;
+  ArmCalcReturnCode: number;
   /**
    * ARM Calc return message that corresponds to {@link ArmCalcReturnCode}.
+   * Should never have an empty string.
    */
-  ArmCalcReturnMessage: Omit<string, "">;
+  ArmCalcReturnMessage: string;
   /**
    * The date of the realignment.
    */
@@ -46,7 +31,7 @@ export interface ElcErrorResponse {
   /**
    * Route ID
    */
-  Route?: "";
+  Route?: string;
 }
 
 /**
@@ -61,7 +46,18 @@ export class ElcError extends Error implements ElcErrorResponse {
   ReferenceDate;
   ResponseDate;
   Route;
+  Angle;
+  Arm;
+  Back;
+  Decrease;
+  Distance;
+  EventPoint;
+  RouteGeometry;
+  Srmp;
+  LocatingError;
   constructor(elcErrorResponse: ElcErrorResponse, options?: ErrorOptions) {
+    /* __PURE__ */ console.group("ElcError constructor");
+    /* __PURE__ */ console.debug("parameters", { elcErrorResponse, options });
     const {
       ArmCalcReturnCode,
       ArmCalcReturnMessage,
@@ -69,9 +65,25 @@ export class ElcError extends Error implements ElcErrorResponse {
       ReferenceDate,
       ResponseDate,
       Route,
+      Angle,
+      Arm,
+      Back,
+      Decrease,
+      Distance,
+      EventPoint,
+      RouteGeometry,
+      Srmp,
+      LocatingError,
     } = elcErrorResponse;
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    const message = `ArmCalc Error: ${ArmCalcReturnCode}: ${ArmCalcReturnMessage}`;
+
+    let message: string;
+
+    if (LocatingError) {
+      message = LocatingError;
+    } else {
+      message = `${ArmCalcReturnCode.toString()}: ${ArmCalcReturnMessage}`;
+    }
+
     super(message, options);
     this.ArmCalcReturnCode = ArmCalcReturnCode;
     this.ArmCalcReturnMessage = ArmCalcReturnMessage;
@@ -79,6 +91,38 @@ export class ElcError extends Error implements ElcErrorResponse {
     this.ReferenceDate = ReferenceDate;
     this.ResponseDate = ResponseDate;
     this.Route = Route ?? undefined;
+    this.Angle = Angle;
+    this.Arm = Arm;
+    this.Back = Back;
+    this.Decrease = Decrease;
+    this.Distance = Distance;
+    this.EventPoint = EventPoint;
+    this.RouteGeometry = RouteGeometry;
+    this.Srmp = Srmp;
+    this.LocatingError = LocatingError;
+
+    /* __PURE__ */ console.groupEnd();
+  }
+
+  override toString() {
+    let message = "";
+
+    if (this.Route) {
+      message += `${this.Route}${this.Decrease ? " (Decrease)" : ""}`;
+    }
+    if (this.Srmp != null) {
+      message += ` @ ${this.Srmp.toString()}${this.Back ? "B" : ""}`;
+    }
+    if (this.Arm != null) {
+      message += ` (ARM: ${this.Arm.toString()})`;
+    }
+
+    if (this.LocatingError) {
+      message += ` ${this.LocatingError}`;
+    } else if (this.ArmCalcReturnCode !== 0) {
+      message += ` ${this.ArmCalcReturnCode.toString()}: ${this.ArmCalcReturnMessage}`;
+    }
+    return message;
   }
 }
 
@@ -109,7 +153,10 @@ export function isElcErrorResponse(
   if (!(response != null && typeof response === "object")) {
     return false;
   }
-  return "ArmCalcReturnCode" in response && response.ArmCalcReturnCode !== 0;
+  return (
+    ("ArmCalcReturnCode" in response && response.ArmCalcReturnCode !== 0) ||
+    "LocatingError" in response
+  );
 }
 
 /**

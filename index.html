@@ -4,47 +4,68 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/flying-t.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>WSDOT Milepost Map</title>
+    <script
+      src="https://js.arcgis.com/calcite-components/2.8.0/calcite.esm.js"
+      type="module"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/calcite-components/2.8.0/calcite.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.29/esri/themes/light/main.css"
+    />
+    <title>%VITE_TITLE%</title>
   </head>
 
-  <body>
-    <div id="viewDiv"></div>
-    <template id="formTemplate">
-      <form class="esri-widget route-input-form">
-        <div></div>
-        <div>
-          <label for="routeInput">State Route</label>
-          <select
-            id="routeInput"
-            name="route"
-            required
-            is="route-select"
-            url="https://data.wsdot.wa.gov/arcgis/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe/routes/"
-          ></select>
-        </div>
-        <div>
-          <input type="checkbox" name="decrease" id="decreaseInput" disabled />
-          <label for="decreaseInput">Decrease</label>
-        </div>
-        <div>
-          <label for="mpInput">Milepost</label>
-          <input
-            id="mpInput"
-            name="mp"
-            type="number"
-            min="0"
-            step="0.01"
-            required
-          />
-          <input type="checkbox" name="back" id="backInput" />
-          <label for="backInput">Back</label>
-        </div>
-        <div>
-          <button type="submit">Submit</button>
-          <button type="reset">Reset</button>
-        </div>
-      </form>
-    </template>
+  <body class="calcite-mode-auto">
+    <calcite-loader></calcite-loader>
+    <calcite-shell>
+      <h2 slot="header">%VITE_TITLE%</h2>
+      <calcite-shell-panel slot="panel-start">
+        <calcite-panel>
+          <calcite-block heading="SRMP" collapsible open>
+            <form id="route-input-form" class="route-input-form">
+              <calcite-label for="routeInput"
+                >State Route
+                <select
+                  id="routeInput"
+                  name="route"
+                  required
+                  is="route-select"
+                  url="https://data.wsdot.wa.gov/arcgis/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe/routes/"
+                ></select>
+              </calcite-label>
+
+              <calcite-label layout="inline"
+                >Decrease<calcite-checkbox
+                  name="decrease"
+                  id="decreaseInput"
+                  disabled
+              /></calcite-label>
+              <calcite-label for="mpInput"
+                >Milepost<calcite-input-number
+                  id="mpInput"
+                  name="mp"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  required
+              /></calcite-label>
+
+              <calcite-label for="backInput" layout="inline"
+                >Back<calcite-checkbox name="back" id="backInput"
+              /></calcite-label>
+              <calcite-button type="reset" kind="neutral">Reset</calcite-button>
+              <calcite-button type="submit">Submit</calcite-button>
+            </form>
+          </calcite-block>
+        </calcite-panel>
+      </calcite-shell-panel>
+
+      <div id="viewDiv"></div>
+    </calcite-shell>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

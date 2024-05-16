@@ -2,6 +2,7 @@ import { addGraphicsToLayer } from "./addGraphicsToLayer";
 import { findRouteLocations } from "./elc";
 import { routeLocationToGraphic } from "./elc/arcgis";
 import { ElcError } from "./elc/errors";
+import { emitErrorEvent } from "./errorEvent";
 import {
   createSrmpInputForm,
   type RouteInputEvent,
@@ -17,10 +18,7 @@ import type MapView from "@arcgis/core/views/MapView";
  * @returns - The created SRMP input form
  */
 export async function setupForm(view: MapView, milepostLayer: FeatureLayer) {
-  const form = await createSrmpInputForm(view.ui, {
-    index: 0,
-    position: "top-leading",
-  });
+  const form = await createSrmpInputForm();
   form.addEventListener(
     "srmp-input",
     (event: RouteInputEvent) => {
@@ -70,6 +68,7 @@ async function addSrmpFromForm(
   for (const [i, rl] of routeLocations.entries()) {
     if (rl instanceof ElcError) {
       errors.set(i, rl);
+      emitErrorEvent(rl);
     } else {
       graphics.push(routeLocationToGraphic(rl));
     }
@@ -82,7 +81,6 @@ async function addSrmpFromForm(
       .join("\n");
     const message = `Error locating ${mp.toString()}${back ? "B" : ""} on ${route.toString()}:\n${errorList}`;
     console.error(message, { input: event.detail, errors });
-    alert(message);
   }
 
   if (graphics.length > 0) {
