@@ -234,55 +234,58 @@ vite.config.ts.timestamp*
 
 #region calcite
 
-public/assets/action
-public/assets/action-bar
-public/assets/action-group
-public/assets/action-pad
-public/assets/alert
-public/assets/block
-public/assets/block-section
-public/assets/button
-public/assets/card
-public/assets/chip
-public/assets/color-picker
-public/assets/combobox
-public/assets/date-picker
-public/assets/filter
-public/assets/flow-item
-public/assets/handle
-public/assets/icon
-public/assets/inline-editable
-public/assets/input
-public/assets/input-date-picker
-public/assets/input-number
-public/assets/input-text
-public/assets/input-time-picker
-public/assets/input-time-zone
-public/assets/list
-public/assets/list-item
-public/assets/menu
-public/assets/menu-item
-public/assets/modal
-public/assets/notice
-public/assets/pagination
-public/assets/panel
-public/assets/pick-list-item
-public/assets/popover
-public/assets/rating
-public/assets/scrim
-public/assets/shell-panel
-public/assets/stepper
-public/assets/stepper-item
-public/assets/tab-title
-public/assets/table
-public/assets/table-cell
-public/assets/table-header
-public/assets/text-area
-public/assets/time-picker
-public/assets/tip
-public/assets/tip-manager
-public/assets/value-list
+public
+    assets
+        action
+        action-bar
+        action-group
+        action-pad
+        alert
+        block
+        block-section
+        button
+        card
+        chip
+        color-picker
+        combobox
+        date-picker
+        filter
+        flow-item
+        handle
+        icon
+        inline-editable
+        input
+        input-date-picker
+        input-number
+        input-text
+        input-time-picker
+        input-time-zone
+        list
+        list-item
+        menu
+        menu-item
+        modal
+        notice
+        pagination
+        panel
+        pick-list-item
+        popover
+        rating
+        scrim
+        shell-panel
+        stepper
+        stepper-item
+        tab-title
+        table
+        table-cell
+        table-header
+        text-area
+        time-picker
+        tip
+        tip-manager
+        value-list
 
 #endregion calicte
 
 *.cpuprofile
+!.env

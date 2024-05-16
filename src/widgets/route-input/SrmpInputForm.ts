@@ -1,5 +1,4 @@
 import type RouteOption from "./RouteOption";
-import type UI from "@arcgis/core/views/ui/UI";
 
 const [{ RouteDescription }, { default: RouteSelect }, { RouteTypes }] =
   await Promise.all([
@@ -79,42 +78,20 @@ export interface SrmpInputForm extends HTMLFormElement {
   ): void;
 }
 
-type UIAddParameters = Parameters<UI["add"]>;
-
-type UIAddPosition = UIAddParameters[1];
-
 /**
  * Creates an SRMP input form and adds it to the specified UI at the given position.
- * @param ui - The UI to which the form will be added
- * @param position - The position at which the form will be added to the UI
- * @param template - The template to use for the form
  * @returns - The created SRMP input form
  */
-export async function createSrmpInputForm(
-  ui: UI,
-  position: UIAddPosition,
-  template?: HTMLTemplateElement,
-) {
-  // Set up default template if one is not provided.
-  if (!template) {
-    template =
-      document.querySelector<HTMLTemplateElement>("template#formTemplate") ??
-      undefined;
-  }
-  if (!template) {
-    throw new Error("Could not find template element.");
-  }
-
-  const formDocFrag = template.content;
-
+export async function createSrmpInputForm() {
   await customElements.whenDefined("route-select");
 
-  const form = formDocFrag
-    .querySelector("form")
-    ?.cloneNode(true) as SrmpInputForm | null;
+  const formSelector = "form#route-input-form";
+  const form = document.querySelector<SrmpInputForm>(formSelector);
 
   if (!form) {
-    throw new Error("Form was not created correctly.");
+    throw new Error(
+      `Form querySelector did not return any results for "${formSelector}".`,
+    );
   }
 
   form.route.addEventListener("change", (event: Event) => {
@@ -128,9 +105,6 @@ export async function createSrmpInputForm(
       d.checked = lrsType === RouteTypes.Decrease;
     }
   });
-
-  // form must be added to the document before event handling can be set up.
-  ui.add(form, position);
 
   form.addEventListener("submit", (event) => {
     /* __PURE__ */ console.group("SRMP form submit event");

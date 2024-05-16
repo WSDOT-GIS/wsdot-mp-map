@@ -5,19 +5,19 @@ import {
   type ArcGisErrorResponse,
 } from "./errors";
 import { elcReviver } from "./json";
-import {
-  type DateString,
-  type DateType,
-  type FindNearestRouteLocationParameters,
-  type FindRouteLocationParameters,
-  type RouteGeometry,
-  type RouteGeometryPoint,
-  type RouteIdString,
-  type RouteLocation,
-  type RoutesResponse,
-  type RoutesSet,
-  type RouteTypes,
-  type ValidRouteLocationForMPInput,
+import type {
+  DateString,
+  DateType,
+  FindNearestRouteLocationParameters,
+  FindRouteLocationParameters,
+  RouteGeometry,
+  RouteGeometryPoint,
+  RouteIdString,
+  RouteLocation,
+  RouteTypes,
+  RoutesResponse,
+  RoutesSet,
+  ValidRouteLocationForMPInput,
 } from "./types";
 import { populateUrlParameters } from "./url";
 import { RouteDescription, type RrtValue } from "wsdot-route-utils";
@@ -92,10 +92,16 @@ function correctRouteInfoInError(
   resultItem: ElcError,
   location: ValidRouteLocationForMPInput<DateType, RouteGeometry>,
 ) {
+  /* __PURE__ */ console.group(correctRouteInfoInError.name);
+  /* __PURE__ */ console.debug("input resultItem", { ...resultItem });
+  /* __PURE__ */ console.debug("input location", { ...location });
   const newError = new ElcError(resultItem, {
     cause: resultItem,
   });
+  /* __PURE__ */ console.debug("newError (pre-assignment)", { ...newError });
   Object.assign(newError, location);
+  /* __PURE__ */ console.debug("newError (post-assignment)", { ...newError });
+  /* __PURE__ */ console.groupEnd();
   return newError;
 }
 
@@ -150,6 +156,10 @@ export async function findNearestRouteLocations(
     /* __PURE__ */ console.debug("Result was an empty array.");
     /* __PURE__ */ console.groupEnd();
     return result;
+  } else if (result.length > 1) {
+    /* __PURE__ */ console.warn(
+      `Expected 1 result, got ${result.length.toString()}.`,
+    );
   }
 
   const { successes, errors } = splitErrorResults(result);

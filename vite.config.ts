@@ -5,12 +5,6 @@ import type { ExternalOption } from "rollup";
 import { defineConfig, type PluginOption } from "vite";
 import checker from "vite-plugin-checker";
 
-// import copy from "rollup-plugin-copy";
-
-// const calciteAssetsDestDir =
-//   "node_modules/@esri/calcite-components/dist/calcite/assets/";
-// const calciteAssetsSourceDir = "public/";
-
 type ExternalFunction = Exclude<ExternalOption, string | RegExp | unknown[]>;
 
 /**

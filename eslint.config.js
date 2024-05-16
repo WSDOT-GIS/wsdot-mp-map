@@ -9,7 +9,6 @@ export default tseslint.config(
   gitignore({
     root: true,
   }),
-  // { ignores: ["coverage/", "dist/", "node_modules/", "test-results/"] },
   {
     files: ["{src,tests,tools}/**/*.{ts,tsx,mts}"],
     ignores: ["vite.config.ts"],

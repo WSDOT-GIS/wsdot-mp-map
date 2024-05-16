@@ -1,9 +1,12 @@
+import { createElcErrorAlert } from "./createElcErrorAlert";
 import { emitErrorEvent } from "./errorEvent";
 import type MapView from "@arcgis/core/views/MapView";
+import "@esri/calcite-components";
 
 addEventListener("elc-error", (event) => {
   /* __PURE__ */ console.group("elc-error event listener");
   const reason = event.detail;
+  createElcErrorAlert(reason);
   /* __PURE__ */ console.error("elc error", reason);
   /* __PURE__ */ console.groupEnd();
 });
@@ -39,6 +42,7 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
   const [
     { default: Basemap },
     { default: config },
+    { whenOnce },
     { default: Graphic },
     { default: PortalItem },
     { default: EsriMap },
@@ -61,6 +65,7 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
   ] = await Promise.all([
     import("@arcgis/core/Basemap"),
     import("@arcgis/core/config"),
+    import("@arcgis/core/core/reactiveUtils"),
     import("@arcgis/core/Graphic"),
     import("@arcgis/core/portal/PortalItem"),
     import("@arcgis/core/Map"),
@@ -175,6 +180,19 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
     extent: waExtent,
     popupEnabled: false,
   });
+
+  whenOnce(() => map.initialized)
+    .then(() => {
+      const shell = document.querySelector<HTMLElement>("calcite-shell");
+      const loader = document.querySelector<HTMLElement>("calcite-loader");
+      if (!!shell && !!loader) {
+        shell.hidden = false;
+        loader.hidden = true;
+      }
+    })
+    .catch((error: unknown) => {
+      console.error("Failed to initialize map.", error);
+    });
 
   import("@arcgis/core/widgets/BasemapToggle")
     .then(({ default: BasemapToggle }) => {
