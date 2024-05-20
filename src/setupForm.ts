@@ -19,6 +19,7 @@ import type MapView from "@arcgis/core/views/MapView";
  */
 export async function setupForm(view: MapView, milepostLayer: FeatureLayer) {
   const form = await createSrmpInputForm();
+
   form.addEventListener(
     "srmp-input",
     (event: RouteInputEvent) => {

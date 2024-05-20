@@ -1,11 +1,10 @@
-import type RouteOption from "./RouteOption";
-
-const [{ RouteDescription }, { default: RouteSelect }, { RouteTypes }] =
-  await Promise.all([
-    import("wsdot-route-utils"),
-    import("./RouteSelect"),
-    import("../../elc/types"),
-  ]);
+import {
+  getComboboxItems,
+  getRoutes,
+  getRoutesFromService,
+} from "./createComboBoxItems";
+import type { CalciteCombobox } from "@esri/calcite-components/dist/components/calcite-combobox";
+import { RouteDescription } from "wsdot-route-utils";
 
 /**
  * The object that is passed to the `srmp-input` event.
@@ -48,7 +47,7 @@ export interface SrmpInputForm extends HTMLFormElement {
   /**
    * The route input field.
    */
-  route: InstanceType<typeof RouteSelect>;
+  route: InstanceType<typeof CalciteCombobox>;
   /**
    * The milepost input field.
    */
@@ -83,37 +82,69 @@ export interface SrmpInputForm extends HTMLFormElement {
  * @returns - The created SRMP input form
  */
 export async function createSrmpInputForm() {
-  await customElements.whenDefined("route-select");
-
   const formSelector = "form#route-input-form";
   const form = document.querySelector<SrmpInputForm>(formSelector);
 
   if (!form) {
-    throw new Error(
-      `Form querySelector did not return any results for "${formSelector}".`,
-    );
+    const message = `Form querySelector did not return any results for "${formSelector}".`;
+    throw new Error(message);
   }
 
-  form.route.addEventListener("change", (event: Event) => {
-    if (event.target instanceof RouteSelect) {
-      const lrsType =
-        (event.target.selectedOptions.item(0) as RouteOption | null)?.lrsType ??
-        null;
-      const d = form.decrease;
-      d.disabled =
-        lrsType === RouteTypes.Increase || lrsType === RouteTypes.Decrease;
-      d.checked = lrsType === RouteTypes.Decrease;
+  const routeElement = form.querySelector("#routeInput");
+  if (!routeElement) {
+    const message = `"route" element not found in form.`;
+    /* __PURE__ */ console.error(message);
+    throw new Error("route element not found");
+  }
+  const routeFeatures = await getRoutesFromService();
+  const routes = getRoutes(routeFeatures);
+  routeElement.append(...getComboboxItems(routes));
+
+  routeElement.addEventListener("change", () => {
+    form.dispatchEvent(new CustomEvent("srmp-input"));
+  });
+
+  routeElement.addEventListener("change", (event: Event) => {
+    /* __PURE__ */ console.group("SRMP form route change event");
+    const selectedItems = (
+      event.target as InstanceType<typeof CalciteCombobox> | null
+    )?.selectedItems;
+    /* __PURE__ */ console.debug("Selected items", selectedItems);
+
+    if (selectedItems && selectedItems.length > 0) {
+      const selectedItem = selectedItems[0];
+      /* __PURE__ */ console.debug("Selected item", selectedItem);
+      const lrsTypes = [...(selectedItem.dataset.directions ?? "")] as (
+        | "d"
+        | "i"
+      )[];
+      /* __PURE__ */ console.debug("lrsTypes", lrsTypes);
+      const decreaseCheckbox = form.decrease;
+      if (lrsTypes.length > 1) {
+        decreaseCheckbox.disabled = true;
+      } else {
+        decreaseCheckbox.disabled = false;
+        const direction = lrsTypes[0];
+        decreaseCheckbox.checked = direction === "d";
+      }
     }
   });
 
   form.addEventListener("submit", (event) => {
     /* __PURE__ */ console.group("SRMP form submit event");
     try {
+      const routeId =
+        typeof form.route.value === "string"
+          ? form.route.value
+          : form.route.value[0];
+      const route = new RouteDescription(routeId);
+      const mp = form.mp.valueAsNumber;
+      const back = form.back.checked;
       const customEvent = new CustomEvent("srmp-input", {
         detail: {
-          route: new RouteDescription(form.route.value),
-          mp: form.mp.valueAsNumber,
-          back: form.back.checked,
+          route,
+          mp,
+          back,
         },
       });
       form.dispatchEvent(customEvent);
