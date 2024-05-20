@@ -3,7 +3,7 @@ import { emitErrorEvent } from "./errorEvent";
 import type MapView from "@arcgis/core/views/MapView";
 import "@esri/calcite-components";
 
-addEventListener("elc-error", (event) => {
+window.addEventListener("elc-error", (event) => {
   /* __PURE__ */ console.group("elc-error event listener");
   const reason = event.detail;
   createElcErrorAlert(reason);

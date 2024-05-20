@@ -29,13 +29,16 @@
             <form id="route-input-form" class="route-input-form">
               <calcite-label for="routeInput"
                 >State Route
-                <select
+                <calcite-combobox
                   id="routeInput"
                   name="route"
+                  label="route select"
+                  selection-mode="single"
                   required
-                  is="route-select"
-                  url="https://data.wsdot.wa.gov/arcgis/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe/routes/"
-                ></select>
+                  placeholder="Select a route"
+                  data-url="https://data.wsdot.wa.gov/arcgis/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe/routes/"
+                >
+                </calcite-combobox>
               </calcite-label>
 
               <calcite-label layout="inline"
