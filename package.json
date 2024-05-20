@@ -71,6 +71,7 @@
   "dependencies": {
     "@esri/calcite-components": "^2.8.2",
     "@types/geojson": "^7946.0.14",
+    "@wsdot/web-styles": "github:WSDOT-GIS/wsdot-web-styles",
     "dms-conversion": "^3.1.3"
   }
 }
