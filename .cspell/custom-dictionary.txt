@@ -11,10 +11,13 @@ fontnik
 Geoportal
 geouri
 GNIS
+Haettenschweiler
+inconsolata
 JURDSG
 JURFIPSDSG
 JURNM
 latlng
+lato
 lcov
 mlat
 mlon

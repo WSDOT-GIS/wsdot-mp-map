@@ -1,4 +1,11 @@
+:root {
+  font-family: "Lato", Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+}
 
+#wsdot-logo {
+  fill: var(--wsdot-logo-green);
+  margin-right: 1rem;
+}
 
 html,
 body,
