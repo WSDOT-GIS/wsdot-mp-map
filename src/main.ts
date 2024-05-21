@@ -2,6 +2,31 @@ import { createElcErrorAlert } from "./createElcErrorAlert";
 import { emitErrorEvent } from "./errorEvent";
 import type MapView from "@arcgis/core/views/MapView";
 import "@esri/calcite-components";
+import "@fontsource/inconsolata";
+import "@fontsource/lato";
+
+import("@wsdot/web-styles/css/wsdot-colors.css");
+
+async function addWsdotLogo() {
+  const { default: svg } = await import(
+    "@wsdot/web-styles/images/wsdot-logo/wsdot-logo-black.svg?raw"
+  );
+  const dp = new DOMParser();
+  const wsdotLogo = dp.parseFromString(svg, "image/svg+xml").documentElement;
+
+  wsdotLogo.id = "wsdot-logo";
+
+  /* __PURE__ */ console.debug("wsdot logo", wsdotLogo);
+  const headingSelector = "h2";
+  const headingElement = document.body.querySelector(headingSelector);
+  if (!headingElement) {
+    throw new Error("Heading element not found");
+  }
+  headingElement.prepend(wsdotLogo);
+  return wsdotLogo;
+}
+
+void addWsdotLogo();
 
 window.addEventListener("elc-error", (event) => {
   /* __PURE__ */ console.group("elc-error event listener");
