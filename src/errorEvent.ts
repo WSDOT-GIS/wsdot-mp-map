@@ -16,17 +16,25 @@ export const emitErrorEvent = (error: unknown) => {
    * Defaults to "error" if it is not a more specific type.
    */
   let eventTypeName = "error";
+  // Initialize the event detail object.
   let detail: Error;
+  // If error parameter is not an instance of Error...
   if (!(error instanceof Error)) {
+    // If it is a string, create an Error with the string as the message.
     if (typeof error === "string") {
       detail = new Error(error);
-    } else {
+    }
+    // Otherwise, create an Error with the JSON stringified error as the message.
+    else {
       const message = error == null ? undefined : JSON.stringify(error);
       detail = new Error(message, {
         cause: error,
       });
     }
-  } else {
+  }
+  // If error parameter is an instance of Error, then set the eventTypeName
+  // to match the specifictype of error.
+  else {
     detail = error;
     if (error instanceof ElcError) {
       eventTypeName = "elc-error";
