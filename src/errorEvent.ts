@@ -50,5 +50,19 @@ export const emitErrorEvent = (error: unknown) => {
     }
   }
 
-  return window.dispatchEvent(new CustomEvent(eventTypeName, { detail }));
+  const dispatchMap = new Map<string, boolean>();
+
+  // Dispatch a generic "error" event for any eventTypeName that is not "error".
+  if (eventTypeName !== "error") {
+    dispatchMap.set(
+      "error",
+      window.dispatchEvent(new CustomEvent("error", { detail })),
+    );
+  }
+
+  dispatchMap.set(
+    eventTypeName,
+    window.dispatchEvent(new CustomEvent(eventTypeName, { detail })),
+  );
+  return dispatchMap;
 };

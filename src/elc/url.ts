@@ -40,7 +40,7 @@ type UrlParamMapKey = (typeof urlKeys)[number];
  * Regular expression patterns to validate URL parameters.
  */
 const keyRegExps = new Map([
-  ["sr", /^SR/i],
+  ["sr", /^(?:(?:SR)|(?:route))/i],
   ["rrt", /^R{1,2}T/i],
   ["rrq", /^R{1,2}Q/i],
   ["dir", /^D(?:IR)?/i],
@@ -53,7 +53,7 @@ const keyRegExps = new Map([
 const valueRegExps = new Map([
   ["sr", /^\d{1,3}$/],
   ["rrt", /^[A-Z0-9]{0,2}$/i],
-  ["rrq", /^[A-Z0-9]*$/i],
+  ["rrq", /^[A-Z0-9]{0,6}$/i],
   ["dir", /^[ID]/i],
   /**
    * Regular expression pattern to validate and extract milepost information from a string.
@@ -83,30 +83,57 @@ const regExpMap = new Map<UrlParamMapKey, KeyValueRegExpTuple>(
 );
 
 /**
- * Gets a value from the URL search parameters based on the provided key.
- * @param urlParams - the URL search parameters
- * @param key - the key to search for
- * @returns - the value associated with the key
- * @throws {ReferenceError} if the key is not found
+ * Retrieves a value from the URL search parameters based on the provided key.
+ * @param urlParams - The URL search parameters.
+ * @param key - The key to search for.
+ * @returns The value associated with the key.
+ * @throws {ReferenceError} If the key is not found.
  */
 export function getUrlSearchParameter(
   urlParams: URLSearchParams,
   key: UrlParamMapKey,
 ) {
+  // Retrieve the regular expression tuple from the regExpMap based on the key.
   const reTuple = regExpMap.get(key);
   if (!reTuple) {
-    throw new ReferenceError(`Invalid URL parameter key: ${key}`);
+    const keyList = [...regExpMap.keys()].map((k) => `"${k}"`).join(", ");
+    const valueReList = [...regExpMap.values()]
+      .map(([k]) => k.source)
+      .join(", ");
+    // If the key is not found, throw a ReferenceError with the key.
+    throw new ReferenceError(
+      `Invalid URL parameter key: ${key}. Valid values are ${keyList}. Alternative values are ${valueReList}.`,
+    );
   }
+
   const [keyRe, valueRe] = reTuple;
   let output: string | null = null;
+
+  // Iterate over each key-value pair in the URL search parameters.
   for (const [k, v] of urlParams.entries()) {
+    // If the key does not match the regular expression, continue to the next iteration.
     if (!keyRe.test(k)) {
       continue;
     }
-    if (valueRe.test(v)) {
-      output = v;
+
+    // Execute the value regular expression on the value.
+    const valueMatch = valueRe.exec(v);
+
+    // If there is a match, assign the value to the output variable and break the loop.
+    if (valueMatch) {
+      output = valueMatch[0];
+      break;
+    } else {
+      // Throw error if there is no match.
+      throw new FormatError(
+        v,
+        valueRe,
+        `Invalid URL parameter value for key: ${k}: ${v}.\nValue needs to match ${valueRe}.`,
+      );
     }
   }
+
+  // Return the output value.
   return output;
 }
 

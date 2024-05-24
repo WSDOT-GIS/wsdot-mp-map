@@ -39,6 +39,16 @@ export default tseslint.config(
         },
       ],
       "@typescript-eslint/no-unnecessary-condition": "warn",
+      "@typescript-eslint/restrict-template-expressions": [
+        "error",
+        {
+          allowAny: false,
+          allowBoolean: true,
+          allowNullish: true,
+          allowNumber: true,
+          allowRegExp: true,
+        },
+      ],
     },
   },
   {
