@@ -1,9 +1,10 @@
-import { createElcErrorAlert } from "./createElcErrorAlert";
+import { createErrorAlert } from "./createElcErrorAlert";
 import { emitErrorEvent } from "./errorEvent";
 import type MapView from "@arcgis/core/views/MapView";
 import "@esri/calcite-components";
 import "@fontsource/inconsolata";
 import "@fontsource/lato";
+import type { FormatError } from "wsdot-route-utils";
 
 import("@wsdot/web-styles/css/wsdot-colors.css");
 
@@ -47,8 +48,16 @@ addWsdotLogo().catch((reason: unknown) => {
 window.addEventListener("elc-error", (event) => {
   /* __PURE__ */ console.group("elc-error event listener");
   const reason = event.detail;
-  createElcErrorAlert(reason);
+  createErrorAlert(reason);
   /* __PURE__ */ console.error("elc error", reason);
+  /* __PURE__ */ console.groupEnd();
+});
+
+window.addEventListener("format-error", (event) => {
+  /* __PURE__ */ console.group("error event listener");
+  const reason = event.detail as FormatError;
+  createErrorAlert(reason);
+  /* __PURE__ */ console.error("error", reason);
   /* __PURE__ */ console.groupEnd();
 });
 
@@ -408,6 +417,12 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
   // Once the milepost layerview has been created, check for ELC data from the URL
   // and, if present, add the location to the map.
   milepostLayer.on("layerview-create", () => {
+    /* __PURE__ */ console.debug("milepost layer view created");
+
+    /**
+     * Calls the ELC API to retrieve graphics from the URL and adds them to the milepost layer.
+     * @returns A promise that resolves when the graphics have been added to the layer and the view has been updated.
+     */
     const callElc = async () => {
       const elcGraphics = await callElcFromUrl(milepostLayer);
       if (elcGraphics) {
@@ -419,6 +434,10 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
       }
     };
     callElc().catch((reason: unknown) => {
+      /* __PURE__ */ console.error(
+        "Failed to add ELC graphics from URL.",
+        reason,
+      );
       emitErrorEvent(reason);
     });
   });

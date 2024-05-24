@@ -66,7 +66,6 @@ function createDL(graphic: TypedGraphic<Point, MPAttributes>) {
       dd.append(progress);
       value
         .then((v) => {
-          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
           const textElement = document.createTextNode(!v ? "" : `${v}`);
           progress.replaceWith(textElement);
         })
