@@ -98,3 +98,12 @@ export function createErrorAlert<E extends Error>(
   /* __PURE__ */ console.groupEnd();
   return cAlert;
 }
+
+// Setup hot module reloading.
+if (import.meta.hot) {
+  import.meta.hot.accept((newModule) => {
+    if (newModule) {
+      console.log("hot module replacement", newModule);
+    }
+  });
+}

@@ -20,6 +20,7 @@ export function elcReviver<T>(
   if (isArcGisErrorResponse(value)) {
     return new ArcGisError(value);
   }
+  // Convert empty strings to null.
   if (value === "") {
     return null;
   }
@@ -27,4 +28,13 @@ export function elcReviver<T>(
     return new ElcError(value);
   }
   return value;
+}
+
+// Setup hot module reloading.
+if (import.meta.hot) {
+  import.meta.hot.accept((newModule) => {
+    if (newModule) {
+      console.log("hot module replacement", newModule);
+    }
+  });
 }
