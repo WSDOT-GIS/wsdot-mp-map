@@ -20,6 +20,8 @@ import type MapView from "@arcgis/core/views/MapView";
 export async function setupForm(view: MapView, milepostLayer: FeatureLayer) {
   const form = await createSrmpInputForm();
 
+  // Add an event listener for the custom event "srmp-input" which will add
+  // the route location that was submitted to the map.
   form.addEventListener(
     "srmp-input",
     (event: RouteInputEvent) => {
