@@ -37,3 +37,20 @@ calcite-loader {
 calcite-rating {
   margin-top: 0.25rem;
 }
+
+.map-links-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.map-links-list li {
+  display: inline-flex;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 8px;
+  border-color: lightgray;
+  text-align: center;
+  margin: 0.2rem;
+  padding: 0.1rem;
+}
