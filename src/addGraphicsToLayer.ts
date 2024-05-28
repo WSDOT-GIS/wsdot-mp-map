@@ -59,3 +59,11 @@ export async function addGraphicsToLayer(
 
   return getAddedGraphics(editsResult);
 }
+
+if (import.meta.hot) {
+  import.meta.hot.accept((newModule) => {
+    if (newModule) {
+      console.log("hot module replacement", newModule);
+    }
+  });
+}

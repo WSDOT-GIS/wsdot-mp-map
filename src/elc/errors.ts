@@ -244,3 +244,12 @@ export const isArcGisError = (input: unknown): input is ArcGisError =>
   input != null &&
   typeof input === "object" &&
   ["code", "message", "details"].every((key) => key in input);
+
+// Setup hot module reloading.
+if (import.meta.hot) {
+  import.meta.hot.accept((newModule) => {
+    if (newModule) {
+      console.log("hot module replacement", newModule);
+    }
+  });
+}
