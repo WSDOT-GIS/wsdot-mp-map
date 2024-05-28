@@ -9,12 +9,27 @@ import type { FormatError } from "wsdot-route-utils";
 
 import("@wsdot/web-styles/css/wsdot-colors.css");
 
-addWsdotLogo().catch((reason: unknown) => {
+const wsdotLogoParentSelector = "#header-title";
+
+const catchErrorAndEmitInDev = (reason: unknown) => {
   if (import.meta.env.DEV) {
     emitErrorEvent(reason);
   }
   console.error("Failed to add WSDOT logo.", reason);
-});
+};
+addWsdotLogo(wsdotLogoParentSelector).catch(catchErrorAndEmitInDev);
+
+if (import.meta.hot) {
+  import.meta.hot.accept("./addWsdotLogo", (mod) => {
+    if (mod) {
+      console.log("hot module replacement", mod);
+    }
+    document.querySelector(".wsdot-logo")?.remove();
+    (mod as unknown as typeof import("./addWsdotLogo"))
+      .addWsdotLogo(wsdotLogoParentSelector)
+      .catch(catchErrorAndEmitInDev);
+  });
+}
 
 window.addEventListener("elc-error", (event) => {
   /* __PURE__ */ console.group("elc-error event listener");
