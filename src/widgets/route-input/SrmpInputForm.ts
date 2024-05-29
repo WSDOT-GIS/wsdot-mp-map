@@ -13,6 +13,7 @@ export interface RouteEventObject {
   route: InstanceType<typeof RouteDescription>;
   mp: number;
   back: boolean;
+  decrease: boolean;
 }
 
 export type RouteInputEvent = CustomEvent<RouteEventObject>;
@@ -133,6 +134,7 @@ export async function createSrmpInputForm() {
   form.addEventListener("submit", (event) => {
     /* __PURE__ */ console.group("SRMP form submit event");
     try {
+      /* __PURE__ */ console.debug("event", event);
       const routeId =
         typeof form.route.value === "string"
           ? form.route.value
@@ -140,11 +142,13 @@ export async function createSrmpInputForm() {
       const route = new RouteDescription(routeId);
       const mp = form.mp.valueAsNumber;
       const back = form.back.checked;
+      const decrease = form.decrease.checked;
       const customEvent = new CustomEvent("srmp-input", {
         detail: {
           route,
           mp,
           back,
+          decrease,
         },
       });
       form.dispatchEvent(customEvent);
