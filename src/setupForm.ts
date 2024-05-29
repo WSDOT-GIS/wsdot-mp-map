@@ -49,11 +49,10 @@ async function addSrmpFromForm(
 ) {
   /* __PURE__ */ console.group(addSrmpFromForm.name);
   /* __PURE__ */ console.debug("event", event);
-  const { route, mp, back } = event.detail;
+  const { route, mp, back, decrease } = event.detail;
 
   // Pad the route if necessary and append the type if there is one.
   const routeId = route.toString().replace(/[idr]$/, "");
-  const decrease = route.isDecrease;
   // Create the reference date for ELC call to now, then set time to midnight.
   const referenceDate = new Date();
   referenceDate.setHours(0, 0, 0, 0);
