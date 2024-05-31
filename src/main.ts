@@ -95,7 +95,7 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
     { parcelsLayer },
     { tempLayer },
     { waExtent },
-    { setupWidgets },
+    { setupLayerList },
     { setupSearch },
     { isGraphicHit, UIAddPositions },
   ] = await Promise.all([
@@ -118,7 +118,7 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
     import("./layers/ParcelsLayer"),
     import("./layers/TempLayer"),
     import("./WAExtent"),
-    import("./widgets/expandGroups"),
+    import("./widgets/LayerList"),
     import("./widgets/setupSearch"),
     import("./types"),
   ] as const);
@@ -217,6 +217,17 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
     popupEnabled: false,
   });
 
+  import("@arcgis/core/widgets/Legend")
+    .then(({ default: Legend }) => {
+      new Legend({
+        view: view,
+        container: "legend",
+      });
+    })
+    .catch((error: unknown) => {
+      console.error("Failed to import Legend module.", error);
+    });
+
   whenOnce(() => map.initialized)
     .then(() => {
       const shell = document.querySelector<HTMLElement>("calcite-shell");
@@ -267,10 +278,7 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
     position: UIAddPositions.topTrailing,
   });
 
-  setupWidgets(view, UIAddPositions.topTrailing, {
-    group: UIAddPositions.topTrailing,
-    mode: "drawer",
-  });
+  setupLayerList({ view, container: "layerlist" });
 
   const home = new Home({
     view,
