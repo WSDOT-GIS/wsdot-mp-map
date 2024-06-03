@@ -278,7 +278,9 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
     position: UIAddPositions.topTrailing,
   });
 
-  setupLayerList({ view, container: "layerlist" });
+  setupLayerList({ view, container: "layerlist" }).catch((reason: unknown) => {
+    console.error("Failed to setup layer list", reason);
+  });
 
   const home = new Home({
     view,
