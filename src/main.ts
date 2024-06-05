@@ -1,6 +1,7 @@
 import { addWsdotLogo } from "./addWsdotLogo";
 import { createErrorAlert } from "./createElcErrorAlert";
 import { emitErrorEvent } from "./errorEvent";
+import { setupHashUpdate } from "./history-api/hash-update-setup";
 import type MapView from "@arcgis/core/views/MapView";
 import "@esri/calcite-components";
 import "@fontsource/inconsolata";
@@ -217,12 +218,22 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
     popupEnabled: false,
   });
 
+  view
+    .when(() => {
+      setupHashUpdate(view);
+    })
+    .catch((error: unknown) => {
+      console.error("Failed to initialize view.", error);
+    });
+
   import("@arcgis/core/widgets/Legend")
     .then(({ default: Legend }) => {
-      new Legend({
+      const legend = new Legend({
         view: view,
         container: "legend",
       });
+
+      /* __PURE__ */ console.debug("Added legend", legend);
     })
     .catch((error: unknown) => {
       console.error("Failed to import Legend module.", error);
