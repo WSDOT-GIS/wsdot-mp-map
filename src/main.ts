@@ -6,7 +6,7 @@ import type MapView from "@arcgis/core/views/MapView";
 import "@esri/calcite-components";
 import "@fontsource/inconsolata";
 import "@fontsource/lato";
-import type { FormatError } from "wsdot-route-utils";
+import { FormatError, RouteDescription } from "wsdot-route-utils";
 
 import("@wsdot/web-styles/css/wsdot-colors.css");
 
@@ -63,12 +63,33 @@ const elcMainlinesOnlyFilter =
 function openPopup(hits: __esri.GraphicHit[], view: MapView) {
   // Get the features that were hit by the hit test.
   const features = hits.map(({ graphic }) => graphic);
+  const updateUrlSearch = () => {
+    const routeLocation = features
+      .map(
+        (f) =>
+          f.attributes as Record<string, string | number | undefined | null> & {
+            Back: string;
+            Route: string;
+            Srmp: number;
+            Direction: string;
+          },
+      )
+      .at(0);
+
+    if (!routeLocation) {
+      console.error("Could not find route location");
+      return;
+    }
+
+    updateUrlSearchParams(routeLocation);
+  };
   view
     .openPopup({
       features,
       updateLocationEnabled: true,
       shouldFocus: true,
     })
+    .then(updateUrlSearch)
     .catch((reason: unknown) => {
       console.error("openPopup failed", reason);
     });
@@ -459,3 +480,39 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
 })().catch((reason: unknown) => {
   console.error(reason);
 });
+function updateUrlSearchParams(
+  routeLocation: Record<string, string | number | null | undefined> & {
+    Back: string;
+    Route: string;
+    Srmp: number;
+    Direction: string;
+  },
+) {
+  const srmp = `${routeLocation.Srmp}${routeLocation.Back}`;
+  const { sr, rrt, rrq } = new RouteDescription(routeLocation.Route);
+  const direction = routeLocation.Direction;
+
+  const currentUrl = new URL(window.location.href);
+
+  /**
+   * Map of the search params and their values.
+   */
+  const argsMap = new Map([
+    ["SR", sr],
+    ["RRT", rrt],
+    ["RRQ", rrq],
+    ["MP", srmp],
+    ["DIR", direction],
+  ] as const);
+
+  // Update the URL search parameters.
+  for (const [key, value] of argsMap) {
+    if (value) {
+      currentUrl.searchParams.set(key, value);
+    } else {
+      currentUrl.searchParams.delete(key);
+    }
+  }
+
+  window.history.replaceState(null, "", currentUrl.toString());
+}
