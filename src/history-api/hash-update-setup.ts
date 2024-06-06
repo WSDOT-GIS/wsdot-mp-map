@@ -23,30 +23,24 @@ export function setupHashUpdate(view: __esri.MapView) {
   //   view.rotation = initialMapPositionFromUrl.bearing;
   // }
 
-  const updateCurrentUrlHash: __esri.WatchCallback = (
+  const updateCurrentUrlHash: __esri.WatchCallback = () =>
+    /* 
     oldValue: unknown,
     newValue: unknown,
     propertyName,
     targetObject,
-  ) => {
-    /* __PURE__ */ console.debug("changed", {
-      oldValue,
-      newValue,
-      propertyName,
-      targetObject,
-    });
-    if (view.navigating) {
-      /* __PURE__ */ console.debug(
-        "User is currently navigating the map, so don't update hash until they're done.",
-      );
-      return;
-    }
+    */
+    {
+      if (view.navigating) {
+        // Do not update hash during a navigation
+        return;
+      }
 
-    const currentUrl = new URL(window.location.href);
-    const newHash = updateHash(currentUrl, view);
-    currentUrl.hash = newHash;
-    window.history.replaceState({}, "", currentUrl);
-  };
+      const currentUrl = new URL(window.location.href);
+      const newHash = updateHash(currentUrl, view);
+      currentUrl.hash = newHash;
+      window.history.replaceState({}, "", currentUrl);
+    };
 
   return view.watch(
     ["zoom", "center", "rotation", "navigating"],
