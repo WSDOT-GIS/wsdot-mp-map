@@ -39,6 +39,7 @@
                   label="route select"
                   selection-mode="single"
                   required
+                  title="Select a route from the list. Type to filter the list."
                   placeholder="Select a route from the list. Type to filter the list."
                   allow-custom-values
                   data-url="https://data.wsdot.wa.gov/arcgis/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe/routes/"
@@ -50,11 +51,13 @@
                 ><calcite-checkbox
                   name="decrease"
                   id="decreaseInput"
+                  title="Check this box if you want the decreasing route rather than increasing."
                 ></calcite-checkbox
                 >Decrease</calcite-label
               >
               <calcite-label for="mpInput"
                 >Milepost<calcite-input-number
+                  title="Enter the milepost value here."
                   id="mpInput"
                   name="mp"
                   type="number"
@@ -64,11 +67,24 @@
               /></calcite-label>
 
               <calcite-label for="backInput" layout="inline"
-                ><calcite-checkbox name="back" id="backInput"></calcite-checkbox
+                ><calcite-checkbox
+                  name="back"
+                  id="backInput"
+                  title="Check this box if the SRMP is back mileage."
+                ></calcite-checkbox
                 >Back</calcite-label
               >
-              <calcite-button type="reset" kind="neutral">Reset</calcite-button>
-              <calcite-button type="submit">Submit</calcite-button>
+              <calcite-button
+                type="reset"
+                kind="neutral"
+                title="Click this button to clear the form input controls."
+                >Reset</calcite-button
+              >
+              <calcite-button
+                type="submit"
+                title="Click this button to find this route + milepost and add a point to the map."
+                >Submit</calcite-button
+              >
             </form>
           </calcite-block>
           <calcite-block heading="Layer List" collapsible>
