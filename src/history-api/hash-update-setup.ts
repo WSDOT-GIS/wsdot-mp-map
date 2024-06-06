@@ -1,4 +1,8 @@
-import { updateHash } from ".";
+import { MapPositionHash, updateHash } from ".";
+import Point from "@arcgis/core/geometry/Point";
+import SpatialReference from "@arcgis/core/geometry/SpatialReference";
+import { geographicToWebMercator } from "@arcgis/core/geometry/support/webMercatorUtils";
+import type MapView from "@arcgis/core/views/MapView";
 
 /**
  * Sets up view events to update the URL's hash via the
@@ -10,18 +14,32 @@ import { updateHash } from ".";
  *   - rotationHandle - A handle to the view's rotation property
  *   - pitchHandle - A handle to the view's pitch property
  */
-export function setupHashUpdate(view: __esri.MapView) {
-  // // Set view properties to match initial map location hash.
-  // if (window.location.hash) {
-  //   const initialMapPositionFromUrl = new MapPositionHash(window.location.hash);
-  //   view.zoom = initialMapPositionFromUrl.zoom;
-  //   view.center = new Point({
-  //     x: initialMapPositionFromUrl.x,
-  //     y: initialMapPositionFromUrl.y,
-  //     spatialReference: { wkid: 3857 },
-  //   });
-  //   view.rotation = initialMapPositionFromUrl.bearing;
-  // }
+export function setupHashUpdate(view: MapView) {
+  view
+    .when(() => {
+      // Set view properties to match initial map location hash.
+      if (window.location.hash) {
+        const initialMapPositionFromUrl = new MapPositionHash(
+          window.location.hash,
+        );
+        /* __PURE__ */ console.debug("initial map position from URL", {
+          hash: window.location.hash,
+          initialMapPositionFromUrl,
+        });
+        view.zoom = initialMapPositionFromUrl.zoom;
+        let center = new Point({
+          x: initialMapPositionFromUrl.center[0],
+          y: initialMapPositionFromUrl.center[1],
+          spatialReference: SpatialReference.WGS84,
+        });
+        center = geographicToWebMercator(center) as Point;
+        view.center = center;
+        view.rotation = initialMapPositionFromUrl.bearing;
+      }
+    })
+    .catch((error: unknown) => {
+      console.error("Error when setting up hash update", error);
+    });
 
   const updateCurrentUrlHash: __esri.WatchCallback = () =>
     /* 
