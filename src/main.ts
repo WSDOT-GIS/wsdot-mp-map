@@ -2,11 +2,12 @@ import { addWsdotLogo } from "./addWsdotLogo";
 import { createErrorAlert } from "./createElcErrorAlert";
 import { emitErrorEvent } from "./errorEvent";
 import { setupHashUpdate } from "./history-api/hash-update-setup";
+import { updateUrlSearchParams } from "./history-api/url-search";
 import type MapView from "@arcgis/core/views/MapView";
 import "@esri/calcite-components";
 import "@fontsource/inconsolata";
 import "@fontsource/lato";
-import { FormatError, RouteDescription } from "wsdot-route-utils";
+import { FormatError } from "wsdot-route-utils";
 
 import("@wsdot/web-styles/css/wsdot-colors.css");
 
@@ -29,6 +30,12 @@ if (import.meta.hot) {
     (mod as unknown as typeof import("./addWsdotLogo"))
       .addWsdotLogo(wsdotLogoParentSelector)
       .catch(catchErrorAndEmitInDev);
+  });
+
+  import.meta.hot.accept("./history-api/url-search", (mod) => {
+    if (mod) {
+      console.log("hot module replacement", mod);
+    }
   });
 }
 
@@ -480,39 +487,3 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
 })().catch((reason: unknown) => {
   console.error(reason);
 });
-function updateUrlSearchParams(
-  routeLocation: Record<string, string | number | null | undefined> & {
-    Back: string;
-    Route: string;
-    Srmp: number;
-    Direction: string;
-  },
-) {
-  const srmp = `${routeLocation.Srmp}${routeLocation.Back}`;
-  const { sr, rrt, rrq } = new RouteDescription(routeLocation.Route);
-  const direction = routeLocation.Direction;
-
-  const currentUrl = new URL(window.location.href);
-
-  /**
-   * Map of the search params and their values.
-   */
-  const argsMap = new Map([
-    ["SR", sr],
-    ["RRT", rrt],
-    ["RRQ", rrq],
-    ["MP", srmp],
-    ["DIR", direction],
-  ] as const);
-
-  // Update the URL search parameters.
-  for (const [key, value] of argsMap) {
-    if (value) {
-      currentUrl.searchParams.set(key, value);
-    } else {
-      currentUrl.searchParams.delete(key);
-    }
-  }
-
-  window.history.replaceState(null, "", currentUrl.toString());
-}
