@@ -71,6 +71,7 @@
   "dependencies": {
     "@esri/calcite-components": "^2.9.0",
     "@types/geojson": "^7946.0.14",
+    "@wsdot/land-use-codes": "github:WSDOT-GIS/land-use",
     "@wsdot/web-styles": "github:WSDOT-GIS/wsdot-web-styles",
     "dms-conversion": "^3.1.3"
   }
