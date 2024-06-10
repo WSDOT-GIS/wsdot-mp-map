@@ -1,37 +1,19 @@
+import { labelSymbol } from "./label";
+import { renderer } from "./renderer";
+
 const arcGisOnlineId = "e8f2df3ed92843738f3dd778e92e93fc";
 
 const [
   { default: Field },
   { default: FeatureLayer },
   { default: PortalItem },
-  { default: SimpleRenderer },
-  { default: SimpleFillSymbol },
-  { default: SimpleLineSymbol },
-  { default: TextSymbol },
   { default: LabelClass },
 ] = await Promise.all([
   import("@arcgis/core/layers/support/Field"),
   import("@arcgis/core/layers/FeatureLayer"),
   import("@arcgis/core/portal/PortalItem"),
-  import("@arcgis/core/renderers/SimpleRenderer"),
-  import("@arcgis/core/symbols/SimpleFillSymbol"),
-  import("@arcgis/core/symbols/SimpleLineSymbol"),
-  import("@arcgis/core/symbols/TextSymbol"),
   import("@arcgis/core/layers/support/LabelClass"),
 ]);
-
-const outlineColor = "light-gray";
-
-const renderer = new SimpleRenderer({
-  symbol: new SimpleFillSymbol({
-    style: "none",
-    outline: new SimpleLineSymbol({
-      color: outlineColor,
-      style: "dash-dot",
-      width: 0.5,
-    }),
-  }),
-});
 
 const fields = (
   [
@@ -139,16 +121,6 @@ const fields = (
   ] as const
 ).map((field) => new Field(field));
 
-const labelSymbol = new TextSymbol({
-  color: outlineColor,
-  haloColor: "white",
-  haloSize: 0.3,
-  font: {
-    size: 10,
-    weight: "normal",
-  },
-});
-
 /**
  * Parcels layer
  * @see {@link https://www.arcgis.com/home/item.html?id=e8f2df3ed92843738f3dd778e92e93fc}
@@ -157,6 +129,7 @@ export const parcelsLayer = new FeatureLayer({
   id: "parcels",
   title: "Parcels From geo.wa.gov",
   fields,
+  minScale: 9027.977411,
   labelsVisible: false,
   labelingInfo: [
     new LabelClass({
