@@ -35,12 +35,12 @@
 #       runner: go run
 
 pre-commit:
-  parallel: false
+  parallel: true
   commands:
     lint:
       glob: "*.{ts,mts,tsx}"
-      run: npx eslint --fix {staged_files}
+      run: npx eslint --fix --cache {staged_files}
     prettier:
       tags: frontend style
       glob: "{src,tests,tools,public}/**/*.{js,jsx,ts,tsx,css,scss,html}"
-      run: npx prettier --write {staged_files}
+      run: npx prettier --write --cache {staged_files}
