@@ -116,7 +116,7 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
     import("./layers/AccessControlLayer"),
     import("./layers/CityLimitsLayer"),
     import("./layers/MilepostLayer"),
-    import("./layers/ParcelsLayer"),
+    import("./layers/parcels"),
     import("./layers/TempLayer"),
     import("./WAExtent"),
     import("./widgets/LayerList"),
@@ -238,6 +238,14 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
     .catch((error: unknown) => {
       console.error("Failed to import Legend module.", error);
     });
+
+  if (import.meta.env.DEV) {
+    view.watch(["navigating"], (newValue) => {
+      if (!newValue) {
+        /* __PURE__ */ console.debug("scale", view.scale);
+      }
+    });
+  }
 
   whenOnce(() => map.initialized)
     .then(() => {
