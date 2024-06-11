@@ -39,7 +39,7 @@
     "jsdom": "^24.1.0",
     "lefthook": "1.6.13",
     "optionator": "^0.9.4",
-    "prettier": "^3.3.1",
+    "prettier": "^3.3.2",
     "tsx": "^4.15.2",
     "typescript": "^5.4.5",
     "typescript-eslint": "^7.13.0",
@@ -69,6 +69,8 @@
   "license": "Unlicense",
   "dependencies": {
     "@esri/calcite-components": "^2.9.0",
+    "@fontsource/inconsolata": "^5.0.18",
+    "@fontsource/lato": "^5.0.21",
     "@types/geojson": "^7946.0.14",
     "@wsdot/land-use-codes": "github:WSDOT-GIS/land-use",
     "@wsdot/web-styles": "github:WSDOT-GIS/wsdot-web-styles",
