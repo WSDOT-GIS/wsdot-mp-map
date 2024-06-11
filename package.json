@@ -50,7 +50,8 @@
     "wsdot-route-utils": "^3.0.0"
   },
   "overrides": {
-    "eslint": "$eslint"
+    "eslint": "$eslint",
+    "glob": "^9.0.0"
   },
   "repository": {
     "url": "https://github.com/WSDOT-GIS/wsdot-mp-map.git",
