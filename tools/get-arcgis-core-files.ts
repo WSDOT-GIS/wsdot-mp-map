@@ -23,7 +23,7 @@ export async function* getArcGisFiles(
    * excluded, or false if it should not be excluded.
    */
   function isUnwanted(dirEnt: Dirent) {
-    const filePath = join(dirEnt.path, dirEnt.name);
+    const filePath = join(dirEnt.parentPath, dirEnt.name);
     if (!dirEnt.isFile()) {
       return `${filePath} is not a file`;
     } else if (excludeRegExes != null) {
@@ -79,5 +79,5 @@ export async function* getArcGisFiles(
 }
 
 for await (const dirEnt of getArcGisFiles()) {
-  stdout.write(`${join(dirEnt.path, dirEnt.name)}\n`);
+  stdout.write(`${join(dirEnt.parentPath, dirEnt.name)}\n`);
 }
