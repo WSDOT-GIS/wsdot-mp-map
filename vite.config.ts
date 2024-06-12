@@ -90,7 +90,7 @@ export default defineConfig((env) => {
       checker({
         typescript: true,
         eslint: {
-          lintCommand: "eslint .",
+          lintCommand: "eslint ./src/**/*.{ts,tsx}",
           useFlatConfig: true,
         },
       }),
@@ -118,6 +118,7 @@ export default defineConfig((env) => {
     test: {
       name: "LocateMP",
       environment: "jsdom",
+      setupFiles: "./tests/mocks-setup.ts",
       reporters: ["default", "junit"],
       outputFile: {
         junit: "./test-results/test-results.xml",
