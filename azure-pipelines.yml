@@ -38,7 +38,7 @@ stages:
             name: use_node
             displayName: Install Node
             inputs:
-              version: 20.X
+              version: 22.X
 
           # Install project dependencies using npm in a clean state.
           - task: Npm@1
