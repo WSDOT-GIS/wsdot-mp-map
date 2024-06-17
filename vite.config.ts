@@ -124,7 +124,7 @@ export default defineConfig((env) => {
         junit: "./test-results/test-results.xml",
       },
       coverage: {
-        enabled: true,
+        enabled: false,
         extension: [
           // '.js',
           // '.cjs',
