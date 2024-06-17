@@ -8,7 +8,10 @@
   },
   "json.schemas": [
     {
-      "fileMatch": [".ncurc", ".ncurc.json"],
+      "fileMatch": [
+        ".ncurc",
+        ".ncurc.json"
+      ],
       "url": "https://raw.githubusercontent.com/raineorshine/npm-check-updates/main/src/types/RunOptions.json"
     }
   ],
@@ -16,7 +19,12 @@
     "https://raw.githubusercontent.com/raineorshine/npm-check-updates/main/src/types/RunOptions.json": [
       ".ncurc.yml"
     ],
-    "https://json.schemastore.org/lefthook.json": ["lefthook.yml"]
+    "https://json.schemastore.org/lefthook.json": [
+      "lefthook.yml"
+    ],
+    "https://json.schemastore.org/github-workflow.json": [
+      ".github/workflows/node.js.yml"
+    ]
   },
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit",
