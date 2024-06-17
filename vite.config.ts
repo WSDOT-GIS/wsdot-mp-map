@@ -109,6 +109,7 @@ export default defineConfig((env) => {
       rollupOptions: {
         input: {
           main: "./index.html",
+          "route-list": "./route-list.html",
         },
         external,
       },
