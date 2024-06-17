@@ -65,7 +65,12 @@ stages:
               searchFolder: ./test-results
               testResultsFiles: test-results.xml
 
+          # This task is disabled for the moment because enabling coverage causes
+          # the unit test to run forever after mocking was added.
+          # The issue is that mocking is not implemented for all URLs, so once that
+          # has been completed then this task can be enabled again.
           - task: PublishCodeCoverageResults@2
+            enabled: false
             name: publish_code_coverage
             displayName: Publish Code Coverage
             continueOnError: true
