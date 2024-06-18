@@ -1,6 +1,6 @@
 {
   "no-inline-html": {
-    "allowed_elements": ["abbrev"]
+    "allowed_elements": ["abbr"]
   },
   "line-length": false,
   "ol-prefix": {
