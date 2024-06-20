@@ -1,6 +1,7 @@
 import type { AttributeValue } from "../common/arcgis/typesAndInterfaces";
 import type { AttributesObject, TypedGraphic } from "../types";
 import { OpenStreetMapUrl } from "../urls/osm";
+import { createAppLocationLink } from "./createAppLocationLink";
 import type { Point } from "@arcgis/core/geometry";
 
 const [
@@ -25,7 +26,7 @@ const [
   import("@arcgis/core/geometry/support/webMercatorUtils"),
 ]);
 
-interface MPAttributes extends AttributesObject {
+export interface MPAttributes extends AttributesObject {
   oid: number;
   Route: string;
   Srmp: number;
@@ -42,9 +43,13 @@ interface TemplateTarget {
 /**
  * Creates a definition list (dl) element based on the attributes provided, excluding specific keys.
  * @param graphic - object containing attributes
+ * @param additional - attributes to add to the dl in addition to {@link graphic.attributes}.
  * @returns HTML dl element containing key-value pairs of attributes
  */
-function createDL(graphic: TypedGraphic<Point, MPAttributes>) {
+function createDL(
+  graphic: TypedGraphic<Point, MPAttributes>,
+  additional?: Record<string, AttributeValue | Promise<AttributeValue> | Node>,
+) {
   const { attributes } = graphic;
 
   /**
@@ -80,11 +85,19 @@ function createDL(graphic: TypedGraphic<Point, MPAttributes>) {
     return [dt, dd] as const;
   }
   const dl = document.createElement("dl");
-  for (const [key, value] of Object.entries(attributes).filter(
+  for (const [key, value] of Object.entries(
+    attributes as AttributesObject,
+  ).filter(
     ([key]) =>
       !["OBJECTID", "Route", "Srmp", "Back", "Direction"].includes(key),
   )) {
     dl.append(...createRow(key, value));
+  }
+
+  if (additional) {
+    for (const [key, value] of Object.entries(additional)) {
+      dl.append(...createRow(key, value));
+    }
   }
 
   return dl;
@@ -280,8 +293,12 @@ async function createContent(target: TemplateTarget) {
   await Promise.allSettled(fieldPromises);
 
   const output = document.createElement("div");
+  const appLocationLink = createAppLocationLink(
+    graphic as unknown as Parameters<typeof createAppLocationLink>[0],
+  );
   output.append(createCoordsDetails(graphic));
-  output.append(createDL(graphic));
+  output.append(createDL(graphic, { "Link to this point": appLocationLink }));
+
   return output;
 }
 
