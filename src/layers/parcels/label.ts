@@ -1,11 +1,11 @@
 import TextSymbol from "@arcgis/core/symbols/TextSymbol";
 
-const outlineColor = "light-gray";
+const outlineColor = "white";
 
 export const labelSymbol = new TextSymbol({
   color: outlineColor,
-  haloColor: "white",
-  haloSize: 0.3,
+  haloColor: "black",
+  haloSize: 1,
   font: {
     size: 10,
     weight: "normal",
