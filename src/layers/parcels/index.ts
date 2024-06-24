@@ -1,7 +1,7 @@
 import { labelSymbol } from "./label";
 import { renderer } from "./renderer";
 
-const arcGisOnlineId = "e8f2df3ed92843738f3dd778e92e93fc";
+const arcGisOnlineId = "18db983da7454de0a2f21f5991a46f0d";
 
 const [
   { default: Field },
@@ -15,6 +15,7 @@ const [
   import("@arcgis/core/layers/support/LabelClass"),
 ]);
 
+const parcelIdField = "PARCEL_ID_NR";
 const fields = (
   [
     {
@@ -38,7 +39,7 @@ const fields = (
       defaultValue: null,
     },
     {
-      name: "PARCEL_ID_NR",
+      name: parcelIdField,
       type: "string",
       length: 24,
       nullable: true,
@@ -81,6 +82,7 @@ const fields = (
     },
     {
       name: "LANDUSE_CD",
+      alias: "Land Use Code",
       type: "small-integer",
       nullable: true,
       defaultValue: null,
@@ -130,18 +132,19 @@ export const parcelsLayer = new FeatureLayer({
   title: "Parcels From geo.wa.gov",
   fields,
   minScale: 9027.977411,
-  labelsVisible: false,
+  labelsVisible: true,
   labelingInfo: [
     new LabelClass({
       labelExpressionInfo: {
-        expression: "$feature.PARCEL_ID_NR",
+        expression: `$feature.${parcelIdField}`,
         title: "Parcel ID",
       },
+      minScale: 1128.497176,
       symbol: labelSymbol,
       useCodedValues: true,
     }),
   ],
-  displayField: "PARCEL_ID_NR",
+  displayField: parcelIdField,
   outFields: ["*"],
   visible: false,
   portalItem: new PortalItem({
