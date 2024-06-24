@@ -19,7 +19,7 @@
     "spell": "cspell ."
   },
   "devDependencies": {
-    "@arcgis/core": "^4.29.10",
+    "@arcgis/core": "^4.30.0",
     "@eslint/js": "^9.4.0",
     "@esri/arcgis-rest-request": "^4.2.3",
     "@fontsource/overpass": "^5.0.18",
