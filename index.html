@@ -23,7 +23,7 @@
     <calcite-loader></calcite-loader>
     <calcite-shell>
       <h2 slot="header" id="header-title">%VITE_TITLE%</h2>
-      <calcite-shell-panel slot="panel-start">
+      <calcite-shell-panel slot="panel-start" id="sidebar">
         <calcite-panel>
           <calcite-block
             heading="Enter State Route & Milepost"
@@ -96,7 +96,7 @@
         </calcite-panel>
       </calcite-shell-panel>
 
-      <calcite-center-row id="viewDiv"></calcite-center-row>
+      <div id="viewDiv"></div>
     </calcite-shell>
     <script type="module" src="/src/main.ts"></script>
   </body>

@@ -13,6 +13,34 @@ import("@wsdot/web-styles/css/wsdot-colors.css");
 
 const wsdotLogoParentSelector = "#header-title";
 
+function setupSidebarCollapseButton(view: MapView) {
+  const sideBar = document.querySelector<HTMLCalciteShellPanelElement>(
+    "calcite-shell-panel#sidebar",
+  );
+
+  if (sideBar) {
+    // <calcite-button id="toggleSidebarButton" text="Toggle Sidebar" icon="collapse"></calcite-button>
+    const collapseButton = document.createElement("calcite-button");
+    collapseButton.setAttribute("id", "toggleSidebarButton");
+    collapseButton.setAttribute("text", "Toggle Sidebar");
+    collapseButton.setAttribute("icon", "collapse");
+    collapseButton.addEventListener("click", () => {
+      sideBar.collapsed = !sideBar.collapsed;
+      setSidebarToggleIcon();
+    });
+
+    view.ui.add(collapseButton, "top-leading");
+
+    const setSidebarToggleIcon = () => {
+      collapseButton.iconStart = sideBar.collapsed
+        ? "chevrons-right"
+        : "chevrons-left";
+    };
+
+    setSidebarToggleIcon();
+  }
+}
+
 const catchErrorAndEmitInDev = (reason: unknown) => {
   if (import.meta.env.DEV) {
     emitErrorEvent(reason);
@@ -245,6 +273,8 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
     extent: waExtent,
     popupEnabled: false,
   });
+
+  setupSidebarCollapseButton(view);
 
   view
     .when(() => {
