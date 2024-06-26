@@ -1,29 +1,30 @@
-import { getRoutes } from "./elc";
-import { RouteTypes } from "./elc/types";
+import { getRouteList } from "./milepost-info";
 import "./route-list.css";
 import "@fontsource/lato";
 import "@wsdot/web-styles/css/wsdot-colors.css";
 import { RouteDescription } from "wsdot-route-utils";
 
-const routes = await getRoutes();
+const routes = await getRouteList();
 
-const routeDescriptions = Object.entries(routes.Current).map(
-  ([routeName, routeTypes]) => {
-    const route = new RouteDescription(routeName);
-    const { sr, rrt, rrq, shield, rrtDescription, rrqDescription } = route;
-    return {
-      routeObject: route,
-      route: route.toString(),
-      sr,
-      rrt,
-      rrq,
-      shield,
-      rrtDescription,
-      rrqDescription,
-      routeTypes: RouteTypes[routeTypes],
-    } as const;
-  },
-);
+const routeDescriptions = routes.map((r) => {
+  const { RouteID, MinSrmp, MaxSrmp, Direction } = r;
+  const route = new RouteDescription(RouteID);
+
+  const { sr, rrt, rrq, shield, rrtDescription, rrqDescription } = route;
+  return {
+    routeObject: route,
+    route: route.toString(),
+    sr,
+    rrt,
+    rrq,
+    direction: Direction,
+    shield,
+    rrtDescription,
+    rrqDescription,
+    minSrmp: MinSrmp,
+    maxSrmp: MaxSrmp,
+  } as const;
+});
 
 const sortFunction = (
   a: (typeof routeDescriptions)[number],
@@ -37,6 +38,9 @@ const sortFunction = (
   }
   if (a.rrt !== null && b.rrt !== null && a.rrt !== b.rrt) {
     return a.rrt.localeCompare(b.rrt);
+  }
+  if (a.direction !== b.direction) {
+    return b.direction.localeCompare(a.direction);
   }
   return 0;
 };
@@ -75,7 +79,11 @@ for (const routeDataRow of routeDescriptions) {
     const cell = rowElement.insertCell();
     cell.classList.add(key);
     if (value != null) {
-      cell.append(value);
+      if (typeof value === "number") {
+        cell.append(value.toString());
+      } else {
+        cell.append(value);
+      }
     }
   }
 
