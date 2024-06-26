@@ -1,4 +1,6 @@
 import * as elc from "../src/elc";
+import { milepostsUrl } from "../src/milepost-info";
+import minMaxSrmpFeatureSet from "./milepost-info-sample.json";
 import routes from "./routes.json";
 import { HttpResponse, http } from "msw";
 import { setupServer } from "msw/node";
@@ -69,6 +71,9 @@ export const restHandlers = [
   }),
   http.get(elc.defaultRoutesUrl, () => {
     return HttpResponse.json(routes);
+  }),
+  http.get(milepostsUrl, () => {
+    return HttpResponse.json(minMaxSrmpFeatureSet);
   }),
 ];
 
