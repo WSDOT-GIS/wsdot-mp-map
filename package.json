@@ -70,7 +70,7 @@
   "author": "Jeff Jacobson",
   "license": "Unlicense",
   "dependencies": {
-    "@esri/calcite-components": "^2.9.0",
+    "@esri/calcite-components": "^2.10.1",
     "@fontsource/inconsolata": "^5.0.18",
     "@fontsource/lato": "^5.0.21",
     "@types/geojson": "^7946.0.14",
