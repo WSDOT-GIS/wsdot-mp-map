@@ -1,4 +1,5 @@
-import { addWsdotLogo } from "./addWsdotLogo";
+import "./components/wsdot-footer";
+import "./components/wsdot-header";
 import { createErrorAlert } from "./createElcErrorAlert";
 import { emitErrorEvent } from "./errorEvent";
 import { setupHashUpdate } from "./history-api/hash-update-setup";
@@ -10,8 +11,6 @@ import "@fontsource/lato";
 import { FormatError } from "wsdot-route-utils";
 
 import("@wsdot/web-styles/css/wsdot-colors.css");
-
-const wsdotLogoParentSelector = "#header-title";
 
 function setupSidebarCollapseButton(view: MapView) {
   const sideBar = document.querySelector<HTMLCalciteShellPanelElement>(
@@ -41,23 +40,12 @@ function setupSidebarCollapseButton(view: MapView) {
   }
 }
 
-const catchErrorAndEmitInDev = (reason: unknown) => {
-  if (import.meta.env.DEV) {
-    emitErrorEvent(reason);
-  }
-  console.error("Failed to add WSDOT logo.", reason);
-};
-addWsdotLogo(wsdotLogoParentSelector).catch(catchErrorAndEmitInDev);
-
 if (import.meta.hot) {
   import.meta.hot.accept("./addWsdotLogo", (mod) => {
     if (mod) {
       console.log("hot module replacement", mod);
     }
     document.querySelector(".wsdot-logo")?.remove();
-    (mod as unknown as typeof import("./addWsdotLogo"))
-      .addWsdotLogo(wsdotLogoParentSelector)
-      .catch(catchErrorAndEmitInDev);
   });
 
   import.meta.hot.accept("./history-api/url-search", (mod) => {
@@ -517,3 +505,18 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
 })().catch((reason: unknown) => {
   console.error(reason);
 });
+
+import("./components/disclaimer")
+  .then(({ setupDisclaimerLink }) => {
+    // Setup disclaimer modal
+    const link = document.querySelector<HTMLAnchorElement>("wsdot-footer");
+    if (!link) {
+      console.error("Failed to find disclaimer link");
+    } else {
+      /* __PURE__ */ console.debug("link", link);
+      setupDisclaimerLink(link);
+    }
+  })
+  .catch((error: unknown) => {
+    console.error("Failed to load disclaimer", error);
+  });
