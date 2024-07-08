@@ -1,5 +1,21 @@
 :root {
-  font-family: "Lato", Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  font-family: "Lato", "Avenir Next", Avenir, "Helvetica Neue", sans-serif;
+}
+
+.calcite-mode-auto,
+.calcite-mode-light,
+.calcite-mode-dark {
+  --calcite-color-brand: var(--wsdot-logo-green);
+}
+
+wsdot-header {
+  display: none;
+}
+
+@media screen and (min-width: 777px) {
+  wsdot-header {
+    display: block;
+  }
 }
 
 #wsdot-logo {

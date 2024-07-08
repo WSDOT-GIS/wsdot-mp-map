@@ -22,7 +22,7 @@
   <body class="calcite-mode-auto">
     <calcite-loader></calcite-loader>
     <calcite-shell>
-      <h2 slot="header" id="header-title">%VITE_TITLE%</h2>
+      <wsdot-header slot="header"></wsdot-header>
       <calcite-shell-panel slot="panel-start" id="sidebar">
         <calcite-panel>
           <calcite-block
@@ -97,6 +97,7 @@
       </calcite-shell-panel>
 
       <div id="viewDiv"></div>
+      <wsdot-footer slot="footer"></wsdot-footer>
     </calcite-shell>
     <script type="module" src="/src/main.ts"></script>
   </body>
