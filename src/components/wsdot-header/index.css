@@ -1,0 +1,19 @@
+.logo-section {
+    background-color: var(--wsdot-logo-green);
+    padding-top: 9px;
+    padding-bottom: 8px;
+}
+
+calcite-navigation {
+    max-height: 44px;
+}
+
+.logo-section>a {
+    padding-left: 20px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+header>calcite-navigation {
+    font-weight: var(--calcite-font-weight-bold);
+}

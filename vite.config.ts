@@ -110,6 +110,7 @@ export default defineConfig((env) => {
         input: {
           main: "./index.html",
           "route-list": "./route-list.html",
+          webmap: "./webmap.html",
         },
         external,
       },
