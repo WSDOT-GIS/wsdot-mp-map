@@ -1,121 +1,27 @@
-import { labelSymbol } from "./label";
-import { renderer } from "./renderer";
-
-const arcGisOnlineId = "18db983da7454de0a2f21f5991a46f0d";
+const arcGisOnlineId = "1f39f397dfac410381b5d3d7b1a1e334";
+const parcelIdField = "PARCEL_ID_NR";
 
 const [
-  { default: Field },
   { default: FeatureLayer },
   { default: PortalItem },
   { default: LabelClass },
+  { labelSymbol },
+  { renderer },
 ] = await Promise.all([
-  import("@arcgis/core/layers/support/Field"),
   import("@arcgis/core/layers/FeatureLayer"),
   import("@arcgis/core/portal/PortalItem"),
   import("@arcgis/core/layers/support/LabelClass"),
+  import("./label"),
+  import("./renderer"),
 ]);
-
-const parcelIdField = "PARCEL_ID_NR";
-const fields = (
-  [
-    {
-      name: "OBJECTID",
-      type: "oid",
-      nullable: false,
-    },
-    {
-      name: "FIPS_NR",
-      type: "string",
-      length: 3,
-      nullable: true,
-    },
-    {
-      name: "COUNTY_NM",
-      type: "string",
-      length: 12,
-      nullable: true,
-    },
-    {
-      name: parcelIdField,
-      type: "string",
-      length: 24,
-      nullable: true,
-    },
-    {
-      name: "ORIG_PARCEL_ID",
-      type: "string",
-      length: 20,
-      nullable: true,
-    },
-    {
-      name: "SITUS_ADDRESS",
-      type: "string",
-      length: 60,
-      nullable: true,
-    },
-    {
-      name: "SUB_ADDRESS",
-      type: "string",
-      length: 50,
-      nullable: true,
-    },
-    {
-      name: "SITUS_CITY_NM",
-      type: "string",
-      length: 30,
-      nullable: true,
-    },
-    {
-      name: "SITUS_ZIP_NR",
-      type: "string",
-      length: 10,
-      nullable: true,
-    },
-    {
-      name: "LANDUSE_CD",
-      alias: "Land Use Code",
-      type: "small-integer",
-      nullable: true,
-    },
-    {
-      name: "VALUE_LAND",
-      type: "integer",
-      nullable: true,
-    },
-    {
-      name: "VALUE_BLDG",
-      type: "integer",
-      nullable: true,
-    },
-    {
-      name: "DATA_LINK",
-      type: "string",
-      length: 255,
-      nullable: true,
-    },
-    {
-      name: "FILE_DATE",
-      type: "date",
-      length: 8,
-      nullable: true,
-    },
-    {
-      name: "GlobalID",
-      type: "global-id",
-      length: 38,
-      nullable: false,
-    },
-  ] as const
-).map((field) => new Field(field));
 
 /**
  * Parcels layer
- * @see {@link https://www.arcgis.com/home/item.html?id=e8f2df3ed92843738f3dd778e92e93fc}
+ * @see {@link https://geo.wa.gov/datasets/1f39f397dfac410381b5d3d7b1a1e334_0}
  */
 export const parcelsLayer = new FeatureLayer({
   id: "parcels",
   title: "Parcels From geo.wa.gov",
-  fields,
   minScale: 9027.977411,
   labelsVisible: true,
   labelingInfo: [
