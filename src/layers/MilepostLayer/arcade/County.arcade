@@ -1,0 +1,20 @@
+var agolId = "47143194b52f4eea8e8235a7d7bb703c";
+var p = Portal("https://wsdot.maps.arcgis.com");
+
+var match = Top(
+  Within(
+    $userInput,
+    FeatureSetByPortalItem(
+      p,
+      agolId,
+      11,
+      ["JURISDICT_LABEL_NM"],
+      false
+    )
+  ),
+  1
+)
+
+for (var f in match) {
+  return f.JURISDICT_LABEL_NM
+}

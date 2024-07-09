@@ -1,0 +1,8 @@
+var regionId = "1c0845bd12944017b3bb3631bda09e0e"
+var p = Portal("https://wsdot.maps.arcgis.com")
+
+var nameField = "RegionName"
+
+for (var current in Top(Within($feature, FeatureSetByPortalItem(p, regionId, null, [nameField])), 1)) {
+  return current[nameField];
+}

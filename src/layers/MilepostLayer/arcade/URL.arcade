@@ -1,0 +1,31 @@
+function getSearchDict() {
+    var output = {
+      SR: $feature.StateRouteNumber,
+      SRMP: Round($feature.SRMP, 2),
+      DIR: Upper($feature.Direction)
+    };
+  
+    if (Upper($feature.AheadBackInd) == "B") {
+      output.SRMP = Text(output.SRMP) + "B";
+    }
+    if (!IsEmpty($feature.RelRouteType)) {
+      output.RRT = $feature.RelRouteType;
+      if (!IsEmpty($feature.RelRouteQual)) {
+        output.RRQ = $feature.RelRouteQual;
+      }
+    }
+  
+    return output;
+  }
+  
+  function getUrlSearch() {
+    var searchParams = getSearchDict();
+    var parts = [];
+    for (var key in searchParams) {
+      var kvp = Map([key, searchParams[key]], UrlEncode);
+      Push(parts, Concatenate(kvp, "="));
+    }
+    return Concatenate(parts, "&");
+  }
+  
+  return `?${getUrlSearch()}`;

@@ -1,0 +1,1 @@
+DateOnly($feature.LRS_Date, "YMMDD");
