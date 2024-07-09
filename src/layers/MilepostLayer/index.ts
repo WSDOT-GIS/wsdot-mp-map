@@ -8,9 +8,9 @@ export const enum fieldNames {
   Route = "Route",
   Srmp = "Srmp",
   Back = "Back",
-  TownshipSubdivision = "Township Subdivision",
-  County = "County",
-  City = "City",
+  // TownshipSubdivision = "Township Subdivision",
+  // County = "County",
+  // City = "City",
 }
 
 const fields = [
@@ -52,15 +52,7 @@ const fields = [
   {
     name: fieldNames.Back,
     type: "string",
-  },
-  {
-    name: "Township Subdivision",
-    type: "string",
-  },
-  { name: fieldNames.County, type: "string" },
-  {
-    name: fieldNames.City,
-    type: "string",
+    valueType: "binary",
   },
 ] as FieldProperties[];
 
@@ -115,7 +107,6 @@ export async function createMilepostLayer(spatialReference: SpatialReference) {
     geometryType: "point",
     objectIdField: objectIdFieldName,
     fullExtent: waExtent,
-    popupTemplate: popupTemplate,
     renderer,
     spatialReference,
     // Since there are no features at the beginning,
@@ -124,6 +115,12 @@ export async function createMilepostLayer(spatialReference: SpatialReference) {
     popupEnabled: true,
     hasM: true,
   });
+
+  const popupTemplate = milepostLayer.createPopupTemplate();
+
+  milepostLayer.popupTemplate = popupTemplate;
+
+  popupTemplate.title = "{Route} ({Direction}) @ {Srmp}{Back}";
 
   return milepostLayer;
 }
