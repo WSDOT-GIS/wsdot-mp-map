@@ -38,7 +38,7 @@ const fields = [
     type: "oid",
   },
   {
-    name: "Route",
+    name: fieldNames.Route,
     type: "string",
   },
   {
@@ -61,20 +61,20 @@ const fields = [
     defaultValue: "I",
   },
   {
-    name: "Srmp",
+    name: fieldNames.Srmp,
     type: "double",
   },
   {
-    name: "Back",
+    name: fieldNames.Back,
     type: "string",
   },
   {
     name: "Township Subdivision",
     type: "string",
   },
-  { name: "County", type: "string" },
+  { name: fieldNames.County, type: "string" },
   {
-    name: "City",
+    name: fieldNames.City,
     type: "string",
   },
 ] as FieldProperties[];
