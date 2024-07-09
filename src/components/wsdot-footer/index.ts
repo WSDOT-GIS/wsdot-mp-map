@@ -13,17 +13,13 @@ export class WsdotFooter extends HTMLElement {
     // Create the Shadow DOM.
     const shadow = this.attachShadow({ mode: "open" });
     shadow.innerHTML = content;
+
     // Set the year in the footer to this year.
-    const slot = shadow.querySelector<HTMLSlotElement>("slot[name='year']");
-    if (slot) {
-      const year = new Date().getFullYear();
-      slot.innerText = year.toString();
-    } else {
-      const message = "Could not find a slot in the wsdot-footer named 'year'.";
-      const event = new ErrorEvent("error", { message });
-      this.dispatchEvent(event);
-      console.error(message);
-    }
+    const year = new Date().getFullYear();
+    const yearSpan = document.createElement("span");
+    yearSpan.textContent = year.toString();
+    yearSpan.slot = "year";
+    this.append(yearSpan);
 
     // Add CSS stylesheet to the Shadow DOM.
     const wsdotColorsStylesheet = new CSSStyleSheet();
