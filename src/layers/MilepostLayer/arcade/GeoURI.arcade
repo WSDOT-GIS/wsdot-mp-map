@@ -1,0 +1,1 @@
+"geo:" + $feature.Latitude + "," + $feature.Longitude

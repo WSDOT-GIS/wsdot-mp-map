@@ -1,0 +1,35 @@
+var agolId = "35cd6f1a5e2f4553a8e83c9ff6edbfa7";
+var routeIdentifier = `${$feature.RouteID}${Lower($feature.Direction)}`;
+var codeField = "AccessControlTypeDescription"
+var snapshotDateField = "SnapshotDate"
+
+var fs = Filter(
+  FeatureSetByPortalItem(Portal("https://arcgis.com"), agolId, 1, [codeField, snapshotDateField]),
+  "RouteIdentifier = @routeIdentifier"
+);
+
+var shortestDistanceCode = null;
+var shortestDistance = null;
+var shortestDistanceSnapshotDate = null;
+
+var i = 0
+for (var f in fs) {
+  Console(f)
+  var d = Distance(f, $feature)
+  var c = f[codeField]
+  var sd = f[snapshotDateField];
+  if (i == 0 || d < shortestDistance) {
+    shortestDistance = d;
+    shortestDistanceCode = c;
+    shortestDistanceSnapshotDate = sd;
+  }
+  i++;
+}
+
+if (shortestDistanceCode == null) {
+  return null;
+}
+
+var output = `${shortestDistanceCode} (as of ${Text(shortestDistanceSnapshotDate, "Y-MM-DD")})`;
+
+return output

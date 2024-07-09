@@ -1,0 +1,21 @@
+/**
+ * Creates the label text for an SRMP point.
+ * - Rounds SRMP to three digits.
+ * - Appends an "S" for spurs (RRT = "SP")
+ * - Appends a "B" for back mileage
+ */
+function createSrmpLabel() {
+    var label = Text($feature.SRMP, "####.###");
+  
+    if ($feature.RelRouteType == "SP") {
+      label += Left($feature.RelRouteType, 1)
+    }
+  
+    if (Upper($feature.AheadBackInd) == "B") {
+      label += "B";
+    }
+  
+    return label;
+  }
+  
+  createSrmpLabel();

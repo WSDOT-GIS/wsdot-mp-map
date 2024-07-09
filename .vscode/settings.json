@@ -31,7 +31,12 @@
     "source.fixAll": "explicit",
     "organizeImports": "explicit"
   },
-  "eslint.experimental.useFlatConfig": true,
+  "[javascript]": {
+    "editor.formatOnSave": false,
+    "editor.formatOnType": false,
+    "editor.formatOnPaste": false,
+  },
+  "eslint.useFlatConfig": true,
   "eslint.lintTask.enable": true,
   "eslint.useESLintClass": true
 }
