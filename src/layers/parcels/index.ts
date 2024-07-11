@@ -1,4 +1,4 @@
-const arcGisOnlineId = "1f39f397dfac410381b5d3d7b1a1e334";
+const arcGisOnlineId = "9c7f4cd9a1354d8db79c471be957a0d2";
 const parcelIdField = "PARCEL_ID_NR";
 
 const [
@@ -17,7 +17,7 @@ const [
 
 /**
  * Parcels layer
- * @see {@link https://geo.wa.gov/datasets/1f39f397dfac410381b5d3d7b1a1e334_0}
+ * @see {@link https://wsdot.maps.arcgis.com/home/item.html?id=9c7f4cd9a1354d8db79c471be957a0d2}
  */
 export const parcelsLayer = new FeatureLayer({
   id: "parcels",
