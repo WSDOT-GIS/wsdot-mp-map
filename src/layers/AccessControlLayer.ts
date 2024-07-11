@@ -65,6 +65,7 @@ function createAccessControlLayer() {
   return new FeatureLayer({
     url: accessControlLayerUrl,
     title: accessControlTitle,
+    visible: false,
     outFields: [acDescriptionFieldName],
     fields: [
       {

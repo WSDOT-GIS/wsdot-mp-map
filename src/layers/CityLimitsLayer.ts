@@ -27,6 +27,7 @@ let cityLimitsLayerView: FeatureLayerView | undefined;
 export const cityLimitsLayer = new FeatureLayer({
   title: "City Limits",
   url: "https://data.wsdot.wa.gov/arcgis/rest/services/Shared/CityLimits/MapServer/2",
+  visible: false,
   outFields,
   popupEnabled: false,
   renderer,
