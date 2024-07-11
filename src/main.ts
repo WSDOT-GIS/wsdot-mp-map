@@ -241,7 +241,7 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
   });
 
   const map = new EsriMap({
-    basemap: imageryHybridBasemap,
+    basemap: grayBasemap,
     layers: [
       cityLimitsLayer,
       accessControlLayer,
@@ -310,7 +310,7 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
     .then(({ default: BasemapToggle }) => {
       const toggle = new BasemapToggle({
         view,
-        nextBasemap: grayBasemap,
+        nextBasemap: imageryHybridBasemap,
       });
       view.ui.add(toggle, {
         index: 0,
