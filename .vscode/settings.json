@@ -4,7 +4,8 @@
   "files.readonlyFromPermissions": true,
   "files.readonlyInclude": {
     "**/dist/**/*.*": true,
-    "**/node_modules/**/*": true
+    "**/node_modules/**/*": true,
+    "src/wsdot-web-styles/**/*": true
   },
   "json.schemas": [
     {
