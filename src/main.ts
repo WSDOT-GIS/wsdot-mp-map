@@ -227,6 +227,17 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
 
   const milepostLayer = createMilepostLayer(waExtent.spatialReference);
 
+  // Show the instructions alert once the mileposts layer has been loaded.
+  milepostLayer.on("layerview-create", () => {
+    const alert =
+      document.body.querySelector<HTMLCalciteAlertElement>(
+        "#instructionsAlert",
+      );
+    if (alert) {
+      alert.open = true;
+    }
+  });
+
   // Create basemaps
 
   const imageryHybridBasemap = new Basemap({
