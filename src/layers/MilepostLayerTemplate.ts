@@ -1,12 +1,10 @@
 import type { AttributeValue } from "../common/arcgis/typesAndInterfaces";
 import type { AttributesObject, TypedGraphic } from "../types";
 import { OpenStreetMapUrl } from "../urls/osm";
-import { createAppLocationLink } from "./createAppLocationLink";
 import type { Point } from "@arcgis/core/geometry";
 
 const [
   { createGeoMicroformat },
-  { GeoUrl },
   { createGeoHackUrl },
   { GoogleUrl },
   { queryCityLimits },
@@ -16,7 +14,6 @@ const [
   { webMercatorToGeographic },
 ] = await Promise.all([
   import("../common/formatting"),
-  import("../urls/GeoUri"),
   import("../urls/geohack"),
   import("../urls/google"),
   import("./CityLimitsLayer"),
@@ -182,12 +179,6 @@ function createCoordsDetails(graphic: TypedGraphic<Point, MPAttributes>) {
     target: "geohack",
   });
 
-  createLI({
-    href: new GeoUrl({ x, y }),
-    text: "GeoURI",
-    target: "geouri",
-  });
-
   return list;
 }
 
@@ -227,9 +218,7 @@ type GeoMF = Parameters<typeof createGeoMicroformat>;
  */
 function createXYLink(latLng: GeoMF[0], format: GeoMF[2] = "xy") {
   const a = createGeoMicroformat(latLng, "a", format);
-  const [x, y] =
-    format === "xy" ? [latLng[0], latLng[1]] : [latLng[1], latLng[0]];
-  a.href = new GeoUrl({ x, y }).href;
+  a.href = "#";
   a.addEventListener("click", copyXYToClipboard);
   return a;
 }
@@ -293,11 +282,8 @@ async function createContent(target: TemplateTarget) {
   await Promise.allSettled(fieldPromises);
 
   const output = document.createElement("div");
-  const appLocationLink = createAppLocationLink(
-    graphic as unknown as Parameters<typeof createAppLocationLink>[0],
-  );
   output.append(createCoordsDetails(graphic));
-  output.append(createDL(graphic, { "Link to this point": appLocationLink }));
+  output.append(createDL(graphic));
 
   return output;
 }
