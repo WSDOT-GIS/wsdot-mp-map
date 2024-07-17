@@ -135,10 +135,8 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
     { routeLocationToGraphic },
     { callElcFromUrl },
     { accessControlLayer },
-    { cityLimitsLayer },
     { createMilepostLayer },
     { parcelsLayer },
-    { speedLimitsLayer },
     { tempLayer },
     { waExtent },
     { setupLayerList },
@@ -159,10 +157,8 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
     import("./elc/arcgis"),
     import("./elc/url"),
     import("./layers/AccessControlLayer"),
-    import("./layers/CityLimitsLayer"),
     import("./layers/MilepostLayer"),
     import("./layers/parcels"),
-    import("./layers/speed-limits"),
     import("./layers/TempLayer"),
     import("./WAExtent"),
     import("./widgets/LayerList"),
@@ -255,14 +251,7 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
 
   const map = new EsriMap({
     basemap: grayBasemap,
-    layers: [
-      cityLimitsLayer,
-      accessControlLayer,
-      parcelsLayer,
-      speedLimitsLayer,
-      tempLayer,
-      milepostLayer,
-    ],
+    layers: [accessControlLayer, parcelsLayer, tempLayer, milepostLayer],
   });
 
   const view = new MapView({
