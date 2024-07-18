@@ -1,4 +1,4 @@
-import { objectIdFieldName } from "../elc/types";
+import { objectIdFieldName } from "../../elc/types";
 
 const [
   { default: Collection },

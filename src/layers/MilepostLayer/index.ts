@@ -1,4 +1,4 @@
-import { objectIdFieldName } from "../elc/types";
+import { objectIdFieldName } from "../../elc/types";
 import { popupTemplate } from "./MilepostLayerTemplate";
 import Graphic from "@arcgis/core/Graphic";
 import type SpatialReference from "@arcgis/core/geometry/SpatialReference";
@@ -16,9 +16,9 @@ const [
   import("@arcgis/core/layers/FeatureLayer"),
   import("@arcgis/core/renderers/SimpleRenderer"),
   import("@arcgis/core/symbols/SimpleMarkerSymbol"),
-  import("../WAExtent"),
+  import("../../WAExtent"),
   import("./labelClass"),
-  import("../colors"),
+  import("../../colors"),
 ]);
 
 type FieldProperties = Required<ConstructorParameters<typeof Field>>[0];

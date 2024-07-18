@@ -1,4 +1,4 @@
-import { highwaySignTextColor, highwaySignBackgroundColor } from "../colors";
+import { highwaySignTextColor, highwaySignBackgroundColor } from "../../colors";
 import LabelClass from "@arcgis/core/layers/support/LabelClass";
 import TextSymbol from "@arcgis/core/symbols/TextSymbol";
 
