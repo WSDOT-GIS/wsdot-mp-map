@@ -1,6 +1,6 @@
-import type { AttributeValue } from "../common/arcgis/typesAndInterfaces";
-import type { AttributesObject, TypedGraphic } from "../types";
-import { OpenStreetMapUrl } from "../urls/osm";
+import type { AttributeValue } from "../../common/arcgis/typesAndInterfaces";
+import type { AttributesObject, TypedGraphic } from "../../types";
+import { OpenStreetMapUrl } from "../../urls/osm";
 import type { Point } from "@arcgis/core/geometry";
 
 const [
@@ -13,12 +13,12 @@ const [
   { default: PopupTemplate },
   { webMercatorToGeographic },
 ] = await Promise.all([
-  import("../common/formatting"),
-  import("../urls/geohack"),
-  import("../urls/google"),
-  import("./CityLimitsLayer"),
-  import("./CountyBoundariesLayer"),
-  import("./LandSurveyLayer"),
+  import("../../common/formatting"),
+  import("../../urls/geohack"),
+  import("../../urls/google"),
+  import("../CityLimitsLayer"),
+  import("../CountyBoundariesLayer"),
+  import("../LandSurveyLayer"),
   import("@arcgis/core/PopupTemplate"),
   import("@arcgis/core/geometry/support/webMercatorUtils"),
 ]);

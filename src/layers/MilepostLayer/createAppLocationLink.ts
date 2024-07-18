@@ -1,4 +1,4 @@
-import type { AttributeValue } from "../common/arcgis/typesAndInterfaces";
+import type { AttributeValue } from "../../common/arcgis/typesAndInterfaces";
 import type Graphic from "@arcgis/core/Graphic";
 import { getRouteParts } from "wsdot-route-utils";
 
