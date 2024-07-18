@@ -1,4 +1,5 @@
 import { objectIdFieldName } from "../../elc/types";
+import arcade from "./arcade";
 import type SpatialReference from "@arcgis/core/geometry/SpatialReference";
 import type Field from "@arcgis/core/layers/support/Field";
 
@@ -117,6 +118,8 @@ export async function createMilepostLayer(spatialReference: SpatialReference) {
   });
 
   const popupTemplate = milepostLayer.createPopupTemplate();
+
+  popupTemplate.expressionInfos = arcade;
 
   milepostLayer.popupTemplate = popupTemplate;
 
