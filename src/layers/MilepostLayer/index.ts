@@ -1,6 +1,7 @@
 import { objectIdFieldName } from "../../elc/types";
 import { popupTemplate } from "./MilepostLayerTemplate";
 import Graphic from "@arcgis/core/Graphic";
+import Viewpoint from "@arcgis/core/Viewpoint";
 import type SpatialReference from "@arcgis/core/geometry/SpatialReference";
 import type Field from "@arcgis/core/layers/support/Field";
 import type FeatureLayerView from "@arcgis/core/views/layers/FeatureLayerView";
@@ -36,10 +37,12 @@ const fields = [
   {
     name: objectIdFieldName,
     type: "oid",
+    valueType: "unique-identifier",
   },
   {
     name: fieldNames.Route,
     type: "string",
+    valueType: "name-or-title",
   },
   {
     name: "Direction",
@@ -59,10 +62,12 @@ const fields = [
       name: "Direction",
     },
     defaultValue: "I",
+    valueType: "type-or-category",
   },
   {
     name: fieldNames.Srmp,
     type: "double",
+    valueType: "measurement",
   },
   {
     name: fieldNames.Back,
@@ -170,26 +175,48 @@ export function createMilepostLayer(spatialReference: SpatialReference) {
     const layerView = createEvent.layerView as FeatureLayerView;
     const { view } = layerView;
 
-    milepostLayer.on("edits", (event) => {
-      if (isEdits(event) && event.edits.addFeatures.length) {
-        const features = event.edits.addFeatures;
-        // Zoom to the features that were just added.
-        view.goTo(features).catch((reason: unknown) => {
-          console.error("goTo failed", reason);
+    async function openPopup(event: __esri.FeatureLayerEditsEvent & Edits) {
+      try {
+        let features = event.edits.addFeatures;
+
+        const queryResults = await milepostLayer.queryFeatures({
+          objectIds: features.map(
+            (f) => f.getAttribute(milepostLayer.objectIdField) as number,
+          ),
+          returnGeometry: true,
         });
 
-        // TODO: When the popup opens, it does not show the content.
-        // The openPopup code will commented-out until this can be fixed.
-        // At that point the view.goTo will no longer be needed.
+        features = queryResults.features;
 
-        // layerView.view
-        //   .openPopup({
-        //     features,
-        //     shouldFocus: true,
-        //     updateLocationEnabled: true,
-        //   })
-        //   .catch((reason) => console.error("openPopup failed", reason));
+        const viewpoint = new Viewpoint({
+          targetGeometry: features[0].geometry,
+        });
+
+        await view.goTo(viewpoint, {
+          pickClosestTarget: true,
+        });
+        const location = features[0].geometry as __esri.Point;
+        await view.openPopup({
+          features: [...features],
+          location,
+          // fetchFeatures: true,
+        });
+      } finally {
+        /* __PURE__ */ console.groupEnd();
       }
+    }
+
+    milepostLayer.on("edits", (event) => {
+      if (!isEdits(event)) {
+        console.error("Is not a valid edits event", event);
+        return;
+      } else if (event.edits.addFeatures.length === 0) {
+        console.error("No features found in edits event", event);
+        return;
+      }
+      openPopup(event).catch((reason: unknown) => {
+        console.error("openPopup failed", reason);
+      });
     });
 
     createHandle.remove();
