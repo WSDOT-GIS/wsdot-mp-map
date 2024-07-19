@@ -1,7 +1,7 @@
 import Field from "@arcgis/core/layers/support/Field";
 
 // Create an array of Field objects, each corresponding to a property of RouteLocation<DateString, RouteGeometryPoint>.
-export const fieldProperties: readonly __esri.FieldProperties[] = [
+export const fieldProperties = [
   {
     name: "Arm",
     type: "double",
@@ -80,6 +80,8 @@ export const fieldProperties: readonly __esri.FieldProperties[] = [
     type: "double",
     alias: "Angle",
   },
-];
+] as const;
+
+export type FieldProperties = (typeof fieldProperties)[number];
 
 export const fields = fieldProperties.map((p) => new Field(p));
