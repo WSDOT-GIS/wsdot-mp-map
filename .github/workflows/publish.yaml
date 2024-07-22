@@ -37,8 +37,9 @@ jobs:
           cache: 'npm'
       - name: Install dependencies
         run: npm ci
+        # Build with Vite build, explicitly setting the base URL.
       - name: Build
-        run: npx vite build --base ${{ steps.deployment.outputs.page_url }}
+        run: npx vite build --base '/wsdot-mp-map'
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
