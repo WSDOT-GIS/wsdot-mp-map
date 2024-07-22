@@ -36,7 +36,7 @@ export type MilepostGraphic = Omit<Graphic, "attributes"> & {
 /**
  * Converts an ELC RouteLocation to a {@link Graphic} for the milepost layer.
  * @param elcAttributes - the attributes returned from the ELC
- * @returns - A milepost {@link Graphic}.
+ * @returns - A {@link Graphic} with {@link MilepostAttributes|milepost attributes}.
  */
 export function convertToMilepostValues<
   D extends DateString,
