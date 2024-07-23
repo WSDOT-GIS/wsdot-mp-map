@@ -4,13 +4,13 @@ import { createErrorAlert } from "./createElcErrorAlert";
 import { emitErrorEvent } from "./errorEvent";
 import { setupHashUpdate } from "./history-api/hash-update-setup";
 import { updateUrlSearchParams } from "./history-api/url-search";
+import "./index.css";
 import type MapView from "@arcgis/core/views/MapView";
 import "@esri/calcite-components";
 import "@fontsource/inconsolata";
 import "@fontsource/lato";
+import "@wsdot/web-styles/css/wsdot-colors.css";
 import { FormatError } from "wsdot-route-utils";
-
-import("@wsdot/web-styles/css/wsdot-colors.css");
 
 function setupSidebarCollapseButton(view: MapView) {
   const sideBar = document.querySelector<HTMLCalciteShellPanelElement>(
@@ -70,8 +70,6 @@ window.addEventListener("format-error", (event) => {
   /* __PURE__ */ console.error("error", reason);
   /* __PURE__ */ console.groupEnd();
 });
-
-import("./index.css");
 
 const defaultSearchRadius = 3000;
 
