@@ -1,5 +1,6 @@
 import wsdotColorsCss from "../../wsdot-web-styles/css/wsdot-colors.css?raw";
 import content from "./content.html?raw";
+import css from "./index.css?raw";
 
 /**
  * WSDOT Footer custom element.
@@ -27,26 +28,7 @@ export class WsdotFooter extends HTMLElement {
 
     // Add CSS stylesheet to the Shadow DOM.
     const stylesheet = new CSSStyleSheet();
-    stylesheet.replaceSync(`
-      :host {
-        display: block;
-        background-color: var(--wsdot-logo-green);
-        color: white;
-      }
-    footer>ul {
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-        text-align: center;
-    }
-
-    footer>ul>li {
-        display: inline-flex;
-        margin: 0.2rem;
-        padding-left: 12.8px;
-        padding-right: 12.8px;
-    }
-    `);
+    stylesheet.replaceSync(css);
     shadow.adoptedStyleSheets = [wsdotColorsStylesheet, stylesheet];
 
     // Add disclaimer link
