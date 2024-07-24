@@ -10,7 +10,10 @@ import "@esri/calcite-components";
 import "@fontsource/inconsolata";
 import "@fontsource/lato";
 import "@wsdot/web-styles/css/wsdot-colors.css";
+import browserUpdate from "browser-update";
 import { FormatError } from "wsdot-route-utils";
+
+browserUpdate();
 
 function setupSidebarCollapseButton(view: MapView) {
   const sideBar = document.querySelector<HTMLCalciteShellPanelElement>(
