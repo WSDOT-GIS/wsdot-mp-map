@@ -103,27 +103,31 @@
       </calcite-shell-panel>
 
       <div id="viewDiv">
-        <body>
-          <calcite-alert
-            id="instructionsAlert"
-            icon="pin-plus"
-            kind="brand"
-            open="false"
-            auto-close
-            auto-close-duration="medium"
-            label="A report alert"
-            scale="l"
-          >
-            <div slot="title">Instructions</div>
-            <div slot="message">
-              Click on the map near a state route to add a point at the nearest
-              milepost.
-            </div>
-          </calcite-alert>
-        </body>
+        <calcite-alert
+          id="instructionsAlert"
+          icon="pin-plus"
+          kind="brand"
+          open="false"
+          auto-close
+          auto-close-duration="medium"
+          label="Instructions"
+          scale="l"
+        >
+          <div slot="title">Instructions</div>
+          <div slot="message">
+            Click on the map near a state route to add a point at the nearest
+            milepost.
+          </div>
+        </calcite-alert>
       </div>
       <wsdot-footer slot="footer"></wsdot-footer>
     </calcite-shell>
+    <template id="no-webgl">
+      <p>
+        This website requires
+        <a href="https://get.webgl.org/webgl2/">WebGL2</a>.
+      </p>
+    </template>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
