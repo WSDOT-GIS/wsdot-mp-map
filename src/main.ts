@@ -136,11 +136,25 @@ function testWebGL2Support() {
 }
 
 if (!testWebGL2Support()) {
-  const errorMessage =
-    "This app requires WebGL2 support, but this browser does not support it.";
-  document.body.innerHTML = errorMessage;
+  // Get the contents of the no-webgl template and replace the document body with them.
+  const template = document.getElementById("no-webgl") as HTMLTemplateElement;
+  document.body.innerHTML = template.innerHTML;
 } else {
   (async () => {
+    import("./components/disclaimer")
+      .then(({ setupDisclaimerLink }) => {
+        // Setup disclaimer modal
+        const link = document.querySelector<HTMLAnchorElement>("wsdot-footer");
+        if (!link) {
+          console.error("Failed to find disclaimer link");
+        } else {
+          /* __PURE__ */ console.debug("link", link);
+          setupDisclaimerLink(link);
+        }
+      })
+      .catch((error: unknown) => {
+        console.error("Failed to load disclaimer", error);
+      });
     // Asynchronously import modules. This helps build generate smaller chunks.
     const [
       { default: Basemap },
@@ -534,19 +548,4 @@ if (!testWebGL2Support()) {
   })().catch((reason: unknown) => {
     console.error(reason);
   });
-
-  import("./components/disclaimer")
-    .then(({ setupDisclaimerLink }) => {
-      // Setup disclaimer modal
-      const link = document.querySelector<HTMLAnchorElement>("wsdot-footer");
-      if (!link) {
-        console.error("Failed to find disclaimer link");
-      } else {
-        /* __PURE__ */ console.debug("link", link);
-        setupDisclaimerLink(link);
-      }
-    })
-    .catch((error: unknown) => {
-      console.error("Failed to load disclaimer", error);
-    });
 }
