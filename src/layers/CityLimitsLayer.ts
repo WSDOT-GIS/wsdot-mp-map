@@ -1,6 +1,6 @@
 import type { AttributesObject } from "../types";
 import type Point from "@arcgis/core/geometry/Point";
-import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
+import MapImageryLayer from "@arcgis/core/layers/MapImageLayer";
 import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer";
 import SimpleFillSymbol from "@arcgis/core/symbols/SimpleFillSymbol";
 import SimpleLineSymbol from "@arcgis/core/symbols/SimpleLineSymbol";
@@ -24,13 +24,26 @@ let cityLimitsLayerView: FeatureLayerView | undefined;
 /**
  * The city limits layer.
  */
-export const cityLimitsLayer = new FeatureLayer({
+export const cityLimitsLayer = new MapImageryLayer({
   title: "City Limits",
-  url: "https://data.wsdot.wa.gov/arcgis/rest/services/Shared/CityLimits/MapServer/2",
+  url: "https://data.wsdot.wa.gov/arcgis/rest/services/Shared/CityLimits/MapServer",
   visible: false,
-  outFields,
-  popupEnabled: false,
-  renderer,
+  listMode: "hide-children",
+  sublayers: [
+    {
+      id: 0,
+      popupEnabled: false,
+    },
+    {
+      id: 1,
+      popupEnabled: false,
+    },
+    {
+      id: 2,
+      popupEnabled: false,
+      renderer,
+    },
+  ],
 });
 
 cityLimitsLayer.on("layerview-create", ({ layerView }) => {
@@ -71,7 +84,9 @@ export interface CityLimitsAttributes extends AttributesObject {
  * @returns - The city limits attributes for the provided point, or null if no city limits are found.
  */
 export async function queryCityLimits(point: Point) {
-  const results = await (cityLimitsLayerView ?? cityLimitsLayer).queryFeatures({
+  const results = await (
+    cityLimitsLayerView ?? cityLimitsLayer.sublayers.at(2)
+  ).queryFeatures({
     geometry: point,
     spatialRelationship: "within",
     outFields: outFields,
