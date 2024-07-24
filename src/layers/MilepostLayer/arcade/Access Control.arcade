@@ -6,7 +6,7 @@ var agolId = "35cd6f1a5e2f4553a8e83c9ff6edbfa7";
 /**
  * Route ID in the format used by Access Control.
  */
-var routeIdentifier = `${$feature.RouteID}${Lower($feature.Direction)}`;
+var routeIdentifier = `${$feature.Route}${Lower($feature.Direction)}`;
 
 /**
  * The name of the field that contains the Access Control code.
