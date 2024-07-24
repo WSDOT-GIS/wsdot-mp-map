@@ -1,9 +1,7 @@
-import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
+import MapImageLayer from "@arcgis/core/layers/MapImageLayer";
 import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer";
 import SimpleFillSymbol from "@arcgis/core/symbols/SimpleFillSymbol";
 import SimpleLineSymbol from "@arcgis/core/symbols/SimpleLineSymbol";
-
-const outFields = ["CityName", "LastUpdate"];
 
 const renderer = new SimpleRenderer({
   symbol: new SimpleFillSymbol({
@@ -16,14 +14,21 @@ const renderer = new SimpleRenderer({
   }),
 });
 
+const sublayers = (
+  [
+    { minScale: 1500000, maxScale: 750001 },
+    { minScale: 0, maxScale: 1500001, renderer },
+    { minScale: 750000.0, maxScale: 0, renderer },
+  ] as const
+).map((currentItem, i) => ({ id: i, popupEnabled: false, ...currentItem }));
+
 /**
  * The city limits layer.
  */
-export const cityLimitsLayer = new FeatureLayer({
+export const cityLimitsLayer = new MapImageLayer({
   title: "City Limits",
-  url: "https://data.wsdot.wa.gov/arcgis/rest/services/Shared/CityLimits/MapServer/2",
+  url: "https://data.wsdot.wa.gov/arcgis/rest/services/Shared/CityLimits/MapServer",
   visible: false,
-  outFields,
-  popupEnabled: false,
-  renderer,
+  listMode: "hide-children",
+  sublayers,
 });
