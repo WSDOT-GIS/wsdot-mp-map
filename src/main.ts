@@ -5,6 +5,7 @@ import { emitErrorEvent } from "./errorEvent";
 import { setupHashUpdate } from "./history-api/hash-update-setup";
 import { updateUrlSearchParams } from "./history-api/url-search";
 import "./index.css";
+import { cityLimitsLayer } from "./layers/CityLimitsLayer";
 import type MapView from "@arcgis/core/views/MapView";
 import "@esri/calcite-components";
 import "@fontsource/inconsolata";
@@ -287,7 +288,13 @@ if (!testWebGL2Support()) {
 
     const map = new EsriMap({
       basemap: grayBasemap,
-      layers: [accessControlLayer, parcelsLayer, tempLayer, milepostLayer],
+      layers: [
+        cityLimitsLayer,
+        accessControlLayer,
+        parcelsLayer,
+        tempLayer,
+        milepostLayer,
+      ],
     });
 
     const view = new MapView({
