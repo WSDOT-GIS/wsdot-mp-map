@@ -190,6 +190,7 @@ export function createMilepostLayer(spatialReference: SpatialReference) {
 
         const viewpoint = new Viewpoint({
           targetGeometry: features[0].geometry,
+          scale: 1128.4971765,
         });
 
         await view.goTo(viewpoint, {
