@@ -34,7 +34,7 @@
 #     "any.go":
 #       runner: go run
 
-pre-commit:
+pre-push:
   parallel: true
   commands:
     lint:
