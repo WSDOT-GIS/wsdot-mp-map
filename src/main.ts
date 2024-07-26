@@ -32,6 +32,11 @@ function setupSidebarCollapseButton(view: MapView) {
       setSidebarToggleIcon();
     });
 
+    // Set sidebar collapsed to false if document width is less than 768px.
+    if (window.outerWidth >= 768) {
+      sideBar.collapsed = false;
+    }
+
     view.ui.add(collapseButton, "top-leading");
 
     const setSidebarToggleIcon = () => {
