@@ -10,6 +10,7 @@
     "watch": "vite build -- --watch",
     "preview": "vite preview",
     "build-and-preview": "npm run build && npm run preview -- --open",
+    "webkit-preview": "playwright wk http://localhost:4173/data/tools/LocateMP/",
     "clean": "git clean -dfx --exclude \"node_modules/**\" --exclude \".mailmap\" --exclude \".env.local\"",
     "dev": "vite",
     "lint": "eslint . --fix",
