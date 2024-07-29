@@ -56,8 +56,6 @@ export class ElcError extends Error implements ElcErrorResponse {
   Srmp;
   LocatingError;
   constructor(elcErrorResponse: ElcErrorResponse, options?: ErrorOptions) {
-    /* __PURE__ */ console.group("ElcError constructor");
-    /* __PURE__ */ console.debug("parameters", { elcErrorResponse, options });
     const {
       ArmCalcReturnCode,
       ArmCalcReturnMessage,
@@ -100,8 +98,6 @@ export class ElcError extends Error implements ElcErrorResponse {
     this.RouteGeometry = RouteGeometry;
     this.Srmp = Srmp;
     this.LocatingError = LocatingError;
-
-    /* __PURE__ */ console.groupEnd();
   }
 
   override toString() {

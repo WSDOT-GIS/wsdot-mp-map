@@ -11,8 +11,6 @@ import { getRouteParts } from "wsdot-route-utils";
 export function createAppLocationLink(
   graphic: Pick<Graphic, "attributes" | "toJSON">,
 ): HTMLAnchorElement {
-  /* __PURE__ */ console.group(createAppLocationLink.name);
-  /* __PURE__ */ console.debug("graphic", graphic.toJSON());
   // Get the Route, SRMP, Back, and Decrease attributes.
   const attributes = graphic.attributes as Record<string, AttributeValue>;
 
@@ -84,6 +82,5 @@ export function createAppLocationLink(
   anchor.rel = "noopener noreferrer external";
   anchor.append("Link to this location");
 
-  /* __PURE__ */ console.groupEnd();
   return anchor;
 }
