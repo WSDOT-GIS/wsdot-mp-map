@@ -93,8 +93,6 @@ export async function createSrmpInputForm() {
 
   const routeElement = form.querySelector("#routeInput");
   if (!routeElement) {
-    const message = `"route" element not found in form.`;
-    /* __PURE__ */ console.error(message);
     throw new Error("route element not found");
   }
   const routeFeatures = await getRoutesFromService();
@@ -106,20 +104,16 @@ export async function createSrmpInputForm() {
   });
 
   routeElement.addEventListener("change", (event: Event) => {
-    /* __PURE__ */ console.group("SRMP form route change event");
     const selectedItems = (
       event.target as InstanceType<typeof CalciteCombobox> | null
     )?.selectedItems;
-    /* __PURE__ */ console.debug("Selected items", selectedItems);
 
     if (selectedItems && selectedItems.length > 0) {
       const selectedItem = selectedItems[0];
-      /* __PURE__ */ console.debug("Selected item", selectedItem);
       const lrsTypes = [...(selectedItem.dataset.directions ?? "")] as (
         | "d"
         | "i"
       )[];
-      /* __PURE__ */ console.debug("lrsTypes", lrsTypes);
       const decreaseCheckbox = form.decrease;
       if (lrsTypes.length > 1) {
         decreaseCheckbox.disabled = true;
@@ -132,9 +126,7 @@ export async function createSrmpInputForm() {
   });
 
   form.addEventListener("submit", (event) => {
-    /* __PURE__ */ console.group("SRMP form submit event");
     try {
-      /* __PURE__ */ console.debug("event", event);
       const routeId =
         typeof form.route.value === "string"
           ? form.route.value
@@ -154,7 +146,6 @@ export async function createSrmpInputForm() {
       form.dispatchEvent(customEvent);
     } finally {
       event.preventDefault();
-      /* __PURE__ */ console.groupEnd();
     }
   });
   return form;

@@ -39,7 +39,6 @@ export class WsdotFooter extends HTMLElement {
         "Could not find a link in the wsdot-footer named 'disclaimer-link'.";
       console.error(message);
     } else {
-      /* __PURE__ */ console.debug("disclaimerLink", disclaimerLink);
       disclaimerLink.addEventListener("click", (clickEvent) => {
         const event = new CustomEvent("disclaimer-link-clicked");
         this.dispatchEvent(event);

@@ -22,10 +22,6 @@ export function setupHashUpdate(view: MapView) {
         const initialMapPositionFromUrl = new MapPositionHash(
           window.location.hash,
         );
-        /* __PURE__ */ console.debug("initial map position from URL", {
-          hash: window.location.hash,
-          initialMapPositionFromUrl,
-        });
         view.zoom = initialMapPositionFromUrl.zoom;
         let center = new Point({
           x: initialMapPositionFromUrl.center[0],

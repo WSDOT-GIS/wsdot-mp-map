@@ -176,35 +176,31 @@ export function createMilepostLayer(spatialReference: SpatialReference) {
     const { view } = layerView;
 
     async function openPopup(event: __esri.FeatureLayerEditsEvent & Edits) {
-      try {
-        let features = event.edits.addFeatures;
+      let features = event.edits.addFeatures;
 
-        const queryResults = await milepostLayer.queryFeatures({
-          objectIds: features.map(
-            (f) => f.getAttribute(milepostLayer.objectIdField) as number,
-          ),
-          returnGeometry: true,
-        });
+      const queryResults = await milepostLayer.queryFeatures({
+        objectIds: features.map(
+          (f) => f.getAttribute(milepostLayer.objectIdField) as number,
+        ),
+        returnGeometry: true,
+      });
 
-        features = queryResults.features;
+      features = queryResults.features;
 
-        const viewpoint = new Viewpoint({
-          targetGeometry: features[0].geometry,
-          scale: 1128.4971765,
-        });
+      const viewpoint = new Viewpoint({
+        targetGeometry: features[0].geometry,
+        scale: 1128.4971765,
+      });
 
-        await view.goTo(viewpoint, {
-          pickClosestTarget: true,
-        });
-        const location = features[0].geometry as __esri.Point;
-        await view.openPopup({
-          features: [...features],
-          location,
-          // fetchFeatures: true,
-        });
-      } finally {
-        /* __PURE__ */ console.groupEnd();
-      }
+      await view.goTo(viewpoint, {
+        pickClosestTarget: true,
+      });
+      const location = features[0].geometry as __esri.Point;
+      await view.openPopup({
+        features: [...features],
+        location,
+        // fetchFeatures: true,
+      });
     }
 
     milepostLayer.on("edits", (event) => {

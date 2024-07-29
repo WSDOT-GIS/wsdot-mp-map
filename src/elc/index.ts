@@ -92,16 +92,10 @@ function correctRouteInfoInError(
   resultItem: ElcError,
   location: ValidRouteLocationForMPInput<DateType, RouteGeometry>,
 ) {
-  /* __PURE__ */ console.group(correctRouteInfoInError.name);
-  /* __PURE__ */ console.debug("input resultItem", { ...resultItem });
-  /* __PURE__ */ console.debug("input location", { ...location });
   const newError = new ElcError(resultItem, {
     cause: resultItem,
   });
-  /* __PURE__ */ console.debug("newError (pre-assignment)", { ...newError });
   Object.assign(newError, location);
-  /* __PURE__ */ console.debug("newError (post-assignment)", { ...newError });
-  /* __PURE__ */ console.groupEnd();
   return newError;
 }
 
@@ -136,40 +130,24 @@ export async function findNearestRouteLocations(
   options: FindNearestRouteLocationParameters,
   url: ElcFindNearestUrlString = defaultFindNearestUrl,
 ) {
-  /* __PURE__ */ console.group(findNearestRouteLocations.name);
-  /* __PURE__ */ console.debug("parameters", { options, url });
   const queryUrl = new URL(url);
   populateUrlParameters(options, queryUrl);
-  /* __PURE__ */ console.debug("Calling REST endpoint", queryUrl);
   const response = await fetch(queryUrl);
 
-  /* __PURE__ */ console.debug("Parsing response JSON...", response);
   const responseJson = await response.text();
   const result = JSON.parse(responseJson, elcReviver) as (
     | SuccessType
     | ArcGisError
     | ElcError
   )[];
-  /* __PURE__ */ console.debug("Parsed JSON", result);
 
   if (!result.length) {
-    /* __PURE__ */ console.debug("Result was an empty array.");
-    /* __PURE__ */ console.groupEnd();
     return result;
   } else if (result.length > 1) {
-    /* __PURE__ */ console.warn(
-      `Expected 1 result, got ${result.length.toString()}.`,
-    );
+    console.warn(`Expected 1 result, got ${result.length.toString()}.`);
   }
 
-  const { successes, errors } = splitErrorResults(result);
-
-  /* __PURE__ */ if (errors.size) {
-    /* __PURE__ */ console.error(
-      "Errors",
-      Object.fromEntries(errors.entries()),
-    );
-  }
+  const { successes } = splitErrorResults(result);
 
   const successValues = [...successes.values()];
 
@@ -193,8 +171,6 @@ export async function findNearestRouteLocations(
   // Restore old distance values.
   const successesAndErrors = splitErrorResults(result2);
 
-  /* __PURE__ */ console.debug("2nd pass", successesAndErrors);
-
   for (const [i, routeLocation] of [
     ...successesAndErrors.successes.values(),
   ].entries()) {
@@ -204,7 +180,6 @@ export async function findNearestRouteLocations(
     routeLocation.Angle = oldLoc.Angle;
   }
 
-  /* __PURE__ */ console.groupEnd();
   return result2;
 }
 
@@ -219,14 +194,8 @@ export async function findRouteLocations(
   routeLocations: FindRouteLocationParameters,
   url: ElcFindUrlString = defaultFindUrl,
 ) {
-  /* __PURE__ */ console.group(findRouteLocations.name);
   const requestUrl = new URL(url);
-  /* __PURE__ */ console.debug(
-    "Adding parameters to request URL...",
-    requestUrl.href,
-  );
   populateUrlParameters(routeLocations, requestUrl);
-  /* __PURE__ */ console.debug("Request URL:", requestUrl.href);
   const response = await fetch(requestUrl);
   const resultJson = await response.text();
   const result = JSON.parse(resultJson, elcReviver) as (
@@ -235,13 +204,11 @@ export async function findRouteLocations(
   )[];
 
   if (isArcGisErrorResponse(result)) {
-    console.error("Error from ArcGIS server.", result);
     throw new ArcGisError(result, { routeLocations, requestUrl, response });
   }
 
   addInfoToErrors(result, routeLocations);
 
-  /* __PURE__ */ console.groupEnd();
   return result;
 }
 

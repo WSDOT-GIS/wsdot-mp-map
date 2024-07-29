@@ -59,8 +59,6 @@ for (const routeDataRow of routeDescriptions) {
 
   const rowElement = routeList.insertRow();
 
-  /* __PURE__ */ console.debug("rowElement", { ...rowElement });
-
   for (const [key, value] of Object.entries(routeDataRow) as [
     keyof typeof routeDataRow,
     (typeof routeDataRow)[keyof typeof routeDataRow],

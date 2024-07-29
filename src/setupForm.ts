@@ -47,8 +47,6 @@ async function addSrmpFromForm(
   view: MapView,
   milepostLayer: FeatureLayer,
 ) {
-  /* __PURE__ */ console.group(addSrmpFromForm.name);
-  /* __PURE__ */ console.debug("event", event);
   const { route, mp, back, decrease } = event.detail;
 
   // Pad the route if necessary and append the type if there is one.
@@ -62,7 +60,6 @@ async function addSrmpFromForm(
     outSR: view.spatialReference.wkid,
     referenceDate,
   });
-  /* @__PURE__ */ console.debug("routeLocations", routeLocations);
 
   // Separate success and error route location results.
   const graphics: Graphic[] = [];
@@ -86,18 +83,12 @@ async function addSrmpFromForm(
   }
 
   if (graphics.length > 0) {
-    /* __PURE__ */ console.debug("graphics", graphics);
     let addFeatureResults: Graphic[] | null = null;
     try {
       addFeatureResults = await addGraphicsToLayer(milepostLayer, graphics);
-      /* @__PURE__ */ console.debug("addedFeatures", {
-        allGraphics: graphics,
-        addFeatureResults,
-      });
     } catch (error) {
       console.error("Error adding SRMP from form", error);
     }
-    /* __PURE__ */ console.groupEnd();
     return addFeatureResults;
   }
 }

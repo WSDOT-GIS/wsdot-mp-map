@@ -65,19 +65,13 @@ if (import.meta.hot) {
 }
 
 window.addEventListener("elc-error", (event) => {
-  /* __PURE__ */ console.group("elc-error event listener");
   const reason = event.detail;
   createErrorAlert(reason);
-  /* __PURE__ */ console.error("elc error", reason);
-  /* __PURE__ */ console.groupEnd();
 });
 
 window.addEventListener("format-error", (event) => {
-  /* __PURE__ */ console.group("error event listener");
   const reason = event.detail as FormatError;
   createErrorAlert(reason);
-  /* __PURE__ */ console.error("error", reason);
-  /* __PURE__ */ console.groupEnd();
 });
 
 const defaultSearchRadius = 3000;
@@ -128,7 +122,6 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
 function testWebGL2Support() {
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   if (window.WebGL2RenderingContext) {
-    /* __PURE__ */ console.log("webgl2 works!");
     return true;
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   } else if (window.WebGLRenderingContext && !window.WebGL2RenderingContext) {
@@ -154,7 +147,6 @@ if (!testWebGL2Support()) {
         if (!link) {
           console.error("Failed to find disclaimer link");
         } else {
-          /* __PURE__ */ console.debug("link", link);
           setupDisclaimerLink(link);
         }
       })
@@ -215,8 +207,6 @@ if (!testWebGL2Support()) {
      * @returns - a promise that resolves to an array of {@link RouteLocation|RouteLocations}
      */
     async function callFindNearestRouteLocation(event: __esri.ViewClickEvent) {
-      /* __PURE__ */ console.group(callFindNearestRouteLocation.name);
-      /* __PURE__ */ console.debug("input event", event);
       const { x, y, spatialReference } = event.mapPoint;
       const locations = await findNearestRouteLocations({
         coordinates: [x, y],
@@ -225,15 +215,6 @@ if (!testWebGL2Support()) {
         routeFilter: elcMainlinesOnlyFilter,
         searchRadius: defaultSearchRadius,
       });
-      /* __PURE__ */ console.debug(
-        "locations returned by ELC for this location",
-        locations,
-      );
-      if (!locations.length) {
-        /* __PURE__ */ console.log(
-          "No locations returned. Returned value is an empty array.",
-        );
-      }
       const location = locations[0];
 
       if (location instanceof Error) {
@@ -241,12 +222,17 @@ if (!testWebGL2Support()) {
       }
 
       const locationGraphic = routeLocationToGraphic(location);
-      const addResults = addGraphicsToLayer(milepostLayer, [locationGraphic]);
-      /* __PURE__ */ console.debug(
-        "addResults returned by addGraphicsToLayer",
-        addResults,
-      );
-      /* __PURE__ */ console.groupEnd();
+      addGraphicsToLayer(milepostLayer, [locationGraphic])
+        .then((addResults) => {
+          /* __PURE__ */ console.debug(
+            "addResults returned by addGraphicsToLayer",
+            addResults,
+          );
+        })
+        .catch((error: unknown) => {
+          console.error("addGraphicsToLayer failed", error);
+        });
+
       return locations;
     }
 
@@ -325,24 +311,16 @@ if (!testWebGL2Support()) {
 
     import("@arcgis/core/widgets/Legend")
       .then(({ default: Legend }) => {
-        const legend = new Legend({
+        // We can ignore SonarLint warning. Creating the new Legend also adds it to the UI,
+        // so we don't need to assign it to a variable or do anything else with it.
+        new Legend({
           view: view,
           container: "legend",
         });
-
-        /* __PURE__ */ console.debug("Added legend", legend);
       })
       .catch((error: unknown) => {
         console.error("Failed to import Legend module.", error);
       });
-
-    if (import.meta.env.DEV) {
-      view.watch(["navigating"], (newValue) => {
-        if (!newValue) {
-          /* __PURE__ */ console.debug("scale", view.scale);
-        }
-      });
-    }
 
     whenOnce(() => map.initialized)
       .then(() => {
@@ -456,14 +434,9 @@ if (!testWebGL2Support()) {
 
         // Call findNearestRouteLocations
         try {
-          const results = await callFindNearestRouteLocation(event);
-          /* __PURE__ */ console.debug("ELC Results", results);
+          await callFindNearestRouteLocation(event);
         } catch (error) {
-          let message = "Could not find a route location near this location.";
-
-          if (import.meta.env.DEV && error instanceof Error) {
-            message += `\n${error.message}`;
-          }
+          const message = "Could not find a route location near this location.";
 
           const handleError = (reason: unknown) => {
             console.error("Failed to remove temporary graphic", reason);
@@ -533,8 +506,6 @@ if (!testWebGL2Support()) {
     // Once the milepost layerview has been created, check for ELC data from the URL
     // and, if present, add the location to the map.
     milepostLayer.on("layerview-create", () => {
-      /* __PURE__ */ console.debug("milepost layer view created");
-
       /**
        * Calls the ELC API to retrieve graphics from the URL and adds them to the milepost layer.
        * @returns A promise that resolves when the graphics have been added to the layer and the view has been updated.
@@ -550,10 +521,6 @@ if (!testWebGL2Support()) {
         }
       };
       callElc().catch((reason: unknown) => {
-        /* __PURE__ */ console.error(
-          "Failed to add ELC graphics from URL.",
-          reason,
-        );
         emitErrorEvent(reason);
       });
     });
