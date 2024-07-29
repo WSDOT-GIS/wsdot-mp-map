@@ -38,5 +38,8 @@
   },
   "eslint.useFlatConfig": true,
   "eslint.lintTask.enable": true,
-  "eslint.useESLintClass": true
+  "eslint.useESLintClass": true,
+  "html.customData": [
+    "./node_modules/@esri/calcite-components/dist/extras/vscode-data.json"
+  ]
 }
