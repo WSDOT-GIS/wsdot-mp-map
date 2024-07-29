@@ -106,6 +106,8 @@ export default defineConfig((env) => {
     build: {
       // This sets the target based on the `browserslist` file.
       target: browserslistToEsbuild(),
+      // TODO: Turn minification back on once the Safari issues have been resolved.
+      minify: false,
       rollupOptions: {
         input: {
           main: "./index.html",
