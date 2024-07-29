@@ -6,9 +6,6 @@ import { ElcError } from "./elc/errors";
  * @returns The created calcite-alert element.
  */
 export function createElcErrorAlert(error: ElcError): HTMLCalciteAlertElement {
-  /* __PURE__ */ console.group("createElcErrorAlert");
-  /* __PURE__ */ console.debug("elc error", error);
-
   // Create the alert element.
   const cAlert = document.createElement("calcite-alert");
   cAlert.open = true;
@@ -39,7 +36,6 @@ export function createElcErrorAlert(error: ElcError): HTMLCalciteAlertElement {
 
   const shell = document.querySelector("calcite-shell");
   shell?.append(cAlert);
-  /* __PURE__ */ console.groupEnd();
   return cAlert;
 }
 
@@ -58,8 +54,6 @@ export function createErrorAlert<E extends Error>(
   if (error instanceof ElcError) {
     return createElcErrorAlert(error);
   }
-  /* __PURE__ */ console.group("createErrorAlert");
-  /* __PURE__ */ console.debug("error", error);
   const cAlert = document.createElement("calcite-alert");
   cAlert.open = true;
   cAlert.autoClose = true;
@@ -95,7 +89,6 @@ export function createErrorAlert<E extends Error>(
   cAlert.kind = "warning";
   const shell = document.querySelector("calcite-shell");
   shell?.append(cAlert);
-  /* __PURE__ */ console.groupEnd();
   return cAlert;
 }
 

@@ -29,13 +29,9 @@ const view = new MapView({
   extent: waExtent,
 });
 
-view
-  .when(() => {
-    /* __PURE__ */ console.debug("Map loaded");
-  })
-  .catch((error: unknown) => {
-    console.error("Failed to load map", error);
-  });
+view.when().catch((error: unknown) => {
+  console.error("Failed to load map", error);
+});
 
 import("./components/disclaimer")
   .then(({ setupDisclaimerLink }) => {
@@ -44,7 +40,6 @@ import("./components/disclaimer")
     if (!link) {
       console.error("Failed to find disclaimer link");
     } else {
-      /* __PURE__ */ console.debug("link", link);
       setupDisclaimerLink(link);
     }
   })

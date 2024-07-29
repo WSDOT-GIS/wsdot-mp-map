@@ -52,11 +52,6 @@ export async function addGraphicsToLayer(
     {},
   );
 
-  /* __PURE__ */ console.debug(
-    `${addGraphicsToLayer.name}: editsResult`,
-    editsResult,
-  );
-
   return getAddedGraphics(editsResult);
 }
 

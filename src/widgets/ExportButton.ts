@@ -31,10 +31,6 @@ async function performExport(layer: FeatureLayer) {
     return null;
   }
   const featureCollection = convertArcGisFeatureSetToGeoJson(featureset);
-  /* __PURE__ */ console.log(
-    "exported GeoJSON feature collection",
-    featureCollection,
-  );
 
   return featureCollection;
 }
