@@ -1,0 +1,328 @@
+{
+  "displayFieldName": "RouteID",
+  "fieldAliases": {
+    "RouteID": "RouteID",
+    "ARM": "ARM",
+    "SRMP": "SRMP",
+    "Direction": "Direction",
+    "Longitude": "Longitude",
+    "Latitude": "Latitude",
+    "StateRouteNumber": "StateRouteNumber",
+    "RelRouteType": "RelRouteType",
+    "RelRouteQual": "RelRouteQual",
+    "AheadBackInd": "AheadBackInd",
+    "LRS_Date": "LRS_Date"
+  },
+  "geometryType": "esriGeometryPoint",
+  "spatialReference": { "wkid": 4326, "latestWkid": 4326 },
+  "fields": [
+    {
+      "name": "RouteID",
+      "type": "esriFieldTypeString",
+      "alias": "RouteID",
+      "length": 12
+    },
+    { "name": "ARM", "type": "esriFieldTypeSingle", "alias": "ARM" },
+    { "name": "SRMP", "type": "esriFieldTypeSingle", "alias": "SRMP" },
+    {
+      "name": "Direction",
+      "type": "esriFieldTypeString",
+      "alias": "Direction",
+      "length": 2
+    },
+    {
+      "name": "Longitude",
+      "type": "esriFieldTypeDouble",
+      "alias": "Longitude"
+    },
+    { "name": "Latitude", "type": "esriFieldTypeDouble", "alias": "Latitude" },
+    {
+      "name": "StateRouteNumber",
+      "type": "esriFieldTypeString",
+      "alias": "StateRouteNumber",
+      "length": 3
+    },
+    {
+      "name": "RelRouteType",
+      "type": "esriFieldTypeString",
+      "alias": "RelRouteType",
+      "length": 2
+    },
+    {
+      "name": "RelRouteQual",
+      "type": "esriFieldTypeString",
+      "alias": "RelRouteQual",
+      "length": 7
+    },
+    {
+      "name": "AheadBackInd",
+      "type": "esriFieldTypeString",
+      "alias": "AheadBackInd",
+      "length": 1
+    },
+    {
+      "name": "LRS_Date",
+      "type": "esriFieldTypeString",
+      "alias": "LRS_Date",
+      "length": 8
+    }
+  ],
+  "features": [
+    {
+      "attributes": {
+        "RouteID": "005",
+        "ARM": 145.77,
+        "SRMP": 145.79,
+        "Direction": "i",
+        "Longitude": -122.292558714133,
+        "Latitude": 47.343120044546,
+        "StateRouteNumber": "005",
+        "RelRouteType": "",
+        "RelRouteQual": "",
+        "AheadBackInd": "A",
+        "LRS_Date": "20231231"
+      },
+      "geometry": { "x": -122.29257353888011, "y": 47.343125651512388 }
+    },
+    {
+      "attributes": {
+        "RouteID": "005",
+        "ARM": 145.79,
+        "SRMP": 145.81,
+        "Direction": "i",
+        "Longitude": -122.292553643464,
+        "Latitude": 47.343402666835,
+        "StateRouteNumber": "005",
+        "RelRouteType": "",
+        "RelRouteQual": "",
+        "AheadBackInd": "A",
+        "LRS_Date": "20231231"
+      },
+      "geometry": { "x": -122.29256846827755, "y": 47.343408273817005 }
+    },
+    {
+      "attributes": {
+        "RouteID": "005",
+        "ARM": 145.82,
+        "SRMP": 145.84,
+        "Direction": "i",
+        "Longitude": -122.292557310022,
+        "Latitude": 47.343833277659,
+        "StateRouteNumber": "005",
+        "RelRouteType": "",
+        "RelRouteQual": "",
+        "AheadBackInd": "A",
+        "LRS_Date": "20231231"
+      },
+      "geometry": { "x": -122.29257213493696, "y": 47.343838884663285 }
+    },
+    {
+      "attributes": {
+        "RouteID": "005",
+        "ARM": 145.76,
+        "SRMP": 145.78,
+        "Direction": "i",
+        "Longitude": -122.292566838389,
+        "Latitude": 47.342975957411,
+        "StateRouteNumber": "005",
+        "RelRouteType": "",
+        "RelRouteQual": "",
+        "AheadBackInd": "A",
+        "LRS_Date": "20231231"
+      },
+      "geometry": { "x": -122.29258166310436, "y": 47.342981564368237 }
+    },
+    {
+      "attributes": {
+        "RouteID": "005",
+        "ARM": 145.83,
+        "SRMP": 145.85,
+        "Direction": "i",
+        "Longitude": -122.292563677404,
+        "Latitude": 47.343977924487,
+        "StateRouteNumber": "005",
+        "RelRouteType": "",
+        "RelRouteQual": "",
+        "AheadBackInd": "A",
+        "LRS_Date": "20231231"
+      },
+      "geometry": { "x": -122.29257850235456, "y": 47.343983531497933 }
+    },
+    {
+      "attributes": {
+        "RouteID": "005",
+        "ARM": 145.75,
+        "SRMP": 145.77,
+        "Direction": "i",
+        "Longitude": -122.292575250588,
+        "Latitude": 47.342831853221,
+        "StateRouteNumber": "005",
+        "RelRouteType": "",
+        "RelRouteQual": "",
+        "AheadBackInd": "A",
+        "LRS_Date": "20231231"
+      },
+      "geometry": { "x": -122.29259007527028, "y": 47.342837460169967 }
+    },
+    {
+      "attributes": {
+        "RouteID": "005",
+        "ARM": 145.8,
+        "SRMP": 145.82,
+        "Direction": "i",
+        "Longitude": -122.292551108787,
+        "Latitude": 47.343543978407,
+        "StateRouteNumber": "005",
+        "RelRouteType": "",
+        "RelRouteQual": "",
+        "AheadBackInd": "A",
+        "LRS_Date": "20231231"
+      },
+      "geometry": { "x": -122.2925659336327, "y": 47.34354958539641 }
+    },
+    {
+      "attributes": {
+        "RouteID": "005",
+        "ARM": 145.81,
+        "SRMP": 145.83,
+        "Direction": "i",
+        "Longitude": -122.292554209396,
+        "Latitude": 47.343688628037,
+        "StateRouteNumber": "005",
+        "RelRouteType": "",
+        "RelRouteQual": "",
+        "AheadBackInd": "A",
+        "LRS_Date": "20231231"
+      },
+      "geometry": { "x": -122.29256903427645, "y": 47.343694235034128 }
+    },
+    {
+      "attributes": {
+        "RouteID": "005",
+        "ARM": 145.78,
+        "SRMP": 145.8,
+        "Direction": "i",
+        "Longitude": -122.292556179482,
+        "Latitude": 47.343261356134,
+        "StateRouteNumber": "005",
+        "RelRouteType": "",
+        "RelRouteQual": "",
+        "AheadBackInd": "A",
+        "LRS_Date": "20231231"
+      },
+      "geometry": { "x": -122.29257100426206, "y": 47.343266963108171 }
+    },
+    {
+      "attributes": {
+        "RouteID": "005",
+        "ARM": 145.84,
+        "SRMP": 145.86,
+        "Direction": "i",
+        "Longitude": -122.292572999192,
+        "Latitude": 47.344122568847,
+        "StateRouteNumber": "005",
+        "RelRouteType": "",
+        "RelRouteQual": "",
+        "AheadBackInd": "A",
+        "LRS_Date": "20231231"
+      },
+      "geometry": { "x": -122.29258782417826, "y": 47.344128175865237 }
+    },
+    {
+      "attributes": {
+        "RouteID": "005",
+        "ARM": 145.79,
+        "SRMP": 145.81,
+        "Direction": "d",
+        "Longitude": -122.292998390988,
+        "Latitude": 47.343406931248,
+        "StateRouteNumber": "005",
+        "RelRouteType": "",
+        "RelRouteQual": "",
+        "AheadBackInd": "A",
+        "LRS_Date": "20231231"
+      },
+      "geometry": { "x": -122.29301321587313, "y": 47.343412538181468 }
+    },
+    {
+      "attributes": {
+        "RouteID": "005",
+        "ARM": 145.82,
+        "SRMP": 145.84,
+        "Direction": "d",
+        "Longitude": -122.292989279254,
+        "Latitude": 47.343828980172,
+        "StateRouteNumber": "005",
+        "RelRouteType": "",
+        "RelRouteQual": "",
+        "AheadBackInd": "A",
+        "LRS_Date": "20231231"
+      },
+      "geometry": { "x": -122.2930041042372, "y": 47.343834587128619 }
+    },
+    {
+      "attributes": {
+        "RouteID": "005",
+        "ARM": 145.77,
+        "SRMP": 145.79,
+        "Direction": "d",
+        "Longitude": -122.293005828612,
+        "Latitude": 47.34312739426,
+        "StateRouteNumber": "005",
+        "RelRouteType": "",
+        "RelRouteQual": "",
+        "AheadBackInd": "A",
+        "LRS_Date": "20231231"
+      },
+      "geometry": { "x": -122.29302065343268, "y": 47.343133001177634 }
+    },
+    {
+      "attributes": {
+        "RouteID": "005",
+        "ARM": 145.8,
+        "SRMP": 145.82,
+        "Direction": "d",
+        "Longitude": -122.292994672793,
+        "Latitude": 47.34354669927,
+        "StateRouteNumber": "005",
+        "RelRouteType": "",
+        "RelRouteQual": "",
+        "AheadBackInd": "A",
+        "LRS_Date": "20231231"
+      },
+      "geometry": { "x": -122.29300949771074, "y": 47.343552306211393 }
+    },
+    {
+      "attributes": {
+        "RouteID": "005",
+        "ARM": 145.78,
+        "SRMP": 145.8,
+        "Direction": "d",
+        "Longitude": -122.293002110456,
+        "Latitude": 47.343267162298,
+        "StateRouteNumber": "005",
+        "RelRouteType": "",
+        "RelRouteQual": "",
+        "AheadBackInd": "A",
+        "LRS_Date": "20231231"
+      },
+      "geometry": { "x": -122.29301693530904, "y": 47.343272769223752 }
+    },
+    {
+      "attributes": {
+        "RouteID": "005",
+        "ARM": 145.81,
+        "SRMP": 145.83,
+        "Direction": "d",
+        "Longitude": -122.29299197603,
+        "Latitude": 47.343687839725,
+        "StateRouteNumber": "005",
+        "RelRouteType": "",
+        "RelRouteQual": "",
+        "AheadBackInd": "A",
+        "LRS_Date": "20231231"
+      },
+      "geometry": { "x": -122.29300680098108, "y": 47.343693446674109 }
+    }
+  ]
+}
