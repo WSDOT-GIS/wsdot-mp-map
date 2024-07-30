@@ -9,6 +9,13 @@ interface ImportMetaEnv {
 	readonly VITE_HEADER_TITLE: string;
 	readonly VITE_WIDTH_THRESHOLD_IN_PIXELS: `${number}`;
 	readonly VITE_GOOGLE_MEASUREMENT_ID: string;
+
+  readonly VITE_TITLE: string;
+  readonly VITE_MP_SEARCH_RADIUS: string;
+  readonly VITE_MP_SEARCH_RADIUS_UNITS: NonNullable<
+    Exclude<__esri.QueryProperties["units"], "us-nautical-miles">
+  >;
+  readonly VITE_ALL_STATE_ROUTE_POINTS_URL: string;
 	// more env variables...
 }
 
