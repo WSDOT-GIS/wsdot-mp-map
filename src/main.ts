@@ -157,7 +157,10 @@ if (!testWebGL2Support()) {
     const [
       { default: Basemap },
       { default: config },
-      { whenOnce },
+      {
+        // eslint-disable-next-line @typescript-eslint/unbound-method
+        whenOnce,
+      },
       { default: Graphic },
       { default: PortalItem },
       { default: EsriMap },
