@@ -1,8 +1,8 @@
 import { moveUrlSearchToHash } from "../../src/history-api/url-search";
-import { test, expect, describe } from "vitest";
+import { test, describe } from "vitest";
 
-describe("moveUrlSearchToHash", () => {
-  test("moves the URL search parameters to the URL hash", () => {
+describe.concurrent("moveUrlSearchToHash", () => {
+  test("moves the URL search parameters to the URL hash", ({ expect }) => {
     const x = -122.90913367530709;
     const y = 46.14502682037163;
     const zoom = 15;

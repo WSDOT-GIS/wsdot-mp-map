@@ -1,9 +1,9 @@
 import { getRouteList } from "../src/milepost-info";
-import { describe, it, expect } from "vitest";
+import { describe, it } from "vitest";
 
 // create test suite to test getRouteList function
-describe("getRouteList", () => {
-  it("should return a list of routes", async () => {
+describe.concurrent("getRouteList", () => {
+  it("should return a list of routes", async ({ expect }) => {
     const routes = await getRouteList();
     expect(routes.length).toBeGreaterThan(0);
     for (const { RouteID, Direction, MinSrmp, MaxSrmp } of routes) {

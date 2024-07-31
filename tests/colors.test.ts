@@ -3,13 +3,13 @@ import {
   highwaySignTextColor,
 } from "../src/colors.js";
 import Color from "@arcgis/core/Color.js";
-import { expect, test, describe } from "vitest";
+import { test, describe } from "vitest";
 
-describe("colors", () => {
-  test("highwaySignBackgroundColor", () => {
+describe.concurrent("colors", () => {
+  test("highwaySignBackgroundColor", ({ expect }) => {
     expect(highwaySignBackgroundColor).toBeInstanceOf(Color);
   });
-  test("highwaySignTextColor", () => {
+  test("highwaySignTextColor", ({ expect }) => {
     expect(highwaySignTextColor).toBeInstanceOf(Color);
   });
 });

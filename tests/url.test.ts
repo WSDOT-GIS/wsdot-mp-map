@@ -1,5 +1,5 @@
 import { getElcParamsFromUrl } from "../src/elc/url.js";
-import { describe, expect, test } from "vitest";
+import { describe, test } from "vitest";
 
 const urlRoot = "https://example.com/data/tools/Locatemp/";
 
@@ -7,11 +7,11 @@ const urlRoot = "https://example.com/data/tools/Locatemp/";
 // This is just to aid readability.
 type ExpectedType = Exclude<ReturnType<typeof getElcParamsFromUrl>, null>;
 
-describe("URL search parameters", () => {
+describe.concurrent("URL search parameters", () => {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  test("getElcParamsFromUrl", () => {
+  test("getElcParamsFromUrl", ({ expect }) => {
     const expected: ExpectedType = {
       Route: "005",
       Srmp: 123.45,
@@ -24,7 +24,7 @@ describe("URL search parameters", () => {
     const actual = getElcParamsFromUrl(url);
     expect(actual).toEqual(expected);
   });
-  test("AR specified", () => {
+  test("AR specified", ({ expect }) => {
     const p = new URLSearchParams([
       ["SR", "503"],
       ["MP", "35.23"],
@@ -57,7 +57,7 @@ describe("URL search parameters", () => {
       SR=20&mp=52&RT=SP goes to 020 @ MP 52, not the Spur (Anacortes)
   */
   // Test URL creation when an Route Type is specified but not an RRQ.
-  test("Route Type specified", () => {
+  test("Route Type specified", ({ expect }) => {
     const p = new URLSearchParams([
       ["SR", "20"],
       ["MP", "52"],
@@ -80,8 +80,8 @@ describe("URL search parameters", () => {
   });
 });
 
-describe("RRT w/o RRQ", () => {
-  test("getElcParamsFromUrl", async () => {
+describe.concurrent("RRT w/o RRQ", () => {
+  test("getElcParamsFromUrl", async ({ expect }) => {
     const p = new URLSearchParams([
       ["SR", "20"],
       ["MP", "52"],
