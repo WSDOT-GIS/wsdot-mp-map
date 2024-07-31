@@ -6,6 +6,7 @@ import { setupHashUpdate } from "./history-api/hash-update-setup";
 import { updateUrlSearchParams } from "./history-api/url-search";
 import "./index.css";
 import { cityLimitsLayer } from "./layers/CityLimitsLayer";
+import Viewpoint from "@arcgis/core/Viewpoint";
 import type MapView from "@arcgis/core/views/MapView";
 import "@esri/calcite-components";
 import "@fontsource/inconsolata";
@@ -520,7 +521,21 @@ if (!testWebGL2Support()) {
             milepostLayer,
             elcGraphics,
           );
-          await view.goTo(addedFeatures);
+          const scale = parseFloat(import.meta.env.VITE_ZOOM_SCALE);
+          const viewpoint = new Viewpoint({
+            scale,
+            targetGeometry: addedFeatures.at(0)?.geometry,
+          });
+          await view.goTo(viewpoint, {
+            animate: false,
+          });
+          view
+            .openPopup({
+              features: addedFeatures,
+            })
+            .catch((reason: unknown) => {
+              console.error("Failed to open popup", reason);
+            });
         }
       };
       callElc().catch((reason: unknown) => {
