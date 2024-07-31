@@ -4,6 +4,7 @@ interface ImportMetaEnv {
   readonly VITE_WEBMAP_API_KEY: string;
   readonly VITE_WEBMAP_PORTAL_URL: string;
   readonly VITE_WEBMAP_PORTAL_ITEM_ID: string;
+  readonly VITE_ZOOM_SCALE: `${number}`;
   // more env variables...
 }
 

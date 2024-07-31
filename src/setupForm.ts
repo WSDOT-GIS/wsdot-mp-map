@@ -25,9 +25,25 @@ export async function setupForm(view: MapView, milepostLayer: FeatureLayer) {
   form.addEventListener(
     "srmp-input",
     (event: RouteInputEvent) => {
-      addSrmpFromForm(event, view, milepostLayer).catch((error: unknown) => {
-        console.error("Error adding SRMP from form", error);
-      });
+      addSrmpFromForm(event, view, milepostLayer)
+        .then((features) => {
+          if (!features) {
+            return;
+          }
+          view
+            .openPopup({
+              features,
+            })
+            .catch((reason: unknown) => {
+              console.error(
+                "Failed to open popup after adding a location via the form",
+                reason,
+              );
+            });
+        })
+        .catch((error: unknown) => {
+          console.error("Error adding SRMP from form", error);
+        });
     },
     {
       passive: true,
@@ -89,6 +105,7 @@ async function addSrmpFromForm(
     } catch (error) {
       console.error("Error adding SRMP from form", error);
     }
+    /* __PURE__ */ console.debug("Graphics added from form", addFeatureResults);
     return addFeatureResults;
   }
 }
