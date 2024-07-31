@@ -11,7 +11,10 @@ const [
   { queryCountyBoundaries },
   { querySectionTownship },
   { default: PopupTemplate },
-  { webMercatorToGeographic },
+  {
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    webMercatorToGeographic,
+  },
 ] = await Promise.all([
   import("../../common/formatting"),
   import("../../urls/geohack"),
