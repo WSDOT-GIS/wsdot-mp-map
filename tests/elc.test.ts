@@ -10,10 +10,10 @@ import {
 import { hasXAndY } from "../src/types";
 import Graphic from "@arcgis/core/Graphic";
 import Point from "@arcgis/core/geometry/Point";
-import { expect, describe, test } from "vitest";
+import { describe, test } from "vitest";
 
-describe("elc", () => {
-  test("findNearestRouteLocations", async () => {
+describe.concurrent("elc", () => {
+  test("findNearestRouteLocations", async ({ expect }) => {
     const options: FindNearestRouteLocationParameters = {
       coordinates: [1083893.182, 111526.885],
       inSR: 2927,
@@ -103,7 +103,7 @@ describe("elc", () => {
     }
   });
 
-  test("getRoutes", async () => {
+  test("getRoutes", async ({ expect }) => {
     const result = await getRoutes();
     expect(result).not.toBeNull();
     expect(result).toHaveProperty("Current");
@@ -112,8 +112,10 @@ describe("elc", () => {
   });
 });
 
-describe("arcgis", () => {
-  test("creates a Graphic with correct geometry from a valid RouteLocation", () => {
+describe.concurrent("arcgis", () => {
+  test("creates a Graphic with correct geometry from a valid RouteLocation", ({
+    expect,
+  }) => {
     const routeLocation: RouteLocation<DateString, RouteGeometryPoint> = {
       RouteGeometry: {
         x: -122.431297,
