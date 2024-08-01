@@ -196,7 +196,7 @@ if (!testWebGL2Support()) {
       import("./elc/url"),
       import("./layers/AccessControlLayer"),
       import("./layers/MilepostLayer"),
-      import("./layers/parcels"),
+      import("./layers/parcels/watech"),
       import("./layers/TempLayer"),
       import("./WAExtent"),
       import("./widgets/LayerList"),

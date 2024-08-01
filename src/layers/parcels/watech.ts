@@ -17,7 +17,7 @@ const [
 
 /**
  * Parcels layer
- * @see {@link https://wsdot.maps.arcgis.com/home/item.html?id=9c7f4cd9a1354d8db79c471be957a0d2}
+ * @see {@link https://wsdot.maps.arcgis.com/home/item.html?id=96bd481859444ddd9c9f2a4d0d729570}
  */
 export const parcelsLayer = new FeatureLayer({
   id: "parcels",
