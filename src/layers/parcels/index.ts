@@ -1,4 +1,4 @@
-const arcGisOnlineId = "9c7f4cd9a1354d8db79c471be957a0d2";
+const arcGisOnlineId = "96bd481859444ddd9c9f2a4d0d729570";
 const parcelIdField = "PARCEL_ID_NR";
 
 const [
