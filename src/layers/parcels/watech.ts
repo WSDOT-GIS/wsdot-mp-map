@@ -36,8 +36,9 @@ export const parcelsLayer = new FeatureLayer({
     }),
   ],
   displayField: parcelIdField,
+  // TODO: Specify fields to include instead of returning all of them. Probably only need PARCEL_ID_NR.
   outFields: ["*"],
-  visible: false,
+  // visible: false,
   portalItem: new PortalItem({
     id: arcGisOnlineId,
   }),

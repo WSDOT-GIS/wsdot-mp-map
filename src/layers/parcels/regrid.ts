@@ -11,7 +11,7 @@ const [{ default: TileLayer }, { default: PortalItem }] = await Promise.all([
  */
 export const parcelsLayer = new TileLayer({
   id: "parcels",
-  visible: false,
+  // visible: false,
   portalItem: new PortalItem({
     id: arcGisOnlineId,
   }),

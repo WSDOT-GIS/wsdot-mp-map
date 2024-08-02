@@ -174,7 +174,7 @@ if (!testWebGL2Support()) {
       { callElcFromUrl },
       { accessControlLayer },
       { createMilepostLayer },
-      { parcelsLayer },
+      { createParcelsGroupLayer },
       { tempLayer },
       { waExtent },
       { setupLayerList },
@@ -196,7 +196,7 @@ if (!testWebGL2Support()) {
       import("./elc/url"),
       import("./layers/AccessControlLayer"),
       import("./layers/MilepostLayer"),
-      import("./layers/parcels/watech"),
+      import("./layers/parcels"),
       import("./layers/TempLayer"),
       import("./WAExtent"),
       import("./widgets/LayerList"),
@@ -283,14 +283,10 @@ if (!testWebGL2Support()) {
 
     const map = new EsriMap({
       basemap: grayBasemap,
-      layers: [
-        cityLimitsLayer,
-        accessControlLayer,
-        parcelsLayer,
-        tempLayer,
-        milepostLayer,
-      ],
+      layers: [cityLimitsLayer, accessControlLayer, tempLayer, milepostLayer],
     });
+
+    map.add(createParcelsGroupLayer());
 
     const view = new MapView({
       container: "viewDiv",
