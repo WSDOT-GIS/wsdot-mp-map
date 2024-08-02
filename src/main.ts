@@ -174,7 +174,7 @@ if (!testWebGL2Support()) {
       { callElcFromUrl },
       { accessControlLayer },
       { createMilepostLayer },
-      { parcelsLayer },
+      { createParcelsGroupLayer },
       { tempLayer },
       { waExtent },
       { setupLayerList },
@@ -283,14 +283,10 @@ if (!testWebGL2Support()) {
 
     const map = new EsriMap({
       basemap: grayBasemap,
-      layers: [
-        cityLimitsLayer,
-        accessControlLayer,
-        parcelsLayer,
-        tempLayer,
-        milepostLayer,
-      ],
+      layers: [cityLimitsLayer, accessControlLayer, tempLayer, milepostLayer],
     });
+
+    map.add(createParcelsGroupLayer());
 
     const view = new MapView({
       container: "viewDiv",

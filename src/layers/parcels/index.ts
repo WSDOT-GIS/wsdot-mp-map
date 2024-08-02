@@ -1,20 +1,26 @@
-const arcGisOnlineId = "a2050b09baff493aa4ad7848ba2fac00";
-
-const [{ default: TileLayer }, { default: PortalItem }] = await Promise.all([
-  import("@arcgis/core/layers/TileLayer"),
-  import("@arcgis/core/portal/PortalItem"),
-]);
-
 /**
- * Parcels layer
- * @see {@link https://wsdot.maps.arcgis.com/home/item.html?id=9c7f4cd9a1354d8db79c471be957a0d2}
+ * Creates a group layer for parcels.
+ * @returns A promise that resolves to the created group layer.
  */
-export const parcelsLayer = new TileLayer({
-  id: "parcels",
-  visible: false,
-  portalItem: new PortalItem({
-    id: arcGisOnlineId,
-  }),
-  listMode: "hide-children",
-  legendEnabled: false,
-});
+export async function createParcelsGroupLayer() {
+  const { default: GroupLayer } = await import(
+    "@arcgis/core/layers/GroupLayer"
+  );
+  const groupLayer = new GroupLayer({
+    title: "Parcels",
+    visibilityMode: "exclusive",
+    visible: false,
+  });
+  const watechPromise = import("./watech").then((result) => {
+    const { parcelsLayer } = result;
+    parcelsLayer.visible = true;
+    return parcelsLayer;
+  });
+  const regridPromise = import("./regrid").then(
+    (result) => result.parcelsLayer,
+  );
+  [watechPromise, regridPromise].forEach((layer, i) => {
+    groupLayer.add(layer, i);
+  });
+  return groupLayer;
+}
