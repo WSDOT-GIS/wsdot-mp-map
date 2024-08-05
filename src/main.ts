@@ -253,7 +253,7 @@ if (!testWebGL2Support()) {
     }
     request.httpsDomains.push("wsdot.wa.gov", "data.wsdot.wa.gov");
 
-    const milepostLayer = createMilepostLayer(waExtent.spatialReference);
+    const milepostLayer = await createMilepostLayer(waExtent.spatialReference);
 
     // Show the instructions alert once the mileposts layer has been loaded.
     milepostLayer.on("layerview-create", () => {
