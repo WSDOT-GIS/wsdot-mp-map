@@ -8,6 +8,8 @@ import {
   type RouteInputEvent,
 } from "./widgets/route-input/SrmpInputForm";
 import type Graphic from "@arcgis/core/Graphic";
+import Viewpoint from "@arcgis/core/Viewpoint";
+import Point from "@arcgis/core/geometry/Point";
 import type FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import type MapView from "@arcgis/core/views/MapView";
 
@@ -25,22 +27,45 @@ export async function setupForm(view: MapView, milepostLayer: FeatureLayer) {
   form.addEventListener(
     "srmp-input",
     (event: RouteInputEvent) => {
+      async function openPopupAtLocation(
+        features: Graphic[] | null | undefined,
+      ) {
+        if (!features) {
+          return;
+        }
+        if (features.length === 0) {
+          console.error(
+            "An array of zero features was returned from addSrmpFromForm. There should be at least one.",
+          );
+          return;
+        }
+        const feature = features[0];
+        const point =
+          feature.geometry instanceof Point ? feature.geometry : undefined;
+
+        if (!point) {
+          console.error(
+            "No point was returned from addSrmpFromForm. There should be at least one.",
+          );
+          return;
+        }
+
+        const viewpoint = new Viewpoint({
+          targetGeometry: point,
+          scale: parseFloat(import.meta.env.VITE_ZOOM_SCALE),
+        });
+
+        await view.openPopup({
+          features,
+          location: point,
+        });
+        await view.goTo(viewpoint, {
+          animate: false,
+        });
+      }
+
       addSrmpFromForm(event, view, milepostLayer)
-        .then((features) => {
-          if (!features) {
-            return;
-          }
-          view
-            .openPopup({
-              features,
-            })
-            .catch((reason: unknown) => {
-              console.error(
-                "Failed to open popup after adding a location via the form",
-                reason,
-              );
-            });
-        })
+        .then(openPopupAtLocation)
         .catch((error: unknown) => {
           console.error("Error adding SRMP from form", error);
         });
