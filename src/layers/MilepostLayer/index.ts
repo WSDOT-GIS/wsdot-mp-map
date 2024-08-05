@@ -1,23 +1,6 @@
 import { objectIdFieldName } from "../../elc/types";
-import { popupTemplate } from "./MilepostLayerTemplate";
 import type SpatialReference from "@arcgis/core/geometry/SpatialReference";
 import type Field from "@arcgis/core/layers/support/Field";
-
-const [
-  { default: FeatureLayer },
-  { default: SimpleRenderer },
-  { default: SimpleMarkerSymbol },
-  { default: waExtent },
-  { default: labelClass },
-  { highwaySignBackgroundColor, highwaySignTextColor },
-] = await Promise.all([
-  import("@arcgis/core/layers/FeatureLayer"),
-  import("@arcgis/core/renderers/SimpleRenderer"),
-  import("@arcgis/core/symbols/SimpleMarkerSymbol"),
-  import("../../WAExtent"),
-  import("./labelClass"),
-  import("../../colors"),
-]);
 
 type FieldProperties = Required<ConstructorParameters<typeof Field>>[0];
 
@@ -86,19 +69,39 @@ const fields = [
  * @param spatialReference - The {@link SpatialReference} of the layer.
  * @returns - A {@link FeatureLayer}
  */
-export function createMilepostLayer(spatialReference: SpatialReference) {
+export async function createMilepostLayer(spatialReference: SpatialReference) {
+  const [
+    { default: FeatureLayer },
+    { default: SimpleRenderer },
+    { default: waExtent },
+    { default: labelClass },
+    { highwaySignBackgroundColor, highwaySignTextColor },
+    { popupTemplate },
+  ] = await Promise.all([
+    import("@arcgis/core/layers/FeatureLayer"),
+    import("@arcgis/core/renderers/SimpleRenderer"),
+    import("../../WAExtent"),
+    import("./labelClass"),
+    import("../../colors"),
+    import("./MilepostLayerTemplate"),
+  ]);
   /**
    * This is the symbol for the point on the route.
    */
-  const actualMPSymbol = new SimpleMarkerSymbol({
-    color: highwaySignBackgroundColor,
-    size: 12,
-    style: "circle",
-    outline: {
-      width: 1,
-      color: highwaySignTextColor,
-    },
-  });
+  const actualMPSymbol = await import(
+    "@arcgis/core/symbols/SimpleMarkerSymbol"
+  ).then(
+    ({ default: SimpleMarkerSymbol }) =>
+      new SimpleMarkerSymbol({
+        color: highwaySignBackgroundColor,
+        size: 12,
+        style: "circle",
+        outline: {
+          width: 1,
+          color: highwaySignTextColor,
+        },
+      }),
+  );
 
   const renderer = new SimpleRenderer({
     symbol: actualMPSymbol,
