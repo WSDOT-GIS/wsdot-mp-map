@@ -13,6 +13,13 @@ calcite-navigation {
   margin-bottom: 8px;
 }
 
+h1 {
+  display: inline;
+  text-align: right;
+  margin-left: 1em;
+  color: white;
+}
+
 header {
   background-color: var(--wsdot-logo-green);
   display: grid;
