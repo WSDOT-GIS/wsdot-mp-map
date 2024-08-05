@@ -28,7 +28,9 @@
   <body class="calcite-mode-auto">
     <calcite-loader></calcite-loader>
     <calcite-shell>
-      <wsdot-header slot="header"></wsdot-header>
+      <wsdot-header slot="header">
+        <span slot="title">%VITE_HEADER_TITLE%</span>
+      </wsdot-header>
       <calcite-shell-panel slot="panel-start" id="sidebar" collapsed>
         <calcite-panel>
           <calcite-block
