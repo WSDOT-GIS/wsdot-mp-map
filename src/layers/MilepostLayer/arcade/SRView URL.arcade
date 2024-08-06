@@ -10,17 +10,17 @@ SRview 3 at 007 LX 05778 Inc 2022: SRMP 0.00 / ARM 0.00
 https://srview3i.wsdot.loc/stateroute/picturelog/v3/client/SRview.Windows.Viewer.application?srnum=007&rrt=LX&rrq=05778&srmp=0.000&year=2022&dir=I
 */
 
-var srnum = $feature.StateRouteNumber;
+// The splitRouteId function will be prepended from another file.
+
+var d = splitRouteId($feature.Route);
+
 var srmp = Text(Round($feature.SRMP, 3));
-if ($feature.AheadBackInd == "B") {
+if ($feature.Back == "B") {
   srmp += "B";
 }
 var dir = Upper($feature.Direction);
 
-var rrt = $feature.RelRouteType;
-var rrq = $feature.RelRouteQual;
-
-var d = { srnum, srmp, rrt, rrq, dir };
+d["dir"] = dir;
 
 var parts = [];
 

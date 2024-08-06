@@ -10,8 +10,6 @@ function splitRouteId(routeId) {
 
 var routeParts = splitRouteId($feature.Route);
 
-Console(routeParts);
-
 // Construct the key value pairs for the query string.
 var parts = [
   ["SR", routeParts.sr],

@@ -10,6 +10,7 @@ import CountyArcade from "./County.arcade?raw";
 import RegionArcade from "./Region.arcade?raw";
 import SRViewURLArcade from "./SRView URL.arcade?raw";
 import URLArcade from "./URL.arcade?raw";
+import splitRouteIdFunction from "./parts/splitRouteId.function.arcade?raw";
 import ExpressionInfo from "@arcgis/core/popup/ExpressionInfo";
 
 const expressionInfoProperties = [
@@ -76,7 +77,7 @@ const expressionInfoProperties = [
   {
     name: "srViewURL",
     title: "SRView URL",
-    expression: SRViewURLArcade,
+    expression: [splitRouteIdFunction, SRViewURLArcade].join("\n"),
     returnType: "string",
   },
   {
