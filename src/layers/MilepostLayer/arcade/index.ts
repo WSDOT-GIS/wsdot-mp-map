@@ -1,17 +1,30 @@
 import AccessControlArcade from "./Access Control.arcade?raw";
-// import BingMapsArcade from "./Bing Maps.arcade?raw";
 import CityArcade from "./City.arcade?raw";
 import CountyArcade from "./County.arcade?raw";
-// import GeoHackArcade from "./GeoHack.arcade?raw";
-// import GeoURIArcade from "./GeoURI.arcade?raw";
-// import GoogleStreetViewArcade from "./Google Street View.arcade?raw";
-// import LRSArcade from "./LRS Date.arcade?raw";
-// import MilepostLabelArcade from "./Milepost Label.arcade?raw";
 import RegionArcade from "./Region.arcade?raw";
 import SRViewURLArcade from "./SRView URL.arcade?raw";
 import URLArcade from "./URL.arcade?raw";
 import splitRouteIdFunction from "./parts/splitRouteId.function.arcade?raw";
 import ExpressionInfo from "@arcgis/core/popup/ExpressionInfo";
+
+// import BingMapsArcade from "./Bing Maps.arcade?raw";
+// import GeoHackArcade from "./GeoHack.arcade?raw";
+// import GeoURIArcade from "./GeoURI.arcade?raw";
+// import GoogleStreetViewArcade from "./Google Street View.arcade?raw";
+// import LRSArcade from "./LRS Date.arcade?raw";
+// import MilepostLabelArcade from "./Milepost Label.arcade?raw";
+
+function replaceVariableValueInArcadeExpression(
+  arcade: string,
+  variable: string,
+  value: string,
+) {
+  const pattern = String.raw`(?<=var\s+${variable}\s*=\s*).+(?=;)`;
+  const regExp = new RegExp(pattern, "g");
+  return arcade.replace(regExp, value);
+}
+
+const urlBase = window.location.href.split("?")[0];
 
 const expressionInfoProperties = [
   {
@@ -83,7 +96,14 @@ const expressionInfoProperties = [
   {
     name: "url",
     title: "URL",
-    expression: URLArcade,
+    expression: [
+      splitRouteIdFunction,
+      replaceVariableValueInArcadeExpression(
+        URLArcade,
+        "urlBase",
+        `"${urlBase}"`,
+      ),
+    ].join("\n"),
     returnType: "string",
   },
 ] as const;

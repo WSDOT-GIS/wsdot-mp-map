@@ -1,12 +1,4 @@
-function splitRouteId(routeId) {
-  Console(`Input route ID: ${routeId}`)
-  var sr = Left(routeId, 3);
-
-  var rrt = Mid(routeId, 3, 2);
-  var rrq = Mid(routeId, 5);
-
-  return {sr, rrt, rrq}
-}
+var urlBase = "";
 
 var routeParts = splitRouteId($feature.Route);
 
@@ -29,6 +21,6 @@ function keyEqualsValue(kvp) {
   return Concatenate(kvp, "=");
 }
 
-var url = "?" + Concatenate(Map(keyValuePairs, keyEqualsValue), "&");
+var url = urlBase + "?" + Concatenate(Map(keyValuePairs, keyEqualsValue), "&");
 
 return url;
