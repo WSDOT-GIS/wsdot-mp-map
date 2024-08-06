@@ -8,7 +8,7 @@ var features = FeatureSetByPortalItem(p, agolId, null, fields, true);
 var output = [];
 
 for (var f in features) {
-  var d = Distance(f, $userInput, "miles");
+  var d = Distance(f, $feature, "miles");
   Push(output, [d, f]);
 }
 
