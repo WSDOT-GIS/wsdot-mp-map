@@ -1,18 +1,17 @@
 import AccessControlArcade from "./Access Control.arcade?raw";
+import BingMapsArcade from "./Bing Maps.arcade?raw";
 import CityArcade from "./City.arcade?raw";
 import CountyArcade from "./County.arcade?raw";
+import GeoHackArcade from "./GeoHack.arcade?raw";
+import GeoURIArcade from "./GeoURI.arcade?raw";
+import GoogleStreetViewArcade from "./Google Street View.arcade?raw";
+import LRSArcade from "./LRS Date.arcade?raw";
+import MilepostLabelArcade from "./Milepost Label.arcade?raw";
 import RegionArcade from "./Region.arcade?raw";
 import SRViewURLArcade from "./SRView URL.arcade?raw";
 import URLArcade from "./URL.arcade?raw";
 import splitRouteIdFunction from "./parts/splitRouteId.function.arcade?raw";
 import ExpressionInfo from "@arcgis/core/popup/ExpressionInfo";
-
-// import BingMapsArcade from "./Bing Maps.arcade?raw";
-// import GeoHackArcade from "./GeoHack.arcade?raw";
-// import GeoURIArcade from "./GeoURI.arcade?raw";
-// import GoogleStreetViewArcade from "./Google Street View.arcade?raw";
-// import LRSArcade from "./LRS Date.arcade?raw";
-// import MilepostLabelArcade from "./Milepost Label.arcade?raw";
 
 function replaceVariableValueInArcadeExpression(
   arcade: string,
@@ -33,12 +32,12 @@ const expressionInfoProperties = [
     expression: AccessControlArcade,
     returnType: "string",
   },
-  // {
-  //   name: "bingMaps",
-  //   title: "Bing Maps",
-  //   expression: BingMapsArcade,
-  //   returnType: "string",
-  // },
+  {
+    name: "bingMaps",
+    title: "Bing Maps",
+    expression: BingMapsArcade,
+    returnType: "string",
+  },
   {
     name: "city",
     title: "City",
@@ -51,36 +50,36 @@ const expressionInfoProperties = [
     expression: CountyArcade,
     returnType: "string",
   },
-  // {
-  //   name: "geoHack",
-  //   title: "GeoHack",
-  //   expression: GeoHackArcade,
-  //   returnType: "string",
-  // },
-  // {
-  //   name: "geoURI",
-  //   title: "GeoURI",
-  //   expression: GeoURIArcade,
-  //   returnType: "string",
-  // },
-  // {
-  //   name: "googleStreetView",
-  //   title: "Google Street View",
-  //   expression: GoogleStreetViewArcade,
-  //   returnType: "string",
-  // },
-  // {
-  //   name: "lrsDate",
-  //   title: "LRS Date",
-  //   expression: LRSArcade,
-  //   returnType: "string",
-  // },
-  // {
-  //   name: "milepostLabel",
-  //   title: "Milepost Label",
-  //   expression: MilepostLabelArcade,
-  //   returnType: "string",
-  // },
+  {
+    name: "geoHack",
+    title: "GeoHack",
+    expression: GeoHackArcade,
+    returnType: "string",
+  },
+  {
+    name: "geoURI",
+    title: "GeoURI",
+    expression: GeoURIArcade,
+    returnType: "string",
+  },
+  {
+    name: "googleStreetView",
+    title: "Google Street View",
+    expression: GoogleStreetViewArcade,
+    returnType: "string",
+  },
+  {
+    name: "lrsDate",
+    title: "LRS Date",
+    expression: LRSArcade,
+    returnType: "string",
+  },
+  {
+    name: "milepostLabel",
+    title: "Milepost Label",
+    expression: [splitRouteIdFunction, MilepostLabelArcade].join("\n"),
+    returnType: "string",
+  },
   {
     name: "region",
     title: "Region",
