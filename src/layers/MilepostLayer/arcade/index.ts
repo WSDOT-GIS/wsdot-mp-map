@@ -1,104 +1,93 @@
 import AccessControlArcade from "./Access Control.arcade?raw";
 // import BingMapsArcade from "./Bing Maps.arcade?raw";
-// import CityArcade from "./City.arcade?raw";
-// import CountyArcade from "./County.arcade?raw";
+import CityArcade from "./City.arcade?raw";
+import CountyArcade from "./County.arcade?raw";
 // import GeoHackArcade from "./GeoHack.arcade?raw";
 // import GeoURIArcade from "./GeoURI.arcade?raw";
 // import GoogleStreetViewArcade from "./Google Street View.arcade?raw";
 // import LRSArcade from "./LRS Date.arcade?raw";
 // import MilepostLabelArcade from "./Milepost Label.arcade?raw";
-// import RegionArcade from "./Region.arcade?raw";
-// import SRViewURLArcade from "./SRView URL.arcade?raw";
-// import URLArcade from "./URL.arcade?raw";
+import RegionArcade from "./Region.arcade?raw";
+import SRViewURLArcade from "./SRView URL.arcade?raw";
+import URLArcade from "./URL.arcade?raw";
 import ExpressionInfo from "@arcgis/core/popup/ExpressionInfo";
 
 const expressionInfoProperties = [
   {
-    name: "expression/accessControl",
+    name: "accessControl",
     title: "Access Control",
     expression: AccessControlArcade,
     returnType: "string",
   },
   // {
-  //   name: "expression/bingMaps",
+  //   name: "bingMaps",
   //   title: "Bing Maps",
   //   expression: BingMapsArcade,
   //   returnType: "string",
   // },
+  {
+    name: "city",
+    title: "City",
+    expression: CityArcade,
+    returnType: "string",
+  },
+  {
+    name: "county",
+    title: "County",
+    expression: CountyArcade,
+    returnType: "string",
+  },
   // {
-  //   name: "expression/city",
-  //   title: "City",
-  //   expression: CityArcade,
-  //   returnType: "string",
-  // },
-  // {
-  //   name: "expression/county",
-  //   title: "County",
-  //   expression: CountyArcade,
-  //   returnType: "string",
-  // },
-  // {
-  //   name: "expression/geoHack",
+  //   name: "geoHack",
   //   title: "GeoHack",
   //   expression: GeoHackArcade,
   //   returnType: "string",
   // },
   // {
-  //   name: "expression/geoURI",
+  //   name: "geoURI",
   //   title: "GeoURI",
   //   expression: GeoURIArcade,
   //   returnType: "string",
   // },
   // {
-  //   name: "expression/googleStreetView",
+  //   name: "googleStreetView",
   //   title: "Google Street View",
   //   expression: GoogleStreetViewArcade,
   //   returnType: "string",
   // },
   // {
-  //   name: "expression/lrsDate",
+  //   name: "lrsDate",
   //   title: "LRS Date",
   //   expression: LRSArcade,
   //   returnType: "string",
   // },
   // {
-  //   name: "expression/milepostLabel",
+  //   name: "milepostLabel",
   //   title: "Milepost Label",
   //   expression: MilepostLabelArcade,
   //   returnType: "string",
   // },
-  // {
-  //   name: "expression/region",
-  //   title: "Region",
-  //   expression: RegionArcade,
-  //   returnType: "string",
-  // },
-  // {
-  //   name: "expression/srViewURL",
-  //   title: "SRView URL",
-  //   expression: SRViewURLArcade,
-  //   returnType: "string",
-  // },
-  // {
-  //   name: "expression/url",
-  //   title: "URL",
-  //   expression: URLArcade,
-  //   returnType: "string",
-  // },
+  {
+    name: "region",
+    title: "Region",
+    expression: RegionArcade,
+    returnType: "string",
+  },
+  {
+    name: "srViewURL",
+    title: "SRView URL",
+    expression: SRViewURLArcade,
+    returnType: "string",
+  },
+  {
+    name: "url",
+    title: "URL",
+    expression: URLArcade,
+    returnType: "string",
+  },
 ] as const;
 
 export type expressionNames = (typeof expressionInfoProperties)[number]["name"];
-
-export type ValidExpressionName = `expression/${string}`;
-
-/**
- * Checks if the given name is a valid expression name.
- * @param name - The name to be checked.
- * @returns Returns true if the name is a valid expression name, otherwise false.
- */
-export function isExpressionName(name: string): name is ValidExpressionName {
-  return name.startsWith("expression/");
-}
 
 /**
  * Makes all properties in T writable.

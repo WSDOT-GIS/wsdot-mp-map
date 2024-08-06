@@ -1,31 +1,36 @@
-function getSearchDict() {
-    var output = {
-      SR: $feature.StateRouteNumber,
-      SRMP: Round($feature.SRMP, 2),
-      DIR: Upper($feature.Direction)
-    };
-  
-    if (Upper($feature.AheadBackInd) == "B") {
-      output.SRMP = Text(output.SRMP) + "B";
-    }
-    if (!IsEmpty($feature.RelRouteType)) {
-      output.RRT = $feature.RelRouteType;
-      if (!IsEmpty($feature.RelRouteQual)) {
-        output.RRQ = $feature.RelRouteQual;
-      }
-    }
-  
-    return output;
-  }
-  
-  function getUrlSearch() {
-    var searchParams = getSearchDict();
-    var parts = [];
-    for (var key in searchParams) {
-      var kvp = Map([key, searchParams[key]], UrlEncode);
-      Push(parts, Concatenate(kvp, "="));
-    }
-    return Concatenate(parts, "&");
-  }
-  
-  return `?${getUrlSearch()}`;
+function splitRouteId(routeId) {
+  Console(`Input route ID: ${routeId}`)
+  var sr = Left(routeId, 3);
+
+  var rrt = Mid(routeId, 3, 2);
+  var rrq = Mid(routeId, 5);
+
+  return {sr, rrt, rrq}
+}
+
+var routeParts = splitRouteId($feature.Route);
+
+Console(routeParts);
+
+// Construct the key value pairs for the query string.
+var parts = [
+  ["SR", routeParts.sr],
+  ["RRT", routeParts.rrt],
+  ["RRQ", routeParts.rrq],
+  ["DIR", $feature.Direction],
+  ["SRMP", Text($feature.SRMP,"#.##") + IIf($feature.Back == "B", "B", "")]
+];
+
+function removeNulls(kvp) {
+  return kvp[1] != null && kvp[1] != "";
+}
+
+var keyValuePairs = Filter(parts, removeNulls);
+
+function keyEqualsValue(kvp) {
+  return Concatenate(kvp, "=");
+}
+
+var url = "?" + Concatenate(Map(keyValuePairs, keyEqualsValue), "&");
+
+return url;
