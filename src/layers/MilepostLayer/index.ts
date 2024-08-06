@@ -65,18 +65,18 @@ const fields = [
 export async function createMilepostLayer(spatialReference: SpatialReference) {
   const [
     { default: FeatureLayer },
+    { default: FieldInfo },
     { default: SimpleRenderer },
     { default: waExtent },
     { default: labelClass },
     { highwaySignBackgroundColor, highwaySignTextColor },
-    { popupTemplate },
   ] = await Promise.all([
     import("@arcgis/core/layers/FeatureLayer"),
+    import("@arcgis/core/popup/FieldInfo"),
     import("@arcgis/core/renderers/SimpleRenderer"),
     import("../../WAExtent"),
     import("./labelClass"),
     import("../../colors"),
-    import("./MilepostLayerTemplate"),
   ]);
   /**
    * This is the symbol for the point on the route.
@@ -120,6 +120,14 @@ export async function createMilepostLayer(spatialReference: SpatialReference) {
   const popupTemplate = milepostLayer.createPopupTemplate();
 
   popupTemplate.expressionInfos = arcade;
+
+  for (const xi of arcade) {
+    popupTemplate.fieldInfos.push(
+      new FieldInfo({
+        fieldName: `expression/${xi.name}`,
+      }),
+    );
+  }
 
   milepostLayer.popupTemplate = popupTemplate;
 

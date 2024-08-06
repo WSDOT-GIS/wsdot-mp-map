@@ -70,10 +70,11 @@ for (var f in fs) {
   i++;
 }
 
+Console(`There were ${i} features returned.`)
+
 if (shortestDistanceCode == null) {
   return null;
+} else {
+  var output = `${shortestDistanceCode} (as of ${Text(shortestDistanceSnapshotDate, "Y-MM-DD")})`;
+  return output
 }
-
-var output = `${shortestDistanceCode} (as of ${Text(shortestDistanceSnapshotDate, "Y-MM-DD")})`;
-
-return output
