@@ -95,23 +95,11 @@ export async function createMilepostLayer(spatialReference: SpatialReference) {
    * @returns The created popup template.
    */
   function createPopupTemplate() {
-    const popupTemplate = milepostLayer.createPopupTemplate();
-
-    // Set certain fields to be hidden in the popup.
-    for (const element of [
-      fieldNames.Route,
-      fieldNames.Srmp,
-      fieldNames.Back,
-      fieldNames.Direction,
-    ]) {
-      const fieldInfo = popupTemplate.fieldInfos.find(
-        (fi) => fi.fieldName === (element as string),
-      );
-
-      if (fieldInfo) {
-        fieldInfo.visible = false;
-      }
-    }
+    const popupTemplate = milepostLayer.createPopupTemplate({
+      // Hide all of the initial fields.
+      // These fields are already displayed in the popup's title.
+      visibleFieldNames: new Set(),
+    });
 
     // Import the Arcade expressions, add them to the popup template, and then
     // add them to the popup template's fieldInfos array.
