@@ -1,4 +1,9 @@
+var xy = webMercatorToWgs1984(Geometry($feature));
+var x = xy.x;
+var y = xy.y;
+
+
 "https://geohack.toolforge.org/geohack.php?params=" +
-  $feature.Latitude +
+  y +
   ";" +
-  $feature.Longitude + "&pagename=" + $feature.RouteID + "+@+" + Round($feature.SRMP, 3) + IIf($feature.AheadBackInd == 'B', "B", "")
+  x + "&pagename=" + $feature.Route + "+@+" + Round($feature.SRMP, 3) + IIf($feature.Back == 'B', "B", "")
