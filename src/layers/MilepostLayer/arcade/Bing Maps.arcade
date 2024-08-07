@@ -1,28 +1,5 @@
-function fromWebMercator(geom) {
-  // Web Mercator coordinates
-  var xWebMercator = geom.x;
-  var yWebMercator = geom.y;
+var xy = webMercatorToWgs1984(Geometry($feature));
+var x = xy.x;
+var y = xy.y;
 
-  Console(xWebMercator);
-
-  // Constants
-  var R_MAJOR = 6378137.0;
-
-  // Convert Web Mercator (x) to longitude (WGS 1984)
-  var lonWGS84 = (xWebMercator / R_MAJOR) * (180 / PI);
-
-  // Convert Web Mercator (y) to latitude (WGS 1984)
-  var latWGS84 =
-    (Math.Atan(Math.Exp(yWebMercator / R_MAJOR)) * 2 - PI / 2) *
-    (180 / PI);
-
-  return {
-    x: lonWGS84,
-    y: latWGS84,
-    spatialReference: { wkid: 4326 },
-  };
-}
-
-var g = fromWebMercator(Geometry($feature));
-
-"https://bing.com/maps/default.aspx?where=" + g.y + "," + g.y;
+"https://bing.com/maps/default.aspx?where=" + y + "," + x;

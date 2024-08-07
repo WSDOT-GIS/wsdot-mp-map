@@ -56,13 +56,13 @@ const expressionInfoProperties = [
   {
     name: "region",
     title: "Region",
-    expression: RegionArcade,
+    expression: [splitRouteIdFunction, RegionArcade].join("\n"),
     returnType: "string",
   },
   {
     name: "bingMaps",
     title: "Bing Maps",
-    expression: BingMapsArcade,
+    expression: [webMercatorToWgs1984, BingMapsArcade].join("\n"),
     returnType: "string",
   },
   {
@@ -74,13 +74,13 @@ const expressionInfoProperties = [
   {
     name: "geoURI",
     title: "GeoURI",
-    expression: GeoURIArcade,
+    expression: [webMercatorToWgs1984, GeoURIArcade].join("\n"),
     returnType: "string",
   },
   {
     name: "googleStreetView",
     title: "Google Street View",
-    expression: GoogleStreetViewArcade,
+    expression: [webMercatorToWgs1984, GoogleStreetViewArcade].join("\n"),
     returnType: "string",
   },
   {
