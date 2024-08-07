@@ -143,6 +143,7 @@ export async function createMilepostLayer(spatialReference: SpatialReference) {
     popupTemplate.fieldInfos.push(
       new FieldInfo({
         fieldName: `expression/${xi.name}`,
+        visible: !["webMercatorToWgs1984", "milepostLabel"].includes(xi.name),
       }),
     );
   }

@@ -8,6 +8,7 @@ import GoogleStreetViewArcade from "./Google Street View.arcade?raw";
 import MilepostLabelArcade from "./Milepost Label.arcade?raw";
 import RegionArcade from "./Region.arcade?raw";
 import SRViewURLArcade from "./SRView URL.arcade?raw";
+import TownshipSectionArcade from "./Township Section.arcade?raw";
 import URLArcade from "./URL.arcade?raw";
 import Wgs1984CoordinatesArcade from "./WGS 1984 Coordinates.arcade?raw";
 import splitRouteIdFunction from "./parts/splitRouteId.function.arcade?raw";
@@ -33,7 +34,12 @@ const expressionInfoProperties = [
     expression: AccessControlArcade,
     returnType: "string",
   },
-
+  {
+    name: "townshipSection",
+    title: "Township Section",
+    expression: TownshipSectionArcade,
+    returnType: "string",
+  },
   {
     name: "city",
     title: "City",
@@ -71,12 +77,7 @@ const expressionInfoProperties = [
     expression: [webMercatorToWgs1984, GeoHackArcade].join("\n"),
     returnType: "string",
   },
-  {
-    name: "geoURI",
-    title: "GeoURI",
-    expression: [webMercatorToWgs1984, GeoURIArcade].join("\n"),
-    returnType: "string",
-  },
+
   {
     name: "googleStreetView",
     title: "Google Street View",
@@ -105,6 +106,12 @@ const expressionInfoProperties = [
         `"${urlBase}"`,
       ),
     ].join("\n"),
+    returnType: "string",
+  },
+  {
+    name: "geoURI",
+    title: "GeoURI",
+    expression: [webMercatorToWgs1984, GeoURIArcade].join("\n"),
     returnType: "string",
   },
 ] as const;
