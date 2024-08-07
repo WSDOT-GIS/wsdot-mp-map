@@ -1,4 +1,4 @@
-function fromWebMercator(geom) {
+function webMercatorToWgs1984(geom) {
   // Web Mercator coordinates
   var xWebMercator = geom.x;
   var yWebMercator = geom.y;
@@ -13,16 +13,10 @@ function fromWebMercator(geom) {
 
   // Convert Web Mercator (y) to latitude (WGS 1984)
   var latWGS84 =
-    (Math.Atan(Math.Exp(yWebMercator / R_MAJOR)) * 2 - PI / 2) *
-    (180 / PI);
+    (Atan(Exp(yWebMercator / R_MAJOR)) * 2 - PI / 2) * (180 / PI);
 
   return {
     x: lonWGS84,
     y: latWGS84,
-    spatialReference: { wkid: 4326 },
   };
 }
-
-var g = fromWebMercator(Geometry($feature));
-
-"https://bing.com/maps/default.aspx?where=" + g.y + "," + g.y;

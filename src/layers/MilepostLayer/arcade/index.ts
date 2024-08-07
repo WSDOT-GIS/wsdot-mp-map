@@ -5,12 +5,13 @@ import CountyArcade from "./County.arcade?raw";
 import GeoHackArcade from "./GeoHack.arcade?raw";
 import GeoURIArcade from "./GeoURI.arcade?raw";
 import GoogleStreetViewArcade from "./Google Street View.arcade?raw";
-import LRSArcade from "./LRS Date.arcade?raw";
 import MilepostLabelArcade from "./Milepost Label.arcade?raw";
 import RegionArcade from "./Region.arcade?raw";
 import SRViewURLArcade from "./SRView URL.arcade?raw";
 import URLArcade from "./URL.arcade?raw";
+import Wgs1984CoordinatesArcade from "./WGS 1984 Coordinates.arcade?raw";
 import splitRouteIdFunction from "./parts/splitRouteId.function.arcade?raw";
+import webMercatorToWgs1984 from "./parts/webMercatorToWgs1984.function.arcade?raw";
 import ExpressionInfo from "@arcgis/core/popup/ExpressionInfo";
 
 function replaceVariableValueInArcadeExpression(
@@ -32,12 +33,7 @@ const expressionInfoProperties = [
     expression: AccessControlArcade,
     returnType: "string",
   },
-  {
-    name: "bingMaps",
-    title: "Bing Maps",
-    expression: BingMapsArcade,
-    returnType: "string",
-  },
+
   {
     name: "city",
     title: "City",
@@ -48,6 +44,25 @@ const expressionInfoProperties = [
     name: "county",
     title: "County",
     expression: CountyArcade,
+    returnType: "string",
+  },
+
+  {
+    name: "milepostLabel",
+    title: "Milepost Label",
+    expression: [splitRouteIdFunction, MilepostLabelArcade].join("\n"),
+    returnType: "string",
+  },
+  {
+    name: "region",
+    title: "Region",
+    expression: RegionArcade,
+    returnType: "string",
+  },
+  {
+    name: "bingMaps",
+    title: "Bing Maps",
+    expression: BingMapsArcade,
     returnType: "string",
   },
   {
@@ -69,28 +84,15 @@ const expressionInfoProperties = [
     returnType: "string",
   },
   {
-    name: "lrsDate",
-    title: "LRS Date",
-    expression: LRSArcade,
-    returnType: "string",
-  },
-  {
-    name: "milepostLabel",
-    title: "Milepost Label",
-    expression: [splitRouteIdFunction, MilepostLabelArcade].join("\n"),
-    returnType: "string",
-  },
-  {
-    name: "region",
-    title: "Region",
-    expression: RegionArcade,
-    returnType: "string",
-  },
-  {
     name: "srViewURL",
     title: "SRView URL",
     expression: [splitRouteIdFunction, SRViewURLArcade].join("\n"),
     returnType: "string",
+  },
+  {
+    name: "webMercatorToWgs1984",
+    title: "GPS Coordinates",
+    expression: [webMercatorToWgs1984, Wgs1984CoordinatesArcade].join("\n"),
   },
   {
     name: "url",
@@ -119,7 +121,7 @@ type Writable<T> = {
 /**
  * This type definition is a subset of {@link ExpressionInfo}.
  */
-type MilepostExpressionInfo = InstanceType<typeof ExpressionInfo> &
+export type MilepostExpressionInfo = InstanceType<typeof ExpressionInfo> &
   Writable<(typeof expressionInfoProperties)[number]>;
 
 /**
@@ -128,5 +130,19 @@ type MilepostExpressionInfo = InstanceType<typeof ExpressionInfo> &
 export const expressions = expressionInfoProperties.map(
   (info) => new ExpressionInfo(info) as MilepostExpressionInfo,
 );
+
+// import("@arcgis/core/arcade").then(({ default: a }) => {
+//   for (const ex of expressions) {
+//     const profile = a.createArcadeProfile("popup");
+//     profile.
+//     const ax = a.createArcadeExecutor(ex.expression, profile);
+//     ax.then((x) => {
+//       x.execute(undefined, {
+
+//       })
+//     })
+
+//   }
+// });
 
 export default expressions;

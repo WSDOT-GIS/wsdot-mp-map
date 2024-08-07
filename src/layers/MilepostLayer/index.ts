@@ -1,5 +1,5 @@
 import { objectIdFieldName } from "../../elc/types";
-import arcade from "./arcade";
+import arcadeExpressions from "./arcade";
 import type SpatialReference from "@arcgis/core/geometry/SpatialReference";
 import type Field from "@arcgis/core/layers/support/Field";
 
@@ -9,6 +9,7 @@ export const enum fieldNames {
   Route = "Route",
   Srmp = "Srmp",
   Back = "Back",
+  Direction = "Direction",
   // TownshipSubdivision = "Township Subdivision",
   // County = "County",
   // City = "City",
@@ -26,7 +27,7 @@ const fields = [
     valueType: "name-or-title",
   },
   {
-    name: "Direction",
+    name: fieldNames.Direction,
     type: "string",
     domain: {
       type: "coded-value",
@@ -119,9 +120,26 @@ export async function createMilepostLayer(spatialReference: SpatialReference) {
 
   const popupTemplate = milepostLayer.createPopupTemplate();
 
-  popupTemplate.expressionInfos = arcade;
+  // Set certain fields to be hidden in the popup.
+  for (const element of [
+    fieldNames.Route,
+    fieldNames.Srmp,
+    fieldNames.Back,
+    fieldNames.Direction,
+  ]) {
+    const fieldInfo = popupTemplate.fieldInfos.find(
+      (fi) => fi.fieldName === (element as string),
+    );
 
-  for (const xi of arcade) {
+    if (fieldInfo) {
+      fieldInfo.visible = false;
+    }
+  }
+
+  popupTemplate.expressionInfos = arcadeExpressions;
+
+  // Append expressions to the PopupTemplate's fieldInfos array.
+  for (const xi of arcadeExpressions) {
     popupTemplate.fieldInfos.push(
       new FieldInfo({
         fieldName: `expression/${xi.name}`,
@@ -131,7 +149,7 @@ export async function createMilepostLayer(spatialReference: SpatialReference) {
 
   milepostLayer.popupTemplate = popupTemplate;
 
-  popupTemplate.title = "{Route} ({Direction}) @ {Srmp}{Back}";
+  popupTemplate.title = "{Route} ({Direction}) @ {expression/milepostLabel}";
 
   return milepostLayer;
 }
