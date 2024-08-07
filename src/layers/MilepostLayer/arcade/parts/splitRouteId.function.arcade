@@ -1,0 +1,15 @@
+/**
+ * Splits a WSDOT Route ID into its component
+ * SR, RRT, and RRQ parts.
+ * If the route ID has no RRT and/or RRQ, these values will be null.
+ * @param routeId - A three- to 12-digit WSDOT route identifier.
+ * @returns - A Dictionary with the sr, rrt, and rrq components.
+ */
+function splitRouteId(routeId) {
+  var sr = Left(routeId, 3);
+
+  var rrt = Mid(routeId, 3, 2);
+  var rrq = Mid(routeId, 5);
+
+  return { sr, rrt, rrq };
+}

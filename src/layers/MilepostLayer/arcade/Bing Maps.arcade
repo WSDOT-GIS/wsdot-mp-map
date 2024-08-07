@@ -1,1 +1,5 @@
-"https://bing.com/maps/default.aspx?where=" + $feature.Latitude + "," + $feature.Longitude
+var xy = webMercatorToWgs1984(Geometry($feature));
+var x = xy.x;
+var y = xy.y;
+
+"https://bing.com/maps/default.aspx?where=" + y + "," + x;

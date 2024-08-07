@@ -1,35 +1,80 @@
+/**
+ * The ArcGIS Online Item ID for the Access Control layer.
+ */
 var agolId = "35cd6f1a5e2f4553a8e83c9ff6edbfa7";
-var routeIdentifier = `${$feature.RouteID}${Lower($feature.Direction)}`;
+
+/**
+ * Route ID in the format used by Access Control.
+ */
+var routeIdentifier = `${$feature.Route}${Lower($feature.Direction)}`;
+
+/**
+ * The name of the field that contains the Access Control code.
+ */
 var codeField = "AccessControlTypeDescription"
+/**
+ * The name of the field that contains the snapshot date.
+ */
 var snapshotDateField = "SnapshotDate"
 
+// Query the Access Control layer, filtering by the route 
+// identifier.
+//
+// Note: It is more efficient to have the FeatureSetByPortalItem
+// call within the call to Filter, so do not refactor to have
+// it called first and stored in a variable before calling
+// Filter.
+
+/**
+ * Feature set of Access Control features for the given route.
+ */
 var fs = Filter(
   FeatureSetByPortalItem(Portal("https://arcgis.com"), agolId, 1, [codeField, snapshotDateField]),
   "RouteIdentifier = @routeIdentifier"
 );
 
+// Initialize the shortest distance variables.
 var shortestDistanceCode = null;
 var shortestDistance = null;
 var shortestDistanceSnapshotDate = null;
 
+
+// Loop through all of the features.
+// Initialize a loop counter
 var i = 0
 for (var f in fs) {
-  Console(f)
+  // // Write feature to console.
+  // Console(f)
+  // Get the distance between the milepost feature
+  // and the current Access Control feature.
   var d = Distance(f, $feature)
+  // Get the code from the current Access Control feature.
   var c = f[codeField]
+  // Get the snapshot date from the current Access 
+  // Control feature.
   var sd = f[snapshotDateField];
+  // If this is the first feature in the loop or
+  // if the distance of the current Access Control
+  // feature is less than the shortest distance so far,
+  // then update the shortest distance variables.
+  //
+  // (You could also probably test to see if the
+  // shortestDistance variables are currently null
+  // instead of testing to see if i == 0.)
   if (i == 0 || d < shortestDistance) {
     shortestDistance = d;
     shortestDistanceCode = c;
     shortestDistanceSnapshotDate = sd;
   }
+  // Increment the loop counter.
   i++;
 }
 
+Console(`There were ${i} features returned.`)
+
 if (shortestDistanceCode == null) {
   return null;
+} else {
+  var output = `${shortestDistanceCode} (as of ${Text(shortestDistanceSnapshotDate, "Y-MM-DD")})`;
+  return output
 }
-
-var output = `${shortestDistanceCode} (as of ${Text(shortestDistanceSnapshotDate, "Y-MM-DD")})`;
-
-return output

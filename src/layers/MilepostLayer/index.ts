@@ -1,4 +1,5 @@
 import { objectIdFieldName } from "../../elc/types";
+import arcadeExpressions from "./arcade";
 import type SpatialReference from "@arcgis/core/geometry/SpatialReference";
 import type Field from "@arcgis/core/layers/support/Field";
 
@@ -8,9 +9,10 @@ export const enum fieldNames {
   Route = "Route",
   Srmp = "Srmp",
   Back = "Back",
-  TownshipSubdivision = "Township Subdivision",
-  County = "County",
-  City = "City",
+  Direction = "Direction",
+  // TownshipSubdivision = "Township Subdivision",
+  // County = "County",
+  // City = "City",
 }
 
 const fields = [
@@ -25,7 +27,7 @@ const fields = [
     valueType: "name-or-title",
   },
   {
-    name: "Direction",
+    name: fieldNames.Direction,
     type: "string",
     domain: {
       type: "coded-value",
@@ -52,15 +54,7 @@ const fields = [
   {
     name: fieldNames.Back,
     type: "string",
-  },
-  {
-    name: "Township Subdivision",
-    type: "string",
-  },
-  { name: fieldNames.County, type: "string" },
-  {
-    name: fieldNames.City,
-    type: "string",
+    valueType: "binary",
   },
 ] as FieldProperties[];
 
@@ -72,18 +66,18 @@ const fields = [
 export async function createMilepostLayer(spatialReference: SpatialReference) {
   const [
     { default: FeatureLayer },
+    { default: FieldInfo },
     { default: SimpleRenderer },
     { default: waExtent },
     { default: labelClass },
     { highwaySignBackgroundColor, highwaySignTextColor },
-    { popupTemplate },
   ] = await Promise.all([
     import("@arcgis/core/layers/FeatureLayer"),
+    import("@arcgis/core/popup/FieldInfo"),
     import("@arcgis/core/renderers/SimpleRenderer"),
     import("../../WAExtent"),
     import("./labelClass"),
     import("../../colors"),
-    import("./MilepostLayerTemplate"),
   ]);
   /**
    * This is the symbol for the point on the route.
@@ -115,7 +109,6 @@ export async function createMilepostLayer(spatialReference: SpatialReference) {
     geometryType: "point",
     objectIdField: objectIdFieldName,
     fullExtent: waExtent,
-    popupTemplate: popupTemplate,
     renderer,
     spatialReference,
     // Since there are no features at the beginning,
@@ -124,6 +117,40 @@ export async function createMilepostLayer(spatialReference: SpatialReference) {
     popupEnabled: true,
     hasM: true,
   });
+
+  const popupTemplate = milepostLayer.createPopupTemplate();
+
+  // Set certain fields to be hidden in the popup.
+  for (const element of [
+    fieldNames.Route,
+    fieldNames.Srmp,
+    fieldNames.Back,
+    fieldNames.Direction,
+  ]) {
+    const fieldInfo = popupTemplate.fieldInfos.find(
+      (fi) => fi.fieldName === (element as string),
+    );
+
+    if (fieldInfo) {
+      fieldInfo.visible = false;
+    }
+  }
+
+  popupTemplate.expressionInfos = arcadeExpressions;
+
+  // Append expressions to the PopupTemplate's fieldInfos array.
+  for (const xi of arcadeExpressions) {
+    popupTemplate.fieldInfos.push(
+      new FieldInfo({
+        fieldName: `expression/${xi.name}`,
+        visible: !["webMercatorToWgs1984", "milepostLabel"].includes(xi.name),
+      }),
+    );
+  }
+
+  milepostLayer.popupTemplate = popupTemplate;
+
+  popupTemplate.title = "{Route} ({Direction}) @ {expression/milepostLabel}";
 
   return milepostLayer;
 }

@@ -1,0 +1,3 @@
+// import fromWebMercatorFunction from "./parts/fromWebMercator.function.arcade"
+
+webMercatorToWgs1984(Geometry($feature))
