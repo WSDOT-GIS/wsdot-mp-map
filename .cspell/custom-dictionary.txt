@@ -29,6 +29,8 @@ noreferrer
 NOSONAR
 osmzoom
 RDWY
+redist
+Redistributable
 Rrts
 snagmp
 sonarjs
