@@ -1,3 +1,4 @@
+import { isIntranet } from "../../../common/isIntranet";
 import AccessControlArcade from "./Access Control.arcade?raw";
 import BingMapsArcade from "./Bing Maps.arcade?raw";
 import CityArcade from "./City.arcade?raw";
@@ -137,5 +138,20 @@ export type MilepostExpressionInfo = InstanceType<typeof ExpressionInfo> &
 export const expressions = expressionInfoProperties.map(
   (info) => new ExpressionInfo(info) as MilepostExpressionInfo,
 );
+
+/**
+ * Removes the SR View URL expression.
+ */
+const removeSrView = () => {
+  const x = expressions.find((expression) => expression.name === "srViewURL");
+  if (x) {
+    expressions.splice(expressions.indexOf(x), 1);
+  }
+};
+
+// Remove the SR View URL expression if we are not on the intranet.
+if (!isIntranet()) {
+  removeSrView();
+}
 
 export default expressions;
