@@ -43,8 +43,6 @@ var shortestDistanceSnapshotDate = null;
 // Initialize a loop counter
 var i = 0
 for (var f in fs) {
-  // // Write feature to console.
-  // Console(f)
   // Get the distance between the milepost feature
   // and the current Access Control feature.
   var d = Distance(f, $feature)
@@ -69,8 +67,6 @@ for (var f in fs) {
   // Increment the loop counter.
   i++;
 }
-
-Console(`There were ${i} features returned.`)
 
 if (shortestDistanceCode == null) {
   return null;
