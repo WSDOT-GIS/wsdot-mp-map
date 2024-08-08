@@ -426,10 +426,14 @@ if (!testWebGL2Support()) {
         });
 
         tempAddResults.addFeatureResults.forEach((r) => {
-          console.error(
-            "There was an error adding the temporary graphic where the user clicked.",
-            r.error,
-          );
+          // r.error CAN be null. Esri's type def. is wrong.
+          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+          if (r.error != null) {
+            console.error(
+              "There was an error adding the temporary graphic where the user clicked.",
+              r.error,
+            );
+          }
         });
 
         // Call findNearestRouteLocations
