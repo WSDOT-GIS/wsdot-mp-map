@@ -3,8 +3,6 @@ function webMercatorToWgs1984(geom) {
   var xWebMercator = geom.x;
   var yWebMercator = geom.y;
 
-  Console(xWebMercator);
-
   // Constants
   var R_MAJOR = 6378137.0;
 
