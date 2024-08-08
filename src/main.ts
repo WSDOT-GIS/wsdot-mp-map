@@ -299,6 +299,14 @@ if (!testWebGL2Support()) {
       popupEnabled: false,
     });
 
+    import("./setupPopupActions")
+      .then(({ setupPopupActions }) => {
+        setupPopupActions(view);
+      })
+      .catch((error: unknown) => {
+        console.error("Failed to setupPopupActions.", error);
+      });
+
     setupSidebarCollapseButton(view);
 
     view

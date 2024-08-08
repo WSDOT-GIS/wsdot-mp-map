@@ -55,6 +55,28 @@ const fields = [
   },
 ] as FieldProperties[];
 
+const actionButtonProperties: __esri.ActionButtonProperties[] = [
+  {
+    active: false,
+    title: "Copy coordinates",
+    visible: true,
+    type: "button",
+    icon: "copy-to-clipboard",
+    id: "copy",
+  },
+];
+
+async function createActionButtons() {
+  const [{ default: Collection }, { default: ActionButton }] =
+    await Promise.all([
+      import("@arcgis/core/core/Collection"),
+      import("@arcgis/core/support/actions/ActionButton"),
+    ]);
+  return new Collection<InstanceType<typeof ActionButton>>(
+    actionButtonProperties.map((ap) => new ActionButton(ap)),
+  );
+}
+
 /**
  * Creates the {@link FeatureLayer} that displays located mileposts.
  * @param spatialReference - The {@link SpatialReference} of the layer.
@@ -100,6 +122,14 @@ export async function createMilepostLayer(spatialReference: SpatialReference) {
       // These fields are already displayed in the popup's title.
       visibleFieldNames: new Set(),
     });
+
+    createActionButtons()
+      .then((actions) => {
+        popupTemplate.actions = actions;
+      })
+      .catch((error: unknown) => {
+        console.error("Error adding action buttons", error);
+      });
 
     // Import the Arcade expressions, add them to the popup template, and then
     // add them to the popup template's fieldInfos array.
