@@ -44,7 +44,7 @@
     "msw": "^2.3.5",
     "optionator": "^0.9.4",
     "prettier": "^3.3.3",
-    "tsx": "^4.16.5",
+    "tsx": "^4.17.0",
     "typescript": "^5.5.4",
     "typescript-eslint": "^7.18.0",
     "vite": "^5.3.5",
