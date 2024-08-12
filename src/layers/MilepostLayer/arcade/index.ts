@@ -6,11 +6,11 @@ import CountyArcade from "./County.arcade?raw";
 import GeoHackArcade from "./GeoHack.arcade?raw";
 import GeoURIArcade from "./GeoURI.arcade?raw";
 import GoogleStreetViewArcade from "./Google Street View.arcade?raw";
+import LocateMPUrlArcade from "./LocateMP URL.arcade?raw";
 import MilepostLabelArcade from "./Milepost Label.arcade?raw";
 import RegionArcade from "./Region.arcade?raw";
 import SRViewURLArcade from "./SRView URL.arcade?raw";
 import TownshipSectionArcade from "./Township Section.arcade?raw";
-import URLArcade from "./URL.arcade?raw";
 import Wgs1984CoordinatesArcade from "./WGS 1984 Coordinates.arcade?raw";
 import splitRouteIdFunction from "./parts/splitRouteId.function.arcade?raw";
 import webMercatorToWgs1984 from "./parts/webMercatorToWgs1984.function.arcade?raw";
@@ -97,12 +97,12 @@ const expressionInfoProperties = [
     expression: [webMercatorToWgs1984, Wgs1984CoordinatesArcade].join("\n"),
   },
   {
-    name: "url",
-    title: "URL",
+    name: "locateMPUrl",
+    title: "LocateMP URL",
     expression: [
       splitRouteIdFunction,
       replaceVariableValueInArcadeExpression(
-        URLArcade,
+        LocateMPUrlArcade,
         "urlBase",
         `"${urlBase}"`,
       ),
