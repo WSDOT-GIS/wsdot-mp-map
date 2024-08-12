@@ -1,36 +1,19 @@
 var agolId = "0d96ba84b802425aa1d2b9a99e422c5d";
 var p = Portal("https://wsdot.maps.arcgis.com");
+var layerId = 1;
 
-var fields = ["NAME", "LastUpdate"];
+var fields = ["CityName", "LastUpdate"];
 
-var features = FeatureSetByPortalItem(p, agolId, null, fields, true);
+var cityFeature = First(
+  Within($userInput, FeatureSetByPortalItem(p, agolId, layerId, fields, false))
+);
 
-var output = [];
-
-for (var f in features) {
-  var d = Distance(f, $feature, "miles");
-  Push(output, [d, f]);
+if (!IsEmpty(cityFeature)) {
+  var output = cityFeature.CityName;
+  if (cityFeature.LastUpdate != null) {
+    output += `${TextFormatting.NewLine} as of ${Text(cityFeature.LastUpdate, "MMM D, Y")}`
+  }
+  return output;
+} else {
+  return "Not within any city limits"
 }
-
-function orderByDistance(a, b) {
-  return a[0] - b[0];
-}
-
-function getFeature(f) {
-  return { name: f[1].Name, lastUpdate: f[1].LastUpdate, distance: f[0] };
-}
-
-output = Top(Map(Sort(output, orderByDistance), getFeature), 1)[0];
-
-var outText = output.name;
-
-if (output.distance > 0) {
-  outText += ` is about ${Round(output.distance)} mi away`;
-}
-if (output.lastUpdate != null) {
-  outText += ` (as of ${Text(output.lastUpdate, "Y-MM-DD")})`;
-}
-
-outText += "."
-
-return outText
