@@ -2,7 +2,7 @@
  * This error is for use when a string is not in the format
  * that is expected.
  */
-export default class FormatError extends Error {
+export class FormatError extends Error {
   /**
    * Creates a new FormatError instance
    * @param value - The improperly formatted string
@@ -11,8 +11,8 @@ export default class FormatError extends Error {
    * @param errorOptions - An optional error options object.
    */
   constructor(
-    public value: string,
-    public regex: RegExp,
+    public readonly value: string,
+    public readonly regex: RegExp,
     message?: string,
     errorOptions?: ErrorOptions,
   ) {
@@ -27,3 +27,5 @@ export default class FormatError extends Error {
     );
   }
 }
+
+export default FormatError;

@@ -13,7 +13,6 @@ import "@fontsource/inconsolata";
 import "@fontsource/lato";
 import "@wsdot/web-styles/css/wsdot-colors.css";
 import browserUpdate from "browser-update";
-import { FormatError } from "wsdot-route-utils";
 
 browserUpdate();
 
@@ -71,7 +70,7 @@ window.addEventListener("elc-error", (event) => {
 });
 
 window.addEventListener("format-error", (event) => {
-  const reason = event.detail as FormatError;
+  const reason = event.detail;
   createErrorAlert(reason);
 });
 
