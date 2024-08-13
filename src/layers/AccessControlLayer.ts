@@ -1,6 +1,4 @@
-import type Point from "@arcgis/core/geometry/Point";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
-import type FeatureLayerView from "@arcgis/core/views/layers/FeatureLayerView";
 
 type AheadBackIndicator = "A" | "B";
 
@@ -81,42 +79,3 @@ function createAccessControlLayer() {
 }
 
 export const accessControlLayer = createAccessControlLayer();
-
-let accessControlLayerView: FeatureLayerView | undefined;
-
-const lvCreateHandler = accessControlLayer.on(
-  "layerview-create",
-  ({ layerView }) => {
-    accessControlLayerView = layerView as FeatureLayerView;
-    lvCreateHandler.remove();
-  },
-);
-
-/**
- * Asynchronously queries the given layer view with the specified point and returns unique access control types.
- * @param point - The point to use for the query geometry.
- * @returns An array of unique access control types.
- */
-export async function queryAccessControl(point: Point) {
-  const layerOrView = accessControlLayerView ?? accessControlLayer;
-  const query = layerOrView.createQuery();
-  query.geometry = point;
-  query.spatialRelationship = "intersects";
-  query.outFields = [acDescriptionFieldName];
-  query.returnGeometry = false;
-
-  const result = await layerOrView.queryFeatures(query);
-
-  const { features } = result;
-
-  type HasAccessControlTypeDescription = AccessControlAttributes &
-    Required<Pick<AccessControlAttributes, "AccessControlTypeDescription">>;
-
-  const attributes = features.map(
-    (f) => f.attributes as HasAccessControlTypeDescription,
-  );
-  let acTypes: Iterable<AccessControlTypeDescription>;
-  acTypes = attributes.map((f) => f.AccessControlTypeDescription);
-  acTypes = new Set(acTypes);
-  return acTypes;
-}
