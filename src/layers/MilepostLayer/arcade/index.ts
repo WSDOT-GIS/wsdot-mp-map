@@ -1,4 +1,4 @@
-import { isIntranet } from "../../../common/isIntranet";
+import { isInternal } from "../../../urls/isIntranet";
 import AccessControlArcade from "./Access Control.arcade?raw";
 import BingMapsArcade from "./Bing Maps.arcade?raw";
 import CityArcade from "./City.arcade?raw";
@@ -150,7 +150,7 @@ const removeSrView = () => {
 };
 
 // Remove the SR View URL expression if we are not on the intranet.
-if (!isIntranet()) {
+if (!isInternal()) {
   removeSrView();
 }
 

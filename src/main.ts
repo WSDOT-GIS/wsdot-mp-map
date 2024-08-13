@@ -6,15 +6,112 @@ import { setupHashUpdate } from "./history-api/hash-update-setup";
 import { updateUrlSearchParams } from "./history-api/url-search";
 import "./index.css";
 import { cityLimitsLayer } from "./layers/CityLimitsLayer";
+import isInternal from "./urls/isIntranet";
 import Viewpoint from "@arcgis/core/Viewpoint";
 import type MapView from "@arcgis/core/views/MapView";
 import "@esri/calcite-components";
 import "@fontsource/inconsolata";
 import "@fontsource/lato";
 import "@wsdot/web-styles/css/wsdot-colors.css";
-import browserUpdate from "browser-update";
 
-browserUpdate();
+/**
+ * Determines the host environment based on the location hostname.
+ * @returns The environment type, such as QA, GitHub Pages, or Local, or null if unknown.
+ */
+function getHostEnvironment() {
+  if (/^[^.]+qa\b/i.test(location.hostname)) {
+    return "QA";
+  } else if (/\bgithub\.io\b/i.test(location.hostname)) {
+    return "GitHub Pages";
+  } else if (/^localhost\b/i.test(location.hostname)) {
+    return "Local";
+  }
+  return null;
+}
+
+type HostEnvironment = NonNullable<ReturnType<typeof getHostEnvironment>>;
+
+function convertToClassName(environment: HostEnvironment) {
+  return environment.replaceAll(/\s/g, "_").toLowerCase();
+}
+
+/**
+ * Updates the document title and page title to indicate the current non-production environment.
+ * @returns In a non-production environment, the environment name. Otherwise, null.
+ */
+const updateNonProductionTitle = () => {
+  const environment = getHostEnvironment();
+  // Exit if non-production environment was not detected.
+  if (!environment) {
+    /* __PURE__ */ console.debug("No non-production environment detected.");
+    return environment;
+  } else {
+    /* __PURE__ */ console.debug(`Non production environment: ${environment}`);
+  }
+
+  const suffix = ` - ${environment}`;
+  document.title += suffix;
+
+  const className = convertToClassName(environment);
+
+  document.body.classList.add(className);
+
+  try {
+    const internal = isInternal();
+    if (internal) {
+      document.body.classList.add("internal", "intranet");
+    }
+  } catch (error) {
+    console.error("Failed to determine if URL is internal", error);
+  }
+
+  // Update the title displayed on the page.
+  const titleSelector = "wsdot-header > [slot='title']";
+  const titleElement = document.body.querySelector(titleSelector);
+  if (!titleElement) {
+    console.debug("Could not find title element in wsdot-header", {
+      selector: titleSelector,
+    });
+  } else {
+    titleElement.append(suffix);
+  }
+
+  return environment;
+};
+
+// Update title to show user is using a non-production environment.
+updateNonProductionTitle();
+
+import("@arcgis/core/kernel")
+  .then(({ fullVersion }) => {
+    console.debug(`ArcGIS Maps SDK for JavaScript version ${fullVersion}`);
+  })
+  .catch((reason: unknown) => {
+    console.warn("Failed to get ArcGIS JS API version", reason);
+  });
+
+import("@arcgis/core/config")
+  .then(({ default: config }) => {
+    config.applicationName = import.meta.env.VITE_TITLE;
+    config.log.level = "error";
+    // TODO: Once all production environment issues have been fixed, replace above line 👆 with the one below 👇.
+    // config.log.level = import.meta.env.DEV ? "info" : "error";
+  })
+  .catch((reason: unknown) => {
+    console.error("Failed to setup app config", reason);
+  });
+
+// Show a warning to users who are using an outdated browser.
+import("browser-update")
+  .then(({ default: browserUpdate }) => {
+    browserUpdate({
+      insecure: true,
+      unsupported: true,
+    });
+  })
+  .catch((reason: unknown) => {
+    console.error("Failed to setup browser update", reason);
+  });
 
 function setupSidebarCollapseButton(view: MapView) {
   const sideBar = document.querySelector<HTMLCalciteShellPanelElement>(

@@ -42,6 +42,20 @@ interface SrmpInputFormEventMap extends HTMLElementEventMap {
 }
 
 /**
+ * Checks if the given HTML form element implements the SrmpInputForm interface.
+ * @param element - the HTML form element to be checked
+ * @returns true if the element implements SrmpInputForm, false otherwise
+ */
+function isSrmpInputFormElement(
+  element: HTMLFormElement,
+): element is SrmpInputForm {
+  return ["route", "mp", "back", "decrease"].every((name) => {
+    const namedElement = element.querySelector(`[name='${name}']`);
+    return !!namedElement;
+  });
+}
+
+/**
  * The form that is used to input a route and milepost.
  */
 export interface SrmpInputForm extends HTMLFormElement {
@@ -83,12 +97,37 @@ export interface SrmpInputForm extends HTMLFormElement {
  * @returns - The created SRMP input form
  */
 export async function createSrmpInputForm() {
-  const formSelector = "form#route-input-form";
-  const form = document.querySelector<SrmpInputForm>(formSelector);
+  // const formSelector = "form#route-input-form";
+  // const form = document.querySelector<SrmpInputForm>(formSelector);
 
-  if (!form) {
-    const message = `Form querySelector did not return any results for "${formSelector}".`;
+  const templateSelector = "template#route-input-form-template";
+  const template =
+    document.querySelector<HTMLTemplateElement>(templateSelector);
+
+  if (!template) {
+    const message = `Template querySelector did not return any results for "${templateSelector}".`;
     throw new Error(message);
+  }
+
+  const formFragment = template.content.cloneNode(true);
+
+  const hostId = "route-input-form-block";
+  const hostElement = document.getElementById(hostId);
+  if (!hostElement) {
+    throw new Error("host element not found");
+  }
+
+  hostElement.append(formFragment);
+
+  const form = hostElement.querySelector("form");
+
+  if (!(form instanceof HTMLFormElement)) {
+    console.error("form is not an HTMLFormElement", form);
+    throw new Error("form is not an HTMLFormElement");
+  }
+
+  if (!isSrmpInputFormElement(form)) {
+    throw new TypeError("Form does not implement SrmpInputForm interface");
   }
 
   const routeElement = form.querySelector("#routeInput");
