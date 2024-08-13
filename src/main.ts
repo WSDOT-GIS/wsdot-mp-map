@@ -6,6 +6,7 @@ import { setupHashUpdate } from "./history-api/hash-update-setup";
 import { updateUrlSearchParams } from "./history-api/url-search";
 import "./index.css";
 import { cityLimitsLayer } from "./layers/CityLimitsLayer";
+import isInternal from "./urls/isIntranet";
 import Viewpoint from "@arcgis/core/Viewpoint";
 import type MapView from "@arcgis/core/views/MapView";
 import "@esri/calcite-components";
@@ -28,9 +29,9 @@ function getHostEnvironment() {
   return null;
 }
 
-function convertToClassName(
-  environment: NonNullable<ReturnType<typeof getHostEnvironment>>,
-) {
+type HostEnvironment = NonNullable<ReturnType<typeof getHostEnvironment>>;
+
+function convertToClassName(environment: HostEnvironment) {
   return environment.replaceAll(/\s/g, "_").toLowerCase();
 }
 
@@ -54,6 +55,15 @@ const updateNonProductionTitle = () => {
   const className = convertToClassName(environment);
 
   document.body.classList.add(className);
+
+  try {
+    const internal = isInternal();
+    if (internal) {
+      document.body.classList.add("internal", "intranet");
+    }
+  } catch (error) {
+    console.error("Failed to determine if URL is internal", error);
+  }
 
   // Update the title displayed on the page.
   const titleSelector = "wsdot-header > [slot='title']";
