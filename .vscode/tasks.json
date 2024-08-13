@@ -14,7 +14,9 @@
         "kind": "build",
         "isDefault": true
       },
-      "problemMatcher": ["$tsc"]
+      "problemMatcher": [
+        "$tsc"
+      ]
     },
     {
       "label": "vite dev",
@@ -28,7 +30,11 @@
       "presentation": {
         "group": "watch"
       },
-      "problemMatcher": []
+      "problemMatcher": [
+        "$tsc-watch",
+        "$eslint-compact",
+        "$eslint-stylish",
+      ]
     },
     {
       "label": "vite preview",
@@ -61,7 +67,9 @@
         "showReuseMessage": true,
         "clear": false
       },
-      "problemMatcher": ["$tsc-watch"],
+      "problemMatcher": [
+        "$tsc-watch"
+      ],
       "group": "build"
     },
     {
@@ -103,7 +111,9 @@
         "id": "checklist",
         "color": "terminal.ansiYellow"
       },
-      "problemMatcher": ["$eslint-stylish"],
+      "problemMatcher": [
+        "$eslint-stylish"
+      ],
       "presentation": {
         "echo": true,
         "reveal": "always",

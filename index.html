@@ -34,66 +34,69 @@
       <calcite-shell-panel slot="panel-start" id="sidebar" collapsed>
         <calcite-panel>
           <calcite-block
+            id="route-input-form-block"
             heading="Enter State Route & Milepost"
             collapsible
             open
           >
-            <form id="route-input-form" class="route-input-form">
-              <calcite-label for="routeInput"
-                >State Route
-                <calcite-combobox
-                  id="routeInput"
-                  name="route"
-                  label="route select"
-                  selection-mode="single"
-                  required
-                  title="Select a route from the list. Type to filter the list."
-                  placeholder="Select a route from the list. Type to filter the list."
-                  allow-custom-values
-                  data-url="https://data.wsdot.wa.gov/arcgis/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe/routes/"
+            <template id="route-input-form-template">
+              <form id="route-input-form" class="route-input-form">
+                <calcite-label for="routeInput"
+                  >State Route
+                  <calcite-combobox
+                    id="routeInput"
+                    name="route"
+                    label="route select"
+                    selection-mode="single"
+                    required
+                    title="Select a route from the list. Type to filter the list."
+                    placeholder="Select a route from the list. Type to filter the list."
+                    allow-custom-values
+                    data-url="https://data.wsdot.wa.gov/arcgis/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe/routes/"
+                  >
+                  </calcite-combobox>
+                </calcite-label>
+
+                <calcite-label layout="inline"
+                  ><calcite-checkbox
+                    name="decrease"
+                    id="decreaseInput"
+                    title="Check this box if you want the decreasing route rather than increasing."
+                  ></calcite-checkbox
+                  >Decrease</calcite-label
                 >
-                </calcite-combobox>
-              </calcite-label>
+                <calcite-label for="mpInput"
+                  >Milepost<calcite-input-number
+                    title="Enter the milepost value here."
+                    id="mpInput"
+                    name="mp"
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    required
+                /></calcite-label>
 
-              <calcite-label layout="inline"
-                ><calcite-checkbox
-                  name="decrease"
-                  id="decreaseInput"
-                  title="Check this box if you want the decreasing route rather than increasing."
-                ></calcite-checkbox
-                >Decrease</calcite-label
-              >
-              <calcite-label for="mpInput"
-                >Milepost<calcite-input-number
-                  title="Enter the milepost value here."
-                  id="mpInput"
-                  name="mp"
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  required
-              /></calcite-label>
-
-              <calcite-label for="backInput" layout="inline"
-                ><calcite-checkbox
-                  name="back"
-                  id="backInput"
-                  title="Check this box if the SRMP is back mileage."
-                ></calcite-checkbox
-                >Back</calcite-label
-              >
-              <calcite-button
-                type="reset"
-                kind="neutral"
-                title="Click this button to clear the form input controls."
-                >Reset</calcite-button
-              >
-              <calcite-button
-                type="submit"
-                title="Click this button to find this route + milepost and add a point to the map."
-                >Submit</calcite-button
-              >
-            </form>
+                <calcite-label for="backInput" layout="inline"
+                  ><calcite-checkbox
+                    name="back"
+                    id="backInput"
+                    title="Check this box if the SRMP is back mileage."
+                  ></calcite-checkbox
+                  >Back</calcite-label
+                >
+                <calcite-button
+                  type="reset"
+                  kind="neutral"
+                  title="Click this button to clear the form input controls."
+                  >Reset</calcite-button
+                >
+                <calcite-button
+                  type="submit"
+                  title="Click this button to find this route + milepost and add a point to the map."
+                  >Submit</calcite-button
+                >
+              </form>
+            </template>
           </calcite-block>
           <calcite-block heading="Layer List" collapsible open>
             <div id="layerlist"></div>
