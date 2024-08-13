@@ -12,9 +12,37 @@ import "@esri/calcite-components";
 import "@fontsource/inconsolata";
 import "@fontsource/lato";
 import "@wsdot/web-styles/css/wsdot-colors.css";
-import browserUpdate from "browser-update";
 
-browserUpdate();
+import("@arcgis/core/kernel")
+  .then(({ fullVersion }) => {
+    console.debug(`ArcGIS Maps SDK for JavaScript version ${fullVersion}`);
+  })
+  .catch((reason: unknown) => {
+    console.warn("Failed to get ArcGIS JS API version", reason);
+  });
+
+import("@arcgis/core/config")
+  .then(({ default: config }) => {
+    config.applicationName = import.meta.env.VITE_TITLE;
+    config.log.level = "error";
+    // TODO: Once all production environment issues have been fixed, replace above line 👆 with the one below 👇.
+    // config.log.level = import.meta.env.DEV ? "info" : "error";
+  })
+  .catch((reason: unknown) => {
+    console.error("Failed to setup app config", reason);
+  });
+
+// Show a warning to users who are using an outdated browser.
+import("browser-update")
+  .then(({ default: browserUpdate }) => {
+    browserUpdate({
+      insecure: true,
+      unsupported: true,
+    });
+  })
+  .catch((reason: unknown) => {
+    console.error("Failed to setup browser update", reason);
+  });
 
 function setupSidebarCollapseButton(view: MapView) {
   const sideBar = document.querySelector<HTMLCalciteShellPanelElement>(
