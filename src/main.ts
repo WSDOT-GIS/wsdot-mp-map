@@ -13,6 +13,65 @@ import "@fontsource/inconsolata";
 import "@fontsource/lato";
 import "@wsdot/web-styles/css/wsdot-colors.css";
 
+/**
+ * Determines the host environment based on the location hostname.
+ * @returns The environment type, such as QA, GitHub Pages, or Local, or null if unknown.
+ */
+function getHostEnvironment() {
+  if (/^[^.]+qa\b/i.test(location.hostname)) {
+    return "QA";
+  } else if (/\bgithub\.io\b/i.test(location.hostname)) {
+    return "GitHub Pages";
+  } else if (/^localhost\b/i.test(location.hostname)) {
+    return "Local";
+  }
+  return null;
+}
+
+function convertToClassName(
+  environment: NonNullable<ReturnType<typeof getHostEnvironment>>,
+) {
+  return environment.replaceAll(/\s/g, "_").toLowerCase();
+}
+
+/**
+ * Updates the document title and page title to indicate the current non-production environment.
+ * @returns In a non-production environment, the environment name. Otherwise, null.
+ */
+const updateNonProductionTitle = () => {
+  const environment = getHostEnvironment();
+  // Exit if non-production environment was not detected.
+  if (!environment) {
+    /* __PURE__ */ console.debug("No non-production environment detected.");
+    return environment;
+  } else {
+    /* __PURE__ */ console.debug(`Non production environment: ${environment}`);
+  }
+
+  const suffix = ` - ${environment}`;
+  document.title += suffix;
+
+  const className = convertToClassName(environment);
+
+  document.body.classList.add(className);
+
+  // Update the title displayed on the page.
+  const titleSelector = "wsdot-header > [slot='title']";
+  const titleElement = document.body.querySelector(titleSelector);
+  if (!titleElement) {
+    console.debug("Could not find title element in wsdot-header", {
+      selector: titleSelector,
+    });
+  } else {
+    titleElement.append(suffix);
+  }
+
+  return environment;
+};
+
+// Update title to show user is using a non-production environment.
+updateNonProductionTitle();
+
 import("@arcgis/core/kernel")
   .then(({ fullVersion }) => {
     console.debug(`ArcGIS Maps SDK for JavaScript version ${fullVersion}`);
