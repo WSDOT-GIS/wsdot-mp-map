@@ -1,7 +1,17 @@
+import waExtent from "../../WAExtent";
+import { highwaySignBackgroundColor, highwaySignTextColor } from "../../colors";
 import { objectIdFieldName } from "../../elc/types";
 import type { MilepostExpressionInfo } from "./arcade";
+import { expressions as arcadeExpressions } from "./arcade";
+import labelClass from "./labelClass";
+import Collection from "@arcgis/core/core/Collection";
 import type SpatialReference from "@arcgis/core/geometry/SpatialReference";
+import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import type Field from "@arcgis/core/layers/support/Field";
+import FieldInfo from "@arcgis/core/popup/FieldInfo";
+import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer";
+import ActionButton from "@arcgis/core/support/actions/ActionButton";
+import { SimpleMarkerSymbol } from "@arcgis/core/symbols";
 
 type FieldProperties = Required<ConstructorParameters<typeof Field>>[0];
 
@@ -66,12 +76,7 @@ const actionButtonProperties: __esri.ActionButtonProperties[] = [
   },
 ];
 
-async function createActionButtons() {
-  const [{ default: Collection }, { default: ActionButton }] =
-    await Promise.all([
-      import("@arcgis/core/core/Collection"),
-      import("@arcgis/core/support/actions/ActionButton"),
-    ]);
+function createActionButtons() {
   return new Collection<InstanceType<typeof ActionButton>>(
     actionButtonProperties.map((ap) => new ActionButton(ap)),
   );
@@ -82,19 +87,7 @@ async function createActionButtons() {
  * @param spatialReference - The {@link SpatialReference} of the layer.
  * @returns - A {@link FeatureLayer}
  */
-export async function createMilepostLayer(spatialReference: SpatialReference) {
-  const [
-    { default: FeatureLayer },
-    { default: FieldInfo },
-    { default: waExtent },
-    { default: labelClass },
-  ] = await Promise.all([
-    import("@arcgis/core/layers/FeatureLayer"),
-    import("@arcgis/core/popup/FieldInfo"),
-    import("../../WAExtent"),
-    import("./labelClass"),
-  ]);
-
+export function createMilepostLayer(spatialReference: SpatialReference) {
   /**
    * A function that creates and adds field information for an expression.
    * @param milepostExpressionInfo - The expression information to create the field info for.
@@ -123,31 +116,19 @@ export async function createMilepostLayer(spatialReference: SpatialReference) {
       visibleFieldNames: new Set(),
     });
 
-    createActionButtons()
-      .then((actions) => {
-        popupTemplate.actions = actions;
-      })
-      .catch((error: unknown) => {
-        console.error("Error adding action buttons", error);
-      });
+    const actions = createActionButtons();
+    popupTemplate.actions = actions;
 
     // Import the Arcade expressions, add them to the popup template, and then
     // add them to the popup template's fieldInfos array.
-    import("./arcade")
-      .then(({ default: arcadeExpressions }) => {
-        popupTemplate.expressionInfos = arcadeExpressions;
+    popupTemplate.expressionInfos = arcadeExpressions;
 
-        // Append expressions to the PopupTemplate's fieldInfos array.
-        for (const xi of arcadeExpressions) {
-          const fieldInfo = createAndAddFieldInfoForExpression(xi);
-          popupTemplate.fieldInfos.push(fieldInfo);
-        }
-        popupTemplate.title =
-          "{Route} ({Direction}) @ {expression/milepostLabel}";
-      })
-      .catch((error: unknown) => {
-        console.error("Error adding Arcade expressions", error);
-      });
+    // Append expressions to the PopupTemplate's fieldInfos array.
+    for (const xi of arcadeExpressions) {
+      const fieldInfo = createAndAddFieldInfoForExpression(xi);
+      popupTemplate.fieldInfos.push(fieldInfo);
+    }
+    popupTemplate.title = "{Route} ({Direction}) @ {expression/milepostLabel}";
 
     return popupTemplate;
   }
@@ -171,28 +152,12 @@ export async function createMilepostLayer(spatialReference: SpatialReference) {
     hasM: true,
   });
 
-  createRenderer()
-    .then((renderer) => {
-      milepostLayer.renderer = renderer;
-    })
-    .catch((error: unknown) => {
-      console.error("Error creating renderer", error);
-    });
-
+  milepostLayer.renderer = createRenderer();
   milepostLayer.popupTemplate = createPopupTemplate();
 
   return milepostLayer;
 }
-async function createRenderer() {
-  const [
-    { default: SimpleMarkerSymbol },
-    { default: SimpleRenderer },
-    { highwaySignBackgroundColor, highwaySignTextColor },
-  ] = await Promise.all([
-    import("@arcgis/core/symbols/SimpleMarkerSymbol"),
-    import("@arcgis/core/renderers/SimpleRenderer"),
-    import("../../colors"),
-  ]);
+function createRenderer() {
   const actualMPSymbol = new SimpleMarkerSymbol({
     color: highwaySignBackgroundColor,
     size: 12,

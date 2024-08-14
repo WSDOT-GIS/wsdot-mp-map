@@ -114,7 +114,7 @@ export default defineConfig((env) => {
         },
         external,
       },
-      sourcemap: env.command === "serve",
+      sourcemap: true,
     },
     plugins: plugins,
     test: {
