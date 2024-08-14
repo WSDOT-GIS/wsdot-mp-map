@@ -7,6 +7,7 @@ interface ImportMetaEnv {
   readonly VITE_ZOOM_SCALE: `${number}`;
   readonly VITE_TITLE: string;
   readonly VITE_HEADER_TITLE: string;
+  readonly VITE_WIDTH_THRESHOLD_IN_PIXELS: `${number}`;
   // more env variables...
 }
 
