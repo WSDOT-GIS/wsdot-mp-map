@@ -26,6 +26,7 @@ import { createParcelsGroupLayer } from "./layers/parcels";
 import "./types";
 import { UIAddPositions, isGraphicHit } from "./types";
 import isInternal from "./urls/isIntranet";
+import { setupSidebarCollapseButton } from "./widgets/CollapseButton";
 import "./widgets/LayerList";
 import { setupLayerList } from "./widgets/LayerList";
 import "./widgets/setupSearch";
@@ -143,39 +144,6 @@ import("browser-update")
   .catch((reason: unknown) => {
     console.error("Failed to setup browser update", reason);
   });
-
-function setupSidebarCollapseButton(view: MapView) {
-  const sideBar = document.querySelector<HTMLCalciteShellPanelElement>(
-    "calcite-shell-panel#sidebar",
-  );
-
-  if (sideBar) {
-    // <calcite-button id="toggleSidebarButton" text="Toggle Sidebar" icon="collapse"></calcite-button>
-    const collapseButton = document.createElement("calcite-button");
-    collapseButton.setAttribute("id", "toggleSidebarButton");
-    collapseButton.setAttribute("text", "Toggle Sidebar");
-    collapseButton.setAttribute("icon", "collapse");
-    collapseButton.addEventListener("click", () => {
-      sideBar.collapsed = !sideBar.collapsed;
-      setSidebarToggleIcon();
-    });
-
-    // Set sidebar collapsed to false if document width is less than 768px.
-    if (window.outerWidth >= 768) {
-      sideBar.collapsed = false;
-    }
-
-    view.ui.add(collapseButton, "top-leading");
-
-    const setSidebarToggleIcon = () => {
-      collapseButton.iconStart = sideBar.collapsed
-        ? "chevrons-right"
-        : "chevrons-left";
-    };
-
-    setSidebarToggleIcon();
-  }
-}
 
 if (import.meta.hot) {
   import.meta.hot.accept("./addWsdotLogo", (mod) => {
@@ -330,7 +298,7 @@ if (!testWebGL2Support()) {
   }
   request.httpsDomains.push("wsdot.wa.gov", "data.wsdot.wa.gov");
 
-  const milepostLayer = await createMilepostLayer(waExtent.spatialReference);
+  const milepostLayer = createMilepostLayer(waExtent.spatialReference);
 
   // Show the instructions alert once the mileposts layer has been loaded.
   milepostLayer.on("layerview-create", () => {
@@ -344,7 +312,6 @@ if (!testWebGL2Support()) {
   });
 
   // Create basemaps
-
   const imageryHybridBasemap = new Basemap({
     portalItem: new PortalItem({
       id: "952d28d8d68c4e9ca2db7c7d68307af0",
@@ -384,7 +351,11 @@ if (!testWebGL2Support()) {
       console.error("Failed to setupPopupActions.", error);
     });
 
-  setupSidebarCollapseButton(view);
+  try {
+    setupSidebarCollapseButton(view);
+  } catch (error) {
+    console.error("Failed to setup sidebar collapse button.", error);
+  }
 
   view
     .when(() => {
