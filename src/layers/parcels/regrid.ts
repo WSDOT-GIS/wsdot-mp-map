@@ -1,9 +1,7 @@
-const arcGisOnlineId = "a2050b09baff493aa4ad7848ba2fac00";
+import TileLayer from "@arcgis/core/layers/TileLayer";
+import PortalItem from "@arcgis/core/portal/PortalItem";
 
-const [{ default: TileLayer }, { default: PortalItem }] = await Promise.all([
-  import("@arcgis/core/layers/TileLayer"),
-  import("@arcgis/core/portal/PortalItem"),
-]);
+const arcGisOnlineId = "a2050b09baff493aa4ad7848ba2fac00";
 
 /**
  * Parcels layer
