@@ -1,3 +1,4 @@
+import { hasXAndY } from "../types";
 import { ElcError } from "./errors";
 import {
   type DateType,
@@ -5,13 +6,8 @@ import {
   type RouteLocation,
   type SrmpRouteLocation,
 } from "./types";
-
-const [{ default: Graphic }, { default: Point }, { hasXAndY }] =
-  await Promise.all([
-    import("@arcgis/core/Graphic"),
-    import("@arcgis/core/geometry/Point"),
-    import("../types"),
-  ]);
+import Graphic from "@arcgis/core/Graphic";
+import Point from "@arcgis/core/geometry/Point";
 
 /**
  * This variable will be increased for each new graphic
