@@ -1,3 +1,4 @@
+import { watch } from "@arcgis/core/core/reactiveUtils";
 import type MapView from "@arcgis/core/views/MapView";
 
 /**
@@ -24,8 +25,9 @@ export function setupSidebarCollapseButton(view: MapView) {
     setSidebarToggleIcon();
   });
 
-  // Set sidebar collapsed to false if document width is less than 768px.
-  if (window.outerWidth >= 768) {
+  // Set sidebar collapsed to false if document width is greater than or equal to 768px.
+  const threshold = parseInt(import.meta.env.VITE_WIDTH_THRESHOLD_IN_PIXELS);
+  if (window.outerWidth >= threshold) {
     sideBar.collapsed = false;
   }
 
@@ -36,6 +38,17 @@ export function setupSidebarCollapseButton(view: MapView) {
       ? "chevrons-right"
       : "chevrons-left";
   };
+
+  // When the popup is opened, collapse the sidebar if the screen is small.
+  watch(
+    () => view.popup.visible,
+    (visible) => {
+      if (visible && window.outerWidth < threshold) {
+        sideBar.collapsed = true;
+        setSidebarToggleIcon();
+      }
+    },
+  );
 
   setSidebarToggleIcon();
 }
