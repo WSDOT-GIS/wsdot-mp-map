@@ -126,6 +126,10 @@ export function createMilepostLayer(spatialReference: SpatialReference) {
     // Append expressions to the PopupTemplate's fieldInfos array.
     for (const xi of arcadeExpressions) {
       const fieldInfo = createAndAddFieldInfoForExpression(xi);
+      // Hide the GeoURI and SRViewURL fields.
+      if (["geoURI"].includes(xi.name)) {
+        fieldInfo.visible = false;
+      }
       popupTemplate.fieldInfos.push(fieldInfo);
     }
     popupTemplate.title = "{Route} ({Direction}) @ {expression/milepostLabel}";
