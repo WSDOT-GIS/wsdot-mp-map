@@ -136,10 +136,7 @@ import("@arcgis/core/config")
 // Show a warning to users who are using an outdated browser.
 import("browser-update")
   .then(({ default: browserUpdate }) => {
-    browserUpdate({
-      insecure: true,
-      unsupported: true,
-    });
+    browserUpdate();
   })
   .catch((reason: unknown) => {
     console.error("Failed to setup browser update", reason);
