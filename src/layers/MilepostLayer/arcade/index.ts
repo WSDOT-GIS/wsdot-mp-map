@@ -62,7 +62,7 @@ const expressionInfoProperties = [
   },
   {
     name: "region",
-    title: "Region",
+    title: "WSDOT Region",
     expression: [splitRouteIdFunction, RegionArcade].join("\n"),
     returnType: "string",
   },
