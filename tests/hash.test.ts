@@ -1,4 +1,4 @@
-import { parseMapPositionHash } from "../src/history-api";
+import { parseMapPositionHash } from "../src/history-api/position";
 import { test, describe } from "vitest";
 
 describe.concurrent("parseMapPositionHash", () => {
