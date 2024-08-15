@@ -73,3 +73,7 @@ calcite-rating {
     }
   }
 }
+
+.esri-feature__content-element {
+  margin-bottom: auto;
+}
