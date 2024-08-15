@@ -2,7 +2,10 @@ import waExtent from "../../WAExtent";
 import { highwaySignBackgroundColor, highwaySignTextColor } from "../../colors";
 import { objectIdFieldName } from "../../elc/types";
 import type { MilepostExpressionInfo } from "./arcade";
-import { expressions as arcadeExpressions } from "./arcade";
+import {
+  expressions as arcadeExpressions,
+  locationLinksContent,
+} from "./arcade";
 import labelClass from "./labelClass";
 import Collection from "@arcgis/core/core/Collection";
 import type SpatialReference from "@arcgis/core/geometry/SpatialReference";
@@ -133,6 +136,10 @@ export function createMilepostLayer(spatialReference: SpatialReference) {
       popupTemplate.fieldInfos.push(fieldInfo);
     }
     popupTemplate.title = "{Route} ({Direction}) @ {expression/milepostLabel}";
+
+    if (Array.isArray(popupTemplate.content)) {
+      popupTemplate.content = [locationLinksContent, ...popupTemplate.content];
+    }
 
     return popupTemplate;
   }
