@@ -63,6 +63,7 @@ calcite-rating {
   row-gap: 0.5rem;
   column-gap: 0.5rem;
   grid-row: auto;
+  flex-wrap: wrap;
 
   > li {
     padding: 0.2rem 0.5rem;
