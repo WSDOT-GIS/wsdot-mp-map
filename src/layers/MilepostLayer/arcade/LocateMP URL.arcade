@@ -1,5 +1,6 @@
 var urlBase = "";
 
+// Split the Route ID into SR, RRT, and RRQ parts.
 var routeParts = splitRouteId($feature.Route);
 
 // Construct the key value pairs for the query string.
@@ -11,16 +12,28 @@ var parts = [
   ["SRMP", Text($feature.SRMP,"#.##") + IIf($feature.Back == "B", "B", "")]
 ];
 
-function removeNulls(kvp) {
+/**
+ * Detects if a tuple's value (element at index 1) is neither null nor empty.
+ * @param kvp - A tuple containing a key and a value.
+ * @returns - Returns true if the tuple's value is neither null nor empty.
+ */
+function isValueNotEmpty(kvp) {
   return kvp[1] != null && kvp[1] != "";
 }
 
-var keyValuePairs = Filter(parts, removeNulls);
+// Remove any items from the array where the value portion of the tuple is null or empty.
+var keyValuePairs = Filter(parts, isValueNotEmpty);
 
+/**
+ * Concatenates the key and value of a tuple into a string, separated by an equals sign.
+ * @param kvp - A tuple containing a key and a value.
+ * @returns - A string containing the key and value separated by an equals sign.
+ */
 function keyEqualsValue(kvp) {
   return Concatenate(kvp, "=");
 }
 
+// Create the URL string, appending the query string parameters.
 var url = urlBase + "?" + Concatenate(Map(keyValuePairs, keyEqualsValue), "&");
 
 return url;
