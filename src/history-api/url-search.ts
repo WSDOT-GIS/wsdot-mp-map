@@ -1,18 +1,22 @@
+import { watch } from "@arcgis/core/core/reactiveUtils";
 import { RouteDescription } from "wsdot-route-utils";
+
+type RouteLocationAttributes = Record<
+  string,
+  string | number | null | undefined
+> & {
+  Back: string;
+  Route: string;
+  Srmp: number;
+  Direction: string;
+};
 
 /**
  * Updates the URL search parameters with the given route location.
  * @param routeLocation - The route location to update the URL with.
  * @returns - The updated URL.
  */
-export function updateUrlSearchParams(
-  routeLocation: Record<string, string | number | null | undefined> & {
-    Back: string;
-    Route: string;
-    Srmp: number;
-    Direction: string;
-  },
-) {
+export function updateUrlSearchParams(routeLocation: RouteLocationAttributes) {
   const srmp = `${routeLocation.Srmp}${routeLocation.Back}`;
   const { sr, rrt, rrq } = new RouteDescription(routeLocation.Route);
   const direction = routeLocation.Direction;
@@ -80,4 +84,39 @@ export function moveUrlSearchToHash(url: URL | string) {
     url.search = "";
   }
   return url;
+}
+
+/**
+ * Updates the URL search params when the popup opens to match
+ * the selected feature.
+ * @param view - The map view.
+ */
+export function setupMPUrlParamsUpdate(
+  view: __esri.MapView | __esri.SceneView,
+) {
+  function updateUrl(visible: boolean): void {
+    // If the popup is not visible, remove the search params from the URL.
+    if (!visible) {
+      const noSearchUrl = window.location.search
+        ? window.location.href.replace(window.location.search, "")
+        : window.location.href;
+      history.replaceState(null, "", noSearchUrl);
+      return;
+    }
+
+    // If the popup is visible, update the search params in the URL.
+    const feature = view.popup.selectedFeature;
+    try {
+      const url = updateUrlSearchParams(
+        feature.attributes as RouteLocationAttributes,
+      );
+      history.replaceState(null, "", url.toString());
+    } catch (error) {
+      console.error("Failed to update URL search params.", {
+        error,
+        feature,
+      });
+    }
+  }
+  watch(() => view.popup.visible, updateUrl);
 }
