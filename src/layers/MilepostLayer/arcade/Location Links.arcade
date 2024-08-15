@@ -64,13 +64,13 @@ var Longitude = latLongDict.Longitude;
 
 var urlTemplates = Dictionary(
   "Google Panoramic",
-  `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${LATITUDE},${LONGITUDE}`,
+  `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${Latitude},${Longitude}`,
   "Google Pin",
-  `https://maps.google.com/maps?t=k&q=loc:${LATITUDE},${LONGITUDE}`,
+  `https://maps.google.com/maps?t=k&q=loc:${Latitude},${Longitude}`,
   "Bing Maps",
-  `https://bing.com/maps/default.aspx?where=${LATITUDE},${LONGITUDE}`,
+  `https://bing.com/maps/default.aspx?where=${Latitude},${Longitude}`,
   "GeoHack",
-  `https://geohack.toolforge.org/geohack.php?params=${LATITUDE};${LONGITUDE}`,
+  `https://geohack.toolforge.org/geohack.php?params=${Latitude};${Longitude}`,
 )
 
 // Initialize the list of HTML anchors.

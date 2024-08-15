@@ -3,9 +3,15 @@ var thePortal = Portal("https://www.arcgis.com");
 var itemId = "ae861d2304da4d099e0f7841fcbfa860";
 var layerId = 7;
 
-First(
+var townshipSection = First(
   Within(
     $feature,
     FeatureSetByPortalItem(thePortal, itemId, layerId, [displayField], false)
   )
-)[displayField];
+)
+
+if (!IsEmpty(townshipSection)) {
+  return townshipSection[displayField];
+} else {
+  return "N/A";
+}
