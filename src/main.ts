@@ -11,8 +11,10 @@ import { routeLocationToGraphic } from "./elc/arcgis";
 import "./elc/url";
 import { callElcFromUrl } from "./elc/url";
 import { emitErrorEvent } from "./errorEvent";
-import { setupHashUpdate } from "./history-api/hash-update-setup";
-import { updateUrlSearchParams } from "./history-api/url-search";
+import {
+  setupMPUrlParamsUpdate,
+  updateUrlSearchParams,
+} from "./history-api/url-search";
 import "./index.css";
 import "./layers/AccessControlLayer";
 import { accessControlLayer } from "./layers/AccessControlLayer";
@@ -306,6 +308,7 @@ if (!testWebGL2Support()) {
     if (alert) {
       alert.open = true;
     }
+    setupMPUrlParamsUpdate(view);
   });
 
   // Create basemaps
@@ -353,14 +356,6 @@ if (!testWebGL2Support()) {
   } catch (error) {
     console.error("Failed to setup sidebar collapse button.", error);
   }
-
-  view
-    .when(() => {
-      setupHashUpdate(view);
-    })
-    .catch((error: unknown) => {
-      console.error("Failed to initialize view.", error);
-    });
 
   import("@arcgis/core/widgets/Legend")
     .then(({ default: Legend }) => {
