@@ -11,7 +11,10 @@ import { routeLocationToGraphic } from "./elc/arcgis";
 import "./elc/url";
 import { callElcFromUrl } from "./elc/url";
 import { emitErrorEvent } from "./errorEvent";
-import { updateUrlSearchParams } from "./history-api/url-search";
+import {
+  setupMPUrlParamsUpdate,
+  updateUrlSearchParams,
+} from "./history-api/url-search";
 import "./index.css";
 import "./layers/AccessControlLayer";
 import { accessControlLayer } from "./layers/AccessControlLayer";
@@ -305,6 +308,7 @@ if (!testWebGL2Support()) {
     if (alert) {
       alert.open = true;
     }
+    setupMPUrlParamsUpdate(view);
   });
 
   // Create basemaps
