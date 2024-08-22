@@ -25,7 +25,7 @@ export enum fieldNames {
 	Direction = "Direction",
 }
 
-const fields = [
+export const fields = [
 	{
 		name: objectIdFieldName,
 		type: "oid",

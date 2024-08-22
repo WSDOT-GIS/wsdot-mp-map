@@ -1,4 +1,7 @@
 import MilepostLocationRenderer from "./Milepost Location Renderer.json";
-import Renderer from "@arcgis/core/renderers/Renderer";
+import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer";
 
-export default Renderer.fromJSON(MilepostLocationRenderer);
+/**
+ * Simple Renderer using a CIM symbol.
+ */
+export default SimpleRenderer.fromJSON(MilepostLocationRenderer);
