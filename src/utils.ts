@@ -8,9 +8,9 @@ import type { NonZeroDigit, ThreeDigit, TwoDigit } from "./elc/types";
 export function padRoute<T extends ThreeDigit>(route: T): T;
 export function padRoute<T extends TwoDigit>(route: T): `0${T}`;
 export function padRoute<T extends `${NonZeroDigit}`>(route: T): `00${T}`;
-export function padRoute<
-  T extends Exclude<string, ThreeDigit | TwoDigit | NonZeroDigit>,
->(route: T): string;
+export function padRoute(
+  route: Exclude<string, ThreeDigit | TwoDigit | NonZeroDigit>,
+): string;
 /**
  * Pads the route with leading zeros if it is a single or double digit number.
  * @param route - The route to be padded.

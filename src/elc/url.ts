@@ -32,9 +32,7 @@ import type {
   RouteGeometry,
 } from "./types";
 
-const urlKeys = ["sr", "rrt", "rrq", "dir", "mp"] as const;
-
-type UrlParamMapKey = (typeof urlKeys)[number];
+type UrlParamMapKey = "sr" | "rrt" | "rrq" | "dir" | "mp";
 
 /**
  * Regular expression patterns to validate URL parameters.

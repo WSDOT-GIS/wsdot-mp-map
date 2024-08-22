@@ -46,8 +46,8 @@ export function createElcErrorAlert(error: ElcError): HTMLCalciteAlertElement {
  * @param alertProperties - Additional properties to set on the HTMLCalciteAlertElement.
  * @returns The created HTMLCalciteAlertElement.
  */
-export function createErrorAlert<E extends Error>(
-  error: string | E,
+export function createErrorAlert(
+  error: string | Error,
   alertProperties?: Partial<HTMLCalciteAlertElement>,
 ): HTMLCalciteAlertElement {
   // If the error is an ElcError, create an alert with the error message.

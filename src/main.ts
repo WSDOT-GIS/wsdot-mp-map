@@ -434,7 +434,7 @@ if (!testWebGL2Support()) {
       });
       view.ui.add([home, clearButton], UIAddPositions.topTrailing);
     },
-    (reason) => {
+    (reason: unknown) => {
       console.error("Failed to setup clear button", reason);
     },
   );
@@ -485,6 +485,8 @@ if (!testWebGL2Support()) {
         await callFindNearestRouteLocation(event);
       } catch (error) {
         const message = "Could not find a route location near this location.";
+
+        console.error(message, error);
 
         const handleError = (reason: unknown) => {
           console.error("Failed to remove temporary graphic", reason);

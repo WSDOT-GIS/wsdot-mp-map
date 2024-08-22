@@ -8,7 +8,7 @@ import { afterAll, afterEach, beforeAll } from "vitest";
 
 type ResponseResolverInfo = Parameters<Parameters<typeof http.get>[1]>[0];
 
-function allPropertiesAreEqual<A extends object, B extends object>(a: A, b: B) {
+function allPropertiesAreEqual(a: object, b: object) {
   return Object.keys(a).every(
     (key) =>
       (a as Record<string, unknown>)[key] ===
