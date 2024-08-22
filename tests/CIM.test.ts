@@ -1,4 +1,4 @@
-import renderer from "../src/layers/MilepostLayer/MilepostOffsetLineRenderer";
+import renderer from "../src/layers/MilepostLayer/milepost-line-layer/MilepostOffsetLineRenderer";
 import { describe, test } from "vitest";
 
 describe.concurrent(
