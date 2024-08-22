@@ -39,12 +39,17 @@ export function routeLocationToGraphic<
   if (routeLocation instanceof ElcError) {
     throw routeLocation;
   }
-  let geometry: __esri.Point | undefined;
-  if (routeLocation.RouteGeometry && hasXAndY(routeLocation.RouteGeometry)) {
-    const { x, y, spatialReference } = routeLocation.RouteGeometry;
-    geometry = new Point({ x, y, spatialReference });
-  } else {
-    console.warn("Input does not have valid point geometry.", routeLocation);
+  let geometry: Point | undefined;
+  if (routeLocation.RouteGeometry) {
+    if (hasXAndY(routeLocation.RouteGeometry)) {
+      const { x, y, spatialReference } = routeLocation.RouteGeometry;
+      geometry = new Point({ x, y, spatialReference });
+      // } else if (hasPaths(routeLocation.RouteGeometry)) {
+      //   const { paths, spatialReference } = routeLocation.RouteGeometry;
+      //   geometry = new Polyline({ paths, spatialReference });
+    } else {
+      console.warn("Input does not have valid point geometry.", routeLocation);
+    }
   }
   let attributes;
   if (hasValidSrmpData(routeLocation)) {
@@ -71,9 +76,6 @@ export function routeLocationToGraphic<
       Direction: Decrease ? "D" : "I",
       Srmp,
       Back: Back ? "B" : "",
-      "Township Subdivision": null,
-      City: null,
-      County: null,
     };
     oid++;
   } else {

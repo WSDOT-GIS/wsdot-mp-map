@@ -88,6 +88,9 @@ export default defineConfig((env) => {
   if (env.mode !== "test") {
     plugins.push(
       checker({
+        overlay: {
+          initialIsOpen: false,
+        },
         typescript: true,
         eslint: {
           lintCommand: "eslint ./src/**/*.{ts,tsx}",
