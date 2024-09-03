@@ -11,27 +11,32 @@ export async function addGraphicsToLayer(
 	milepostLayer: FeatureLayer,
 	locationGraphics: Graphic[],
 ) {
-	// Add graphics to the layer and await for the edit to complete.
-	const editsResult = await milepostLayer.applyEdits(
-		{
-			addFeatures: locationGraphics,
-		},
-		{},
-	);
-
-	// Get the added features from the edits result by querying the milepost layer
-	// for the features with matching object IDs.
-	const query = milepostLayer.createQuery();
-	query.objectIds = editsResult.addFeatureResults.map((r) => r.objectId);
-	const results = await milepostLayer.queryFeatures(query);
-
-	return results.features;
-}
-
-if (import.meta.hot) {
-	import.meta.hot.accept((newModule) => {
-		if (newModule) {
-			console.log("hot module replacement", newModule);
-		}
+	/* __PURE__ */ console.group(addGraphicsToLayer.name, {
+		milepostLayer: { ...milepostLayer },
+		locationGraphics: locationGraphics.map((g) => g.toJSON() as unknown),
 	});
+	try {
+		// Add graphics to the layer and await for the edit to complete.
+		const editsResult = await milepostLayer.applyEdits(
+			{
+				addFeatures: locationGraphics,
+			},
+			{},
+		);
+		/* __PURE__ */ console.debug(
+			"editsResult",
+			editsResult.addFeatureResults.map((e) => ({ ...e })),
+		);
+
+		// Get the added features from the edits result by querying the milepost layer
+		// for the features with matching object IDs.
+		const query = milepostLayer.createQuery();
+		/* __PURE__ */ console.debug("query", query.toJSON());
+		query.objectIds = editsResult.addFeatureResults.map((r) => r.objectId);
+		const results = await milepostLayer.queryFeatures(query);
+
+		return results.features;
+	} finally {
+		/* __PURE__ */ console.groupEnd();
+	}
 }

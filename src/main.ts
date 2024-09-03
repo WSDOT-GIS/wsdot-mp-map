@@ -195,8 +195,15 @@ const elcMainlinesOnlyFilter =
  * @param view - The map view.
  */
 function openPopup(hits: __esri.GraphicHit[], view: MapView) {
+	/* __PURE__ */ console.debug("openPopup", {
+		hits: hits.map((h) => h.graphic.toJSON() as unknown),
+	});
+	function extractGraphic(graphicHit: __esri.GraphicHit): Graphic {
+		const { graphic } = graphicHit;
+		return graphic;
+	}
 	// Get the features that were hit by the hit test.
-	const features = hits.map(({ graphic }) => graphic);
+	const features = hits.map(extractGraphic);
 	const updateUrlSearch = () => {
 		const routeLocation = features
 			.map(
@@ -217,6 +224,9 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
 
 		updateUrlSearchParams(routeLocation);
 	};
+	/* __PURE__ */ console.debug("about to open popup", {
+		features: features.map((f) => f.toJSON() as unknown),
+	});
 	view
 		.openPopup({
 			features,
@@ -303,6 +313,7 @@ if (!testWebGL2Support()) {
 			locationGraphic.geometry.type === "point"
 				? milepostPointLayer
 				: milepostLineLayer;
+		/* __PURE__ */ console.debug("location graphic", locationGraphic.toJSON());
 		addGraphicsToLayer(layer, [locationGraphic])
 			.then((addResults) => {
 				/* __PURE__ */ console.debug(
