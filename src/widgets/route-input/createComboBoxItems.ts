@@ -56,7 +56,7 @@ export function* getComboboxItems(routes: Map<string, string[]>) {
   for (const [routeId, directions] of routes.entries()) {
     const element = document.createElement("calcite-combobox-item");
     element.value = routeId;
-    element.textLabel = routeId;
+    element.heading = routeId;
     element.dataset.directions = directions.join("");
     yield element;
   }
