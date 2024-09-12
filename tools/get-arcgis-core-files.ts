@@ -47,7 +47,10 @@ export async function* getArcGisFiles(
     // Get the current directory entry.
     let currentDirent = await dirHandler.read();
     while (currentDirent !== null) {
-      const currentFilePath = join(currentDirent.path, currentDirent.name);
+      const currentFilePath = join(
+        currentDirent.parentPath,
+        currentDirent.name,
+      );
       // Test to see if the current file should be skipped.
       const skipReason = isUnwanted(currentDirent);
       let message: string;
