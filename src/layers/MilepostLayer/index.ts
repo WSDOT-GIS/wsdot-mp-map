@@ -86,63 +86,67 @@ function createActionButtons() {
 }
 
 /**
+ * A function that creates and adds field information for an expression.
+ * @param milepostExpressionInfo - The expression information to create the field info for.
+ * @returns The created field info.
+ */
+function createAndAddFieldInfoForExpression(
+	milepostExpressionInfo: MilepostExpressionInfo,
+) {
+	const fieldInfo = new FieldInfo({
+		fieldName: `expression/${milepostExpressionInfo.name}`,
+		visible: !["webMercatorToWgs1984", "milepostLabel"].includes(
+			milepostExpressionInfo.name,
+		),
+	});
+	return fieldInfo;
+}
+
+/**
+ * Creates a popup template for the milepost layer by hiding certain fields and adding arcade expressions.
+ * @param milepostLayer - The milepost layer.
+ * @returns The created popup template.
+ */
+function createPopupTemplate(milepostLayer: FeatureLayer) {
+	const popupTemplate = milepostLayer.createPopupTemplate({
+		// Hide all of the initial fields.
+		// These fields are already displayed in the popup's title.
+		visibleFieldNames: new Set(),
+	});
+
+	const actions = createActionButtons();
+	popupTemplate.actions = actions;
+
+	// Import the Arcade expressions, add them to the popup template, and then
+	// add them to the popup template's fieldInfos array.
+	popupTemplate.expressionInfos = arcadeExpressions;
+
+	// Append expressions to the PopupTemplate's fieldInfos array.
+	for (const xi of arcadeExpressions) {
+		const fieldInfo = createAndAddFieldInfoForExpression(xi);
+		// Hide the GeoURI and SRViewURL fields.
+		if (["geoURI"].includes(xi.name)) {
+			fieldInfo.visible = false;
+		}
+		popupTemplate.fieldInfos.push(fieldInfo);
+	}
+	popupTemplate.title = "{Route} ({Direction}) @ {expression/milepostLabel}";
+
+	if (Array.isArray(popupTemplate.content)) {
+		popupTemplate.content = [locationLinksContent, ...popupTemplate.content];
+	}
+
+	milepostLayer.popupTemplate = popupTemplate;
+
+	return popupTemplate;
+}
+
+/**
  * Creates the {@link FeatureLayer} that displays located mileposts.
  * @param spatialReference - The {@link SpatialReference} of the layer.
  * @returns - A {@link FeatureLayer}
  */
 export function createMilepostLayer(spatialReference: SpatialReference) {
-	/**
-	 * A function that creates and adds field information for an expression.
-	 * @param milepostExpressionInfo - The expression information to create the field info for.
-	 * @returns The created field info.
-	 */
-	function createAndAddFieldInfoForExpression(
-		milepostExpressionInfo: MilepostExpressionInfo,
-	) {
-		const fieldInfo = new FieldInfo({
-			fieldName: `expression/${milepostExpressionInfo.name}`,
-			visible: !["webMercatorToWgs1984", "milepostLabel"].includes(
-				milepostExpressionInfo.name,
-			),
-		});
-		return fieldInfo;
-	}
-
-	/**
-	 * Creates a popup template for the milepost layer by hiding certain fields and adding arcade expressions.
-	 * @returns The created popup template.
-	 */
-	function createPopupTemplate() {
-		const popupTemplate = milepostLayer.createPopupTemplate({
-			// Hide all of the initial fields.
-			// These fields are already displayed in the popup's title.
-			visibleFieldNames: new Set(),
-		});
-
-		const actions = createActionButtons();
-		popupTemplate.actions = actions;
-
-		// Import the Arcade expressions, add them to the popup template, and then
-		// add them to the popup template's fieldInfos array.
-		popupTemplate.expressionInfos = arcadeExpressions;
-
-		// Append expressions to the PopupTemplate's fieldInfos array.
-		for (const xi of arcadeExpressions) {
-			const fieldInfo = createAndAddFieldInfoForExpression(xi);
-			// Hide the GeoURI and SRViewURL fields.
-			if (["geoURI"].includes(xi.name)) {
-				fieldInfo.visible = false;
-			}
-			popupTemplate.fieldInfos.push(fieldInfo);
-		}
-		popupTemplate.title = "{Route} ({Direction}) @ {expression/milepostLabel}";
-
-		if (Array.isArray(popupTemplate.content)) {
-			popupTemplate.content = [locationLinksContent, ...popupTemplate.content];
-		}
-
-		return popupTemplate;
-	}
 	/**
 	 * This is the symbol for the point on the route.
 	 */
@@ -164,7 +168,7 @@ export function createMilepostLayer(spatialReference: SpatialReference) {
 	});
 
 	milepostLayer.renderer = createRenderer();
-	milepostLayer.popupTemplate = createPopupTemplate();
+	createPopupTemplate(milepostLayer);
 
 	return milepostLayer;
 }
