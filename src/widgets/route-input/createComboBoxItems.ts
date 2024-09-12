@@ -3,6 +3,7 @@
  * https://data.wsdot.wa.gov/arcgis/rest/services/Shared/AllStateRoutePoints/MapServer/0/query?where=RelRouteType+IN+%28%27%27%2C+%27SP%27%2C+%27CO%27%2C+%27AR%27%29&outFields=RouteID%2CDirection&orderByFields=RouteID&returnDistinctValues=true&f=html
  */
 import sampleRoutesFeatureSet from "./sample-routes.json";
+import { RouteDescription } from "wsdot-route-utils";
 
 /**
  * Retrieves routes from the WSDOT AllStateRoutePoints service.
@@ -55,8 +56,31 @@ export function getRoutes(
 export function* getComboboxItems(routes: Map<string, string[]>) {
   for (const [routeId, directions] of routes.entries()) {
     const element = document.createElement("calcite-combobox-item");
+    const routeDescription = new RouteDescription(routeId);
+    let shield: string | null = routeDescription.shield;
+    if (shield === "IS") {
+      shield = "I-";
+    } else if (shield) {
+      shield += " ";
+    }
+    element.description = `${shield}${parseInt(routeDescription.sr)}`;
+    if (routeDescription.rrt) {
+      element.description += ` ${routeDescription.rrtDescription}`;
+      if (routeDescription.rrq) {
+        element.description += ` ${routeDescription.rrqDescription}`;
+      }
+    }
+    // TODO: Use setAssetPath to load shield image. (https://developers.arcgis.com/calcite-design-system/get-started/#load-the-assets)
+    // element.icon = "interstate-shield";
+    element.guid = routeId;
     element.value = routeId;
     element.heading = routeId;
+    /*
+    This is the text that is shown in the combobox after 
+    the item has been selected and the combobox is closed.
+    */
+    element.shortHeading = routeId;
+    element.append(routeId);
     element.dataset.directions = directions.join("");
     yield element;
   }
