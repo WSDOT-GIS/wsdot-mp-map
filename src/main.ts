@@ -436,7 +436,7 @@ if (!testWebGL2Support()) {
       const clearButton = createClearButton({
         layers: [milepostLayer, tempLayer],
       });
-      view.ui.add([home, clearButton], UIAddPositions.topTrailing);
+      view.ui.add([home, clearButton], UIAddPositions.topLeading);
     },
     (reason: unknown) => {
       console.error("Failed to setup clear button", reason);
