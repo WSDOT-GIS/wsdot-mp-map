@@ -41,6 +41,7 @@ import config from "@arcgis/core/config";
 import { whenOnce } from "@arcgis/core/core/reactiveUtils";
 import PortalItem from "@arcgis/core/portal/PortalItem";
 import MapView from "@arcgis/core/views/MapView";
+import Expand from "@arcgis/core/widgets/Expand";
 import Home from "@arcgis/core/widgets/Home";
 import ScaleBar from "@arcgis/core/widgets/ScaleBar";
 import "@esri/calcite-components";
@@ -414,8 +415,11 @@ if (!testWebGL2Support()) {
 
   view.popup.defaultPopupTemplateEnabled = true;
 
-  const search = setupSearch(view);
-  search.view.ui.add(search, {
+  const searchGroup = new Expand({
+    icon: "search",
+    content: setupSearch(view),
+  });
+  view.ui.add(searchGroup, {
     index: 0,
     position: UIAddPositions.topTrailing,
   });
