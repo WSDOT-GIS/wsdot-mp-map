@@ -9,15 +9,12 @@
   margin-bottom: 8px;
 }
 
-h1 {
-  display: inline;
-  text-align: right;
-  margin-left: 1em;
-  color: white;
-}
-
 header {
   background-color: var(--wsdot-logo-green);
-  display: grid;
-  grid-template-columns: 1fr 4fr 1fr;
+  display: flex;
+  flex: auto;
+  h1 {
+    margin-left: 1em;
+    color: white;
+  }
 }
