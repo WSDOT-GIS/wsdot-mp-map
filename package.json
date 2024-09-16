@@ -20,6 +20,23 @@
     "test:watch": "vitest",
     "spell": "cspell ."
   },
+  "overrides": {
+    "eslint": "$eslint"
+  },
+  "dependencies": {
+    "@arcgis/core": "^4.30.9",
+    "@fontsource/overpass": "^5.1.0",
+    "@esri/calcite-components": "^2.12.2",
+    "@fontsource/inconsolata": "^5.1.0",
+    "@fontsource/lato": "^5.1.0",
+    "@types/geojson": "^7946.0.14",
+    "@wsdot/land-use-codes": "github:WSDOT-GIS/land-use",
+    "@wsdot/web-styles": "github:WSDOT-GIS/wsdot-web-styles",
+    "browser-update": "^3.3.53",
+    "calcite-point-symbols": "github:arcgis/calcite-point-symbols",
+    "dms-conversion": "^3.1.3",
+    "wsdot-route-utils": "^3.0.0"
+  },
   "devDependencies": {
     "@eslint/js": "^9.10.0",
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
@@ -64,19 +81,5 @@
     "linear-referencing"
   ],
   "author": "Jeff Jacobson",
-  "license": "Unlicense",
-  "dependencies": {
-    "@arcgis/core": "^4.30.9",
-    "@fontsource/overpass": "^5.1.0",
-    "@esri/calcite-components": "^2.12.2",
-    "@fontsource/inconsolata": "^5.1.0",
-    "@fontsource/lato": "^5.1.0",
-    "@types/geojson": "^7946.0.14",
-    "@wsdot/land-use-codes": "github:WSDOT-GIS/land-use",
-    "@wsdot/web-styles": "github:WSDOT-GIS/wsdot-web-styles",
-    "browser-update": "^3.3.53",
-    "calcite-point-symbols": "github:arcgis/calcite-point-symbols",
-    "dms-conversion": "^3.1.3",
-    "wsdot-route-utils": "^3.0.0"
-  }
+  "license": "Unlicense"
 }
