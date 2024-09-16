@@ -234,56 +234,7 @@ vite.config.ts.timestamp*
 
 #region calcite
 
-public
-    assets
-        action
-        action-bar
-        action-group
-        action-pad
-        alert
-        block
-        block-section
-        button
-        card
-        chip
-        color-picker
-        combobox
-        date-picker
-        filter
-        flow-item
-        handle
-        icon
-        inline-editable
-        input
-        input-date-picker
-        input-number
-        input-text
-        input-time-picker
-        input-time-zone
-        list
-        list-item
-        menu
-        menu-item
-        modal
-        notice
-        pagination
-        panel
-        pick-list-item
-        popover
-        rating
-        scrim
-        shell-panel
-        stepper
-        stepper-item
-        tab-title
-        table
-        table-cell
-        table-header
-        text-area
-        time-picker
-        tip
-        tip-manager
-        value-list
+public/calcite/assets
 
 #endregion calicte
 

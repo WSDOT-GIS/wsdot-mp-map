@@ -6,7 +6,6 @@
     "**/dist/**/*.*": true,
     "**/node_modules/**/*": true,
     "dist/**/*": true,
-    "public/calcite/**": true,
     "src/wsdot-web-styles/**/*": true
   },
   "json.schemas": [

@@ -46,6 +46,23 @@ export function getRoutes(
 }
 
 /**
+ * Gets the appropriate icon name for the route shield.
+ * @param shield - The shield of the route.
+ * @returns The appropriate icon name for the route shield.
+ */
+function getRouteShieldIconName(
+  shield: NonNullable<InstanceType<typeof RouteDescription>["shield"]>,
+): `${`${"wa" | "us"}-route` | "interstate"}-shield` {
+  if (/^I/i.test(shield)) {
+    return "interstate-shield";
+  } else if (/^US$/i.test(shield)) {
+    return "us-route-shield";
+  } else {
+    return "wa-route-shield";
+  }
+}
+
+/**
  * Generates a generator function that yields a sequence of calcite-combobox-item elements
  * based on the provided routes map. Each calcite-combobox-item element contains a routeId
  * and a empty-string-separated string of directions associated with that routeId.
@@ -63,6 +80,10 @@ export function* getComboboxItems(routes: Map<string, string[]>) {
     } else if (shield) {
       shield += " ";
     }
+
+    const icon = routeDescription.shield
+      ? getRouteShieldIconName(routeDescription.shield)
+      : null;
     element.description = `${shield}${parseInt(routeDescription.sr)}`;
     if (routeDescription.rrt) {
       element.description += ` ${routeDescription.rrtDescription}`;
@@ -70,8 +91,10 @@ export function* getComboboxItems(routes: Map<string, string[]>) {
         element.description += ` ${routeDescription.rrqDescription}`;
       }
     }
-    // TODO: Use setAssetPath to load shield image. (https://developers.arcgis.com/calcite-design-system/get-started/#load-the-assets)
-    // element.icon = "interstate-shield";
+
+    if (icon) {
+      element.icon = icon;
+    }
     element.guid = routeId;
     element.value = routeId;
     element.heading = routeId;
