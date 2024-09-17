@@ -97,29 +97,8 @@ export interface SrmpInputForm extends HTMLFormElement {
  * @returns - The created SRMP input form
  */
 export async function createSrmpInputForm() {
-  // const formSelector = "form#route-input-form";
-  // const form = document.querySelector<SrmpInputForm>(formSelector);
-
-  const templateSelector = "template#route-input-form-template";
-  const template =
-    document.querySelector<HTMLTemplateElement>(templateSelector);
-
-  if (!template) {
-    const message = `Template querySelector did not return any results for "${templateSelector}".`;
-    throw new Error(message);
-  }
-
-  const formFragment = template.content.cloneNode(true);
-
-  const hostId = "route-input-form-block";
-  const hostElement = document.getElementById(hostId);
-  if (!hostElement) {
-    throw new Error("host element not found");
-  }
-
-  hostElement.append(formFragment);
-
-  const form = hostElement.querySelector("form");
+  const formSelector = "form#route-input-form";
+  const form = document.querySelector<SrmpInputForm>(formSelector);
 
   if (!(form instanceof HTMLFormElement)) {
     console.error("form is not an HTMLFormElement", form);
@@ -189,11 +168,11 @@ export async function createSrmpInputForm() {
   });
 
   // Setup reset action so that it clears the form when clicked.
-  const resetButton = document.body.querySelector<HTMLCalciteActionElement>("#resetFormAction");
+  const resetButton =
+    document.body.querySelector<HTMLCalciteActionElement>("#resetFormAction");
   resetButton?.addEventListener("click", () => {
     form.reset();
-  })
-
+  });
 
   return form;
 }
