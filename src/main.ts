@@ -45,9 +45,20 @@ import Expand from "@arcgis/core/widgets/Expand";
 import Home from "@arcgis/core/widgets/Home";
 import ScaleBar from "@arcgis/core/widgets/ScaleBar";
 import "@esri/calcite-components";
+import "@esri/calcite-components/dist/calcite/calcite.css";
+import { defineCustomElements } from "@esri/calcite-components/dist/loader";
 import "@fontsource/inconsolata";
 import "@fontsource/lato";
 import "@wsdot/web-styles/css/wsdot-colors.css";
+
+// Configure where Calcite assets are loaded from.
+// See https://developers.arcgis.com/calcite-design-system/get-started/#distribution
+//
+// Note that the method described in
+// https://developers.arcgis.com/calcite-design-system/get-started/#custom-elements
+// does not seem to work.
+const calciteAssetPath = `${import.meta.env.BASE_URL}/calcite/assets`;
+defineCustomElements(window, { resourcesUrl: calciteAssetPath });
 
 /**
  * Determines the host environment based on the location hostname.

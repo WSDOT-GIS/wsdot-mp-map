@@ -5,7 +5,7 @@
   "description": "Milepost map written with ArcGIS Maps API for JavaScript",
   "type": "module",
   "scripts": {
-    "prepare": "tsx tools/copy-wsdot-webstyles.ts",
+    "prepare": "tsx tools/copy-wsdot-webstyles.ts && tsx tools/copy-calcite-assets.ts",
     "build": "vite build",
     "watch": "vite build -- --watch",
     "preview": "vite preview",
@@ -20,39 +20,54 @@
     "test:watch": "vitest",
     "spell": "cspell ."
   },
-  "devDependencies": {
+  "overrides": {
+    "eslint": "$eslint"
+  },
+  "dependencies": {
     "@arcgis/core": "^4.30.9",
-    "@eslint/js": "^9.10.0",
-    "@esri/arcgis-rest-request": "^4.2.3",
+    "@esri/calcite-components": "^2.12.2",
+    "@fontsource/inconsolata": "^5.1.0",
+    "@fontsource/lato": "^5.1.0",
     "@fontsource/overpass": "^5.1.0",
+    "@types/geojson": "^7946.0.14",
+    "@wsdot/land-use-codes": "github:WSDOT-GIS/land-use",
+    "@wsdot/web-styles": "github:WSDOT-GIS/wsdot-web-styles",
+    "browser-update": "^3.3.53",
+    "calcite-point-symbols": "github:arcgis/calcite-point-symbols",
+    "dms-conversion": "^3.1.3",
+    "wsdot-route-utils": "^3.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.10.0",
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@tsconfig/node-lts": "^20.1.3",
     "@tsconfig/strictest": "^2.0.5",
     "@types/arcgis-rest-api": "^10.4.8",
     "@types/browser-update": "^3.3.3",
-    "@types/node": "^22.5.4",
-    "@vitest/coverage-istanbul": "^2.1.0",
-    "@vitest/coverage-v8": "^2.1.0",
+    "@types/node": "^22.5.5",
+    "@vitest/coverage-istanbul": "^2.1.1",
+    "@vitest/coverage-v8": "^2.1.1",
     "browserslist-to-esbuild": "^2.1.1",
     "cspell": "^8.14.2",
     "eslint": "^9.10.0",
     "eslint-config-flat-gitignore": "^0.3.0",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-jsdoc": "^50.2.2",
+    "eslint-plugin-jsdoc": "^50.2.3",
     "eslint-plugin-sonarjs": "^2.0.2",
     "jsdom": "^25.0.0",
     "lefthook": "^1.7.15",
-    "msw": "^2.4.5",
+    "msw": "^2.4.7",
     "optionator": "^0.9.4",
     "prettier": "^3.3.3",
+    "svgo": "^3.3.2",
+    "svgson": "^5.3.1",
     "tsx": "^4.19.1",
     "typescript": "^5.6.2",
     "typescript-eslint": "^8.5.0",
-    "vite": "^5.4.4",
+    "vite": "^5.4.5",
     "vite-plugin-checker": "^0.8.0",
     "vite-plugin-static-copy": "^1.0.6",
-    "vitest": "^2.0.5",
-    "wsdot-route-utils": "^3.0.0"
+    "vitest": "^2.1.1"
   },
   "repository": {
     "url": "https://github.com/WSDOT-GIS/wsdot-mp-map.git",
@@ -68,16 +83,5 @@
     "linear-referencing"
   ],
   "author": "Jeff Jacobson",
-  "license": "Unlicense",
-  "dependencies": {
-    "@esri/calcite-components": "^2.12.2",
-    "@fontsource/inconsolata": "^5.1.0",
-    "@fontsource/lato": "^5.1.0",
-    "@types/geojson": "^7946.0.14",
-    "@wsdot/land-use-codes": "github:WSDOT-GIS/land-use",
-    "@wsdot/web-styles": "github:WSDOT-GIS/wsdot-web-styles",
-    "browser-update": "^3.3.53",
-    "calcite-point-symbols": "github:arcgis/calcite-point-symbols",
-    "dms-conversion": "^3.1.3"
-  }
+  "license": "Unlicense"
 }
