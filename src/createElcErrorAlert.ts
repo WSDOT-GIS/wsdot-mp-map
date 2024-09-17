@@ -5,38 +5,53 @@ import { ElcError } from "./elc/errors";
  * @param error - The ElcError object containing error details.
  * @returns The created calcite-alert element.
  */
-export function createElcErrorAlert(error: ElcError): HTMLCalciteAlertElement {
+export function createElcErrorDialog(error: ElcError) {
   // Create the alert element.
-  const cAlert = document.createElement("calcite-alert");
-  cAlert.open = true;
-  cAlert.autoClose = true;
-  cAlert.label = error.message;
-  cAlert.kind = "warning";
+  const cDialog = document.createElement("calcite-dialog");
+  cDialog.open = true;
+  cDialog.kind = "warning";
+  cDialog.placement = "center";
 
-  // Create the title element.
-  const titleElement = document.createElement("div");
-  titleElement.slot = "title";
-  // Add ARM Calc a/o Locating Error message if they exist.
-  let titleContent = [error.ArmCalcReturnMessage, error.LocatingError].filter(
-    (s) => !!s,
-  ) as string[];
-  // Set default message if the array is empty.
-  if (titleContent.length === 0) {
-    titleContent = ["Error"];
+  if (error.routeLocation) {
+    cDialog.heading = `Error locating ${error.routeLocation}`;
+    const p = document.createElement("p");
+    p.append("There was an error locating ", error.routeLocation, ".");
+    cDialog.append(p);
+  } else {
+    cDialog.heading = "Error";
   }
-  titleElement.append(...titleContent);
-  cAlert.append(titleElement);
 
-  // Create the message element.
-  const messageElement = document.createElement("div");
-  messageElement.slot = "message";
-  messageElement.append(error.toString());
+  if (error.ArmCalcReturnCode !== 0) {
+    const armCalcAlert = document.createElement("calcite-block");
+    armCalcAlert.heading = `ARM Calc Error #${error.ArmCalcReturnCode}`;
+    armCalcAlert.iconStart = "calculator";
+    armCalcAlert.open = true;
+    armCalcAlert.append(error.ArmCalcReturnMessage);
+    cDialog.append(armCalcAlert);
+  }
 
-  cAlert.append(messageElement);
+  if (error.LocatingError) {
+    const locatingAlert = document.createElement("calcite-block");
+    locatingAlert.heading = "Locating Error";
+    locatingAlert.iconStart = "exclamation-mark-triangle";
+    locatingAlert.open = true;
+    locatingAlert.append(error.LocatingError);
+    cDialog.append(locatingAlert);
+  }
 
-  const shell = document.querySelector("calcite-shell");
-  shell?.append(cAlert);
-  return cAlert;
+  const hostId = "route-input-form-panel";
+  const hostBlock = document.querySelector<HTMLCalcitePanelElement>(
+    `#${hostId}`,
+  );
+
+  hostBlock?.append(cDialog);
+
+  // Remove the dialog when it is closed, as it is no longer needed.
+  cDialog.addEventListener("calciteDialogClose", () => {
+    cDialog.remove();
+  });
+
+  return cDialog;
 }
 
 /**
@@ -49,10 +64,10 @@ export function createElcErrorAlert(error: ElcError): HTMLCalciteAlertElement {
 export function createErrorAlert(
   error: string | Error,
   alertProperties?: Partial<HTMLCalciteAlertElement>,
-): HTMLCalciteAlertElement {
+) {
   // If the error is an ElcError, create an alert with the error message.
   if (error instanceof ElcError) {
-    return createElcErrorAlert(error);
+    return createElcErrorDialog(error);
   }
   const cAlert = document.createElement("calcite-alert");
   cAlert.open = true;
@@ -90,13 +105,4 @@ export function createErrorAlert(
   const shell = document.querySelector("calcite-shell");
   shell?.append(cAlert);
   return cAlert;
-}
-
-// Setup hot module reloading.
-if (import.meta.hot) {
-  import.meta.hot.accept((newModule) => {
-    if (newModule) {
-      console.log("hot module replacement", newModule);
-    }
-  });
 }

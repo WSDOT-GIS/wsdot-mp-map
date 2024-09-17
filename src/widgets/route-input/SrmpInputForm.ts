@@ -3,7 +3,9 @@ import {
   getRoutes,
   getRoutesFromService,
 } from "./createComboBoxItems";
+import type { CalciteCheckbox } from "@esri/calcite-components/dist/components/calcite-checkbox";
 import type { CalciteCombobox } from "@esri/calcite-components/dist/components/calcite-combobox";
+import type { CalciteInputNumber } from "@esri/calcite-components/dist/components/calcite-input-number";
 import { RouteDescription } from "wsdot-route-utils";
 
 /**
@@ -62,13 +64,19 @@ export interface SrmpInputForm extends HTMLFormElement {
   /**
    * The route input field.
    */
-  route: InstanceType<typeof CalciteCombobox>;
+  route: CalciteCombobox;
   /**
    * The milepost input field.
    */
-  mp: HTMLInputElement;
-  back: HTMLInputElement;
-  decrease: HTMLInputElement;
+  mp: CalciteInputNumber;
+  /**
+   * The back checkbox.
+   */
+  back: CalciteCheckbox;
+  /**
+   * The decrease checkbox.
+   */
+  decrease: CalciteCheckbox;
 
   /*
   addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLOutputElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
@@ -150,7 +158,7 @@ export async function createSrmpInputForm() {
           ? form.route.value
           : form.route.value[0];
       const route = new RouteDescription(routeId);
-      const mp = form.mp.valueAsNumber;
+      const mp = parseFloat(form.mp.value);
       const back = form.back.checked;
       const decrease = form.decrease.checked;
       const customEvent = new CustomEvent("srmp-input", {
@@ -173,6 +181,12 @@ export async function createSrmpInputForm() {
   resetButton?.addEventListener("click", () => {
     form.reset();
   });
+
+  // Turn off loading indicator.
+  const parentBlock = form.parentElement as HTMLCalciteBlockElement | null;
+  if (parentBlock && parentBlock.tagName === "CALCITE-BLOCK") {
+    parentBlock.loading = false;
+  }
 
   return form;
 }

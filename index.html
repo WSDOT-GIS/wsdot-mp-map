@@ -20,8 +20,9 @@
         <span slot="title">%VITE_HEADER_TITLE%</span>
       </wsdot-header>
       <calcite-shell-panel slot="panel-start" id="sidebar">
-        <calcite-panel>
+        <calcite-panel id="route-input-form-panel">
           <calcite-block
+            loading
             id="route-input-form-block"
             heading="Enter State Route & Milepost"
             collapsible
@@ -108,25 +109,104 @@
         </calcite-panel>
       </calcite-shell-panel>
 
-      <div id="viewDiv">
-        <calcite-alert
-          id="instructionsAlert"
-          icon="pin-plus"
-          kind="brand"
-          open="false"
-          auto-close
-          auto-close-duration="medium"
-          label="Instructions"
-          scale="l"
-        >
-          <div slot="title">Instructions</div>
-          <div slot="message">
-            Click on the map near a state route to add a point at the nearest
-            milepost.
-          </div>
-        </calcite-alert>
-      </div>
+      <div id="viewDiv"></div>
       <wsdot-footer slot="footer"></wsdot-footer>
+      <calcite-dialog
+        slot="dialogs"
+        id="disclaimer-dialog"
+        modal
+        kind="info"
+        placement="center"
+        heading="Disclaimer of warranties and limitations of liabilities"
+        description="Read our disclaimer before making use of information on this website."
+      >
+        <p>
+          By making use of any information on this website, you agree to the
+          following:
+        </p>
+
+        <p>
+          WSDOT endeavors to provide reliable information on this website.
+          However, the information is provided on an "as-is" and "as available"
+          basis and may include errors, omissions, or other inaccuracies.
+        </p>
+
+        <p>
+          You assume the sole risk of making use of the information contained on
+          this website. You are advised to not solely rely on the information on
+          this website for any reason.
+        </p>
+
+        <p>
+          No representations, warranties, and/or promises of any kind, expressed
+          or implied, are given as to the nature, standard, accuracy,
+          timeliness, completeness, reliability, legality, or otherwise of the
+          information provided in this website nor to the suitability or
+          otherwise of the information to your particular circumstances. WSDOT
+          expressly disclaims all warranties, express or implied, including,
+          without limitation, any warranty of merchantability, fitness for a
+          particular purpose, or non-infringement or any other implied warranty
+          under the uniform computer information transactions act as enacted by
+          any state. There are no warranties which extend beyond the description
+          hereof.
+        </p>
+
+        <p>
+          WSDOT cannot and will not guarantee that this website is free from
+          computer viruses or anything else that has destructive properties.
+        </p>
+
+        <p>
+          In no event shall WSDOT be liable for any indirect, punitive,
+          incidental, special, or consequential damages including, but not
+          limited to, loss of profits, loss of data, loss of business or other
+          loss arising out of or in any way connected with the use of (or
+          inability to use) this website or from your use of (or failure to use)
+          the information on this site, whether based in contract, negligence,
+          tort, strict liability, or otherwise, even if WSDOT has been advised
+          of the possibility of such damages.
+        </p>
+
+        <p>
+          This website provides links to other websites owned by third parties.
+          The content of such third party sites is not within
+          WSDOT&CloseCurlyQuote;s control, and we cannot and will not take
+          responsibility for the information or content thereon. Links to such
+          third party sites are not to be taken as an endorsement by WSDOT of
+          the third party site, or any information or products promoted, offered
+          or sold on the third party site, nor that such sites are free from
+          computer viruses or anything else that has destructive properties.
+          WSDOT cannot and does not take responsibility for the collection or
+          use of personal data from any third party site. In addition, WSDOT
+          will not accept responsibility for the accuracy, relevancy,
+          timeliness, or completeness of any information or advertising on these
+          third party websites.
+        </p>
+        <footer slot="footer">
+          &copy;
+          <abbr title="Washington State Department of Transportation"
+            >WSDOT</abbr
+          >
+          All Rights Reserved
+        </footer>
+      </calcite-dialog>
+      <calcite-alert
+        slot="alerts"
+        id="instructionsAlert"
+        icon="pin-plus"
+        kind="brand"
+        open="false"
+        auto-close
+        auto-close-duration="medium"
+        label="Instructions"
+        scale="l"
+      >
+        <div slot="title">Instructions</div>
+        <div slot="message">
+          Click on the map near a state route to add a point at the nearest
+          milepost.
+        </div>
+      </calcite-alert>
     </calcite-shell>
     <template id="no-webgl">
       <p>
@@ -134,81 +214,7 @@
         <a href="https://get.webgl.org/webgl2/">WebGL2</a>.
       </p>
     </template>
-    <calcite-dialog
-      slot="dialogs"
-      id="disclaimer-dialog"
-      modal
-      kind="info"
-      placement="center"
-      heading="Disclaimer of warranties and limitations of liabilities"
-      description="Read our disclaimer before making use of information on this website."
-    >
-      <p>
-        By making use of any information on this website, you agree to the
-        following:
-      </p>
 
-      <p>
-        WSDOT endeavors to provide reliable information on this website.
-        However, the information is provided on an "as-is" and "as available"
-        basis and may include errors, omissions, or other inaccuracies.
-      </p>
-
-      <p>
-        You assume the sole risk of making use of the information contained on
-        this website. You are advised to not solely rely on the information on
-        this website for any reason.
-      </p>
-
-      <p>
-        No representations, warranties, and/or promises of any kind, expressed
-        or implied, are given as to the nature, standard, accuracy, timeliness,
-        completeness, reliability, legality, or otherwise of the information
-        provided in this website nor to the suitability or otherwise of the
-        information to your particular circumstances. WSDOT expressly disclaims
-        all warranties, express or implied, including, without limitation, any
-        warranty of merchantability, fitness for a particular purpose, or
-        non-infringement or any other implied warranty under the uniform
-        computer information transactions act as enacted by any state. There are
-        no warranties which extend beyond the description hereof.
-      </p>
-
-      <p>
-        WSDOT cannot and will not guarantee that this website is free from
-        computer viruses or anything else that has destructive properties.
-      </p>
-
-      <p>
-        In no event shall WSDOT be liable for any indirect, punitive,
-        incidental, special, or consequential damages including, but not limited
-        to, loss of profits, loss of data, loss of business or other loss
-        arising out of or in any way connected with the use of (or inability to
-        use) this website or from your use of (or failure to use) the
-        information on this site, whether based in contract, negligence, tort,
-        strict liability, or otherwise, even if WSDOT has been advised of the
-        possibility of such damages.
-      </p>
-
-      <p>
-        This website provides links to other websites owned by third parties.
-        The content of such third party sites is not within
-        WSDOT&CloseCurlyQuote;s control, and we cannot and will not take
-        responsibility for the information or content thereon. Links to such
-        third party sites are not to be taken as an endorsement by WSDOT of the
-        third party site, or any information or products promoted, offered or
-        sold on the third party site, nor that such sites are free from computer
-        viruses or anything else that has destructive properties. WSDOT cannot
-        and does not take responsibility for the collection or use of personal
-        data from any third party site. In addition, WSDOT will not accept
-        responsibility for the accuracy, relevancy, timeliness, or completeness
-        of any information or advertising on these third party websites.
-      </p>
-      <footer slot="footer">
-        &copy;
-        <abbr title="Washington State Department of Transportation">WSDOT</abbr>
-        All Rights Reserved
-      </footer>
-    </calcite-dialog>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
