@@ -187,6 +187,14 @@ export async function createSrmpInputForm() {
       event.preventDefault();
     }
   });
+
+  // Setup reset action so that it clears the form when clicked.
+  const resetButton = document.body.querySelector<HTMLCalciteActionElement>("#resetFormAction");
+  resetButton?.addEventListener("click", () => {
+    form.reset();
+  })
+
+
   return form;
 }
 

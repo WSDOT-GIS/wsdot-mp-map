@@ -72,18 +72,20 @@
                   ></calcite-checkbox
                   >Back</calcite-label
                 >
-                <calcite-button
-                  type="reset"
-                  kind="neutral"
-                  title="Click this button to clear the form input controls."
-                  >Reset</calcite-button
-                >
+                <div class="btn-container">
                 <calcite-button
                   type="submit"
                   title="Click this button to find this route + milepost and add a point to the map."
+                  alignment="center"
+                  width="full"
                   >Submit</calcite-button
                 >
+                </div>
               </form>
+              <calcite-action id="resetFormAction" slot="control" icon="reset" text="Reset form" label="Reset form"></calcite-action>
+              
+              <calcite-tooltip id="resetFormTooltip" reference-element="resetFormAction">Click this button to clear the form input controls.</calcite-tooltip>
+              <calcite-tooltip reference-element="backInput">Check this box if the SRMP is back mileage.</calcite-tooltip>
             </template>
           </calcite-block>
           <calcite-block heading="Layer List" collapsible>
