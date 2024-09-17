@@ -5,6 +5,7 @@
   "files.readonlyInclude": {
     "**/dist/**/*.*": true,
     "**/node_modules/**/*": true,
+    "dist/**/*": true,
     "src/wsdot-web-styles/**/*": true
   },
   "json.schemas": [
