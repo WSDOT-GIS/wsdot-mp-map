@@ -56,7 +56,7 @@
     "eslint-plugin-sonarjs": "^2.0.2",
     "jsdom": "^25.0.0",
     "lefthook": "^1.7.15",
-    "msw": "^2.4.7",
+    "msw": "^2.4.8",
     "optionator": "^0.9.4",
     "prettier": "^3.3.3",
     "svgo": "^3.3.2",
