@@ -1,3 +1,4 @@
+import replaceTitleWithTooltip from "../../replace-title-with-tooltip";
 import {
   getComboboxItems,
   getRoutes,
@@ -187,6 +188,8 @@ export async function createSrmpInputForm() {
   if (parentBlock && parentBlock.tagName === "CALCITE-BLOCK") {
     parentBlock.loading = false;
   }
+
+  replaceTitleWithTooltip(form);
 
   return form;
 }
