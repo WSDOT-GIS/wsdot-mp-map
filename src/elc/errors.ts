@@ -101,8 +101,18 @@ export class ElcError extends Error implements ElcErrorResponse {
   }
 
   override toString() {
-    let message = "";
+    let message = this.routeLocation ?? "";
 
+    if (this.LocatingError) {
+      message += ` ${this.LocatingError}`;
+    } else if (this.ArmCalcReturnCode !== 0) {
+      message += ` ${this.ArmCalcReturnCode.toString()}: ${this.ArmCalcReturnMessage}`;
+    }
+    return message;
+  }
+
+  public get routeLocation() {
+    let message = "";
     if (this.Route) {
       message += `${this.Route}${this.Decrease ? " (Decrease)" : ""}`;
     }
@@ -112,13 +122,7 @@ export class ElcError extends Error implements ElcErrorResponse {
     if (this.Arm != null) {
       message += ` (ARM: ${this.Arm.toString()})`;
     }
-
-    if (this.LocatingError) {
-      message += ` ${this.LocatingError}`;
-    } else if (this.ArmCalcReturnCode !== 0) {
-      message += ` ${this.ArmCalcReturnCode.toString()}: ${this.ArmCalcReturnMessage}`;
-    }
-    return message;
+    return message || null;
   }
 }
 
