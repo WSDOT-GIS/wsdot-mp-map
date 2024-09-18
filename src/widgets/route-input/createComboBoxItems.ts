@@ -98,11 +98,6 @@ export function* getComboboxItems(routes: Map<string, string[]>) {
     element.guid = routeId;
     element.value = routeId;
     element.heading = routeId;
-    /*
-    This is the text that is shown in the combobox after 
-    the item has been selected and the combobox is closed.
-    */
-    element.shortHeading = routeId;
     element.append(routeId);
     element.dataset.directions = directions.join("");
     yield element;
