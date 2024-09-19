@@ -33,6 +33,7 @@ Rrts
 snagmp
 sonarjs
 SRMP
+svgson
 trivago
 tseslint
 Vite
