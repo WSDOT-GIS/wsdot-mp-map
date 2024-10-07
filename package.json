@@ -25,7 +25,7 @@
     "@esri/calcite-components": "^2.12.2",
     "@fontsource/inconsolata": "^5.1.0",
     "@fontsource/lato": "^5.1.0",
-    "@fontsource/overpass": "^5.1.0",
+    "@fontsource/overpass": "^5.1.1",
     "@types/geojson": "^7946.0.14",
     "@wsdot/land-use-codes": "github:WSDOT-GIS/land-use",
     "@wsdot/web-styles": "github:WSDOT-GIS/wsdot-web-styles",
