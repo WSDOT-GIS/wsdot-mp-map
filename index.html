@@ -10,10 +10,22 @@
       content="Locates mileposts along Washington State Routes, as defined by the Washington State Department of Transportation's Linear Referencing System."
     />
     <meta name="theme-color" content="#007b5f" />
+    <!-- 
+    Contitionally load either the light or dark theme depending on user's settings.
+    See https://blog.jim-nielsen.com/2019/conditional-syntax-highlighting-in-dark-mode-with-css-imports/
+     -->
     <link
       rel="stylesheet"
-      href="https://js.arcgis.com/4.30/esri/themes/light/main.css"
+      media="screen and (prefers-color-scheme: light)"
+      href="https://js.arcgis.com/4.30/@arcgis/core/assets/esri/themes/light/main.css"
       integrity="sha512-m7Wod7wsdYFE06xTAx1QAb9LU4CNi6a/1yNAOxVgiYNdDotRtzHlxyVLJbczOvmHvVhxEkDphoo5IfwmfRL+dg=="
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      media="screen and (prefers-color-scheme: dark)"
+      href="https://js.arcgis.com/4.30/@arcgis/core/assets/esri/themes/dark/main.css"
+      integrity="sha512-RRnmJsBUqxT7K/iSou9AizXClv8ny5/CiIoBcZDGYPjeCYaJ2T7d1CmC1RXsJgvxKs1htjCnfJx/+CIpOnj9gw=="
       crossorigin="anonymous"
     />
     <title>%VITE_TITLE%</title>
