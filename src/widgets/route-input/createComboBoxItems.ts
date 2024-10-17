@@ -98,12 +98,15 @@ export function* getComboboxItems(routes: Map<string, string[]>) {
     element.guid = routeId;
     element.value = routeId;
     element.heading = routeId;
+    element.label = routeId;
     /*
-    This is the text that is shown in the combobox after 
-    the item has been selected and the combobox is closed.
+    Use "text-label" instead of "shortHeading".
+    "shortHeading" will add an extra column
+    to the calcite-combobox-item that we don't
+    want.
     */
-    element.shortHeading = routeId;
-    element.append(routeId);
+    element.setAttribute("text-label", routeId);
+    // element.shortHeading = routeId;
     element.dataset.directions = directions.join("");
     yield element;
   }
