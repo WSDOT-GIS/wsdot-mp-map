@@ -19,7 +19,7 @@ function createCalciteAlert() {
   messageElement.append(message);
   messageElement.slot = "message";
   alert.append(messageElement);
-  return alert;
+  return { alert, messageElement };
 }
 
 /**
@@ -27,8 +27,9 @@ function createCalciteAlert() {
  * @param view - The map view to set up popup actions for.
  */
 export function setupPopupActions(view: __esri.MapView) {
-  const alert = createCalciteAlert();
+  const { alert, messageElement } = createCalciteAlert();
   document.body.append(alert);
+
   const copyPointToClipboard = (point: __esri.Point) => {
     const { spatialReference } = point;
     if (spatialReference.isWebMercator) {
@@ -40,9 +41,10 @@ export function setupPopupActions(view: __esri.MapView) {
     }
 
     const { x, y } = point;
+    messageElement.textContent = `Copied ${[y, x].map((x) => x.toFixed(3)).join(",")} to clipboard.`;
 
     navigator.clipboard
-      .writeText([x, y].join(","))
+      .writeText([y, x].join(","))
       .then(() => {
         /* __PURE__ */ console.debug("Copied coordinates to clipboard.");
         alert.open = true;
