@@ -5,7 +5,7 @@
 	"description": "Milepost map written with ArcGIS Maps API for JavaScript",
 	"type": "module",
 	"scripts": {
-		"prepare": "tsx tools/copy-wsdot-webstyles.ts && tsx tools/copy-calcite-assets.ts",
+		"copy-files": "tsx tools/copy-wsdot-webstyles.ts && tsx tools/copy-calcite-assets.ts",
 		"build": "vite build",
 		"watch": "vite build -- --watch",
 		"preview": "vite preview",
@@ -29,7 +29,6 @@
 		"@wsdot/land-use-codes": "github:WSDOT-GIS/land-use",
 		"@wsdot/web-styles": "github:WSDOT-GIS/wsdot-web-styles",
 		"browser-update": "^3.3.54",
-		"calcite-point-symbols": "github:arcgis/calcite-point-symbols",
 		"dms-conversion": "^3.1.3",
 		"wsdot-route-utils": "^3.0.0"
 	},
@@ -66,5 +65,6 @@
 		"linear-referencing"
 	],
 	"author": "Jeff Jacobson",
-	"license": "Unlicense"
+	"license": "Unlicense",
+	"packageManager": "pnpm@9.12.2+sha512.22721b3a11f81661ae1ec68ce1a7b879425a1ca5b991c975b074ac220b187ce56c708fe5db69f4c962c989452eee76c82877f4ee80f474cebd61ee13461b6228"
 }
