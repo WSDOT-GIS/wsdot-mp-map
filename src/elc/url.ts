@@ -26,10 +26,10 @@ import { padRoute } from "../utils";
 import { routeLocationToGraphic } from "./arcgis";
 import { ElcError } from "./errors";
 import type {
-  FindNearestRouteLocationParameters,
-  FindRouteLocationParameters,
-  ValidRouteLocationForMPInput,
-  RouteGeometry,
+	FindNearestRouteLocationParameters,
+	FindRouteLocationParameters,
+	RouteGeometry,
+	ValidRouteLocationForMPInput,
 } from "./types";
 
 type UrlParamMapKey = "sr" | "rrt" | "rrq" | "dir" | "mp";
@@ -38,46 +38,46 @@ type UrlParamMapKey = "sr" | "rrt" | "rrq" | "dir" | "mp";
  * Regular expression patterns to validate URL parameters.
  */
 const keyRegExps = new Map([
-  ["sr", /^(?:(?:SR)|(?:route))/i],
-  ["rrt", /^R{1,2}T/i],
-  ["rrq", /^R{1,2}Q/i],
-  ["dir", /^D(?:IR)?/i],
-  ["mp", /^(?:SR)?MP/i],
+	["sr", /^(?:(?:SR)|(?:route))/i],
+	["rrt", /^R{1,2}T/i],
+	["rrq", /^R{1,2}Q/i],
+	["dir", /^D(?:IR)?/i],
+	["mp", /^(?:SR)?MP/i],
 ] as const);
 
 /**
  * Regular expression patterns to validate URL parameter values.
  */
 const valueRegExps = new Map([
-  ["sr", /^\d{1,3}$/],
-  ["rrt", /^[A-Z0-9]{0,2}$/i],
-  ["rrq", /^[A-Z0-9]{0,6}$/i],
-  ["dir", /^[ID]/i],
-  /**
-   * Regular expression pattern to validate and extract milepost information from a string.
-   * It expects a numeric value that can be an integer or a decimal, and an optional 'B' character
-   * indicating back mileage if present.
-   *
-   * The match will have the following groups:
-   * - `mp` - The numeric value of the milepost
-   * - `back` - The 'B' character if present
-   * @example
-   * // matches "123", "123.45", "123B", "123.45B"
-   */
-  ["mp", /^(?<mp>\d+(?:\.\d+)?)(?<back>B)?$/i],
+	["sr", /^\d{1,3}$/],
+	["rrt", /^[A-Z0-9]{0,2}$/i],
+	["rrq", /^[A-Z0-9]{0,6}$/i],
+	["dir", /^[ID]/i],
+	/**
+	 * Regular expression pattern to validate and extract milepost information from a string.
+	 * It expects a numeric value that can be an integer or a decimal, and an optional 'B' character
+	 * indicating back mileage if present.
+	 *
+	 * The match will have the following groups:
+	 * - `mp` - The numeric value of the milepost
+	 * - `back` - The 'B' character if present
+	 * @example
+	 * // matches "123", "123.45", "123B", "123.45B"
+	 */
+	["mp", /^(?<mp>\d+(?:\.\d+)?)(?<back>B)?$/i],
 ] as const);
 
 type KeyValueRegExpTuple = [keyRegexp: RegExp, valueRegexp: RegExp];
 
 const regExpMap = new Map<UrlParamMapKey, KeyValueRegExpTuple>(
-  [...keyRegExps.entries()].map(([key, value]) => [
-    key,
-    [
-      value,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      valueRegExps.get(key)!,
-    ],
-  ]),
+	[...keyRegExps.entries()].map(([key, value]) => [
+		key,
+		[
+			value,
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			valueRegExps.get(key)!,
+		],
+	]),
 );
 
 /**
@@ -88,51 +88,51 @@ const regExpMap = new Map<UrlParamMapKey, KeyValueRegExpTuple>(
  * @throws {ReferenceError} If the key is not found.
  */
 export function getUrlSearchParameter(
-  urlParams: URLSearchParams,
-  key: UrlParamMapKey,
+	urlParams: URLSearchParams,
+	key: UrlParamMapKey,
 ) {
-  // Retrieve the regular expression tuple from the regExpMap based on the key.
-  const reTuple = regExpMap.get(key);
-  if (!reTuple) {
-    const keyList = [...regExpMap.keys()].map((k) => `"${k}"`).join(", ");
-    const valueReList = [...regExpMap.values()]
-      .map(([k]) => k.source)
-      .join(", ");
-    // If the key is not found, throw a ReferenceError with the key.
-    throw new ReferenceError(
-      `Invalid URL parameter key: ${key}. Valid values are ${keyList}. Alternative values are ${valueReList}.`,
-    );
-  }
+	// Retrieve the regular expression tuple from the regExpMap based on the key.
+	const reTuple = regExpMap.get(key);
+	if (!reTuple) {
+		const keyList = [...regExpMap.keys()].map((k) => `"${k}"`).join(", ");
+		const valueReList = [...regExpMap.values()]
+			.map(([k]) => k.source)
+			.join(", ");
+		// If the key is not found, throw a ReferenceError with the key.
+		throw new ReferenceError(
+			`Invalid URL parameter key: ${key}. Valid values are ${keyList}. Alternative values are ${valueReList}.`,
+		);
+	}
 
-  const [keyRe, valueRe] = reTuple;
-  let output: string | null = null;
+	const [keyRe, valueRe] = reTuple;
+	let output: string | null = null;
 
-  // Iterate over each key-value pair in the URL search parameters.
-  for (const [k, v] of urlParams.entries()) {
-    // If the key does not match the regular expression, continue to the next iteration.
-    if (!keyRe.test(k)) {
-      continue;
-    }
+	// Iterate over each key-value pair in the URL search parameters.
+	for (const [k, v] of urlParams.entries()) {
+		// If the key does not match the regular expression, continue to the next iteration.
+		if (!keyRe.test(k)) {
+			continue;
+		}
 
-    // Execute the value regular expression on the value.
-    const valueMatch = valueRe.exec(v);
+		// Execute the value regular expression on the value.
+		const valueMatch = valueRe.exec(v);
 
-    // If there is a match, assign the value to the output variable and break the loop.
-    if (valueMatch) {
-      output = valueMatch[0];
-      break;
-    } else {
-      // Throw error if there is no match.
-      throw new FormatError(
-        v,
-        valueRe,
-        `Invalid URL parameter value for key: ${k}: ${v}.\nValue needs to match ${valueRe}.`,
-      );
-    }
-  }
+		// If there is a match, assign the value to the output variable and break the loop.
+		if (valueMatch) {
+			output = valueMatch[0];
+			break;
+		} else {
+			// Throw error if there is no match.
+			throw new FormatError(
+				v,
+				valueRe,
+				`Invalid URL parameter value for key: ${k}: ${v}.\nValue needs to match ${valueRe}.`,
+			);
+		}
+	}
 
-  // Return the output value.
-  return output;
+	// Return the output value.
+	return output;
 }
 
 /**
@@ -142,29 +142,29 @@ export function getUrlSearchParameter(
  * @see {@link populateUrlParameters} for example usage.
  */
 export function* enumerateUrlParameters(
-  parameters: FindNearestRouteLocationParameters | FindRouteLocationParameters,
+	parameters: FindNearestRouteLocationParameters | FindRouteLocationParameters,
 ): Generator<[key: string, value: string], void> {
-  yield ["f", "json"];
-  for (const [key, value] of Object.entries(parameters)) {
-    if (typeof value === "string") {
-      yield [key, value];
-      continue;
-    } else if (value == null) {
-      continue;
-    }
-    let outValue: string;
-    if (value instanceof Date) {
-      // Convert date to string format described here:
-      // https://tools.ietf.org/html/rfc3339#section-5.6
-      outValue = value.toISOString().replace(/T.+$/, "");
-    } else if (Array.isArray(value)) {
-      outValue = JSON.stringify(value);
-    } else {
-      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-      outValue = `${value}`;
-    }
-    yield [key, outValue];
-  }
+	yield ["f", "json"];
+	for (const [key, value] of Object.entries(parameters)) {
+		if (typeof value === "string") {
+			yield [key, value];
+			continue;
+		} else if (value == null) {
+			continue;
+		}
+		let outValue: string;
+		if (value instanceof Date) {
+			// Convert date to string format described here:
+			// https://tools.ietf.org/html/rfc3339#section-5.6
+			outValue = value.toISOString().replace(/T.+$/, "");
+		} else if (Array.isArray(value)) {
+			outValue = JSON.stringify(value);
+		} else {
+			// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+			outValue = `${value}`;
+		}
+		yield [key, outValue];
+	}
 }
 
 /**
@@ -174,13 +174,13 @@ export function* enumerateUrlParameters(
  * @returns - {@link requestUrl}, now with the URL parameters populated.
  */
 export function populateUrlParameters(
-  parameters: FindNearestRouteLocationParameters | FindRouteLocationParameters,
-  requestUrl: URL,
+	parameters: FindNearestRouteLocationParameters | FindRouteLocationParameters,
+	requestUrl: URL,
 ) {
-  for (const [key, value] of enumerateUrlParameters(parameters)) {
-    requestUrl.searchParams.set(key, value);
-  }
-  return requestUrl;
+	for (const [key, value] of enumerateUrlParameters(parameters)) {
+		requestUrl.searchParams.set(key, value);
+	}
+	return requestUrl;
 }
 
 /**
@@ -204,37 +204,37 @@ export function populateUrlParameters(
  * @returns - The parsed milepost and back indicator
  */
 function parseSrmp(mp: string): { srmp: number; back: boolean } {
-  // Retrieve the regular expression from the valueRegExps mapping
-  const mpValueRegexp = valueRegExps.get("mp");
+	// Retrieve the regular expression from the valueRegExps mapping
+	const mpValueRegexp = valueRegExps.get("mp");
 
-  // Throw an error if the regular expression is not present in the mapping
-  if (!mpValueRegexp) {
-    throw new TypeError(
-      `No regular expression found for key 'mp' in valueRegExps`,
-    );
-  }
+	// Throw an error if the regular expression is not present in the mapping
+	if (!mpValueRegexp) {
+		throw new TypeError(
+			`No regular expression found for key 'mp' in valueRegExps`,
+		);
+	}
 
-  // Attempt to match the input string against the regular expression
-  const match = mpValueRegexp.exec(mp);
+	// Attempt to match the input string against the regular expression
+	const match = mpValueRegexp.exec(mp);
 
-  // Throw a FormatError if the string does not match the regular expression
-  if (!(match && match.length >= 2 && match.groups)) {
-    throw new FormatError(
-      mp,
-      mpValueRegexp,
-      "The URL does not have valid milepost information.",
-    );
-  }
+	// Throw a FormatError if the string does not match the regular expression
+	if (!(match && match.length >= 2 && match.groups)) {
+		throw new FormatError(
+			mp,
+			mpValueRegexp,
+			"The URL does not have valid milepost information.",
+		);
+	}
 
-  // Parse the milepost value from the named capture group "mp"
-  const srmp = Number.parseFloat(match.groups.mp);
+	// Parse the milepost value from the named capture group "mp"
+	const srmp = Number.parseFloat(match.groups.mp);
 
-  // If there is a named capture group "back" with a value of "B", set the
-  // back indicator to true. Otherwise, set it to false.
-  const back = /B/i.test(match.groups.back);
+	// If there is a named capture group "back" with a value of "B", set the
+	// back indicator to true. Otherwise, set it to false.
+	const back = /B/i.test(match.groups.back);
 
-  // Return the milepost and back indicator
-  return { srmp, back };
+	// Return the milepost and back indicator
+	return { srmp, back };
 }
 
 /**
@@ -244,51 +244,51 @@ function parseSrmp(mp: string): { srmp: number; back: boolean } {
  * @returns Location object with route, milepost, direction, and date information
  */
 export function getElcParamsFromUrl(
-  url: string | URL | URLSearchParams = window.location.href,
+	url: string | URL | URLSearchParams = window.location.href,
 ): ValidRouteLocationForMPInput<Date, RouteGeometry> | null {
-  // If the URL is a URL object, use its search params.
-  let searchParams: URLSearchParams;
-  if (url instanceof URL) {
-    searchParams = url.searchParams;
-  } else if (url instanceof URLSearchParams) {
-    searchParams = url;
-  } else {
-    // If string is empty or otherwise falsy, return null.
-    if (!url) {
-      return null;
-    }
-    searchParams = /^https?:\/\//.test(url)
-      ? new URL(url).searchParams
-      : new URLSearchParams(url);
-  }
+	// If the URL is a URL object, use its search params.
+	let searchParams: URLSearchParams;
+	if (url instanceof URL) {
+		searchParams = url.searchParams;
+	} else if (url instanceof URLSearchParams) {
+		searchParams = url;
+	} else {
+		// If string is empty or otherwise falsy, return null.
+		if (!url) {
+			return null;
+		}
+		searchParams = /^https?:\/\//.test(url)
+			? new URL(url).searchParams
+			: new URLSearchParams(url);
+	}
 
-  let sr = getUrlSearchParameter(searchParams, "sr");
-  const mp = getUrlSearchParameter(searchParams, "mp");
+	let sr = getUrlSearchParameter(searchParams, "sr");
+	const mp = getUrlSearchParameter(searchParams, "mp");
 
-  if (!sr || !mp) {
-    return null;
-  }
-  sr = padRoute(sr);
+	if (!sr || !mp) {
+		return null;
+	}
+	sr = padRoute(sr);
 
-  const rrt = getUrlSearchParameter(searchParams, "rrt") ?? "";
-  const rrq = getUrlSearchParameter(searchParams, "rrq") ?? "";
-  const { srmp, back } = parseSrmp(mp);
+	const rrt = getUrlSearchParameter(searchParams, "rrt") ?? "";
+	const rrq = getUrlSearchParameter(searchParams, "rrq") ?? "";
+	const { srmp, back } = parseSrmp(mp);
 
-  const direction = getUrlSearchParameter(searchParams, "dir") ?? "i";
+	const direction = getUrlSearchParameter(searchParams, "dir") ?? "i";
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+	const today = new Date();
+	today.setHours(0, 0, 0, 0);
 
-  const route = `${sr}${rrt}${rrq}`;
+	const route = `${sr}${rrt}${rrq}`;
 
-  return {
-    Route: route,
-    Srmp: srmp,
-    Back: back,
-    Decrease: /dD/i.test(direction),
-    ReferenceDate: today,
-    ResponseDate: today,
-  };
+	return {
+		Route: route,
+		Srmp: srmp,
+		Back: back,
+		Decrease: /dD/i.test(direction),
+		ReferenceDate: today,
+		ResponseDate: today,
+	};
 }
 
 /**
@@ -300,30 +300,30 @@ export function getElcParamsFromUrl(
  * @throws - {@link ElcError} if the URL contains invalid route and milepost information
  */
 export async function callElcFromUrl(
-  milepostLayer: __esri.FeatureLayer,
-  options: Pick<FindRouteLocationParameters, "outSR"> = { outSR: 3857 },
+	milepostLayer: __esri.FeatureLayer,
+	options: Pick<FindRouteLocationParameters, "outSR"> = { outSR: 3857 },
 ) {
-  const routeLocation = getElcParamsFromUrl();
+	const routeLocation = getElcParamsFromUrl();
 
-  if (!routeLocation) {
-    return null;
-  }
+	if (!routeLocation) {
+		return null;
+	}
 
-  const elcResults = await findRouteLocations({
-    locations: [routeLocation],
-    outSR: options.outSR,
-  });
+	const elcResults = await findRouteLocations({
+		locations: [routeLocation],
+		outSR: options.outSR,
+	});
 
-  if (elcResults.length < 1) {
-    return null;
-  }
+	if (elcResults.length < 1) {
+		return null;
+	}
 
-  const location = elcResults[0];
-  if (location instanceof ElcError) {
-    throw location;
-  }
+	const location = elcResults[0];
+	if (location instanceof ElcError) {
+		throw location;
+	}
 
-  const graphic = routeLocationToGraphic(location);
+	const graphic = routeLocationToGraphic(location);
 
-  return addGraphicsToLayer(milepostLayer, [graphic]);
+	return addGraphicsToLayer(milepostLayer, [graphic]);
 }

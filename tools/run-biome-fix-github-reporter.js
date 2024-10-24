@@ -41,7 +41,7 @@ function fixFileInProblem(s) {
 		let fixedPath = substring.replace(/%3A/gi, ":");
 		fixedPath = relative(current, fixedPath);
 		return fixedPath;
-	})
+	});
 }
 
 const promisifiedExec = promisify(exec);

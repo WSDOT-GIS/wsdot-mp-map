@@ -1,80 +1,80 @@
 :root {
-  font-family: "Lato", "Avenir Next", Avenir, "Helvetica Neue", sans-serif;
+	font-family: "Lato", "Avenir Next", Avenir, "Helvetica Neue", sans-serif;
 }
 
 .calcite-mode-auto,
 .calcite-mode-light,
 .calcite-mode-dark {
-  --calcite-color-brand: var(--wsdot-logo-green);
+	--calcite-color-brand: var(--wsdot-logo-green);
 }
 
 wsdot-header {
-  display: none;
+	display: none;
 }
 
 @media screen and (min-width: 777px) {
-  wsdot-header {
-    display: block;
-  }
+	wsdot-header {
+		display: block;
+	}
 }
 
 #wsdot-logo {
-  fill: var(--wsdot-logo-green);
-  margin-right: 1rem;
+	fill: var(--wsdot-logo-green);
+	margin-right: 1rem;
 }
 
 html,
 body,
 #viewDiv {
-  padding: 0;
-  margin: 0;
-  height: 100%;
-  width: 100%;
+	padding: 0;
+	margin: 0;
+	height: 100%;
+	width: 100%;
 }
 
 body {
-  display: flex;
+	display: flex;
 }
 
 calcite-loader {
-  align-self: center;
-  justify-self: center;
+	align-self: center;
+	justify-self: center;
 }
 
 #header-title {
-  margin-left: 1rem;
-  margin-right: 1rem;
+	margin-left: 1rem;
+	margin-right: 1rem;
 }
 
 #info-content {
-  padding: 0.75rem;
+	padding: 0.75rem;
 }
 
 calcite-rating {
-  margin-top: 0.25rem;
+	margin-top: 0.25rem;
 }
 
 .popup-link-list {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-flow: row;
-  row-gap: 0.5rem;
-  column-gap: 0.5rem;
-  grid-row: auto;
-  flex-wrap: wrap;
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	flex-flow: row;
+	row-gap: 0.5rem;
+	column-gap: 0.5rem;
+	grid-row: auto;
+	flex-wrap: wrap;
 
-  > li {
-    padding: 0.2rem 0.5rem;
-    background-color: var(--wsdot-logo-green);
-    border-radius: 5px;
-    > a {
-      color: white;
-    }
-  }
+	> li {
+		padding: 0.2rem 0.5rem;
+		background-color: var(--wsdot-logo-green);
+		border-radius: 5px;
+		> a {
+			color: white;
+		}
+	}
 }
 
 .esri-feature__content-element {
-  margin-bottom: auto;
+	margin-bottom: auto;
 }

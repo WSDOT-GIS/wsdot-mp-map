@@ -1,8 +1,8 @@
 import {
-  ArcGisError,
-  ElcError,
-  isArcGisErrorResponse,
-  isElcErrorResponse,
+	ArcGisError,
+	ElcError,
+	isArcGisErrorResponse,
+	isElcErrorResponse,
 } from "./errors";
 
 /**
@@ -13,28 +13,28 @@ import {
  * @returns The processed value, with empty strings converted to `null`.
  */
 export function elcReviver<T>(
-  this: ThisType<T>,
-  _key: string,
-  value: unknown,
+	this: ThisType<T>,
+	_key: string,
+	value: unknown,
 ): unknown {
-  if (isArcGisErrorResponse(value)) {
-    return new ArcGisError(value);
-  }
-  // Convert empty strings to null.
-  if (value === "") {
-    return null;
-  }
-  if (isElcErrorResponse(value)) {
-    return new ElcError(value);
-  }
-  return value;
+	if (isArcGisErrorResponse(value)) {
+		return new ArcGisError(value);
+	}
+	// Convert empty strings to null.
+	if (value === "") {
+		return null;
+	}
+	if (isElcErrorResponse(value)) {
+		return new ElcError(value);
+	}
+	return value;
 }
 
 // Setup hot module reloading.
 if (import.meta.hot) {
-  import.meta.hot.accept((newModule) => {
-    if (newModule) {
-      console.log("hot module replacement", newModule);
-    }
-  });
+	import.meta.hot.accept((newModule) => {
+		if (newModule) {
+			console.log("hot module replacement", newModule);
+		}
+	});
 }

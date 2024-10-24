@@ -1,194 +1,186 @@
 {
-  "version": "2.0.0",
-  "tasks": [
-    {
-      "label": "build",
-      "detail": "Production build",
-      "icon": {
-        "id": "package",
-        "color": "terminal.ansiGreen"
-      },
-      "type": "shell",
-      "command": "npm run build",
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      },
-      "problemMatcher": [
-        "$tsc"
-      ]
-    },
-    {
-      "label": "vite dev",
-      "detail": "vite",
-      "icon": {
-        "id": "tools",
-        "color": "terminal.ansiCyan"
-      },
-      "type": "npm",
-      "script": "dev",
-      "presentation": {
-        "group": "watch"
-      },
-      "problemMatcher": [
-        "$tsc-watch",
-      ]
-    },
-    {
-      "label": "vite preview",
-      "detail": "vite preview",
-      "icon": {
-        "id": "browser",
-        "color": "terminal.ansiMagenta"
-      },
-      "type": "npm",
-      "script": "preview",
-      "problemMatcher": []
-    },
-    {
-      "label": "TypeScript: Watch",
-      "detail": "Starts TypeScript file watcher",
-      "type": "typescript",
-      "isBackground": true,
-      "icon": {
-        "id": "eye-watch",
-        "color": "terminal.ansiCyan"
-      },
-      "tsconfig": "tsconfig.json",
-      "option": "watch",
-      "presentation": {
-        "echo": true,
-        "group": "watch",
-        "reveal": "silent",
-        "focus": false,
-        "panel": "shared",
-        "showReuseMessage": true,
-        "clear": false
-      },
-      "problemMatcher": [
-        "$tsc-watch"
-      ],
-      "group": "build"
-    },
-    {
-      "label": "Open built site with dotnet-serve",
-      "icon": {
-        "id": "browser",
-        "color": "terminal.ansiYellow"
-      },
-      "type": "shell",
-      "command": "dotnet serve",
-      "presentation": {
-        "echo": true,
-        "reveal": "silent",
-        "focus": false,
-        "panel": "shared",
-        "close": true,
-        "showReuseMessage": true,
-        "clear": false
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "Publish to gh-pages",
-      "detail": "Uses the \"gh-pages\" tool to publish the site to Github Pages.",
-      "icon": {
-        "id": "github",
-        "color": "terminal.ansiRed"
-      },
-      "type": "npm",
-      "script": "publish",
-      "problemMatcher": []
-    },
-    {
-      "label": "biome check github reporter",
-      "detail": "Run biome check with github reporter",
-      "type": "process",
-      "command": "node",
-      "args": [
-        "${workspaceFolder}/tools/run-biome-fix-github-reporter.js"
-      ],
-      "problemMatcher": [
-        {
-          "pattern": [
-            {
-              "regexp": "^::(?<severity>\\S+)\\s+title=(?<title>.+),file=(?<file>.+),line=(?<line>\\d+),endLine=(?<endLine>\\d+),col=(?<col>\\d+),endColumn=(?<endColumn>\\d+)::(?<message>.+)$",
-              "severity": 1,
-              "code": 2,
-              "file": 3,
-              "line": 4,
-              "endLine": 5,
-              "column": 6,
-              "endColumn": 7,
-              "message": 8,
-              "kind": "file and line"
-            }
-          ],
-          "source": "biome",
-          "applyTo": "allDocuments"
-        }
-      ]
-    },
-    {
-      "type": "npm",
-      "script": "test",
-      "group": {
-        "kind": "test",
-        "isDefault": true
-      },
-      "problemMatcher": [],
-      "label": "npm: test",
-      "detail": "vitest run"
-    },
-    {
-      "type": "npm",
-      "script": "spell",
-      "problemMatcher": [],
-      "label": "npm: spell",
-      "detail": "cspell ."
-    },
-    {
-      "label": "Test (watch)",
-      "type": "npm",
-      "script": "test:watch",
-      "presentation": {
-        "group": "watch"
-      }
-    },
-    {
-      "type": "npm",
-      "script": "build-and-preview",
-      "group": "build",
-      "isBackground": true,
-      "icon": {
-        "id": "preview",
-        "color": "terminal.ansiRed"
-      },
-      "problemMatcher": [],
-      "label": "Vite production build and preview"
-    },
-    {
-      "type": "npm",
-      "script": "clean",
-      "problemMatcher": [],
-      "label": "Clean folder",
-      "icon": {
-        "id": "trash",
-        "color": "terminal.ansiGreen"
-      },
-      "detail": "Removes all files that are not stored in the repo, except for \"node_modules/**\" \".mailmap\"."
-    },
-    {
-      "type": "shell",
-      "label": "Vite build watch",
-      "command": "npx vite build --watch",
-      "group": "build",
-      "isBackground": true,
-      "icon": {
-        "id": "eye-watch",
-        "color": "terminal.ansiCyan"
-      },
-      "problemMatcher": []
-    }
-  ]
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "build",
+			"detail": "Production build",
+			"icon": {
+				"id": "package",
+				"color": "terminal.ansiGreen"
+			},
+			"type": "shell",
+			"command": "npm run build",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": ["$tsc"]
+		},
+		{
+			"label": "vite dev",
+			"detail": "vite",
+			"icon": {
+				"id": "tools",
+				"color": "terminal.ansiCyan"
+			},
+			"type": "npm",
+			"script": "dev",
+			"presentation": {
+				"group": "watch"
+			},
+			"problemMatcher": ["$tsc-watch"]
+		},
+		{
+			"label": "vite preview",
+			"detail": "vite preview",
+			"icon": {
+				"id": "browser",
+				"color": "terminal.ansiMagenta"
+			},
+			"type": "npm",
+			"script": "preview",
+			"problemMatcher": []
+		},
+		{
+			"label": "TypeScript: Watch",
+			"detail": "Starts TypeScript file watcher",
+			"type": "typescript",
+			"isBackground": true,
+			"icon": {
+				"id": "eye-watch",
+				"color": "terminal.ansiCyan"
+			},
+			"tsconfig": "tsconfig.json",
+			"option": "watch",
+			"presentation": {
+				"echo": true,
+				"group": "watch",
+				"reveal": "silent",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false
+			},
+			"problemMatcher": ["$tsc-watch"],
+			"group": "build"
+		},
+		{
+			"label": "Open built site with dotnet-serve",
+			"icon": {
+				"id": "browser",
+				"color": "terminal.ansiYellow"
+			},
+			"type": "shell",
+			"command": "dotnet serve",
+			"presentation": {
+				"echo": true,
+				"reveal": "silent",
+				"focus": false,
+				"panel": "shared",
+				"close": true,
+				"showReuseMessage": true,
+				"clear": false
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Publish to gh-pages",
+			"detail": "Uses the \"gh-pages\" tool to publish the site to Github Pages.",
+			"icon": {
+				"id": "github",
+				"color": "terminal.ansiRed"
+			},
+			"type": "npm",
+			"script": "publish",
+			"problemMatcher": []
+		},
+		{
+			"label": "biome check github reporter",
+			"detail": "Run biome check with github reporter",
+			"type": "process",
+			"command": "node",
+			"args": ["${workspaceFolder}/tools/run-biome-fix-github-reporter.js"],
+			"problemMatcher": [
+				{
+					"pattern": [
+						{
+							"regexp": "^::(?<severity>\\S+)\\s+title=(?<title>.+),file=(?<file>.+),line=(?<line>\\d+),endLine=(?<endLine>\\d+),col=(?<col>\\d+),endColumn=(?<endColumn>\\d+)::(?<message>.+)$",
+							"severity": 1,
+							"code": 2,
+							"file": 3,
+							"line": 4,
+							"endLine": 5,
+							"column": 6,
+							"endColumn": 7,
+							"message": 8,
+							"kind": "file and line"
+						}
+					],
+					"source": "biome",
+					"applyTo": "allDocuments"
+				}
+			]
+		},
+		{
+			"type": "npm",
+			"script": "test",
+			"group": {
+				"kind": "test",
+				"isDefault": true
+			},
+			"problemMatcher": [],
+			"label": "npm: test",
+			"detail": "vitest run"
+		},
+		{
+			"type": "npm",
+			"script": "spell",
+			"problemMatcher": [],
+			"label": "npm: spell",
+			"detail": "cspell ."
+		},
+		{
+			"label": "Test (watch)",
+			"type": "npm",
+			"script": "test:watch",
+			"presentation": {
+				"group": "watch"
+			}
+		},
+		{
+			"type": "npm",
+			"script": "build-and-preview",
+			"group": "build",
+			"isBackground": true,
+			"icon": {
+				"id": "preview",
+				"color": "terminal.ansiRed"
+			},
+			"problemMatcher": [],
+			"label": "Vite production build and preview"
+		},
+		{
+			"type": "npm",
+			"script": "clean",
+			"problemMatcher": [],
+			"label": "Clean folder",
+			"icon": {
+				"id": "trash",
+				"color": "terminal.ansiGreen"
+			},
+			"detail": "Removes all files that are not stored in the repo, except for \"node_modules/**\" \".mailmap\"."
+		},
+		{
+			"type": "shell",
+			"label": "Vite build watch",
+			"command": "npx vite build --watch",
+			"group": "build",
+			"isBackground": true,
+			"icon": {
+				"id": "eye-watch",
+				"color": "terminal.ansiCyan"
+			},
+			"problemMatcher": []
+		}
+	]
 }

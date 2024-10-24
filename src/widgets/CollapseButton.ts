@@ -7,48 +7,50 @@ import type MapView from "@arcgis/core/views/MapView";
  * @throws {Error} If the sidebar element cannot be found.
  */
 export function setupSidebarCollapseButton(view: MapView) {
-  const sideBar = document.querySelector<HTMLCalciteShellPanelElement>(
-    "calcite-shell-panel#sidebar",
-  );
+	const sideBar = document.querySelector<HTMLCalciteShellPanelElement>(
+		"calcite-shell-panel#sidebar",
+	);
 
-  if (!sideBar) {
-    throw new Error("Failed to find sidebar element");
-  }
+	if (!sideBar) {
+		throw new Error("Failed to find sidebar element");
+	}
 
-  // <calcite-button id="toggleSidebarButton" text="Toggle Sidebar" icon="collapse"></calcite-button>
-  const collapseButton = document.createElement("calcite-button");
-  collapseButton.setAttribute("id", "toggleSidebarButton");
-  collapseButton.setAttribute("text", "Toggle Sidebar");
-  collapseButton.setAttribute("icon", "collapse");
-  collapseButton.addEventListener("click", () => {
-    sideBar.collapsed = !sideBar.collapsed;
-    setSidebarToggleIcon();
-  });
+	// <calcite-button id="toggleSidebarButton" text="Toggle Sidebar" icon="collapse"></calcite-button>
+	const collapseButton = document.createElement("calcite-button");
+	collapseButton.setAttribute("id", "toggleSidebarButton");
+	collapseButton.setAttribute("text", "Toggle Sidebar");
+	collapseButton.setAttribute("icon", "collapse");
+	collapseButton.addEventListener("click", () => {
+		sideBar.collapsed = !sideBar.collapsed;
+		setSidebarToggleIcon();
+	});
 
-  // Set sidebar collapsed to false if document width is greater than or equal to 768px.
-  const threshold = Number.parseInt(import.meta.env.VITE_WIDTH_THRESHOLD_IN_PIXELS);
-  if (window.outerWidth >= threshold) {
-    sideBar.collapsed = false;
-  }
+	// Set sidebar collapsed to false if document width is greater than or equal to 768px.
+	const threshold = Number.parseInt(
+		import.meta.env.VITE_WIDTH_THRESHOLD_IN_PIXELS,
+	);
+	if (window.outerWidth >= threshold) {
+		sideBar.collapsed = false;
+	}
 
-  view.ui.add(collapseButton, "top-leading");
+	view.ui.add(collapseButton, "top-leading");
 
-  const setSidebarToggleIcon = () => {
-    collapseButton.iconStart = sideBar.collapsed
-      ? "chevrons-right"
-      : "chevrons-left";
-  };
+	const setSidebarToggleIcon = () => {
+		collapseButton.iconStart = sideBar.collapsed
+			? "chevrons-right"
+			: "chevrons-left";
+	};
 
-  // When the popup is opened, collapse the sidebar if the screen is small.
-  watch(
-    () => view.popup.visible,
-    (visible) => {
-      if (visible && window.outerWidth < threshold) {
-        sideBar.collapsed = true;
-        setSidebarToggleIcon();
-      }
-    },
-  );
+	// When the popup is opened, collapse the sidebar if the screen is small.
+	watch(
+		() => view.popup.visible,
+		(visible) => {
+			if (visible && window.outerWidth < threshold) {
+				sideBar.collapsed = true;
+				setSidebarToggleIcon();
+			}
+		},
+	);
 
-  setSidebarToggleIcon();
+	setSidebarToggleIcon();
 }

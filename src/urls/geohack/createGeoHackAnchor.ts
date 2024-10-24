@@ -6,13 +6,13 @@ import { createGeoHackUrl } from ".";
  * @returns - An <a> with an href of a GeoHack URL with text indicating the location.
  */
 export function createGeoHackAnchor(
-  ...ghParams: Parameters<typeof createGeoHackUrl>
+	...ghParams: Parameters<typeof createGeoHackUrl>
 ) {
-  const url = createGeoHackUrl(...ghParams);
-  const a = document.createElement("a");
-  a.href = url.toString();
-  a.text = `Geohack`;
-  a.target = "_blank";
+	const url = createGeoHackUrl(...ghParams);
+	const a = document.createElement("a");
+	a.href = url.toString();
+	a.text = `Geohack`;
+	a.target = "_blank";
 
-  return a;
+	return a;
 }
