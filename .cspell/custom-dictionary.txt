@@ -2,6 +2,7 @@
 ArcGIS
 Avenir
 bbox
+biomejs
 brotli
 cobertura
 dirents
