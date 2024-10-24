@@ -146,9 +146,8 @@ export function updateHash(url: URL, view: __esri.MapView | __esri.SceneView) {
 	const mapPositionHash = createMapPositionHash(view);
 	if (match) {
 		return url.hash.replace(mapPositionHashRe, mapPositionHash);
-	} else {
-		return mapPositionHash + url.hash;
 	}
+	return mapPositionHash + url.hash;
 }
 
 export class MapPositionHash implements MapPosition {

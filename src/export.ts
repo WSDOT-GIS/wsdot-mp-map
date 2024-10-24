@@ -15,24 +15,26 @@ export function convertArcGisGeometryToGeoJson(geometry: __esri.Geometry) {
 			coordinates: [geometry.x, geometry.y],
 			type: "Point",
 		} as GJ.Point;
-	} else if (hasPoints(geometry)) {
+	}
+	if (hasPoints(geometry)) {
 		return {
 			coordinates: geometry.points,
 			type: "MultiPoint",
 		} as GJ.MultiPoint;
-	} else if (hasPaths(geometry)) {
+	}
+	if (hasPaths(geometry)) {
 		if (geometry.paths.length === 1) {
 			return {
 				coordinates: geometry.paths[0],
 				type: "LineString",
 			} as GJ.LineString;
-		} else {
-			return {
-				coordinates: geometry.paths,
-				type: "MultiLineString",
-			} as GJ.MultiLineString;
 		}
-	} else if (hasRings(geometry)) {
+		return {
+			coordinates: geometry.paths,
+			type: "MultiLineString",
+		} as GJ.MultiLineString;
+	}
+	if (hasRings(geometry)) {
 		return {
 			coordinates: (geometry as __esri.Polygon).rings,
 			type: "Polygon",
@@ -62,7 +64,7 @@ export function convertArcGisGraphicToGeoJson<
 		// null & undefined even though eslint says it is
 		// unnecessary.
 		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-		id: isNaN(oid) || oid == null ? undefined : oid,
+		id: Number.isNaN(oid) || oid == null ? undefined : oid,
 		geometry: gjGeometry,
 		properties: properties,
 		type: "Feature",

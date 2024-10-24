@@ -22,7 +22,7 @@ function hasListItem(event: unknown): event is LayerListItemCreateEvent {
 const setupLayerListItems: __esri.LayerListListItemCreatedHandler = (event) => {
 	if (!hasListItem(event)) {
 		throw new TypeError(
-			`Expected event object to have an item property with a ListItem value`,
+			"Expected event object to have an item property with a ListItem value",
 		);
 	}
 	// Add a legend to the list item panel

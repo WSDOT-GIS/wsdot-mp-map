@@ -67,9 +67,11 @@ defineCustomElements(window, { resourcesUrl: calciteAssetPath });
 function getHostEnvironment() {
 	if (/^[^.]+qa\b/i.test(location.hostname)) {
 		return "QA";
-	} else if (/\bgithub\.io\b/i.test(location.hostname)) {
+	}
+	if (/\bgithub\.io\b/i.test(location.hostname)) {
 		return "GitHub Pages";
-	} else if (/^localhost\b/i.test(location.hostname)) {
+	}
+	if (/^localhost\b/i.test(location.hostname)) {
 		return "Local";
 	}
 	return null;
@@ -91,9 +93,8 @@ const updateNonProductionTitle = () => {
 	if (!environment) {
 		/* __PURE__ */ console.debug("No non-production environment detected.");
 		return environment;
-	} else {
-		/* __PURE__ */ console.debug(`Non production environment: ${environment}`);
 	}
+	/* __PURE__ */ console.debug(`Non production environment: ${environment}`);
 
 	const suffix = ` - ${environment}`;
 	document.title += suffix;
@@ -231,7 +232,8 @@ function testWebGL2Support() {
 	if (window.WebGL2RenderingContext) {
 		return true;
 		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-	} else if (window.WebGLRenderingContext && !window.WebGL2RenderingContext) {
+	}
+	if (window.WebGLRenderingContext && !window.WebGL2RenderingContext) {
 		console.error(
 			"your browser has WebGL support, but no WebGL2 support at all",
 		);
@@ -483,17 +485,15 @@ if (!testWebGL2Support()) {
 			const tempAddResults = await tempLayer.applyEdits({
 				addFeatures: [tempGraphic],
 			});
-
-			tempAddResults.addFeatureResults.forEach((r) => {
-				// r.error CAN be null. Esri's type def. is wrong.
-				// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-				if (r.error != null) {
+			for (const addResult of tempAddResults.addFeatureResults) {
+				// addResult.error CAN be null. Esri's type def. is wrong.
+				if (addResult.error != null) {
 					console.error(
 						"There was an error adding the temporary graphic where the user clicked.",
-						r.error,
+						addResult.error,
 					);
 				}
-			});
+			}
 
 			// Call findNearestRouteLocations
 			try {

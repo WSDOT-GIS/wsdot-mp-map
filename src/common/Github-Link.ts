@@ -62,9 +62,8 @@ export function getGithubUrlFromGithubPages(
 	if (!match) {
 		if (throwErrorOnMismatch) {
 			throw new Error("Could not parse source URL from this page");
-		} else {
-			return null;
 		}
+		return null;
 	}
 	const [org, repo] = [...match].slice(1).map((s) => s.toLowerCase());
 	return `https://github.com/${org}/${repo}`;
@@ -95,9 +94,8 @@ export function getGithubPagesUrlFromGithubRepoUrl(
 	if (!match) {
 		if (throwErrorOnMismatch) {
 			throw new Error("Could not parse repo URL");
-		} else {
-			return null;
 		}
+		return null;
 	}
 	const [org, repo] = [...match].slice(1).map((s) => s.toLowerCase());
 	return `https://${org}.github.io/${repo}`;

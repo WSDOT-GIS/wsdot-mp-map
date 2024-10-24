@@ -59,7 +59,8 @@ export function createAppLocationLink(
 
 		if (value == null) {
 			continue;
-		} else if (typeof value !== "string") {
+		}
+		if (typeof value !== "string") {
 			value = value.toString();
 		}
 		if (key === "Route") {

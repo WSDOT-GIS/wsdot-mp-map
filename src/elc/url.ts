@@ -121,14 +121,13 @@ export function getUrlSearchParameter(
 		if (valueMatch) {
 			output = valueMatch[0];
 			break;
-		} else {
-			// Throw error if there is no match.
-			throw new FormatError(
-				v,
-				valueRe,
-				`Invalid URL parameter value for key: ${k}: ${v}.\nValue needs to match ${valueRe}.`,
-			);
 		}
+		// Throw error if there is no match.
+		throw new FormatError(
+			v,
+			valueRe,
+			`Invalid URL parameter value for key: ${k}: ${v}.\nValue needs to match ${valueRe}.`,
+		);
 	}
 
 	// Return the output value.
@@ -149,7 +148,8 @@ export function* enumerateUrlParameters(
 		if (typeof value === "string") {
 			yield [key, value];
 			continue;
-		} else if (value == null) {
+		}
+		if (value == null) {
 			continue;
 		}
 		let outValue: string;

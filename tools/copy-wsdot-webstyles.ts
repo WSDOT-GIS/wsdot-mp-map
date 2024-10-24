@@ -1,6 +1,6 @@
-import { dirname, join } from "path";
-import { fileURLToPath } from "url";
-import { cp, mkdir } from "fs/promises";
+import { cp, mkdir } from "node:fs/promises";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 
 const rootDirPath = dirname(dirname(fileURLToPath(import.meta.url)));
 const destinationFolder = join(rootDirPath, "src", "wsdot-web-styles");

@@ -143,7 +143,8 @@ export async function findNearestRouteLocations(
 
 	if (!result.length) {
 		return result;
-	} else if (result.length > 1) {
+	}
+	if (result.length > 1) {
 		console.warn(`Expected 1 result, got ${result.length.toString()}.`);
 	}
 

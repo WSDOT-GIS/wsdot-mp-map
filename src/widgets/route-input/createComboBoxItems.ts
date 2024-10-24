@@ -55,11 +55,11 @@ function getRouteShieldIconName(
 ): `${`${"wa" | "us"}-route` | "interstate"}-shield` {
 	if (/^I/i.test(shield)) {
 		return "interstate-shield";
-	} else if (/^US$/i.test(shield)) {
-		return "us-route-shield";
-	} else {
-		return "wa-route-shield";
 	}
+	if (/^US$/i.test(shield)) {
+		return "us-route-shield";
+	}
+	return "wa-route-shield";
 }
 
 /**

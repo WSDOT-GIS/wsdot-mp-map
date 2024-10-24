@@ -11,7 +11,7 @@ export function createGeoHackAnchor(
 	const url = createGeoHackUrl(...ghParams);
 	const a = document.createElement("a");
 	a.href = url.toString();
-	a.text = `Geohack`;
+	a.text = "Geohack";
 	a.target = "_blank";
 
 	return a;

@@ -79,7 +79,8 @@ function convertToString(
   */
 	if (value === null) {
 		return options.nullString;
-	} else if (value === undefined) {
+	}
+	if (value === undefined) {
 		return options.undefinedString;
 	}
 
@@ -90,14 +91,16 @@ function convertToString(
 		}
 		// Join the array values with a comma.
 		return value.map((v) => convertToString(v)).join(",");
-	} else if (
+	}
+	if (
 		typeof value === "number" ||
 		typeof value === "boolean" ||
 		typeof value === "bigint"
 	) {
 		// Convert numbers and booleans to strings.
 		return value.toString();
-	} else if (
+	}
+	if (
 		Object.hasOwn(value, "toString") &&
 		typeof value.toString === "function"
 	) {
@@ -108,9 +111,8 @@ function convertToString(
 			return JSON.stringify(value);
 		}
 		return valueAsString;
-	} else {
-		return String(value);
 	}
+	return String(value);
 }
 
 type URLConstructorParameters = ConstructorParameters<typeof URL>;

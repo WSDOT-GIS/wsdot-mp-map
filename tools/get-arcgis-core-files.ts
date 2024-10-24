@@ -26,7 +26,8 @@ export async function* getArcGisFiles(
 		const filePath = join(dirEnt.parentPath, dirEnt.name);
 		if (!dirEnt.isFile()) {
 			return `${filePath} is not a file`;
-		} else if (excludeRegExes != null) {
+		}
+		if (excludeRegExes != null) {
 			for (const re of excludeRegExes) {
 				if (re.test(filePath)) {
 					return `${filePath} matches ${re.source}`;
