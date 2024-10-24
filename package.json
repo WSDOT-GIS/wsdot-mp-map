@@ -13,8 +13,7 @@
     "clean": "git clean -dfx --exclude \"node_modules/**\" --exclude \".mailmap\" --exclude \".env.local\"",
     "dev": "vite",
     "dev-browserstack": "vite --host",
-    "lint": "eslint . --fix",
-    "prettier": "prettier . --write",
+    "lint": "biome check .",
     "publish": "npm run build && node tools/publish.mjs",
     "test": "vitest run --bail 1",
     "test:watch": "vitest",
@@ -22,7 +21,7 @@
   },
   "dependencies": {
     "@arcgis/core": "^4.30.9",
-    "@esri/calcite-components": "^2.13.1",
+    "@esri/calcite-components": "^2.13.2",
     "@fontsource/inconsolata": "^5.1.0",
     "@fontsource/lato": "^5.1.0",
     "@fontsource/overpass": "^5.1.1",
@@ -35,7 +34,7 @@
     "wsdot-route-utils": "^3.0.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
+    "@biomejs/biome": "1.9.4",
     "@types/arcgis-rest-api": "^10.4.8",
     "@types/browser-update": "^3.3.3",
     "@types/node": "^22.7.9",
@@ -44,7 +43,7 @@
     "browserslist-to-esbuild": "^2.1.1",
     "cspell": "^8.15.4",
     "jsdom": "^25.0.1",
-    "msw": "^2.5.0",
+    "msw": "^2.5.1",
     "optionator": "^0.9.4",
     "svgo": "^3.3.2",
     "svgson": "^5.3.1",

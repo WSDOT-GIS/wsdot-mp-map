@@ -1,5 +1,15 @@
 {
-  "typescript.tsdk": "node_modules\\typescript\\lib",
+  "[javascript]": {
+    "editor.formatOnPaste": false,
+    "editor.formatOnSave": false,
+    "editor.formatOnType": false,
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "editor.codeActionsOnSave": {
+    "quickfix.biome": "explicit",
+    "source.organizeImports.biome": "explicit"
+  },
+  "editor.defaultFormatter": "biomejs.biome",
   "editor.formatOnSave": true,
   "files.readonlyFromPermissions": true,
   "files.readonlyInclude": {
@@ -8,6 +18,9 @@
     "dist/**/*": true,
     "src/wsdot-web-styles/**/*": true
   },
+  "html.customData": [
+    "./node_modules/@esri/calcite-components/dist/extras/vscode-data.json"
+  ],
   "json.schemas": [
     {
       "fileMatch": [
@@ -17,30 +30,20 @@
       "url": "https://raw.githubusercontent.com/raineorshine/npm-check-updates/main/src/types/RunOptions.json"
     }
   ],
+  "typescript.tsdk": "node_modules\\typescript\\lib",
   "yaml.schemas": {
-    "https://raw.githubusercontent.com/raineorshine/npm-check-updates/main/src/types/RunOptions.json": [
-      ".ncurc.yml"
-    ],
-    "https://json.schemastore.org/lefthook.json": [
-      "lefthook.yml"
+    "https://json.schemastore.org/dependabot-2.0.json": [
+      ".github/dependabot.yml"
     ],
     "https://json.schemastore.org/github-workflow.json": [
       ".github/workflows/node.js.yml"
     ],
-    "https://json.schemastore.org/dependabot-2.0.json": [
-      ".github/dependabot.yml"
+    "https://json.schemastore.org/lefthook.json": [
+      "lefthook.yml"
+    ],
+    "https://raw.githubusercontent.com/raineorshine/npm-check-updates/main/src/types/RunOptions.json": [
+      ".ncurc.yml"
     ]
   },
-  "editor.codeActionsOnSave": {
-    "source.fixAll": "explicit",
-    "organizeImports": "explicit"
-  },
-  "[javascript]": {
-    "editor.formatOnSave": false,
-    "editor.formatOnType": false,
-    "editor.formatOnPaste": false
-  },
-  "html.customData": [
-    "./node_modules/@esri/calcite-components/dist/extras/vscode-data.json"
-  ]
+  "biome.rename": true
 }

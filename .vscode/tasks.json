@@ -14,7 +14,9 @@
         "kind": "build",
         "isDefault": true
       },
-      "problemMatcher": ["$tsc"]
+      "problemMatcher": [
+        "$tsc"
+      ]
     },
     {
       "label": "vite dev",
@@ -28,7 +30,9 @@
       "presentation": {
         "group": "watch"
       },
-      "problemMatcher": ["$tsc-watch", "$eslint-compact", "$eslint-stylish"]
+      "problemMatcher": [
+        "$tsc-watch",
+      ]
     },
     {
       "label": "vite preview",
@@ -61,7 +65,9 @@
         "showReuseMessage": true,
         "clear": false
       },
-      "problemMatcher": ["$tsc-watch"],
+      "problemMatcher": [
+        "$tsc-watch"
+      ],
       "group": "build"
     },
     {
@@ -95,23 +101,33 @@
       "problemMatcher": []
     },
     {
-      "label": "Lint",
-      "detail": "Runs ESLint via NPM \"lint\" script",
-      "type": "npm",
-      "script": "lint",
-      "icon": {
-        "id": "checklist",
-        "color": "terminal.ansiYellow"
-      },
-      "problemMatcher": ["$eslint-stylish"],
-      "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": false,
-        "panel": "shared",
-        "showReuseMessage": true,
-        "clear": true
-      }
+      "label": "biome check github reporter",
+      "detail": "Run biome check with github reporter",
+      "type": "process",
+      "command": "node",
+      "args": [
+        "${workspaceFolder}/tools/run-biome-fix-github-reporter.js"
+      ],
+      "problemMatcher": [
+        {
+          "pattern": [
+            {
+              "regexp": "^::(?<severity>\\S+)\\s+title=(?<title>.+),file=(?<file>.+),line=(?<line>\\d+),endLine=(?<endLine>\\d+),col=(?<col>\\d+),endColumn=(?<endColumn>\\d+)::(?<message>.+)$",
+              "severity": 1,
+              "code": 2,
+              "file": 3,
+              "line": 4,
+              "endLine": 5,
+              "column": 6,
+              "endColumn": 7,
+              "message": 8,
+              "kind": "file and line"
+            }
+          ],
+          "source": "biome",
+          "applyTo": "allDocuments"
+        }
+      ]
     },
     {
       "type": "npm",
