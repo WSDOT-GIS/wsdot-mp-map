@@ -10,7 +10,10 @@
   },
   "json.schemas": [
     {
-      "fileMatch": [".ncurc", ".ncurc.json"],
+      "fileMatch": [
+        ".ncurc",
+        ".ncurc.json"
+      ],
       "url": "https://raw.githubusercontent.com/raineorshine/npm-check-updates/main/src/types/RunOptions.json"
     }
   ],
@@ -18,7 +21,9 @@
     "https://raw.githubusercontent.com/raineorshine/npm-check-updates/main/src/types/RunOptions.json": [
       ".ncurc.yml"
     ],
-    "https://json.schemastore.org/lefthook.json": ["lefthook.yml"],
+    "https://json.schemastore.org/lefthook.json": [
+      "lefthook.yml"
+    ],
     "https://json.schemastore.org/github-workflow.json": [
       ".github/workflows/node.js.yml"
     ],
@@ -35,9 +40,6 @@
     "editor.formatOnType": false,
     "editor.formatOnPaste": false
   },
-  "eslint.useFlatConfig": true,
-  "eslint.lintTask.enable": true,
-  "eslint.useESLintClass": true,
   "html.customData": [
     "./node_modules/@esri/calcite-components/dist/extras/vscode-data.json"
   ]

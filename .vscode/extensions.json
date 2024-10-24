@@ -14,6 +14,7 @@
     "esri.arcgis-jsapi-snippets",
     "ldez.ignore-files",
     "bierner.jsdoc-markdown-highlighting",
-    "ms-azure-devops.azure-pipelines"
+    "ms-azure-devops.azure-pipelines",
+    "biomejs.biome"
   ]
 }
