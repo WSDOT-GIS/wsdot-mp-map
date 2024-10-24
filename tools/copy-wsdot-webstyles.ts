@@ -17,6 +17,7 @@ await mkdir(destinationFolder, { recursive: true });
 // Copy the files from the @wsdot/web-styles package into the destination folder.
 await cp(wsdotWebStylesFolder, destinationFolder, {
 	preserveTimestamps: true,
+	dereference: true,
 	recursive: true,
 	filter: (src) => {
 		// Exclude package.json and README.md.
