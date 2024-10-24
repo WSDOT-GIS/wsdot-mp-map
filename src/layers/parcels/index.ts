@@ -16,7 +16,7 @@ export function createParcelsGroupLayer(): GroupLayer {
 
   const waTechErrorHandler = waTechParcelsLayer.on(
     "layerview-create-error",
-    function (event) {
+    (event) => {
       const { error } = event;
       console.error(
         `Error creating WA Tech Parcels layer: ${error.message}`,

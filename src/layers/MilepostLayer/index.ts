@@ -18,7 +18,7 @@ import { SimpleMarkerSymbol } from "@arcgis/core/symbols";
 
 type FieldProperties = Required<ConstructorParameters<typeof Field>>[0];
 
-export const enum fieldNames {
+export enum fieldNames {
   Route = "Route",
   Srmp = "Srmp",
   Back = "Back",

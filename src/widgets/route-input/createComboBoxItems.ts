@@ -84,7 +84,7 @@ export function* getComboboxItems(routes: Map<string, string[]>) {
     const icon = routeDescription.shield
       ? getRouteShieldIconName(routeDescription.shield)
       : null;
-    element.description = `${shield}${parseInt(routeDescription.sr)}`;
+    element.description = `${shield}${Number.parseInt(routeDescription.sr)}`;
     if (routeDescription.rrt) {
       element.description += ` ${routeDescription.rrtDescription}`;
       if (routeDescription.rrq) {

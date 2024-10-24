@@ -582,7 +582,7 @@ if (!testWebGL2Support()) {
           milepostLayer,
           elcGraphics,
         );
-        const scale = parseFloat(import.meta.env.VITE_ZOOM_SCALE);
+        const scale = Number.parseFloat(import.meta.env.VITE_ZOOM_SCALE);
         const viewpoint = new Viewpoint({
           scale,
           targetGeometry: addedFeatures.at(0)?.geometry,

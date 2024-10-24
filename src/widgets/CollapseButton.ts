@@ -26,7 +26,7 @@ export function setupSidebarCollapseButton(view: MapView) {
   });
 
   // Set sidebar collapsed to false if document width is greater than or equal to 768px.
-  const threshold = parseInt(import.meta.env.VITE_WIDTH_THRESHOLD_IN_PIXELS);
+  const threshold = Number.parseInt(import.meta.env.VITE_WIDTH_THRESHOLD_IN_PIXELS);
   if (window.outerWidth >= threshold) {
     sideBar.collapsed = false;
   }

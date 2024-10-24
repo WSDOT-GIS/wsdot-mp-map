@@ -87,7 +87,7 @@ export type UIAddPositionPosition = NonNullable<
 /**
  * An enumeration of {@link UIAddPositionPosition} values.
  */
-export const enum UIAddPositions {
+export enum UIAddPositions {
   bottomLeading = "bottom-leading",
   bottomLeft = "bottom-left",
   bottomRight = "bottom-right",

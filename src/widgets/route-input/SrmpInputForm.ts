@@ -159,7 +159,7 @@ export async function createSrmpInputForm() {
           ? form.route.value
           : form.route.value[0];
       const route = new RouteDescription(routeId);
-      const mp = parseFloat(form.mp.value);
+      const mp = Number.parseFloat(form.mp.value);
       const back = form.back.checked;
       const decrease = form.decrease.checked;
       const customEvent = new CustomEvent("srmp-input", {

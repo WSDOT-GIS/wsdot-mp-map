@@ -227,7 +227,7 @@ function parseSrmp(mp: string): { srmp: number; back: boolean } {
   }
 
   // Parse the milepost value from the named capture group "mp"
-  const srmp = parseFloat(match.groups.mp);
+  const srmp = Number.parseFloat(match.groups.mp);
 
   // If there is a named capture group "back" with a value of "B", set the
   // back indicator to true. Otherwise, set it to false.

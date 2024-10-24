@@ -1,5 +1,5 @@
 import type { AttributeValue } from "../common/arcgis/typesAndInterfaces";
-import { XAndY, type AttributesObject, type TypedGraphic } from "../types";
+import type { XAndY, AttributesObject, TypedGraphic } from "../types";
 import type Graphic from "@arcgis/core/Graphic";
 import Point from "@arcgis/core/geometry/Point";
 

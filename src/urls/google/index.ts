@@ -133,7 +133,7 @@ export class GoogleUrl extends URL implements Pick<GoogleMapsUrlOptions, "ll"> {
     if (llStrings.length < 2) {
       return undefined;
     }
-    return llStrings.map((s) => parseFloat(s)).slice(0, 1) as LatLngTuple;
+    return llStrings.map((s) => Number.parseFloat(s)).slice(0, 1) as LatLngTuple;
   }
 
   /**

@@ -90,13 +90,13 @@ export function parseMapPositionHash(
   const { groups } = match;
 
   return {
-    zoom: parseFloat(groups.zoom),
-    center: [parseFloat(groups.centerX), parseFloat(groups.centerY)] as [
+    zoom: Number.parseFloat(groups.zoom),
+    center: [Number.parseFloat(groups.centerX), Number.parseFloat(groups.centerY)] as [
       x: number,
       y: number,
     ],
-    bearing: parseFloat(groups.bearing),
-    pitch: parseFloat(groups.pitch),
+    bearing: Number.parseFloat(groups.bearing),
+    pitch: Number.parseFloat(groups.pitch),
   };
 }
 

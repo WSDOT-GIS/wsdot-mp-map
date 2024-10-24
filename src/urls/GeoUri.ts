@@ -1,6 +1,6 @@
 export type UncertaintyName = "u" | "U";
 export type CrsName = "crs" | "CRS";
-export const enum CrsLabel {
+export enum CrsLabel {
   wgs84 = "wgs84",
 }
 

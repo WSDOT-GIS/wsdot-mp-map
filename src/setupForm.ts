@@ -52,7 +52,7 @@ export async function setupForm(view: MapView, milepostLayer: FeatureLayer) {
 
         const viewpoint = new Viewpoint({
           targetGeometry: point,
-          scale: parseFloat(import.meta.env.VITE_ZOOM_SCALE),
+          scale: Number.parseFloat(import.meta.env.VITE_ZOOM_SCALE),
         });
 
         await view.openPopup({

@@ -1,7 +1,7 @@
 import NotImplementedError from "./common/NotImplementedError";
 import { hasXAndY, hasPaths, hasPoints, hasRings } from "./types";
 import type Graphic from "@arcgis/core/Graphic";
-import FeatureSet from "@arcgis/core/rest/support/FeatureSet";
+import type FeatureSet from "@arcgis/core/rest/support/FeatureSet";
 import type * as GJ from "geojson";
 
 /**
