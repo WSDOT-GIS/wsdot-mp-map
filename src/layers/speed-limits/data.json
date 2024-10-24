@@ -1,295 +1,295 @@
 {
-  "layers": [
-    {
-      "layerDefinition": {
-        "featureReduction": null,
-        "drawingInfo": {
-          "labelingInfo": [
-            {
-              "labelExpressionInfo": {
-                "expression": "`${$feature[\"SpeedLimit\"]} mph`",
-                "title": "MPH Label"
-              },
-              "labelPlacement": "esriServerLinePlacementCenterAlong",
-              "maxScale": 0,
-              "minScale": 436033.287329,
-              "repeatLabel": true,
-              "symbol": {
-                "type": "esriTS",
-                "color": [247, 247, 247, 255],
-                "font": {
-                  "family": "Arial",
-                  "size": 9.75
-                },
-                "horizontalAlignment": "center",
-                "kerning": true,
-                "haloColor": [38, 38, 38, 255],
-                "haloSize": 1,
-                "rotated": false,
-                "text": "",
-                "verticalAlignment": "baseline",
-                "xoffset": 0,
-                "yoffset": 0,
-                "angle": 0
-              }
-            }
-          ],
-          "renderer": {
-            "authoringInfo": {
-              "visualVariables": [
-                {
-                  "maxSliderValue": 70,
-                  "minSliderValue": 20,
-                  "theme": "high-to-low",
-                  "type": "colorInfo"
-                }
-              ]
-            },
-            "type": "classBreaks",
-            "visualVariables": [
-              {
-                "type": "colorInfo",
-                "field": "SpeedLimit",
-                "stops": [
-                  {
-                    "color": [255, 43, 24, 102],
-                    "value": 32
-                  },
-                  {
-                    "color": [245, 201, 38, 102],
-                    "value": 37.5
-                  },
-                  {
-                    "color": [125, 253, 148, 102],
-                    "value": 43
-                  },
-                  {
-                    "color": [28, 194, 253, 102],
-                    "value": 48.5
-                  },
-                  {
-                    "color": [88, 19, 252, 102],
-                    "value": 54
-                  }
-                ]
-              },
-              {
-                "type": "sizeInfo",
-                "valueExpression": "$view.scale",
-                "stops": [
-                  {
-                    "size": 2.154840860215053,
-                    "value": 72223.819286
-                  },
-                  {
-                    "size": 1.0774204301075265,
-                    "value": 577790.554289
-                  },
-                  {
-                    "size": 0.8080653225806449,
-                    "value": 4622324.434309
-                  },
-                  {
-                    "size": 0.5387102150537633,
-                    "value": 36978595.474472
-                  }
-                ]
-              }
-            ],
-            "classBreakInfos": [
-              {
-                "classMaxValue": 9007199254740991,
-                "symbol": {
-                  "type": "esriSLS",
-                  "color": [170, 170, 170, 255],
-                  "width": 2.002,
-                  "style": "esriSLSSolid"
-                }
-              }
-            ],
-            "field": "SpeedLimit",
-            "minValue": -9007199254740991
-          }
-        }
-      },
-      "id": 4,
-      "showLabels": true,
-      "popupInfo": {
-        "popupElements": [
-          {
-            "type": "fields",
-            "description": "{RouteIdentifier}: {expression/expr0} - {expression/expr1}",
-            "fieldInfos": [
-              {
-                "fieldName": "LRSDate",
-                "format": {
-                  "dateFormat": "shortDate",
-                  "digitSeparator": false
-                },
-                "isEditable": true,
-                "label": "LRS Date",
-                "visible": true
-              },
-              {
-                "fieldName": "SnapshotDate",
-                "format": {
-                  "dateFormat": "shortDate",
-                  "digitSeparator": false
-                },
-                "isEditable": true,
-                "label": "Snapshot Date",
-                "visible": true
-              }
-            ],
-            "title": "60 MPH"
-          },
-          {
-            "type": "text",
-            "text": "<figure><table style='border-collapse:collapse;'><tr><th style='text-align:center;'>&nbsp;</th><th style='border-style:ridge;text-align:center;'>Begin</th><th style='border-style:ridge;text-align:center;'>End</th></tr><tbody><tr><th style='border-style:solid;text-align:right;'>SRMP</th><td style='border-style:solid;text-align:right;'>{expression/expr0}&nbsp;</td><td style='border-style:solid;text-align:right;'>{expression/expr1}&nbsp;</td></tr><tr><th style='border-style:solid;text-align:right;'>ARM</th><td style='border-style:solid;text-align:right;'>{BeginAccumulatedRouteMile}&nbsp;</td><td style='border-style:solid;text-align:right;'>{EndAccumulatedRouteMile}&nbsp;</td></tr></tbody></table></figure>"
-          }
-        ],
-        "description": "<figure><table style='border-collapse:collapse;'><tr><th style='text-align:center;'>&nbsp;</th><th style='border-style:ridge;text-align:center;'>Begin</th><th style='border-style:ridge;text-align:center;'>End</th></tr><tbody><tr><th style='border-style:solid;text-align:right;'>SRMP</th><td style='border-style:solid;text-align:right;'>{expression/expr0}&nbsp;</td><td style='border-style:solid;text-align:right;'>{expression/expr1}&nbsp;</td></tr><tr><th style='border-style:solid;text-align:right;'>ARM</th><td style='border-style:solid;text-align:right;'>{BeginAccumulatedRouteMile}&nbsp;</td><td style='border-style:solid;text-align:right;'>{EndAccumulatedRouteMile}&nbsp;</td></tr></tbody></table></figure>",
-        "expressionInfos": [
-          {
-            "name": "expr0",
-            "title": "Begin SRMP",
-            "expression": "/**\n * Returns SRMP or SRMP + B for back mileage.\n */\nvar ab = $feature.BeginAheadBackIndicator\nvar srmp = $feature.BeginStateRouteMilepost\nIIf(ab == \"B\", `${srmp}${ab}`, srmp);",
-            "returnType": "number"
-          },
-          {
-            "name": "expr1",
-            "title": "End SRMP",
-            "expression": "/**\n * Returns SRMP or SRMP + B for back mileage.\n */\nvar ab = $feature.EndAheadBackIndicator\nvar srmp = $feature.EndStateRouteMilepost\nIIf(ab == \"B\", `${srmp}${ab}`, srmp);",
-            "returnType": "number"
-          }
-        ],
-        "fieldInfos": [
-          {
-            "fieldName": "OBJECTID",
-            "isEditable": false,
-            "label": "OBJECTID",
-            "visible": false
-          },
-          {
-            "fieldName": "BeginAccumulatedRouteMile",
-            "format": {
-              "digitSeparator": true,
-              "places": 2
-            },
-            "isEditable": true,
-            "label": "BeginAccumulatedRouteMile",
-            "visible": false
-          },
-          {
-            "fieldName": "BeginAheadBackIndicator",
-            "isEditable": true,
-            "label": "BeginAheadBackIndicator",
-            "visible": false
-          },
-          {
-            "fieldName": "BeginStateRouteMilepost",
-            "format": {
-              "digitSeparator": true,
-              "places": 2
-            },
-            "isEditable": true,
-            "label": "BeginStateRouteMilepost",
-            "visible": false
-          },
-          {
-            "fieldName": "EndAccumulatedRouteMile",
-            "format": {
-              "digitSeparator": true,
-              "places": 2
-            },
-            "isEditable": true,
-            "label": "EndAccumulatedRouteMile",
-            "visible": false
-          },
-          {
-            "fieldName": "EndAheadBackIndicator",
-            "isEditable": true,
-            "label": "EndAheadBackIndicator",
-            "visible": false
-          },
-          {
-            "fieldName": "EndStateRouteMilepost",
-            "format": {
-              "digitSeparator": true,
-              "places": 0
-            },
-            "isEditable": true,
-            "label": "EndStateRouteMilepost",
-            "visible": false
-          },
-          {
-            "fieldName": "LRSDate",
-            "format": {
-              "dateFormat": "shortDate",
-              "digitSeparator": false
-            },
-            "isEditable": true,
-            "label": "LRS Date",
-            "visible": true
-          },
-          {
-            "fieldName": "RouteIdentifier",
-            "isEditable": true,
-            "label": "Route",
-            "visible": false
-          },
-          {
-            "fieldName": "SHAPE.STLength()",
-            "format": {
-              "digitSeparator": true,
-              "places": 2
-            },
-            "isEditable": true,
-            "label": "SHAPE.STLength()",
-            "visible": false
-          },
-          {
-            "fieldName": "SnapshotDate",
-            "format": {
-              "dateFormat": "shortDate",
-              "digitSeparator": false
-            },
-            "isEditable": true,
-            "label": "Snapshot Date",
-            "visible": true
-          },
-          {
-            "fieldName": "SpeedLimit",
-            "format": {
-              "digitSeparator": true,
-              "places": 0
-            },
-            "isEditable": true,
-            "label": "Speed Limit",
-            "visible": false
-          },
-          {
-            "fieldName": "expression/expr0",
-            "format": {
-              "digitSeparator": false,
-              "places": 2
-            },
-            "isEditable": true,
-            "visible": false
-          },
-          {
-            "fieldName": "expression/expr1",
-            "format": {
-              "digitSeparator": false,
-              "places": 2
-            },
-            "isEditable": true,
-            "visible": false
-          }
-        ],
-        "title": "Speed Limit {SpeedLimit} MPH - {RouteIdentifier} {expression/expr0} - {expression/expr1}"
-      }
-    }
-  ],
-  "tables": []
+	"layers": [
+		{
+			"layerDefinition": {
+				"featureReduction": null,
+				"drawingInfo": {
+					"labelingInfo": [
+						{
+							"labelExpressionInfo": {
+								"expression": "`${$feature[\"SpeedLimit\"]} mph`",
+								"title": "MPH Label"
+							},
+							"labelPlacement": "esriServerLinePlacementCenterAlong",
+							"maxScale": 0,
+							"minScale": 436033.287329,
+							"repeatLabel": true,
+							"symbol": {
+								"type": "esriTS",
+								"color": [247, 247, 247, 255],
+								"font": {
+									"family": "Arial",
+									"size": 9.75
+								},
+								"horizontalAlignment": "center",
+								"kerning": true,
+								"haloColor": [38, 38, 38, 255],
+								"haloSize": 1,
+								"rotated": false,
+								"text": "",
+								"verticalAlignment": "baseline",
+								"xoffset": 0,
+								"yoffset": 0,
+								"angle": 0
+							}
+						}
+					],
+					"renderer": {
+						"authoringInfo": {
+							"visualVariables": [
+								{
+									"maxSliderValue": 70,
+									"minSliderValue": 20,
+									"theme": "high-to-low",
+									"type": "colorInfo"
+								}
+							]
+						},
+						"type": "classBreaks",
+						"visualVariables": [
+							{
+								"type": "colorInfo",
+								"field": "SpeedLimit",
+								"stops": [
+									{
+										"color": [255, 43, 24, 102],
+										"value": 32
+									},
+									{
+										"color": [245, 201, 38, 102],
+										"value": 37.5
+									},
+									{
+										"color": [125, 253, 148, 102],
+										"value": 43
+									},
+									{
+										"color": [28, 194, 253, 102],
+										"value": 48.5
+									},
+									{
+										"color": [88, 19, 252, 102],
+										"value": 54
+									}
+								]
+							},
+							{
+								"type": "sizeInfo",
+								"valueExpression": "$view.scale",
+								"stops": [
+									{
+										"size": 2.154840860215053,
+										"value": 72223.819286
+									},
+									{
+										"size": 1.0774204301075265,
+										"value": 577790.554289
+									},
+									{
+										"size": 0.8080653225806449,
+										"value": 4622324.434309
+									},
+									{
+										"size": 0.5387102150537633,
+										"value": 36978595.474472
+									}
+								]
+							}
+						],
+						"classBreakInfos": [
+							{
+								"classMaxValue": 9007199254740991,
+								"symbol": {
+									"type": "esriSLS",
+									"color": [170, 170, 170, 255],
+									"width": 2.002,
+									"style": "esriSLSSolid"
+								}
+							}
+						],
+						"field": "SpeedLimit",
+						"minValue": -9007199254740991
+					}
+				}
+			},
+			"id": 4,
+			"showLabels": true,
+			"popupInfo": {
+				"popupElements": [
+					{
+						"type": "fields",
+						"description": "{RouteIdentifier}: {expression/expr0} - {expression/expr1}",
+						"fieldInfos": [
+							{
+								"fieldName": "LRSDate",
+								"format": {
+									"dateFormat": "shortDate",
+									"digitSeparator": false
+								},
+								"isEditable": true,
+								"label": "LRS Date",
+								"visible": true
+							},
+							{
+								"fieldName": "SnapshotDate",
+								"format": {
+									"dateFormat": "shortDate",
+									"digitSeparator": false
+								},
+								"isEditable": true,
+								"label": "Snapshot Date",
+								"visible": true
+							}
+						],
+						"title": "60 MPH"
+					},
+					{
+						"type": "text",
+						"text": "<figure><table style='border-collapse:collapse;'><tr><th style='text-align:center;'>&nbsp;</th><th style='border-style:ridge;text-align:center;'>Begin</th><th style='border-style:ridge;text-align:center;'>End</th></tr><tbody><tr><th style='border-style:solid;text-align:right;'>SRMP</th><td style='border-style:solid;text-align:right;'>{expression/expr0}&nbsp;</td><td style='border-style:solid;text-align:right;'>{expression/expr1}&nbsp;</td></tr><tr><th style='border-style:solid;text-align:right;'>ARM</th><td style='border-style:solid;text-align:right;'>{BeginAccumulatedRouteMile}&nbsp;</td><td style='border-style:solid;text-align:right;'>{EndAccumulatedRouteMile}&nbsp;</td></tr></tbody></table></figure>"
+					}
+				],
+				"description": "<figure><table style='border-collapse:collapse;'><tr><th style='text-align:center;'>&nbsp;</th><th style='border-style:ridge;text-align:center;'>Begin</th><th style='border-style:ridge;text-align:center;'>End</th></tr><tbody><tr><th style='border-style:solid;text-align:right;'>SRMP</th><td style='border-style:solid;text-align:right;'>{expression/expr0}&nbsp;</td><td style='border-style:solid;text-align:right;'>{expression/expr1}&nbsp;</td></tr><tr><th style='border-style:solid;text-align:right;'>ARM</th><td style='border-style:solid;text-align:right;'>{BeginAccumulatedRouteMile}&nbsp;</td><td style='border-style:solid;text-align:right;'>{EndAccumulatedRouteMile}&nbsp;</td></tr></tbody></table></figure>",
+				"expressionInfos": [
+					{
+						"name": "expr0",
+						"title": "Begin SRMP",
+						"expression": "/**\n * Returns SRMP or SRMP + B for back mileage.\n */\nvar ab = $feature.BeginAheadBackIndicator\nvar srmp = $feature.BeginStateRouteMilepost\nIIf(ab == \"B\", `${srmp}${ab}`, srmp);",
+						"returnType": "number"
+					},
+					{
+						"name": "expr1",
+						"title": "End SRMP",
+						"expression": "/**\n * Returns SRMP or SRMP + B for back mileage.\n */\nvar ab = $feature.EndAheadBackIndicator\nvar srmp = $feature.EndStateRouteMilepost\nIIf(ab == \"B\", `${srmp}${ab}`, srmp);",
+						"returnType": "number"
+					}
+				],
+				"fieldInfos": [
+					{
+						"fieldName": "OBJECTID",
+						"isEditable": false,
+						"label": "OBJECTID",
+						"visible": false
+					},
+					{
+						"fieldName": "BeginAccumulatedRouteMile",
+						"format": {
+							"digitSeparator": true,
+							"places": 2
+						},
+						"isEditable": true,
+						"label": "BeginAccumulatedRouteMile",
+						"visible": false
+					},
+					{
+						"fieldName": "BeginAheadBackIndicator",
+						"isEditable": true,
+						"label": "BeginAheadBackIndicator",
+						"visible": false
+					},
+					{
+						"fieldName": "BeginStateRouteMilepost",
+						"format": {
+							"digitSeparator": true,
+							"places": 2
+						},
+						"isEditable": true,
+						"label": "BeginStateRouteMilepost",
+						"visible": false
+					},
+					{
+						"fieldName": "EndAccumulatedRouteMile",
+						"format": {
+							"digitSeparator": true,
+							"places": 2
+						},
+						"isEditable": true,
+						"label": "EndAccumulatedRouteMile",
+						"visible": false
+					},
+					{
+						"fieldName": "EndAheadBackIndicator",
+						"isEditable": true,
+						"label": "EndAheadBackIndicator",
+						"visible": false
+					},
+					{
+						"fieldName": "EndStateRouteMilepost",
+						"format": {
+							"digitSeparator": true,
+							"places": 0
+						},
+						"isEditable": true,
+						"label": "EndStateRouteMilepost",
+						"visible": false
+					},
+					{
+						"fieldName": "LRSDate",
+						"format": {
+							"dateFormat": "shortDate",
+							"digitSeparator": false
+						},
+						"isEditable": true,
+						"label": "LRS Date",
+						"visible": true
+					},
+					{
+						"fieldName": "RouteIdentifier",
+						"isEditable": true,
+						"label": "Route",
+						"visible": false
+					},
+					{
+						"fieldName": "SHAPE.STLength()",
+						"format": {
+							"digitSeparator": true,
+							"places": 2
+						},
+						"isEditable": true,
+						"label": "SHAPE.STLength()",
+						"visible": false
+					},
+					{
+						"fieldName": "SnapshotDate",
+						"format": {
+							"dateFormat": "shortDate",
+							"digitSeparator": false
+						},
+						"isEditable": true,
+						"label": "Snapshot Date",
+						"visible": true
+					},
+					{
+						"fieldName": "SpeedLimit",
+						"format": {
+							"digitSeparator": true,
+							"places": 0
+						},
+						"isEditable": true,
+						"label": "Speed Limit",
+						"visible": false
+					},
+					{
+						"fieldName": "expression/expr0",
+						"format": {
+							"digitSeparator": false,
+							"places": 2
+						},
+						"isEditable": true,
+						"visible": false
+					},
+					{
+						"fieldName": "expression/expr1",
+						"format": {
+							"digitSeparator": false,
+							"places": 2
+						},
+						"isEditable": true,
+						"visible": false
+					}
+				],
+				"title": "Speed Limit {SpeedLimit} MPH - {RouteIdentifier} {expression/expr0} - {expression/expr1}"
+			}
+		}
+	],
+	"tables": []
 }

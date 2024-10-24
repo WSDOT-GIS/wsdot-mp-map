@@ -1,19 +1,19 @@
 :host {
-  display: block;
-  background-color: var(--wsdot-logo-green);
-  color: white;
+	display: block;
+	background-color: var(--wsdot-logo-green);
+	color: white;
 }
 
 footer > ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  text-align: center;
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	text-align: center;
 }
 
 footer > ul > li {
-  display: inline-flex;
-  margin: 0.2rem;
-  padding-left: 12.8px;
-  padding-right: 12.8px;
+	display: inline-flex;
+	margin: 0.2rem;
+	padding-left: 12.8px;
+	padding-right: 12.8px;
 }

@@ -10,14 +10,14 @@ const fractionDigits = 6;
  * @yields - A `<data>` element.
  */
 function* createCoordinateDataElements(...items: LatLngTuple) {
-  for (const [index, item] of items.entries()) {
-    const data = document.createElement("data");
-    data.value = data.title = item.toString();
-    data.textContent = item.toFixed(fractionDigits);
-    const latOrLng = index === 0 ? "latitude" : "longitude";
-    data.classList.add(`p-${latOrLng}`, latOrLng);
-    yield data;
-  }
+	for (const [index, item] of items.entries()) {
+		const data = document.createElement("data");
+		data.value = data.title = item.toString();
+		data.textContent = item.toFixed(fractionDigits);
+		const latOrLng = index === 0 ? "latitude" : "longitude";
+		data.classList.add(`p-${latOrLng}`, latOrLng);
+		yield data;
+	}
 }
 
 /**
@@ -56,15 +56,15 @@ function* createCoordinateDataElements(...items: LatLngTuple) {
  * ```
  */
 export function createGeoMicroformat<
-  T extends keyof HTMLElementTagNameMap = "span",
+	T extends keyof HTMLElementTagNameMap = "span",
 >(latLng: LatLngTuple, tagName: T, format: "xy" | "latlng" = "xy") {
-  const geoSpan = document.createElement(tagName);
-  geoSpan.classList.add("h-geo", "geo");
-  const [yElement, xElement] = createCoordinateDataElements(...latLng);
-  if (format === "xy") {
-    geoSpan.append(xElement, ",", yElement);
-  } else {
-    geoSpan.append(yElement, ",", xElement);
-  }
-  return geoSpan;
+	const geoSpan = document.createElement(tagName);
+	geoSpan.classList.add("h-geo", "geo");
+	const [yElement, xElement] = createCoordinateDataElements(...latLng);
+	if (format === "xy") {
+		geoSpan.append(xElement, ",", yElement);
+	} else {
+		geoSpan.append(yElement, ",", xElement);
+	}
+	return geoSpan;
 }

@@ -3,18 +3,18 @@
  * @see {@link https://www.mediawiki.org/wiki/GeoHack GeoHack docs} for more information.
  */
 import type {
-  LatLngExpression,
-  LatLngLiteral,
-  LatLngTuple,
+	LatLngExpression,
+	LatLngLiteral,
+	LatLngTuple,
 } from "../../common/types";
 
 function isLatLngTuple(
-  latLng: Readonly<LatLngTuple>,
+	latLng: Readonly<LatLngTuple>,
 ): latLng is Readonly<LatLngTuple>;
 function isLatLngTuple(latLng: LatLngTuple): latLng is LatLngTuple;
 function isLatLngTuple(latLng: LatLngLiteral): false;
 function isLatLngTuple(
-  latLng: LatLngExpression,
+	latLng: LatLngExpression,
 ): latLng is LatLngTuple | Readonly<LatLngTuple>;
 /**
  * Detects if the input value is a {@link LatLngTuple}.
@@ -22,13 +22,13 @@ function isLatLngTuple(
  * @returns Returns true if it is a {@link LatLngTuple}, false otherwise.
  */
 function isLatLngTuple(
-  latLng: LatLngExpression,
+	latLng: LatLngExpression,
 ): latLng is LatLngTuple | Readonly<LatLngTuple> {
-  return (
-    Array.isArray(latLng) &&
-    typeof latLng[0] === "number" &&
-    typeof latLng[1] === "number"
-  );
+	return (
+		Array.isArray(latLng) &&
+		typeof latLng[0] === "number" &&
+		typeof latLng[1] === "number"
+	);
 }
 
 /**
@@ -45,26 +45,26 @@ function isLatLngTuple(
  * > | camera, edu, pass, landmark, railwaystation    | 1 : 10,000     | 3.53      | 10000    | 10000     | 0.01   | 1          | 8      | 15        |
  */
 type GeoHackType =
-  | "country"
-  | "satellite"
-  | "state"
-  | "adm1st"
-  | "adm2nd"
-  | "adm3rd"
-  | "city"
-  | "mountain"
-  | "isle"
-  | "river"
-  | "waterbody"
-  | "event"
-  | "forest"
-  | "glacier"
-  | "airport"
-  | "camera"
-  | "edu"
-  | "pass"
-  | "landmark"
-  | "railwaystation";
+	| "country"
+	| "satellite"
+	| "state"
+	| "adm1st"
+	| "adm2nd"
+	| "adm3rd"
+	| "city"
+	| "mountain"
+	| "isle"
+	| "river"
+	| "waterbody"
+	| "event"
+	| "forest"
+	| "glacier"
+	| "airport"
+	| "camera"
+	| "edu"
+	| "pass"
+	| "landmark"
+	| "railwaystation";
 
 /**
  * > Coordinates, optionally followed by other location-related parameters (underscore-separated, in a `key:value` fomat). Example: `1.292836_N_103.856878_E_type:landmark_dim:500`
@@ -82,30 +82,30 @@ type GeoHackType =
  * > - The characters `& < > "` are escaped in the HTML to prevent exploits.
  */
 export interface GeoHackParams {
-  coordinates: LatLngExpression;
-  /**
-   * Set the relative map scale as 1:N. The OGC's "standard rendering pixel
-   * size" of 0.28 mm × 0.28 mm (90.7 dpi) is assumed and derived for all size
-   * calculations. Since the actual value can vary significantly
-   * (e.g. iPhone4) it is recommended to use the display independent {@link dim}.
-   */
-  scale?: number;
+	coordinates: LatLngExpression;
+	/**
+	 * Set the relative map scale as 1:N. The OGC's "standard rendering pixel
+	 * size" of 0.28 mm × 0.28 mm (90.7 dpi) is assumed and derived for all size
+	 * calculations. Since the actual value can vary significantly
+	 * (e.g. iPhone4) it is recommended to use the display independent {@link dim}.
+	 */
+	scale?: number;
 
-  /**
-   * @see {@link GeoHackType}
-   */
-  type?: GeoHackType;
+	/**
+	 * @see {@link GeoHackType}
+	 */
+	type?: GeoHackType;
 
-  /**
-   * The size of the object in meters.
-   */
-  dim?: number;
+	/**
+	 * The size of the object in meters.
+	 */
+	dim?: number;
 }
 
 export interface GeoHackOptions {
-  language?: string;
-  pagename?: string;
-  params: GeoHackParams;
+	language?: string;
+	pagename?: string;
+	params: GeoHackParams;
 }
 
 /**
@@ -114,11 +114,11 @@ export interface GeoHackOptions {
  * @returns The converted latitude and longitude tuple.
  */
 const convertToLatLngTuple = (
-  coordinates: LatLngExpression,
+	coordinates: LatLngExpression,
 ): Readonly<LatLngTuple> =>
-  isLatLngTuple(coordinates)
-    ? coordinates
-    : ([coordinates.lat, coordinates.lng] as const);
+	isLatLngTuple(coordinates)
+		? coordinates
+		: ([coordinates.lat, coordinates.lng] as const);
 
 /**
  * Generates an iterator that yields each key-value pair in the given GeoHackParams object
@@ -127,41 +127,41 @@ const convertToLatLngTuple = (
  * @yields A string in the format "key:value".
  */
 function* enumerateGeoHackParams(params: GeoHackParams) {
-  const { coordinates } = params;
-  yield convertToLatLngTuple(coordinates).join(";");
-  for (const [key, value] of Object.entries(params) as Iterable<
-    [keyof GeoHackParams, GeoHackParams[keyof GeoHackParams]]
-  >) {
-    if (value == null || key === "coordinates") {
-      continue;
-    }
-    let newValue: string;
-    if (typeof value === "string") {
-      newValue = value;
-    } else if (typeof value === "number") {
-      newValue = value.toString();
-    } else {
-      continue;
-    }
-    yield [key, newValue].join(":") as `${string}:${string}`;
-  }
+	const { coordinates } = params;
+	yield convertToLatLngTuple(coordinates).join(";");
+	for (const [key, value] of Object.entries(params) as Iterable<
+		[keyof GeoHackParams, GeoHackParams[keyof GeoHackParams]]
+	>) {
+		if (value == null || key === "coordinates") {
+			continue;
+		}
+		let newValue: string;
+		if (typeof value === "string") {
+			newValue = value;
+		} else if (typeof value === "number") {
+			newValue = value.toString();
+		} else {
+			continue;
+		}
+		yield [key, newValue].join(":") as `${string}:${string}`;
+	}
 }
 
 function* enumerateGeoHackOptions(options: GeoHackOptions) {
-  for (const [key, value] of Object.entries(options) as Iterable<
-    [keyof GeoHackOptions, GeoHackOptions[keyof GeoHackOptions]]
-  >) {
-    if (value == null) {
-      continue;
-    }
-    if (typeof value === "string") {
-      yield [key, value] as const;
-      continue;
-    }
-    if (key === "params" && typeof value === "object") {
-      yield [key, [...enumerateGeoHackParams(value)].join("_")] as const;
-    }
-  }
+	for (const [key, value] of Object.entries(options) as Iterable<
+		[keyof GeoHackOptions, GeoHackOptions[keyof GeoHackOptions]]
+	>) {
+		if (value == null) {
+			continue;
+		}
+		if (typeof value === "string") {
+			yield [key, value] as const;
+			continue;
+		}
+		if (key === "params" && typeof value === "object") {
+			yield [key, [...enumerateGeoHackParams(value)].join("_")] as const;
+		}
+	}
 }
 
 /**
@@ -174,13 +174,13 @@ function* enumerateGeoHackOptions(options: GeoHackOptions) {
  * // Returned URL will be "https://geohack.toolforge.org/geohack.php?params=45.6448;-122.6617"
  */
 export function createGeoHackUrl(
-  options: GeoHackOptions,
-  geohackUrl = "https://geohack.toolforge.org/geohack.php",
+	options: GeoHackOptions,
+	geohackUrl = "https://geohack.toolforge.org/geohack.php",
 ) {
-  const outUrl = new URL(geohackUrl);
-  for (const [key, value] of enumerateGeoHackOptions(options)) {
-    outUrl.searchParams.set(key, value);
-  }
+	const outUrl = new URL(geohackUrl);
+	for (const [key, value] of enumerateGeoHackOptions(options)) {
+		outUrl.searchParams.set(key, value);
+	}
 
-  return outUrl;
+	return outUrl;
 }

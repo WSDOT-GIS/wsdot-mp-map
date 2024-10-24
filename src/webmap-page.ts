@@ -16,33 +16,33 @@ esriConfig.apiKey = import.meta.env.VITE_WEBMAP_API_KEY;
 esriConfig.portalUrl = import.meta.env.VITE_WEBMAP_PORTAL_URL;
 
 const portalItem = new PortalItem({
-  id: import.meta.env.VITE_WEBMAP_PORTAL_ITEM_ID,
+	id: import.meta.env.VITE_WEBMAP_PORTAL_ITEM_ID,
 });
 
 const webmap = new WebMap({
-  portalItem,
+	portalItem,
 });
 
 const view = new MapView({
-  container: "viewDiv",
-  map: webmap,
-  extent: waExtent,
+	container: "viewDiv",
+	map: webmap,
+	extent: waExtent,
 });
 
 view.when().catch((error: unknown) => {
-  console.error("Failed to load map", error);
+	console.error("Failed to load map", error);
 });
 
 import("./components/disclaimer")
-  .then(({ setupDisclaimerLink }) => {
-    // Setup disclaimer modal
-    const link = document.querySelector<HTMLAnchorElement>("wsdot-footer");
-    if (!link) {
-      console.error("Failed to find disclaimer link");
-    } else {
-      setupDisclaimerLink(link);
-    }
-  })
-  .catch((error: unknown) => {
-    console.error("Failed to load disclaimer", error);
-  });
+	.then(({ setupDisclaimerLink }) => {
+		// Setup disclaimer modal
+		const link = document.querySelector<HTMLAnchorElement>("wsdot-footer");
+		if (!link) {
+			console.error("Failed to find disclaimer link");
+		} else {
+			setupDisclaimerLink(link);
+		}
+	})
+	.catch((error: unknown) => {
+		console.error("Failed to load disclaimer", error);
+	});

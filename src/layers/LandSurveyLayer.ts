@@ -12,16 +12,16 @@ export type Label = `T${number}-${number}N R${number}-${number}E S${number}`;
  * @returns The created land survey layer.
  */
 export function createLandSurveyLayer() {
-  const portalItem = new PortalItem({
-    id: "ae861d2304da4d099e0f7841fcbfa860",
-    portal: {
-      url: "https://wadnr.maps.arcgis.com",
-      authMode: "anonymous",
-    },
-  });
+	const portalItem = new PortalItem({
+		id: "ae861d2304da4d099e0f7841fcbfa860",
+		portal: {
+			url: "https://wadnr.maps.arcgis.com",
+			authMode: "anonymous",
+		},
+	});
 
-  return new FeatureLayer({
-    portalItem,
-    outFields: [displayField],
-  });
+	return new FeatureLayer({
+		portalItem,
+		outFields: [displayField],
+	});
 }

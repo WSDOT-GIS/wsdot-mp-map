@@ -8,30 +8,30 @@ import type FeatureLayer from "@arcgis/core/layers/FeatureLayer";
  * @returns An array of the graphics that were added.
  */
 export async function addGraphicsToLayer(
-  milepostLayer: FeatureLayer,
-  locationGraphics: Graphic[],
+	milepostLayer: FeatureLayer,
+	locationGraphics: Graphic[],
 ) {
-  // Add graphics to the layer and await for the edit to complete.
-  const editsResult = await milepostLayer.applyEdits(
-    {
-      addFeatures: locationGraphics,
-    },
-    {},
-  );
+	// Add graphics to the layer and await for the edit to complete.
+	const editsResult = await milepostLayer.applyEdits(
+		{
+			addFeatures: locationGraphics,
+		},
+		{},
+	);
 
-  // Get the added features from the edits result by querying the milepost layer
-  // for the features with matching object IDs.
-  const query = milepostLayer.createQuery();
-  query.objectIds = editsResult.addFeatureResults.map((r) => r.objectId);
-  const results = await milepostLayer.queryFeatures(query);
+	// Get the added features from the edits result by querying the milepost layer
+	// for the features with matching object IDs.
+	const query = milepostLayer.createQuery();
+	query.objectIds = editsResult.addFeatureResults.map((r) => r.objectId);
+	const results = await milepostLayer.queryFeatures(query);
 
-  return results.features;
+	return results.features;
 }
 
 if (import.meta.hot) {
-  import.meta.hot.accept((newModule) => {
-    if (newModule) {
-      console.log("hot module replacement", newModule);
-    }
-  });
+	import.meta.hot.accept((newModule) => {
+		if (newModule) {
+			console.log("hot module replacement", newModule);
+		}
+	});
 }

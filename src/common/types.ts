@@ -2,14 +2,14 @@
  * An object containing properties named "lat" and "lng" that are numbers.
  */
 export interface LatLngLiteral {
-  /**
-   * The latitude of the point.
-   */
-  lat: number;
-  /**
-   * The longitude of the point.
-   */
-  lng: number;
+	/**
+	 * The latitude of the point.
+	 */
+	lat: number;
+	/**
+	 * The longitude of the point.
+	 */
+	lng: number;
 }
 
 /**
@@ -18,6 +18,6 @@ export interface LatLngLiteral {
 export type LatLngTuple = [lat: number, lng: number];
 
 export type LatLngExpression =
-  | Readonly<LatLngTuple>
-  | LatLngLiteral
-  | LatLngTuple;
+	| Readonly<LatLngTuple>
+	| LatLngLiteral
+	| LatLngTuple;

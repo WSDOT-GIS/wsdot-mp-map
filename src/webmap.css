@@ -1,14 +1,14 @@
 @import url("./wsdot-web-styles/css/wsdot-colors.css");
 
 :root {
-  font-family: "Lato", "Avenir Next", Avenir, "Helvetica Neue", sans-serif;
+	font-family: "Lato", "Avenir Next", Avenir, "Helvetica Neue", sans-serif;
 }
 
 html,
 body,
 #viewDiv {
-  padding: 0;
-  margin: 0;
-  height: 100%;
-  width: 100%;
+	padding: 0;
+	margin: 0;
+	height: 100%;
+	width: 100%;
 }

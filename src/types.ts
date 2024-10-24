@@ -1,5 +1,5 @@
-import type { AttributeValue } from "./common/arcgis/typesAndInterfaces";
 import type Geometry from "@arcgis/core/geometry/Geometry";
+import type { AttributeValue } from "./common/arcgis/typesAndInterfaces";
 
 /**
  * An object like one used by {@link Graphic.attributes},
@@ -12,10 +12,10 @@ export type AttributesObject = Record<string, AttributeValue>;
  * An object that has an "attributes" property
  */
 export interface HasAttributes<T extends AttributesObject> {
-  /**
-   * @inheritdoc
-   */
-  attributes: T;
+	/**
+	 * @inheritdoc
+	 */
+	attributes: T;
 }
 
 /**
@@ -28,14 +28,14 @@ export interface HasAttributes<T extends AttributesObject> {
  * otherwise returns false.
  */
 export function hasAttributes<T extends AttributesObject>(
-  input: unknown,
+	input: unknown,
 ): input is HasAttributes<T> {
-  return (
-    !!input &&
-    typeof input === "object" &&
-    Object.hasOwn(input, "attributes") &&
-    typeof (input as HasAttributes<T>).attributes === "object"
-  );
+	return (
+		!!input &&
+		typeof input === "object" &&
+		Object.hasOwn(input, "attributes") &&
+		typeof (input as HasAttributes<T>).attributes === "object"
+	);
 }
 
 /**
@@ -43,13 +43,13 @@ export function hasAttributes<T extends AttributesObject>(
  * {@link Graphic["attributes"]|attributes} and {@link Graphic["geometry"]|geometry}.
  */
 export interface TypedGraphic<
-  G extends Geometry,
-  T extends Record<string, AttributeValue>,
+	G extends Geometry,
+	T extends Record<string, AttributeValue>,
 > extends HasAttributes<T> {
-  /**
-   * @inheritdoc
-   */
-  geometry: G;
+	/**
+	 * @inheritdoc
+	 */
+	geometry: G;
 }
 
 /**
@@ -60,9 +60,9 @@ export interface TypedGraphic<
  * false otherwise.
  */
 export function isGraphicHit(
-  viewHit: __esri.ViewHit,
+	viewHit: __esri.ViewHit,
 ): viewHit is __esri.GraphicHit {
-  return viewHit.type === "graphic";
+	return viewHit.type === "graphic";
 }
 
 /**
@@ -71,39 +71,39 @@ export function isGraphicHit(
  * @returns - Returns true if the item is an instance of {@link __esri.FeatureEditResult}, otherwise false.
  */
 export function isFeatureEditResult(
-  item: unknown,
+	item: unknown,
 ): item is __esri.FeatureEditResult {
-  return (
-    item != null &&
-    typeof item === "object" &&
-    ["objectId", "globalId", "error"].every((key) => Object.hasOwn(item, key))
-  );
+	return (
+		item != null &&
+		typeof item === "object" &&
+		["objectId", "globalId", "error"].every((key) => Object.hasOwn(item, key))
+	);
 }
 
 export type UIAddPositionPosition = NonNullable<
-  __esri.UIAddPosition["position"]
+	__esri.UIAddPosition["position"]
 >;
 
 /**
  * An enumeration of {@link UIAddPositionPosition} values.
  */
-export const enum UIAddPositions {
-  bottomLeading = "bottom-leading",
-  bottomLeft = "bottom-left",
-  bottomRight = "bottom-right",
-  bottomTrailing = "bottom-trailing",
-  topLeading = "top-leading",
-  topLeft = "top-left",
-  topRight = "top-right",
-  topTrailing = "top-trailing",
-  manual = "manual",
+export enum UIAddPositions {
+	bottomLeading = "bottom-leading",
+	bottomLeft = "bottom-left",
+	bottomRight = "bottom-right",
+	bottomTrailing = "bottom-trailing",
+	topLeading = "top-leading",
+	topLeft = "top-left",
+	topRight = "top-right",
+	topTrailing = "top-trailing",
+	manual = "manual",
 }
 /**
  * The bare minimum properties for defining a point.
  */
 export interface XAndY {
-  x: number;
-  y: number;
+	x: number;
+	y: number;
 }
 
 /**
@@ -114,12 +114,12 @@ export interface XAndY {
  * with numeric values, `false` otherwise.
  */
 export const hasXAndY = <T extends object>(
-  value: T | undefined,
+	value: T | undefined,
 ): value is T & XAndY =>
-  !!value &&
-  (["x", "y"] as (keyof T)[]).every(
-    (key) => key in value && typeof value[key] === "number",
-  );
+	!!value &&
+	(["x", "y"] as (keyof T)[]).every(
+		(key) => key in value && typeof value[key] === "number",
+	);
 
 /**
  * Checks if the input geometry has the "paths" property and is
@@ -128,11 +128,11 @@ export const hasXAndY = <T extends object>(
  * @returns Returns true if the input geometry has the "paths" property and is an array, otherwise returns false
  */
 export const hasPaths = <T extends object>(
-  geometry: T,
+	geometry: T,
 ): geometry is T & Pick<__esri.Polyline, "paths"> =>
-  typeof geometry === "object" &&
-  "paths" in geometry &&
-  Array.isArray(geometry.paths);
+	typeof geometry === "object" &&
+	"paths" in geometry &&
+	Array.isArray(geometry.paths);
 
 /**
  * Checks if the input geometry has a "rings" property and is an array, and returns a boolean value.
@@ -140,9 +140,9 @@ export const hasPaths = <T extends object>(
  * @returns - Returns true if the input geometry has a "rings" property and is an array, otherwise returns false.
  */
 export function hasRings<T extends object>(
-  geometry: T,
+	geometry: T,
 ): geometry is T & Pick<__esri.Polygon, "rings"> {
-  return "rings" in geometry && Array.isArray(geometry.rings);
+	return "rings" in geometry && Array.isArray(geometry.rings);
 }
 
 /**
@@ -151,11 +151,11 @@ export function hasRings<T extends object>(
  * @returns - Returns true if the input geometry has the "points" property and is an array, otherwise returns false
  */
 export function hasPoints<T extends object>(
-  geometry: T,
+	geometry: T,
 ): geometry is T & Pick<__esri.Multipoint, "points"> {
-  return (
-    typeof geometry === "object" &&
-    "points" in geometry &&
-    Array.isArray(geometry.points)
-  );
+	return (
+		typeof geometry === "object" &&
+		"points" in geometry &&
+		Array.isArray(geometry.points)
+	);
 }
