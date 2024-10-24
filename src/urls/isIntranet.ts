@@ -4,10 +4,10 @@
  * @returns - True if the URL is determined to be internal, false otherwise.
  */
 export function isInternal(url: Location | URL = location): boolean {
-  const hostname = url.hostname;
-  return (
-    /^localhost\b/i.test(hostname) || /\.((loc)|(internal))$/i.test(hostname)
-  );
+	const hostname = url.hostname;
+	return (
+		/^localhost\b/i.test(hostname) || /\.((loc)|(internal))$/i.test(hostname)
+	);
 }
 
 export default isInternal;

@@ -6,33 +6,33 @@
  * @returns The link and the modal.
  */
 export function setupDisclaimerLink(
-  link: HTMLElement,
-  dialog?: HTMLCalciteDialogElement,
+	link: HTMLElement,
+	dialog?: HTMLCalciteDialogElement,
 ) {
-  if (!dialog) {
-    dialog =
-      document.body.querySelector<HTMLCalciteDialogElement>(
-        "#disclaimer-dialog",
-      ) ?? undefined;
-  }
-  if (!dialog) {
-    throw new Error("Could not find disclaimer dialog.");
-  }
-  if (/WSDOT-FOOTER/i.test(link.tagName)) {
-    // Setup disclaimer modal
-    link.addEventListener("disclaimer-link-clicked", () => {
-      dialog.open = true;
-    });
-  } else {
-    // Setup disclaimer modal
-    link.addEventListener("click", (e) => {
-      dialog.open = true;
-      e.preventDefault();
-    });
-  }
+	if (!dialog) {
+		dialog =
+			document.body.querySelector<HTMLCalciteDialogElement>(
+				"#disclaimer-dialog",
+			) ?? undefined;
+	}
+	if (!dialog) {
+		throw new Error("Could not find disclaimer dialog.");
+	}
+	if (/WSDOT-FOOTER/i.test(link.tagName)) {
+		// Setup disclaimer modal
+		link.addEventListener("disclaimer-link-clicked", () => {
+			dialog.open = true;
+		});
+	} else {
+		// Setup disclaimer modal
+		link.addEventListener("click", (e) => {
+			dialog.open = true;
+			e.preventDefault();
+		});
+	}
 
-  return {
-    modal: dialog,
-    link,
-  };
+	return {
+		modal: dialog,
+		link,
+	};
 }

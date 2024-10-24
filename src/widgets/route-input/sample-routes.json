@@ -1,2879 +1,2879 @@
 {
-  "displayFieldName": "RouteID",
-  "fieldAliases": {
-    "RouteID": "RouteID",
-    "Direction": "Direction"
-  },
-  "fields": [
-    {
-      "name": "RouteID",
-      "type": "esriFieldTypeString",
-      "alias": "RouteID",
-      "length": 12
-    },
-    {
-      "name": "Direction",
-      "type": "esriFieldTypeString",
-      "alias": "Direction",
-      "length": 2
-    }
-  ],
-  "features": [
-    {
-      "attributes": {
-        "RouteID": "002",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "002",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "002COBROWNE",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "002CODIVISN",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "002CONEWPRT",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "002CONEWPRT",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "003",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "003",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "004",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "004",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "004COKELSO",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "004COKELSO",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "005",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "005",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "006",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "006",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "007",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "007",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "008",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "008",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "009",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "009",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "009SPSUMAS",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "009SPSUMAS",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "010",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "010",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "011",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "011",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "012",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "012",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "012COABERDN",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "014",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "014",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "014SPMARYHL",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "014SPMARYHL",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "016",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "016",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "016AR",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "016SPGORST",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "016SPGORST",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "017",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "017",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "018",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "018",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "019",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "019",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "020",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "020",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "020SPANACRT",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "020SPANACRT",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "021",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "021",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "022",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "022",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "023",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "023",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "024",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "024",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "025",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "025",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "026",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "026",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "026SPCOLFAX",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "026SPCOLFAX",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "027",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "027",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "028",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "028",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "028COWENTCH",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "028SPWENTCH",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "028SPWENTCH",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "031",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "031",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "041",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "041",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "082",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "082",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "090",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "090",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "092",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "092",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "092SPGRANIT",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "092SPGRANIT",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "096",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "096",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "097",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "097",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "097AR",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "097AR",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "097COMARYHL",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "097COMARYHL",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "097SPORONDO",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "097SPORONDO",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "099",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "099",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "099COTUNNEL",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "100",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "100",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "100SPCANBY",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "100SPCANBY",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "101",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "101",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "101AR",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "101AR",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "101COABERDN",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "101COABERDN",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "101COHERON",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "101COPRTANG",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "101COPRTANG",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "102",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "102",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "103",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "103",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "104",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "104",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "104COKNGSTN",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "104SPAURORA",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "104SPAURORA",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "105",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "105",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "105SPBOONE",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "105SPBOONE",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "105SPWESTPT",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "105SPWESTPT",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "106",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "106",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "107",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "107",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "108",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "108",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "109",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "109",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "109COHQUIAM",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "109SPLONNGR",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "109SPLONNGR",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "110",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "110",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "110SPMORA",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "110SPMORA",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "112",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "112",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "113",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "113",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "115",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "115",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "116",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "116",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "117",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "117",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "119",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "119",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "121",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "121",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "122",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "122",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "123",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "123",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "124",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "124",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "125",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "125",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "125SP125SP",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "125SP125SP",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "127",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "127",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "128",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "128",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "129",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "129",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "129SP6THST",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "129SP6THST",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "131",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "131",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "141",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "141",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "141SPUNDRWD",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "141SPUNDRWD",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "142",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "142",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "150",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "150",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "153",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "153",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "155",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "155",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "155SPOMAK",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "155SPOMAK",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "160",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "160",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "161",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "161",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "162",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "162",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "163",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "163",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "164",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "164",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "165",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "165",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "166",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "166",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "167",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "167",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "169",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "169",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "170",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "170",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "171",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "171",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "172",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "172",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "173",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "173",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "174",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "174",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "174SPCRWNPT",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "174SPCRWNPT",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "174SPLEAHY",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "174SPLEAHY",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "181",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "181",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "182",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "182",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "193",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "193",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "194",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "194",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "195",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "195",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "195SPGNESSE",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "195SPGNESSE",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "197",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "197",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "202",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "202",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "203",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "203",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "204",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "204",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "205",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "205",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "206",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "206",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "207",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "207",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "211",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "211",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "213",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "213",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "215",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "215",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "221",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "221",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "223",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "223",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "224",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "224",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "225",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "225",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "231",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "231",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "240",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "240",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "241",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "241",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "243",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "243",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "260",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "260",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "261",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "261",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "262",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "262",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "263",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "263",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "270",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "270",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "270COPULLMN",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "271",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "271",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "272",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "272",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "274",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "274",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "278",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "278",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "281",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "281",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "281SPBURKE",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "281SPBURKE",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "282",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "282",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "283",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "283",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "285",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "285",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "285COWENTCH",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "285COWENTCH",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "290",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "290",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "291",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "291",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "292",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "292",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "300",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "300",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "302",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "302",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "302SPPURDY",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "302SPPURDY",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "303",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "303",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "304",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "304",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "304COTUNNEL",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "305",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "305",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "307",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "307",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "308",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "308",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "310",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "310",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "395",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "395",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "395SPNSC",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "395SPNSC",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "397",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "397",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "401",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "401",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "405",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "405",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "409",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "409",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "410",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "410",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "411",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "411",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "432",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "432",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "433",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "433",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "500",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "500",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "501",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "501",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "501COVANCVR",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "502",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "502",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "503",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "503",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "503SPCOUGAR",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "503SPCOUGAR",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "504",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "504",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "504SPOLD504",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "504SPOLD504",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "505",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "505",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "506",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "506",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "507",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "507",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "507COPEARL",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "508",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "508",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "509",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "509",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "510",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "510",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "510SPYELMLP",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "510SPYELMLP",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "512",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "512",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "513",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "513",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "515",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "515",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "516",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "516",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "518",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "518",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "519",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "519",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "520",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "520",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "522",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "522",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "523",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "523",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "524",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "524",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "524SP3RDAVE",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "524SP3RDAVE",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "524SPCEDRWY",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "524SPCEDRWY",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "525",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "525",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "525SPPAINE",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "525SPPAINE",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "526",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "526",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "527",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "527",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "528",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "528",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "529",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "529",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "529SPEVERET",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "529SPEVERET",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "530",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "530",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "531",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "531",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "532",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "532",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "534",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "534",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "536",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "536",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "538",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "538",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "539",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "539",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "539COLYNDEN",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "539COLYNDEN",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "542",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "542",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "542COMTBAKR",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "543",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "543",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "544",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "544",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "546",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "546",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "547",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "547",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "548",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "548",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "599",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "599",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "702",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "702",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "704",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "704",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "705",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "705",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "706",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "706",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "730",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "730",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "730SPWALULA",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "730SPWALULA",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "821",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "821",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "823",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "823",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "900",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "900",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "902",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "902",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "903",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "903",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "903SPCLEELM",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "903SPCLEELM",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "904",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "904",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "906",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "906",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "906SPHYAK",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "906SPHYAK",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "970",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "970",
-        "Direction": "i"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "971",
-        "Direction": "d"
-      }
-    },
-    {
-      "attributes": {
-        "RouteID": "971",
-        "Direction": "i"
-      }
-    }
-  ]
+	"displayFieldName": "RouteID",
+	"fieldAliases": {
+		"RouteID": "RouteID",
+		"Direction": "Direction"
+	},
+	"fields": [
+		{
+			"name": "RouteID",
+			"type": "esriFieldTypeString",
+			"alias": "RouteID",
+			"length": 12
+		},
+		{
+			"name": "Direction",
+			"type": "esriFieldTypeString",
+			"alias": "Direction",
+			"length": 2
+		}
+	],
+	"features": [
+		{
+			"attributes": {
+				"RouteID": "002",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "002",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "002COBROWNE",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "002CODIVISN",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "002CONEWPRT",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "002CONEWPRT",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "003",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "003",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "004",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "004",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "004COKELSO",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "004COKELSO",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "005",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "005",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "006",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "006",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "007",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "007",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "008",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "008",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "009",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "009",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "009SPSUMAS",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "009SPSUMAS",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "010",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "010",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "011",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "011",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "012",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "012",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "012COABERDN",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "014",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "014",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "014SPMARYHL",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "014SPMARYHL",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "016",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "016",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "016AR",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "016SPGORST",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "016SPGORST",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "017",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "017",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "018",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "018",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "019",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "019",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "020",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "020",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "020SPANACRT",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "020SPANACRT",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "021",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "021",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "022",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "022",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "023",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "023",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "024",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "024",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "025",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "025",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "026",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "026",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "026SPCOLFAX",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "026SPCOLFAX",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "027",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "027",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "028",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "028",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "028COWENTCH",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "028SPWENTCH",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "028SPWENTCH",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "031",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "031",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "041",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "041",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "082",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "082",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "090",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "090",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "092",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "092",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "092SPGRANIT",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "092SPGRANIT",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "096",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "096",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "097",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "097",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "097AR",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "097AR",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "097COMARYHL",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "097COMARYHL",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "097SPORONDO",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "097SPORONDO",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "099",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "099",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "099COTUNNEL",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "100",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "100",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "100SPCANBY",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "100SPCANBY",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "101",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "101",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "101AR",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "101AR",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "101COABERDN",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "101COABERDN",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "101COHERON",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "101COPRTANG",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "101COPRTANG",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "102",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "102",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "103",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "103",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "104",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "104",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "104COKNGSTN",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "104SPAURORA",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "104SPAURORA",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "105",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "105",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "105SPBOONE",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "105SPBOONE",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "105SPWESTPT",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "105SPWESTPT",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "106",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "106",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "107",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "107",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "108",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "108",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "109",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "109",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "109COHQUIAM",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "109SPLONNGR",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "109SPLONNGR",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "110",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "110",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "110SPMORA",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "110SPMORA",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "112",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "112",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "113",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "113",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "115",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "115",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "116",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "116",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "117",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "117",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "119",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "119",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "121",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "121",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "122",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "122",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "123",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "123",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "124",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "124",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "125",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "125",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "125SP125SP",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "125SP125SP",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "127",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "127",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "128",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "128",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "129",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "129",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "129SP6THST",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "129SP6THST",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "131",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "131",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "141",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "141",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "141SPUNDRWD",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "141SPUNDRWD",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "142",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "142",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "150",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "150",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "153",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "153",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "155",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "155",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "155SPOMAK",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "155SPOMAK",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "160",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "160",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "161",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "161",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "162",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "162",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "163",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "163",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "164",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "164",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "165",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "165",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "166",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "166",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "167",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "167",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "169",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "169",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "170",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "170",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "171",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "171",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "172",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "172",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "173",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "173",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "174",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "174",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "174SPCRWNPT",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "174SPCRWNPT",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "174SPLEAHY",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "174SPLEAHY",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "181",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "181",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "182",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "182",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "193",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "193",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "194",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "194",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "195",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "195",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "195SPGNESSE",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "195SPGNESSE",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "197",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "197",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "202",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "202",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "203",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "203",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "204",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "204",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "205",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "205",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "206",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "206",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "207",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "207",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "211",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "211",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "213",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "213",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "215",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "215",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "221",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "221",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "223",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "223",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "224",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "224",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "225",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "225",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "231",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "231",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "240",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "240",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "241",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "241",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "243",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "243",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "260",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "260",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "261",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "261",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "262",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "262",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "263",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "263",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "270",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "270",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "270COPULLMN",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "271",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "271",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "272",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "272",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "274",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "274",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "278",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "278",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "281",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "281",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "281SPBURKE",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "281SPBURKE",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "282",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "282",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "283",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "283",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "285",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "285",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "285COWENTCH",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "285COWENTCH",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "290",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "290",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "291",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "291",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "292",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "292",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "300",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "300",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "302",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "302",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "302SPPURDY",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "302SPPURDY",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "303",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "303",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "304",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "304",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "304COTUNNEL",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "305",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "305",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "307",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "307",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "308",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "308",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "310",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "310",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "395",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "395",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "395SPNSC",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "395SPNSC",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "397",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "397",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "401",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "401",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "405",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "405",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "409",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "409",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "410",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "410",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "411",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "411",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "432",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "432",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "433",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "433",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "500",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "500",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "501",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "501",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "501COVANCVR",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "502",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "502",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "503",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "503",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "503SPCOUGAR",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "503SPCOUGAR",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "504",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "504",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "504SPOLD504",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "504SPOLD504",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "505",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "505",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "506",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "506",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "507",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "507",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "507COPEARL",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "508",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "508",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "509",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "509",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "510",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "510",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "510SPYELMLP",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "510SPYELMLP",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "512",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "512",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "513",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "513",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "515",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "515",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "516",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "516",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "518",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "518",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "519",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "519",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "520",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "520",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "522",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "522",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "523",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "523",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "524",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "524",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "524SP3RDAVE",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "524SP3RDAVE",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "524SPCEDRWY",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "524SPCEDRWY",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "525",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "525",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "525SPPAINE",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "525SPPAINE",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "526",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "526",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "527",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "527",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "528",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "528",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "529",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "529",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "529SPEVERET",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "529SPEVERET",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "530",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "530",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "531",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "531",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "532",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "532",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "534",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "534",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "536",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "536",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "538",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "538",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "539",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "539",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "539COLYNDEN",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "539COLYNDEN",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "542",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "542",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "542COMTBAKR",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "543",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "543",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "544",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "544",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "546",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "546",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "547",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "547",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "548",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "548",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "599",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "599",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "702",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "702",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "704",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "704",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "705",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "705",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "706",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "706",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "730",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "730",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "730SPWALULA",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "730SPWALULA",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "821",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "821",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "823",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "823",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "900",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "900",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "902",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "902",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "903",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "903",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "903SPCLEELM",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "903SPCLEELM",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "904",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "904",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "906",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "906",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "906SPHYAK",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "906SPHYAK",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "970",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "970",
+				"Direction": "i"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "971",
+				"Direction": "d"
+			}
+		},
+		{
+			"attributes": {
+				"RouteID": "971",
+				"Direction": "i"
+			}
+		}
+	]
 }

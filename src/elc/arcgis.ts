@@ -1,13 +1,13 @@
-import { hasXAndY } from "../types";
-import { ElcError } from "./errors";
-import {
-  type DateType,
-  type RouteGeometry,
-  type RouteLocation,
-  type SrmpRouteLocation,
-} from "./types";
 import Graphic from "@arcgis/core/Graphic";
 import Point from "@arcgis/core/geometry/Point";
+import { hasXAndY } from "../types";
+import { ElcError } from "./errors";
+import type {
+	DateType,
+	RouteGeometry,
+	RouteLocation,
+	SrmpRouteLocation,
+} from "./types";
 
 /**
  * This variable will be increased for each new graphic
@@ -22,9 +22,9 @@ let oid = 0;
  * @returns - True if all property values are valid, false otherwise.
  */
 function hasValidSrmpData<D extends DateType, G extends RouteGeometry>(
-  routeLocation: RouteLocation<D, G>,
+	routeLocation: RouteLocation<D, G>,
 ): routeLocation is SrmpRouteLocation<D, G> {
-  return routeLocation.Route != null && routeLocation.Srmp != null;
+	return routeLocation.Route != null && routeLocation.Srmp != null;
 }
 
 /**
@@ -33,54 +33,65 @@ function hasValidSrmpData<D extends DateType, G extends RouteGeometry>(
  * @returns - A {@link Graphic}.
  */
 export function routeLocationToGraphic<
-  D extends DateType = DateType,
-  G extends RouteGeometry = RouteGeometry,
+	D extends DateType = DateType,
+	G extends RouteGeometry = RouteGeometry,
 >(routeLocation: RouteLocation<D, G>) {
-  if (routeLocation instanceof ElcError) {
-    throw routeLocation;
-  }
-  let geometry: __esri.Point | undefined;
-  if (routeLocation.RouteGeometry && hasXAndY(routeLocation.RouteGeometry)) {
-    const { x, y, spatialReference } = routeLocation.RouteGeometry;
-    geometry = new Point({ x, y, spatialReference });
-  } else {
-    console.warn("Input does not have valid point geometry.", routeLocation);
-  }
-  let attributes;
-  if (hasValidSrmpData(routeLocation)) {
-    const {
-      Route,
-      Srmp,
-      Back,
-      Decrease,
-      // Angle,
-      // Arm,
-      // ArmCalcReturnCode,
-      // ArmCalcReturnMessage,
-      // Distance,
-      // EventPoint,
-      // Id,
-      // RealignmentDate,
-      // ReferenceDate,
-      // ResponseDate,
-      // RouteGeometry,
-    } = routeLocation;
-    attributes = {
-      OBJECTID: oid,
-      Route,
-      Direction: Decrease ? "D" : "I",
-      Srmp,
-      Back: Back ? "B" : "",
-      "Township Subdivision": null,
-      City: null,
-      County: null,
-    };
-    oid++;
-  } else {
-    console.warn("Input does not have valid SRMP attributes.", routeLocation);
-  }
-  return new Graphic({
-    geometry,
-    attributes,
-  });
+	if (routeLocation instanceof ElcError) {
+		throw routeLocation;
+	}
+	let geometry: __esri.Point | undefined;
+	if (routeLocation.RouteGeometry && hasXAndY(routeLocation.RouteGeometry)) {
+		const { x, y, spatialReference } = routeLocation.RouteGeometry;
+		geometry = new Point({ x, y, spatialReference });
+	} else {
+		console.warn("Input does not have valid point geometry.", routeLocation);
+	}
+	let attributes:
+		| (Record<string, unknown> & {
+				OBJECTID: typeof oid;
+				Route?: string;
+				Direction: "D" | "I";
+				Srmp?: number;
+				Back: "B" | "";
+				"Township Subdivision": null;
+				City: null;
+				County: null;
+		  })
+		| undefined;
+	if (hasValidSrmpData(routeLocation)) {
+		const {
+			Route,
+			Srmp,
+			Back,
+			Decrease,
+			// Angle,
+			// Arm,
+			// ArmCalcReturnCode,
+			// ArmCalcReturnMessage,
+			// Distance,
+			// EventPoint,
+			// Id,
+			// RealignmentDate,
+			// ReferenceDate,
+			// ResponseDate,
+			// RouteGeometry,
+		} = routeLocation;
+		attributes = {
+			OBJECTID: oid,
+			Route,
+			Direction: Decrease ? "D" : "I",
+			Srmp,
+			Back: Back ? "B" : "",
+			"Township Subdivision": null,
+			City: null,
+			County: null,
+		};
+		oid++;
+	} else {
+		console.warn("Input does not have valid SRMP attributes.", routeLocation);
+	}
+	return new Graphic({
+		geometry,
+		attributes,
+	});
 }

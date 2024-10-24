@@ -2,13 +2,13 @@ import { watch } from "@arcgis/core/core/reactiveUtils";
 import { RouteDescription } from "wsdot-route-utils";
 
 type RouteLocationAttributes = Record<
-  string,
-  string | number | null | undefined
+	string,
+	string | number | null | undefined
 > & {
-  Back: string;
-  Route: string;
-  Srmp: number;
-  Direction: string;
+	Back: string;
+	Route: string;
+	Srmp: number;
+	Direction: string;
 };
 
 /**
@@ -17,36 +17,36 @@ type RouteLocationAttributes = Record<
  * @returns - The updated URL.
  */
 export function updateUrlSearchParams(routeLocation: RouteLocationAttributes) {
-  const srmp = `${routeLocation.Srmp}${routeLocation.Back}`;
-  const { sr, rrt, rrq } = new RouteDescription(routeLocation.Route);
-  const direction = routeLocation.Direction;
+	const srmp = `${routeLocation.Srmp}${routeLocation.Back}`;
+	const { sr, rrt, rrq } = new RouteDescription(routeLocation.Route);
+	const direction = routeLocation.Direction;
 
-  const currentUrl = new URL(window.location.href);
+	const currentUrl = new URL(window.location.href);
 
-  /**
-   * Map of the search params and their values.
-   */
-  const argsMap = new Map([
-    ["SR", sr],
-    ["RRT", rrt],
-    ["RRQ", rrq],
-    ["MP", srmp],
-    ["DIR", direction],
-  ] as const);
+	/**
+	 * Map of the search params and their values.
+	 */
+	const argsMap = new Map([
+		["SR", sr],
+		["RRT", rrt],
+		["RRQ", rrq],
+		["MP", srmp],
+		["DIR", direction],
+	] as const);
 
-  // Update the URL search parameters.
-  for (const [key, value] of argsMap) {
-    if (value) {
-      currentUrl.searchParams.set(key, value);
-    } else {
-      currentUrl.searchParams.delete(key);
-    }
-  }
+	// Update the URL search parameters.
+	for (const [key, value] of argsMap) {
+		if (value) {
+			currentUrl.searchParams.set(key, value);
+		} else {
+			currentUrl.searchParams.delete(key);
+		}
+	}
 
-  // Update the browser's URL.
-  window.history.replaceState(null, "", currentUrl.toString());
+	// Update the browser's URL.
+	window.history.replaceState(null, "", currentUrl.toString());
 
-  return currentUrl;
+	return currentUrl;
 }
 
 const urlSearchRe = /(?<key>[^?=&]+)(?:=(?<value>[^&]*))?/g;
@@ -57,18 +57,18 @@ const urlSearchRe = /(?<key>[^?=&]+)(?:=(?<value>[^&]*))?/g;
  * @returns - The extracted search parameters.
  */
 export function extractUrlSearchParams(hash: string): URLSearchParams {
-  const params = new URLSearchParams();
-  urlSearchRe.lastIndex = 0;
-  let match: RegExpExecArray | null;
-  while ((match = urlSearchRe.exec(hash))) {
-    const { groups } = match;
-    const key = groups?.key;
-    const value = groups?.value;
-    if (key && value) {
-      params.set(key, value);
-    }
-  }
-  return params;
+	const params = new URLSearchParams();
+	urlSearchRe.lastIndex = 0;
+	let match: RegExpExecArray | null;
+	while ((match = urlSearchRe.exec(hash))) {
+		const { groups } = match;
+		const key = groups?.key;
+		const value = groups?.value;
+		if (key && value) {
+			params.set(key, value);
+		}
+	}
+	return params;
 }
 
 /**
@@ -77,13 +77,13 @@ export function extractUrlSearchParams(hash: string): URLSearchParams {
  * @returns - The updated URL.
  */
 export function moveUrlSearchToHash(url: URL | string) {
-  url = new URL(url);
+	url = new URL(url);
 
-  if (url.searchParams.size) {
-    url.hash += url.search;
-    url.search = "";
-  }
-  return url;
+	if (url.searchParams.size) {
+		url.hash += url.search;
+		url.search = "";
+	}
+	return url;
 }
 
 /**
@@ -92,31 +92,31 @@ export function moveUrlSearchToHash(url: URL | string) {
  * @param view - The map view.
  */
 export function setupMPUrlParamsUpdate(
-  view: __esri.MapView | __esri.SceneView,
+	view: __esri.MapView | __esri.SceneView,
 ) {
-  function updateUrl(visible: boolean): void {
-    // If the popup is not visible, remove the search params from the URL.
-    if (!visible) {
-      const noSearchUrl = window.location.search
-        ? window.location.href.replace(window.location.search, "")
-        : window.location.href;
-      history.replaceState(null, "", noSearchUrl);
-      return;
-    }
+	function updateUrl(visible: boolean): void {
+		// If the popup is not visible, remove the search params from the URL.
+		if (!visible) {
+			const noSearchUrl = window.location.search
+				? window.location.href.replace(window.location.search, "")
+				: window.location.href;
+			history.replaceState(null, "", noSearchUrl);
+			return;
+		}
 
-    // If the popup is visible, update the search params in the URL.
-    const feature = view.popup.selectedFeature;
-    try {
-      const url = updateUrlSearchParams(
-        feature.attributes as RouteLocationAttributes,
-      );
-      history.replaceState(null, "", url.toString());
-    } catch (error) {
-      console.error("Failed to update URL search params.", {
-        error,
-        feature,
-      });
-    }
-  }
-  watch(() => view.popup.visible, updateUrl);
+		// If the popup is visible, update the search params in the URL.
+		const feature = view.popup.selectedFeature;
+		try {
+			const url = updateUrlSearchParams(
+				feature.attributes as RouteLocationAttributes,
+			);
+			history.replaceState(null, "", url.toString());
+		} catch (error) {
+			console.error("Failed to update URL search params.", {
+				error,
+				feature,
+			});
+		}
+	}
+	watch(() => view.popup.visible, updateUrl);
 }

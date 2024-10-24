@@ -2,7 +2,7 @@ import type ListItem from "@arcgis/core/widgets/LayerList/ListItem";
 import type ListItemPanel from "@arcgis/core/widgets/LayerList/ListItemPanel";
 
 interface LayerListItemCreateEvent {
-  item: ListItem;
+	item: ListItem;
 }
 
 /**
@@ -11,7 +11,7 @@ interface LayerListItemCreateEvent {
  * @returns - true if the event is a {@link LayerListItemCreateEvent}, false otherwise
  */
 function hasListItem(event: unknown): event is LayerListItemCreateEvent {
-  return !!event && Object.hasOwn(event, "item");
+	return !!event && Object.hasOwn(event, "item");
 }
 
 /**
@@ -20,15 +20,15 @@ function hasListItem(event: unknown): event is LayerListItemCreateEvent {
  * which contains an "item" {@link ListItem} property.
  */
 const setupLayerListItems: __esri.LayerListListItemCreatedHandler = (event) => {
-  if (!hasListItem(event)) {
-    throw new TypeError(
-      `Expected event object to have an item property with a ListItem value`,
-    );
-  }
-  // Add a legend to the list item panel
-  event.item.panel = {
-    content: "legend",
-  } as ListItemPanel;
+	if (!hasListItem(event)) {
+		throw new TypeError(
+			"Expected event object to have an item property with a ListItem value",
+		);
+	}
+	// Add a legend to the list item panel
+	event.item.panel = {
+		content: "legend",
+	} as ListItemPanel;
 };
 
 /**
@@ -37,22 +37,22 @@ const setupLayerListItems: __esri.LayerListListItemCreatedHandler = (event) => {
  * @returns - The layer list widget.
  */
 export async function setupLayerList(
-  layerListProperties: __esri.LayerListProperties &
-    Required<Pick<__esri.LayerListProperties, "view">>,
+	layerListProperties: __esri.LayerListProperties &
+		Required<Pick<__esri.LayerListProperties, "view">>,
 ) {
-  const { default: LayerList } = await import("@arcgis/core/widgets/LayerList");
-  const defaultLLProperties = {
-    listItemCreatedFunction: setupLayerListItems,
-    visibleElements: {
-      errors: true,
-      statusIndicators: true,
-    },
-  };
+	const { default: LayerList } = await import("@arcgis/core/widgets/LayerList");
+	const defaultLLProperties = {
+		listItemCreatedFunction: setupLayerListItems,
+		visibleElements: {
+			errors: true,
+			statusIndicators: true,
+		},
+	};
 
-  const layerList = new LayerList({
-    ...defaultLLProperties,
-    ...layerListProperties,
-  });
+	const layerList = new LayerList({
+		...defaultLLProperties,
+		...layerListProperties,
+	});
 
-  return layerList;
+	return layerList;
 }

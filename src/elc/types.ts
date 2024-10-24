@@ -1,7 +1,7 @@
-import type { AttributeValue } from "../common/arcgis/typesAndInterfaces";
-import { XAndY, type AttributesObject, type TypedGraphic } from "../types";
 import type Graphic from "@arcgis/core/Graphic";
 import Point from "@arcgis/core/geometry/Point";
+import type { AttributeValue } from "../common/arcgis/typesAndInterfaces";
+import type { AttributesObject, TypedGraphic, XAndY } from "../types";
 
 export const objectIdFieldName = "OBJECTID";
 
@@ -13,10 +13,10 @@ export type TwoDigit = `${Digit}${Digit}`;
 export type Year = "1999" | `20${TwoDigit}`;
 
 export enum RouteTypes {
-  Increase = 1,
-  Decrease = 2,
-  Both = 3,
-  Ramp = 4,
+	Increase = 1,
+	Decrease = 2,
+	Both = 3,
+	Ramp = 4,
 }
 
 export type RouteIdString = `${ThreeDigit}${string}`;
@@ -24,44 +24,44 @@ export type RouteIdString = `${ThreeDigit}${string}`;
 export type RoutesSet = Record<RouteIdString, RouteTypes>;
 
 export interface RoutesResponse extends Record<Year, RoutesSet> {
-  Current: RoutesSet;
+	Current: RoutesSet;
 }
 
 /**
  * Find Nearest Route Locations parameters
  */
 export interface FindNearestRouteLocationParameters {
-  referenceDate: Date;
-  coordinates: number[];
-  inSR: number;
-  outSR?: number;
-  searchRadius: number;
-  routeFilter?: string;
-  lrsYear?: "Current" | `${number}`;
+	referenceDate: Date;
+	coordinates: number[];
+	inSR: number;
+	outSR?: number;
+	searchRadius: number;
+	routeFilter?: string;
+	lrsYear?: "Current" | `${number}`;
 }
 
 export interface WkidSpatialReference {
-  wkid: number;
+	wkid: number;
 }
 
 export interface RouteGeometryBase {
-  __type?: `${"Polyline" | "Point"}:#Wsdot.Geometry.Contracts`;
-  spatialReference: WkidSpatialReference;
+	__type?: `${"Polyline" | "Point"}:#Wsdot.Geometry.Contracts`;
+	spatialReference: WkidSpatialReference;
 }
 
 /**
  * A {@link RouteLocation["RouteGeometry"]} point.
  */
 export interface RouteGeometryPoint extends RouteGeometryBase, XAndY {
-  __type?: `Point:#Wsdot.Geometry.Contracts`;
+	__type?: `Point:#Wsdot.Geometry.Contracts`;
 }
 
 /**
  * A {@link RouteLocation["RouteGeometry"]} polyline.
  */
 export interface RouteGeometryPolyline extends RouteGeometryBase {
-  __type?: `Polyline:#Wsdot.Geometry.Contracts`;
-  paths: number[][][];
+	__type?: `Polyline:#Wsdot.Geometry.Contracts`;
+	paths: number[][][];
 }
 
 /**
@@ -70,13 +70,13 @@ export interface RouteGeometryPolyline extends RouteGeometryBase {
  * @returns Returns true if the input is of type RouteGeometryPoint, otherwise returns false.
  */
 export function isRouteGeometryPoint(
-  input: unknown,
+	input: unknown,
 ): input is RouteGeometryPoint {
-  return (
-    input !== null &&
-    typeof input === "object" &&
-    Object.hasOwn(input, "__type")
-  );
+	return (
+		input !== null &&
+		typeof input === "object" &&
+		Object.hasOwn(input, "__type")
+	);
 }
 
 export type RouteGeometry = RouteGeometryPoint | RouteGeometryPolyline;
@@ -100,109 +100,109 @@ export type DateString = `${number}/${number}/${number}`;
  * @returns True if the string is a valid date string, false otherwise.
  */
 export function isDateString(value: unknown): value is DateString {
-  return typeof value === "string" && /^\d{1,2}\/\d{1,2}\/\d{4}$/.test(value);
+	return typeof value === "string" && /^\d{1,2}\/\d{1,2}\/\d{4}$/.test(value);
 }
 
 export type DateType = Date | DateString;
 
 export interface RouteLocation<D extends DateType, G extends RouteGeometry> {
-  Angle?: number;
-  Arm?: number;
-  ArmCalcReturnCode?: number;
-  ArmCalcReturnMessage?: string;
-  Back?: boolean;
-  Decrease?: boolean | null;
-  Distance?: number;
-  EventPoint?: XAndY;
-  Id?: number;
-  RealignmentDate?: D;
-  ReferenceDate?: D;
-  ResponseDate?: D;
-  Route?: string;
-  RouteGeometry?: G;
-  Srmp?: number;
-  LocatingError?: string | null;
+	Angle?: number;
+	Arm?: number;
+	ArmCalcReturnCode?: number;
+	ArmCalcReturnMessage?: string;
+	Back?: boolean;
+	Decrease?: boolean | null;
+	Distance?: number;
+	EventPoint?: XAndY;
+	Id?: number;
+	RealignmentDate?: D;
+	ReferenceDate?: D;
+	ResponseDate?: D;
+	Route?: string;
+	RouteGeometry?: G;
+	Srmp?: number;
+	LocatingError?: string | null;
 }
 
 export type ArmRouteLocation<
-  D extends DateType,
-  G extends RouteGeometry,
+	D extends DateType,
+	G extends RouteGeometry,
 > = RouteLocation<D, G> & Required<Pick<RouteLocation<D, G>, "Arm">>;
 
 export type SrmpRouteLocation<
-  D extends DateType,
-  G extends RouteGeometry,
+	D extends DateType,
+	G extends RouteGeometry,
 > = RouteLocation<D, G> & Required<Pick<RouteLocation<D, G>, "Srmp" & "Back">>;
 
 export type ValidRouteLocationForMPInput<
-  D extends DateType,
-  G extends RouteGeometry,
+	D extends DateType,
+	G extends RouteGeometry,
 > = ArmRouteLocation<D, G> | SrmpRouteLocation<D, G>;
 
 export type FindNearestRouteLocationResponse<
-  D extends DateType,
-  G extends RouteGeometry,
+	D extends DateType,
+	G extends RouteGeometry,
 > = RouteLocation<D, G>[];
 
 export interface FindRouteLocationParameters<
-  D extends DateType = DateType,
-  G extends RouteGeometry = RouteGeometry,
+	D extends DateType = DateType,
+	G extends RouteGeometry = RouteGeometry,
 > {
-  locations: ValidRouteLocationForMPInput<D, G>[];
-  referenceDate?: Date;
-  outSR: number;
-  lrsYear?: "Current" | `${number}`;
+	locations: ValidRouteLocationForMPInput<D, G>[];
+	referenceDate?: Date;
+	outSR: number;
+	lrsYear?: "Current" | `${number}`;
 }
 
 /**
  * The graphic attributes for a graphic in the Mileposts feature layer.
  */
 export interface ElcAttributes
-  extends Required<
-    Pick<
-      RouteLocation<DateString, RouteGeometryPoint>,
-      "Route" | "Decrease" | "Srmp" | "Back"
-    >
-  > {
-  [key: string]: AttributeValue;
-  [objectIdFieldName]: number;
-  /**
-   * @inheritdoc
-   */
-  Route: string;
-  /**
-   * @inheritdoc
-   */
-  Srmp: number;
+	extends Required<
+		Pick<
+			RouteLocation<DateString, RouteGeometryPoint>,
+			"Route" | "Decrease" | "Srmp" | "Back"
+		>
+	> {
+	[key: string]: AttributeValue;
+	[objectIdFieldName]: number;
+	/**
+	 * @inheritdoc
+	 */
+	Route: string;
+	/**
+	 * @inheritdoc
+	 */
+	Srmp: number;
 }
 
 export interface LayerFeatureAttributes
-  extends ElcAttributes,
-    AttributesObject {
-  "Township Subdivision": string | null;
-  County: string | null;
-  City: string | null;
+	extends ElcAttributes,
+		AttributesObject {
+	"Township Subdivision": string | null;
+	County: string | null;
+	City: string | null;
 }
 
 /**
  * A milepost point {@link Graphic}.
  */
 export type MilepostFeature = Graphic &
-  TypedGraphic<Point, LayerFeatureAttributes>;
+	TypedGraphic<Point, LayerFeatureAttributes>;
 
 const elcFieldNames = [
-  "Route",
-  "Decrease",
-  objectIdFieldName,
-  "Srmp",
-  "Back",
+	"Route",
+	"Decrease",
+	objectIdFieldName,
+	"Srmp",
+	"Back",
 ] as const;
 
 const featureLayerAttributesFieldNames = [
-  ...elcFieldNames,
-  "Township Subdivision",
-  "County",
-  "City",
+	...elcFieldNames,
+	"Township Subdivision",
+	"County",
+	"City",
 ] as const;
 
 /**
@@ -214,11 +214,11 @@ const featureLayerAttributesFieldNames = [
  *   a corresponding property in the input object.
  */
 function isElcAttributes(input: unknown): input is ElcAttributes {
-  return (
-    !!input &&
-    typeof input === "object" &&
-    elcFieldNames.every((fieldName) => Object.hasOwn(input, fieldName))
-  );
+	return (
+		!!input &&
+		typeof input === "object" &&
+		elcFieldNames.every((fieldName) => Object.hasOwn(input, fieldName))
+	);
 }
 
 /**
@@ -230,14 +230,14 @@ function isElcAttributes(input: unknown): input is ElcAttributes {
  *   a corresponding property in the input object.
  */
 function isValidAttributesObject(
-  input: unknown,
+	input: unknown,
 ): input is LayerFeatureAttributes {
-  return (
-    isElcAttributes(input) &&
-    featureLayerAttributesFieldNames.every((fieldName) =>
-      Object.hasOwn(input, fieldName),
-    )
-  );
+	return (
+		isElcAttributes(input) &&
+		featureLayerAttributesFieldNames.every((fieldName) =>
+			Object.hasOwn(input, fieldName),
+		)
+	);
 }
 
 /**
@@ -247,10 +247,10 @@ function isValidAttributesObject(
  * false otherwise.
  */
 export function isMilepostFeature(
-  graphic: Graphic,
+	graphic: Graphic,
 ): graphic is MilepostFeature {
-  return (
-    graphic.geometry instanceof Point &&
-    isValidAttributesObject(graphic.attributes)
-  );
+	return (
+		graphic.geometry instanceof Point &&
+		isValidAttributesObject(graphic.attributes)
+	);
 }

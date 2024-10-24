@@ -1,8 +1,8 @@
 import {
-  CrsLabel,
-  createGeoUriString,
-  type GeoUriString,
-  type GeoUrlOptions,
+	CrsLabel,
+	type GeoUriString,
+	type GeoUrlOptions,
+	createGeoUriString,
 } from "../urls/GeoUri";
 
 export type AuthorityUppercase = "EPSG" | "ESRI";
@@ -18,24 +18,24 @@ export const crsRe = /^(?<authority>\w{4}):(?<wkid>\d+)$/i;
  * {@link CoordinateReferenceSystem}, false otherwise.
  */
 export function isCrs(input: string): input is CoordinateReferenceSystem {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
-  return !!input && (input === CrsLabel.wgs84 || crsRe.test(input));
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
+	return !!input && (input === CrsLabel.wgs84 || crsRe.test(input));
 }
 
 export type GeoUrlSearchParameters = Record<string, string> & {
-  /**
-   * Used for address query
-   */
-  q?: string;
-  /**
-   * Zoom level
-   */
-  z?: number;
+	/**
+	 * Used for address query
+	 */
+	q?: string;
+	/**
+	 * Zoom level
+	 */
+	z?: number;
 };
 
 export type ExtendedGeoUrl = `${GeoUriString}${"" | `;${string}=${string}`}${
-  | `?${string}`
-  | ""}`;
+	| `?${string}`
+	| ""}`;
 
 /**
  * This is for non-standard extensions to GeoURI
@@ -75,15 +75,15 @@ export type ExtendedGeoUrl = `${GeoUriString}${"" | `;${string}=${string}`}${
  * >     Note: All strings passed in the geo URI must be encoded. For example, the string `1st & Pike, Seattle` should become `1st%20%26%20Pike%2C%20Seattle`. Spaces in the string can be encoded with `%20` or replaced with the plus sign (`+`).
  */
 export interface ExtendedGeoUrlOptions extends Omit<GeoUrlOptions, "crs"> {
-  /**
-   * Coordinate Reference system.
-   * Not needed for 4326
-   */
-  crs?: CoordinateReferenceSystem;
-  /**
-   * Additional search parameters
-   */
-  search?: GeoUrlSearchParameters;
+	/**
+	 * Coordinate Reference system.
+	 * Not needed for 4326
+	 */
+	crs?: CoordinateReferenceSystem;
+	/**
+	 * Additional search parameters
+	 */
+	search?: GeoUrlSearchParameters;
 }
 
 /**
@@ -93,11 +93,11 @@ export interface ExtendedGeoUrlOptions extends Omit<GeoUrlOptions, "crs"> {
  * @returns - A GeoURI string
  */
 export function createExtendedGeoUri(options: ExtendedGeoUrlOptions) {
-  let url: string = createGeoUriString(options as GeoUrlOptions);
-  // Add search parameters if provided.
-  if (options.search) {
-    const search = new URLSearchParams(options.search);
-    url = [url, search].join("?");
-  }
-  return url;
+	let url: string = createGeoUriString(options as GeoUrlOptions);
+	// Add search parameters if provided.
+	if (options.search) {
+		const search = new URLSearchParams(options.search);
+		url = [url, search].join("?");
+	}
+	return url;
 }

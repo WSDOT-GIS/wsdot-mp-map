@@ -6,20 +6,20 @@ import { webMercatorToGeographic } from "@arcgis/core/geometry/support/webMercat
  * @returns The created calcite-alert element.
  */
 function createCalciteAlert() {
-  const message = "Coordinates copied to clipboard.";
-  const alert = document.createElement("calcite-alert");
-  alert.kind = "success";
-  alert.label = message;
-  alert.scale = "s";
-  alert.autoClose = true;
-  alert.autoCloseDuration = "fast";
-  alert.placement = "top";
+	const message = "Coordinates copied to clipboard.";
+	const alert = document.createElement("calcite-alert");
+	alert.kind = "success";
+	alert.label = message;
+	alert.scale = "s";
+	alert.autoClose = true;
+	alert.autoCloseDuration = "fast";
+	alert.placement = "top";
 
-  const messageElement = document.createElement("p");
-  messageElement.append(message);
-  messageElement.slot = "message";
-  alert.append(messageElement);
-  return { alert, messageElement };
+	const messageElement = document.createElement("p");
+	messageElement.append(message);
+	messageElement.slot = "message";
+	alert.append(messageElement);
+	return { alert, messageElement };
 }
 
 /**
@@ -27,48 +27,48 @@ function createCalciteAlert() {
  * @param view - The map view to set up popup actions for.
  */
 export function setupPopupActions(view: __esri.MapView) {
-  const { alert, messageElement } = createCalciteAlert();
-  document.body.append(alert);
+	const { alert, messageElement } = createCalciteAlert();
+	document.body.append(alert);
 
-  const copyPointToClipboard = (point: __esri.Point) => {
-    const { spatialReference } = point;
-    if (spatialReference.isWebMercator) {
-      point = webMercatorToGeographic(point) as __esri.Point;
-    } else if (!spatialReference.isWGS84) {
-      throw new Error(
-        `Unsupported spatial reference: ${spatialReference.wkid}`,
-      );
-    }
+	const copyPointToClipboard = (point: __esri.Point) => {
+		const { spatialReference } = point;
+		if (spatialReference.isWebMercator) {
+			point = webMercatorToGeographic(point) as __esri.Point;
+		} else if (!spatialReference.isWGS84) {
+			throw new Error(
+				`Unsupported spatial reference: ${spatialReference.wkid}`,
+			);
+		}
 
-    const { x, y } = point;
-    messageElement.textContent = `Copied ${[y, x].map((x) => x.toFixed(3)).join(",")} to clipboard.`;
+		const { x, y } = point;
+		messageElement.textContent = `Copied ${[y, x].map((x) => x.toFixed(3)).join(",")} to clipboard.`;
 
-    navigator.clipboard
-      .writeText([y, x].join(","))
-      .then(() => {
-        /* __PURE__ */ console.debug("Copied coordinates to clipboard.");
-        alert.open = true;
-      })
-      .catch((error: unknown) => {
-        console.error("Failed to copy coordinates.", error);
-      });
-  };
+		navigator.clipboard
+			.writeText([y, x].join(","))
+			.then(() => {
+				/* __PURE__ */ console.debug("Copied coordinates to clipboard.");
+				alert.open = true;
+			})
+			.catch((error: unknown) => {
+				console.error("Failed to copy coordinates.", error);
+			});
+	};
 
-  function isPoint(g: __esri.Geometry): g is __esri.Point {
-    return g.type === "point";
-  }
+	function isPoint(g: __esri.Geometry): g is __esri.Point {
+		return g.type === "point";
+	}
 
-  const popupTriggerActionEventHandler: __esri.PopupTriggerActionEventHandler =
-    (event) => {
-      /* __PURE__ */ console.debug("trigger-action", event);
-      if (event.action.id === "copy") {
-        const feature = view.popup.selectedFeature;
-        if (isPoint(feature.geometry)) {
-          copyPointToClipboard(feature.geometry);
-        }
-      }
-    };
-  on(() => view.popup, "trigger-action", popupTriggerActionEventHandler);
+	const popupTriggerActionEventHandler: __esri.PopupTriggerActionEventHandler =
+		(event) => {
+			/* __PURE__ */ console.debug("trigger-action", event);
+			if (event.action.id === "copy") {
+				const feature = view.popup.selectedFeature;
+				if (isPoint(feature.geometry)) {
+					copyPointToClipboard(feature.geometry);
+				}
+			}
+		};
+	on(() => view.popup, "trigger-action", popupTriggerActionEventHandler);
 }
 
 export default setupPopupActions;
