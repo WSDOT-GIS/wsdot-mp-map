@@ -51,7 +51,6 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-jsdoc": "^50.4.3",
     "jsdom": "^25.0.1",
-    "lefthook": "^1.8.1",
     "msw": "^2.5.0",
     "optionator": "^0.9.4",
     "svgo": "^3.3.2",
