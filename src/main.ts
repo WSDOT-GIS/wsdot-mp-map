@@ -1,4 +1,3 @@
-import "./WAExtent";
 import waExtent from "./WAExtent";
 import { addGraphicsToLayer } from "./addGraphicsToLayer";
 import "./components/wsdot-footer";
@@ -59,6 +58,9 @@ import "@wsdot/web-styles/css/wsdot-colors.css";
 // does not seem to work.
 const calciteAssetPath = `${import.meta.env.BASE_URL}/calcite/assets`;
 defineCustomElements(window, { resourcesUrl: calciteAssetPath });
+
+// Setup interceptors for non-Calcite icons.
+// E.g., https://js.arcgis.com/calcite-components/2.13.0/assets/icon/usRouteShield16.json
 
 /**
  * Determines the host environment based on the location hostname.
