@@ -29,5 +29,11 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "pnpm"
+
+      # Install project dependencies
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile --reporter append-only --prefer-offline
+      
+      - name: Test
+        run: pnpm test
+
