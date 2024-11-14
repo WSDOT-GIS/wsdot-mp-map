@@ -8,6 +8,7 @@ interface ImportMetaEnv {
 	readonly VITE_TITLE: string;
 	readonly VITE_HEADER_TITLE: string;
 	readonly VITE_WIDTH_THRESHOLD_IN_PIXELS: `${number}`;
+	readonly VITE_GOOGLE_MEASUREMENT_ID: string;
 	// more env variables...
 }
 

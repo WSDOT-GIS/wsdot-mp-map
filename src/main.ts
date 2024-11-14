@@ -49,6 +49,18 @@ import { defineCustomElements } from "@esri/calcite-components/dist/loader";
 import "@fontsource/inconsolata";
 import "@fontsource/lato";
 import "@wsdot/web-styles/css/wsdot-colors.css";
+import type { AnalyticsInstance } from "analytics";
+
+let analytics: AnalyticsInstance | null = null;
+
+import("./setupAnalytics")
+	.then(({ default: a }) => {
+		/* __PURE__ */ console.debug("Tag Manager loaded", a);
+		analytics = a;
+	})
+	.catch((reason) => {
+		console.error("Failed to load Tag Manager", reason);
+	});
 
 // Configure where Calcite assets are loaded from.
 // See https://developers.arcgis.com/calcite-design-system/get-started/#distribution
