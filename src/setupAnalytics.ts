@@ -1,3 +1,8 @@
+/**
+ * Sets up site analytics only if user has not opted out of tracking.
+ * @module setupAnalytics
+ */
+
 import type { AnalyticsInstance } from "analytics";
 
 /**

@@ -45,39 +45,39 @@ const external: ExternalFunction = (id, _parentId, _isResolved) => {
 		return false;
 	}
 
-	/**
-	 * A list of regular expressions. If an id
-	 * matches any of these, it will be skipped.
-	 */
-	const toSkip = [
-		/BingMaps/i,
-		/GeoJSON/i,
-		/GeoRSS/i,
-		/integratedMeshLayer/i,
-		/KML/i,
-		// /KnowledgeGraph/i,
-		// /OGCFeature/i,
-		/OpenStreetMap/i,
-		// /Oriented/i,
-		/PointCloud/i,
-		/RouteLayer/i,
-		/sphere/i,
-		// /StreamLayer/i,
-		/Video/i,
-		/Voxel/i,
-		/WFS/i,
-		/WMT?SLayer/i,
-	];
-	const shouldSkip =
-		isNonEnglishLanguage(id) ||
-		toSkip.some((re) => {
-			const match = re.exec(id);
-			if (!match) {
-				return false;
-			}
+	// /**
+	//  * A list of regular expressions. If an id
+	//  * matches any of these, it will be skipped.
+	//  */
+	// const toSkip = [
+	// 	/BingMaps/i,
+	// 	/GeoJSON/i,
+	// 	/GeoRSS/i,
+	// 	/integratedMeshLayer/i,
+	// 	/KML/i,
+	// 	// /KnowledgeGraph/i,
+	// 	// /OGCFeature/i,
+	// 	/OpenStreetMap/i,
+	// 	// /Oriented/i,
+	// 	/PointCloud/i,
+	// 	/RouteLayer/i,
+	// 	/sphere/i,
+	// 	// /StreamLayer/i,
+	// 	/Video/i,
+	// 	/Voxel/i,
+	// 	/WFS/i,
+	// 	/WMT?SLayer/i,
+	// ];
+	const shouldSkip = isNonEnglishLanguage(id);
+	// ||
+	// toSkip.some((re) => {
+	// 	const match = re.exec(id);
+	// 	if (!match) {
+	// 		return false;
+	// 	}
 
-			return true;
-		});
+	// 	return true;
+	// });
 
 	return shouldSkip;
 };
