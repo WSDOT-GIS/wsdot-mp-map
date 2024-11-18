@@ -31,10 +31,10 @@ importers:
         version: 7946.0.14
       '@wsdot/land-use-codes':
         specifier: github:WSDOT-GIS/land-use
-        version: https://codeload.github.com/WSDOT-GIS/land-use/tar.gz/0ed447fa99cd05a5480cec5e2e94b1b06cbd02b5(typescript@5.6.3)
+        version: git+https://git@github.com:WSDOT-GIS/land-use.git#0ed447fa99cd05a5480cec5e2e94b1b06cbd02b5(typescript@5.6.3)
       '@wsdot/web-styles':
         specifier: github:WSDOT-GIS/wsdot-web-styles
-        version: https://codeload.github.com/WSDOT-GIS/wsdot-web-styles/tar.gz/994ed4879191619e7f814df3dd58d1cf9c509fad
+        version: git+https://git@github.com:WSDOT-GIS/wsdot-web-styles.git#3398615915f71ee72e1dfef9d6d2c1035df16b17
       analytics:
         specifier: ^0.8.14
         version: 0.8.14(@types/dlv@1.1.5)
@@ -1085,15 +1085,15 @@ packages:
   '@webcomponents/shadycss@1.11.2':
     resolution: {integrity: sha512-vRq+GniJAYSBmTRnhCYPAPq6THYqovJ/gzGThWbgEZUQaBccndGTi1hdiUP15HzEco0I6t4RCtXyX0rsSmwgPw==}
 
-  '@wsdot/land-use-codes@https://codeload.github.com/WSDOT-GIS/land-use/tar.gz/0ed447fa99cd05a5480cec5e2e94b1b06cbd02b5':
-    resolution: {tarball: https://codeload.github.com/WSDOT-GIS/land-use/tar.gz/0ed447fa99cd05a5480cec5e2e94b1b06cbd02b5}
+  '@wsdot/land-use-codes@git+https://git@github.com:WSDOT-GIS/land-use.git#0ed447fa99cd05a5480cec5e2e94b1b06cbd02b5':
+    resolution: {commit: 0ed447fa99cd05a5480cec5e2e94b1b06cbd02b5, repo: git@github.com:WSDOT-GIS/land-use.git, type: git}
     version: 0.0.0
     peerDependencies:
       typescript: ^5.0.0
 
-  '@wsdot/web-styles@https://codeload.github.com/WSDOT-GIS/wsdot-web-styles/tar.gz/994ed4879191619e7f814df3dd58d1cf9c509fad':
-    resolution: {tarball: https://codeload.github.com/WSDOT-GIS/wsdot-web-styles/tar.gz/994ed4879191619e7f814df3dd58d1cf9c509fad}
-    version: 1.0.0
+  '@wsdot/web-styles@git+https://git@github.com:WSDOT-GIS/wsdot-web-styles.git#3398615915f71ee72e1dfef9d6d2c1035df16b17':
+    resolution: {commit: 3398615915f71ee72e1dfef9d6d2c1035df16b17, repo: git@github.com:WSDOT-GIS/wsdot-web-styles.git, type: git}
+    version: 1.0.1
 
   '@zip.js/zip.js@2.7.52':
     resolution: {integrity: sha512-+5g7FQswvrCHwYKNMd/KFxZSObctLSsQOgqBSi0LzwHo3li9Eh1w5cF5ndjQw9Zbr3ajVnd2+XyiX85gAetx1Q==}
@@ -1260,8 +1260,8 @@ packages:
   core-util-is@1.0.3:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
 
-  cross-spawn@7.0.3:
-    resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==}
+  cross-spawn@7.0.6:
+    resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
     engines: {node: '>= 8'}
 
   cspell-config-lib@8.15.4:
@@ -3158,7 +3158,7 @@ snapshots:
 
   '@webcomponents/shadycss@1.11.2': {}
 
-  '@wsdot/land-use-codes@https://codeload.github.com/WSDOT-GIS/land-use/tar.gz/0ed447fa99cd05a5480cec5e2e94b1b06cbd02b5(typescript@5.6.3)':
+  '@wsdot/land-use-codes@git+https://git@github.com:WSDOT-GIS/land-use.git#0ed447fa99cd05a5480cec5e2e94b1b06cbd02b5(typescript@5.6.3)':
     dependencies:
       typescript: 5.6.3
     optionalDependencies:
@@ -3169,7 +3169,7 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@wsdot/web-styles@https://codeload.github.com/WSDOT-GIS/wsdot-web-styles/tar.gz/994ed4879191619e7f814df3dd58d1cf9c509fad':
+  '@wsdot/web-styles@git+https://git@github.com:WSDOT-GIS/wsdot-web-styles.git#3398615915f71ee72e1dfef9d6d2c1035df16b17':
     optionalDependencies:
       '@fontsource/inconsolata': 5.1.0
       '@fontsource/lato': 5.1.0
@@ -3325,7 +3325,7 @@ snapshots:
 
   core-util-is@1.0.3: {}
 
-  cross-spawn@7.0.3:
+  cross-spawn@7.0.6:
     dependencies:
       path-key: 3.1.1
       shebang-command: 2.0.0
@@ -3606,7 +3606,7 @@ snapshots:
 
   foreground-child@3.3.0:
     dependencies:
-      cross-spawn: 7.0.3
+      cross-spawn: 7.0.6
       signal-exit: 4.1.0
 
   form-data@4.0.1:
