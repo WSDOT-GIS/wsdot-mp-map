@@ -21,7 +21,7 @@
 	},
 	"dependencies": {
 		"@analytics/google-tag-manager": "^0.5.5",
-		"@arcgis/core": "^4.31.4",
+		"@arcgis/core": "^4.31.6",
 		"@esri/calcite-components": "^2.13.2",
 		"@fontsource/inconsolata": "^5.1.0",
 		"@fontsource/lato": "^5.1.0",
@@ -38,18 +38,18 @@
 		"@biomejs/biome": "1.9.4",
 		"@types/arcgis-rest-api": "^10.4.8",
 		"@types/browser-update": "^3.3.3",
-		"@types/node": "^22.9.0",
+		"@types/node": "^22.9.3",
 		"@vitest/coverage-istanbul": "^2.1.5",
 		"@vitest/coverage-v8": "^2.1.5",
 		"browserslist-to-esbuild": "^2.1.1",
 		"cspell": "^8.16.0",
 		"jsdom": "^25.0.1",
-		"msw": "^2.6.5",
+		"msw": "^2.6.6",
 		"optionator": "^0.9.4",
 		"svgo": "^3.3.2",
 		"svgson": "^5.3.1",
 		"tsx": "^4.19.2",
-		"typescript": "^5.6.3",
+		"typescript": "^5.7.2",
 		"vite": "^5.4.11",
 		"vitest": "^2.1.5"
 	},
@@ -68,5 +68,5 @@
 	],
 	"author": "Jeff Jacobson",
 	"license": "Unlicense",
-	"packageManager": "pnpm@9.13.1+sha512.5ac37545851c55ec58521b6c285db6f848f93ca70889beb4145f5b40fe234e4ea4faee4dad12ac5c139e494374c65d9c3a6ec9a25954378fa286a250e68d2f20"
+	"packageManager": "pnpm@9.14.2+sha512.6e2baf77d06b9362294152c851c4f278ede37ab1eba3a55fda317a4a17b209f4dbb973fb250a77abc463a341fcb1f17f17cfa24091c4eb319cda0d9b84278387"
 }
