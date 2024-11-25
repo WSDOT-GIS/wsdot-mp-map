@@ -2,6 +2,12 @@
 	display: block;
 	background-color: var(--wsdot-logo-green);
 	color: white;
+	--calcite-color-text-link: white;
+	--calcite-color-brand-underline: white;
+}
+
+calcite-link:hover {
+	--calcite-color-brand-underline: rgba(255 255 255 0);
 }
 
 footer > ul {
