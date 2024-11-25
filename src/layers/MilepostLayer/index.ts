@@ -1,20 +1,14 @@
 import Collection from "@arcgis/core/core/Collection";
-import type SpatialReference from "@arcgis/core/geometry/SpatialReference";
-import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
+import type FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import type Field from "@arcgis/core/layers/support/Field";
 import FieldInfo from "@arcgis/core/popup/FieldInfo";
-import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer";
 import ActionButton from "@arcgis/core/support/actions/ActionButton";
-import { SimpleMarkerSymbol } from "@arcgis/core/symbols";
-import waExtent from "../../WAExtent";
-import { highwaySignBackgroundColor, highwaySignTextColor } from "../../colors";
 import { objectIdFieldName } from "../../elc/types";
 import type { MilepostExpressionInfo } from "./arcade";
 import {
 	expressions as arcadeExpressions,
 	locationLinksContent,
 } from "./arcade";
-import labelClass from "./labelClass";
 
 type FieldProperties = Required<ConstructorParameters<typeof Field>>[0];
 
@@ -107,7 +101,7 @@ function createAndAddFieldInfoForExpression(
  * @param milepostLayer - The milepost layer.
  * @returns The created popup template.
  */
-function createPopupTemplate(milepostLayer: FeatureLayer) {
+export function createPopupTemplate(milepostLayer: FeatureLayer) {
 	const popupTemplate = milepostLayer.createPopupTemplate({
 		// Hide all of the initial fields.
 		// These fields are already displayed in the popup's title.
@@ -139,52 +133,4 @@ function createPopupTemplate(milepostLayer: FeatureLayer) {
 	milepostLayer.popupTemplate = popupTemplate;
 
 	return popupTemplate;
-}
-
-/**
- * Creates the {@link FeatureLayer} that displays located mileposts.
- * @param spatialReference - The {@link SpatialReference} of the layer.
- * @returns - A {@link FeatureLayer}
- */
-export function createMilepostLayer(spatialReference: SpatialReference) {
-	/**
-	 * This is the symbol for the point on the route.
-	 */
-	const milepostLayer = new FeatureLayer({
-		labelingInfo: [labelClass],
-		title: "Mileposts",
-		id: "mileposts",
-		listMode: "hide",
-		fields: fields,
-		geometryType: "point",
-		objectIdField: objectIdFieldName,
-		fullExtent: waExtent,
-		spatialReference,
-		// Since there are no features at the beginning,
-		// need to add an empty array as the source.
-		source: [],
-		popupEnabled: true,
-		hasM: true,
-	});
-
-	milepostLayer.renderer = createRenderer();
-	createPopupTemplate(milepostLayer);
-
-	return milepostLayer;
-}
-function createRenderer() {
-	const actualMPSymbol = new SimpleMarkerSymbol({
-		color: highwaySignBackgroundColor,
-		size: 12,
-		style: "circle",
-		outline: {
-			width: 1,
-			color: highwaySignTextColor,
-		},
-	});
-
-	const renderer = new SimpleRenderer({
-		symbol: actualMPSymbol,
-	});
-	return renderer;
 }

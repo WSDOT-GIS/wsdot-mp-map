@@ -19,8 +19,8 @@ import "./layers/AccessControlLayer";
 import { accessControlLayer } from "./layers/AccessControlLayer";
 import { cityLimitsLayer } from "./layers/CityLimitsLayer";
 import "./layers/MilepostLayer";
-import { createMilepostLayer } from "./layers/MilepostLayer";
 import { createMilepostLineLayer } from "./layers/MilepostLayer/milepost-line-layer";
+import { createMilepostPointLayer } from "./layers/MilepostLayer/milepost-point-layer";
 import "./layers/TempLayer";
 import { tempLayer } from "./layers/TempLayer";
 import "./layers/parcels";
@@ -59,6 +59,7 @@ import("./setupAnalytics")
 	.then(({ default: a }) => {
 		/* __PURE__ */ console.debug("Tag Manager loaded", a);
 		analytics = a;
+		analytics?.page();
 	})
 	.catch((reason) => {
 		console.error("Failed to load Tag Manager", reason);
@@ -354,7 +355,9 @@ if (!testWebGL2Support()) {
 	}
 	request.httpsDomains.push("wsdot.wa.gov", "data.wsdot.wa.gov");
 
-	const milepostPointLayer = createMilepostLayer(waExtent.spatialReference);
+	const milepostPointLayer = createMilepostPointLayer(
+		waExtent.spatialReference,
+	);
 	const milepostLineLayer = createMilepostLineLayer(waExtent.spatialReference);
 
 	// Show the instructions alert once the mileposts layer has been loaded.
