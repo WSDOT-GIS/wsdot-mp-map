@@ -19,13 +19,14 @@ import "./layers/AccessControlLayer";
 import { accessControlLayer } from "./layers/AccessControlLayer";
 import { cityLimitsLayer } from "./layers/CityLimitsLayer";
 import "./layers/MilepostLayer";
-import { createMilepostLayer } from "./layers/MilepostLayer";
+import { createMilepostLineLayer } from "./layers/MilepostLayer/milepost-line-layer";
+import { createMilepostPointLayer } from "./layers/MilepostLayer/milepost-point-layer";
 import "./layers/TempLayer";
 import { tempLayer } from "./layers/TempLayer";
 import "./layers/parcels";
 import { createParcelsGroupLayer } from "./layers/parcels";
 import "./types";
-import { UIAddPositions, isGraphicHit } from "./types";
+import { UIAddPositions, hasXAndY, isGraphicHit } from "./types";
 import isInternal from "./urls/isIntranet";
 import { setupSidebarCollapseButton } from "./widgets/CollapseButton";
 import "./widgets/LayerList";
@@ -37,6 +38,7 @@ import EsriMap from "@arcgis/core/Map";
 import Viewpoint from "@arcgis/core/Viewpoint";
 import config from "@arcgis/core/config";
 import { whenOnce } from "@arcgis/core/core/reactiveUtils";
+import Polyline from "@arcgis/core/geometry/Polyline";
 import PortalItem from "@arcgis/core/portal/PortalItem";
 import MapView from "@arcgis/core/views/MapView";
 import Expand from "@arcgis/core/widgets/Expand";
@@ -57,6 +59,7 @@ import("./setupAnalytics")
 	.then(({ default: a }) => {
 		/* __PURE__ */ console.debug("Tag Manager loaded", a);
 		analytics = a;
+		analytics?.page();
 	})
 	.catch((reason) => {
 		console.error("Failed to load Tag Manager", reason);
@@ -207,8 +210,15 @@ const elcMainlinesOnlyFilter =
  * @param view - The map view.
  */
 function openPopup(hits: __esri.GraphicHit[], view: MapView) {
+	/* __PURE__ */ console.debug("openPopup", {
+		hits: hits.map((h) => h.graphic.toJSON() as unknown),
+	});
+	function extractGraphic(graphicHit: __esri.GraphicHit): Graphic {
+		const { graphic } = graphicHit;
+		return graphic;
+	}
 	// Get the features that were hit by the hit test.
-	const features = hits.map(({ graphic }) => graphic);
+	const features = hits.map(extractGraphic);
 	const updateUrlSearch = () => {
 		const routeLocation = features
 			.map(
@@ -229,6 +239,9 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
 
 		updateUrlSearchParams(routeLocation);
 	};
+	/* __PURE__ */ console.debug("about to open popup", {
+		features: features.map((f) => f.toJSON() as unknown),
+	});
 	view
 		.openPopup({
 			features,
@@ -283,6 +296,7 @@ if (!testWebGL2Support()) {
 	 * @returns - a promise that resolves to an array of {@link RouteLocation|RouteLocations}
 	 */
 	async function callFindNearestRouteLocation(event: __esri.ViewClickEvent) {
+		/* __PURE__ */ console.group(callFindNearestRouteLocation.name);
 		const { x, y, spatialReference } = event.mapPoint;
 		const locations = await findNearestRouteLocations({
 			coordinates: [x, y],
@@ -298,7 +312,24 @@ if (!testWebGL2Support()) {
 		}
 
 		const locationGraphic = routeLocationToGraphic(location);
-		addGraphicsToLayer(milepostLayer, [locationGraphic])
+		if (hasXAndY(locationGraphic.geometry)) {
+			const { x: routeX, y: routeY } = locationGraphic.geometry;
+			locationGraphic.geometry = new Polyline({
+				paths: [
+					[
+						[x, y],
+						[routeX, routeY],
+					],
+				],
+				spatialReference,
+			});
+		}
+		const layer =
+			locationGraphic.geometry.type === "point"
+				? milepostPointLayer
+				: milepostLineLayer;
+		/* __PURE__ */ console.debug("location graphic", locationGraphic.toJSON());
+		addGraphicsToLayer(layer, [locationGraphic])
 			.then((addResults) => {
 				/* __PURE__ */ console.debug(
 					"addResults returned by addGraphicsToLayer",
@@ -308,7 +339,6 @@ if (!testWebGL2Support()) {
 			.catch((error: unknown) => {
 				console.error("addGraphicsToLayer failed", error);
 			});
-
 		return locations;
 	}
 
@@ -325,10 +355,13 @@ if (!testWebGL2Support()) {
 	}
 	request.httpsDomains.push("wsdot.wa.gov", "data.wsdot.wa.gov");
 
-	const milepostLayer = createMilepostLayer(waExtent.spatialReference);
+	const milepostPointLayer = createMilepostPointLayer(
+		waExtent.spatialReference,
+	);
+	const milepostLineLayer = createMilepostLineLayer(waExtent.spatialReference);
 
 	// Show the instructions alert once the mileposts layer has been loaded.
-	milepostLayer.on("layerview-create", () => {
+	milepostPointLayer.on("layerview-create", () => {
 		const alert =
 			document.body.querySelector<HTMLCalciteAlertElement>(
 				"#instructionsAlert",
@@ -355,7 +388,13 @@ if (!testWebGL2Support()) {
 
 	const map = new EsriMap({
 		basemap: grayBasemap,
-		layers: [cityLimitsLayer, accessControlLayer, tempLayer, milepostLayer],
+		layers: [
+			cityLimitsLayer,
+			accessControlLayer,
+			tempLayer,
+			milepostPointLayer,
+			milepostLineLayer,
+		],
 	});
 
 	map.add(createParcelsGroupLayer());
@@ -461,7 +500,7 @@ if (!testWebGL2Support()) {
 	import("./widgets/ClearButton").then(
 		({ createClearButton }) => {
 			const clearButton = createClearButton({
-				layers: [milepostLayer, tempLayer],
+				layers: [milepostPointLayer, milepostLineLayer, tempLayer],
 			});
 			view.ui.add([home, clearButton], UIAddPositions.topLeading);
 		},
@@ -512,6 +551,9 @@ if (!testWebGL2Support()) {
 			// Call findNearestRouteLocations
 			try {
 				await callFindNearestRouteLocation(event);
+				removeTempGraphic().catch((reason: unknown) => {
+					console.error("Failed to remove temporary graphic", reason);
+				});
 			} catch (error) {
 				const message = "Could not find a route location near this location.";
 
@@ -542,16 +584,16 @@ if (!testWebGL2Support()) {
 			 * Removes the temporary graphic.
 			 * @returns - a promise that resolves when the graphic is removed.
 			 */
-			const removeTempGraphic = () => {
+			function removeTempGraphic() {
 				// Remove the temporary graphic
 				return tempLayer.applyEdits({
 					deleteFeatures: [tempGraphic],
 				});
-			};
+			}
 		};
 		view
 			.hitTest(event, {
-				include: milepostLayer,
+				include: [milepostPointLayer, milepostLineLayer],
 			})
 			.then(handleHitTestResult)
 			.catch((reason: unknown) => {
@@ -562,18 +604,18 @@ if (!testWebGL2Support()) {
 
 	// Set up the form for inputting SRMPdata.
 	import("./setupForm")
-		.then(({ setupForm }) => setupForm(view, milepostLayer))
+		.then(({ setupForm }) => setupForm(view, milepostPointLayer))
 		.catch((reason: unknown) => {
 			console.error("failed to setup form", reason);
 		});
 
 	if (import.meta.env.DEV) {
-		milepostLayer
+		milepostPointLayer
 			.when(async () => {
 				const { createExportButton } = await import("./widgets/ExportButton");
 
 				const button = createExportButton({
-					layer: milepostLayer,
+					layer: milepostPointLayer,
 				});
 				view.ui.add(button, UIAddPositions.bottomTrailing);
 			})
@@ -584,16 +626,16 @@ if (!testWebGL2Support()) {
 
 	// Once the milepost layerview has been created, check for ELC data from the URL
 	// and, if present, add the location to the map.
-	milepostLayer.on("layerview-create", () => {
+	milepostPointLayer.on("layerview-create", () => {
 		/**
 		 * Calls the ELC API to retrieve graphics from the URL and adds them to the milepost layer.
 		 * @returns A promise that resolves when the graphics have been added to the layer and the view has been updated.
 		 */
 		const callElc = async () => {
-			const elcGraphics = await callElcFromUrl(milepostLayer);
+			const elcGraphics = await callElcFromUrl(milepostPointLayer);
 			if (elcGraphics) {
 				const addedFeatures = await addGraphicsToLayer(
-					milepostLayer,
+					milepostPointLayer,
 					elcGraphics,
 				);
 				const scale = Number.parseFloat(import.meta.env.VITE_ZOOM_SCALE);
