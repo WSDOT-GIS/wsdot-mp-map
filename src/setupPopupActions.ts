@@ -31,16 +31,17 @@ export function setupPopupActions(view: __esri.MapView) {
 	document.body.append(alert);
 
 	const copyPointToClipboard = (point: __esri.Point) => {
+		let projectedPoint = point;
 		const { spatialReference } = point;
 		if (spatialReference.isWebMercator) {
-			point = webMercatorToGeographic(point) as __esri.Point;
+			projectedPoint = webMercatorToGeographic(point) as __esri.Point;
 		} else if (!spatialReference.isWGS84) {
 			throw new Error(
 				`Unsupported spatial reference: ${spatialReference.wkid}`,
 			);
 		}
 
-		const { x, y } = point;
+		const { x, y } = projectedPoint;
 		messageElement.textContent = `Copied ${[y, x].map((x) => x.toFixed(3)).join(",")} to clipboard.`;
 
 		navigator.clipboard

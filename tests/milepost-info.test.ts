@@ -7,16 +7,16 @@ describe.concurrent("getRouteList", () => {
 		const routes = await getRouteList();
 		expect(routes.length).toBeGreaterThan(0);
 		for (const { RouteID, Direction, MinSrmp, MaxSrmp } of routes) {
-			[RouteID, Direction].forEach((x) => {
+			for (const x of [RouteID, Direction]) {
 				expect(x).to.be.a("string");
-			});
+			}
 			expect(RouteID).length.to.be.at.least(3);
 			expect(RouteID).length.to.not.be.greaterThan(12);
 			expect(Direction).length.to.be.at.least(1);
-			[MinSrmp, MaxSrmp].forEach((x) => {
+			for (const x of [MinSrmp, MaxSrmp]) {
 				expect(x).to.be.a("number");
 				expect(x).to.be.at.least(0);
-			});
+			}
 		}
 	});
 });

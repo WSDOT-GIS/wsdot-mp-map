@@ -7,11 +7,7 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"ignore": [
-			"**/wsdot-web-styles/**",
-			"tests/routes.json",
-			"*.arcade"
-		]
+		"ignore": ["**/wsdot-web-styles/**", "tests/routes.json", "*.arcade"]
 	},
 	"formatter": {
 		"enabled": true,
