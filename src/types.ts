@@ -60,7 +60,7 @@ export interface TypedGraphic<
  * false otherwise.
  */
 export function isGraphicHit(
-	viewHit: __esri.ViewHit,
+	viewHit: __esri.MapViewViewHit,
 ): viewHit is __esri.GraphicHit {
 	return viewHit.type === "graphic";
 }
