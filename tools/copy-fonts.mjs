@@ -1,3 +1,5 @@
+// @ts-check
+
 /**
  * Copies fonts from node_modules into public/fonts.
  * @example
@@ -39,7 +41,7 @@ const overpassPath = join(
  * @yields - A tuple: source & destination paths
  */
 async function* enumerateFiles() {
-	/** @type {Dir} */
+	/** @type {import("node:fs").Dir|undefined} */
 	let dir;
 	try {
 		dir = await opendir(overpassPath, {
@@ -66,7 +68,7 @@ async function* enumerateFiles() {
 			}
 		}
 	} finally {
-		dir.close();
+		dir?.close();
 	}
 }
 

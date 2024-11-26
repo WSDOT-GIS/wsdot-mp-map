@@ -60,6 +60,7 @@ export function extractUrlSearchParams(hash: string): URLSearchParams {
 	const params = new URLSearchParams();
 	urlSearchRe.lastIndex = 0;
 	let match: RegExpExecArray | null;
+	// biome-ignore lint/suspicious/noAssignInExpressions: Use of "=" rather than "==" or "===" is intentional.
 	while ((match = urlSearchRe.exec(hash))) {
 		const { groups } = match;
 		const key = groups?.key;
@@ -77,13 +78,13 @@ export function extractUrlSearchParams(hash: string): URLSearchParams {
  * @returns - The updated URL.
  */
 export function moveUrlSearchToHash(url: URL | string) {
-	url = new URL(url);
+	const urlObject = new URL(url);
 
-	if (url.searchParams.size) {
-		url.hash += url.search;
-		url.search = "";
+	if (urlObject.searchParams.size) {
+		urlObject.hash += urlObject.search;
+		urlObject.search = "";
 	}
-	return url;
+	return urlObject;
 }
 
 /**
