@@ -1,4 +1,4 @@
-import wsdotColorsCss from "../../wsdot-web-styles/css/wsdot-colors.css?raw";
+import wsdotColorsCss from "@wsdot/web-styles/css/wsdot-colors.css?raw";
 import content from "./content.html?raw";
 import css from "./index.css?raw";
 

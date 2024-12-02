@@ -1,4 +1,4 @@
-import wsdotLogo from "../../wsdot-web-styles/images/wsdot-logo/wsdot-logo-white.svg";
+import wsdotLogo from "@wsdot/web-styles/images/wsdot-logo/wsdot-logo-white.svg";
 import content from "./content.html?raw";
 import css from "./index.css?raw";
 
