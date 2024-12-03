@@ -1,111 +1,15 @@
 import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer";
 import CIMSymbol from "@arcgis/core/symbols/CIMSymbol";
+import { cimVectorMarker, primitiveOverrides } from "../symbol";
 
-const milepostSymbolLayer: __esri.CIMVectorMarker = {
-	type: "CIMVectorMarker",
-	enable: true,
-	anchorPointUnits: "Relative",
-	// dominantSizeAxis3D: "Y",
-	size: 10,
-	// billboardMode3D: "FaceNearPlane",
-	markerPlacement: {
-		type: "CIMMarkerPlacementAtExtremities",
-		// placePerPart: true,
-		angleToLine: true,
-		extremityPlacement: "JustEnd",
-	},
-	frame: {
-		xmin: -5.3,
-		ymin: -5.3,
-		xmax: 5.3,
-		ymax: 5.3,
-	},
-	markerGraphics: [
-		{
-			type: "CIMMarkerGraphic",
-			geometry: {
-				x: 0,
-				y: 0,
-			},
-			symbol: {
-				type: "CIMPointSymbol",
-				symbolLayers: [
-					{
-						type: "CIMVectorMarker",
-						enable: true,
-						anchorPointUnits: "Relative",
-						// dominantSizeAxis3D: "Y",
-						size: 10,
-						// billboardMode3D: "FaceNearPlane",
-						frame: {
-							xmin: -5,
-							ymin: -5,
-							xmax: 5,
-							ymax: 5,
-						},
-						markerGraphics: [
-							{
-								type: "CIMMarkerGraphic",
-								geometry: {
-									rings: [
-										[
-											[-5, 5],
-											[5, 5],
-											[5, -5],
-											[-5, -5],
-											[-5, 5],
-										],
-									],
-								},
-								symbol: {
-									type: "CIMPolygonSymbol",
-									symbolLayers: [
-										{
-											type: "CIMSolidStroke",
-											enable: true,
-											capStyle: "Round",
-											joinStyle: "Round",
-											// // lineStyle3D: "Strip",
-											miterLimit: 4,
-											width: 1,
-											// // height3D: 1,
-											// // anchor3D: "Center",
-											color: [255, 255, 255, 255],
-										},
-										{
-											type: "CIMSolidFill",
-											enable: true,
-											color: [1, 115, 92, 255],
-										},
-									],
-									// angleAlignment: "Map",
-								},
-							},
-						],
-						scaleSymbolsProportionally: true,
-						respectFrame: true,
-					},
-				],
-				// haloSize: 1,
-				scaleX: 1,
-				angleAlignment: "Display",
-			},
-		},
-	],
-	scaleSymbolsProportionally: true,
-	respectFrame: true,
-};
 const clickPointSymbolLayer: __esri.CIMVectorMarker = {
 	type: "CIMVectorMarker",
 	enable: true,
 	colorLocked: true,
 	anchorPointUnits: "Relative",
-	// dominantSizeAxis3D: "Y",
 	size: 10,
-	// billboardMode3D: "FaceNearPlane",
 	markerPlacement: {
 		type: "CIMMarkerPlacementAtExtremities",
-		// placePerPart: true,
 		angleToLine: true,
 		extremityPlacement: "JustBegin",
 	},
@@ -213,10 +117,22 @@ const strokeSymbolLayer: __esri.CIMSolidStroke = {
 };
 const cimLineSymbol: __esri.CIMLineSymbol = {
 	type: "CIMLineSymbol",
-	symbolLayers: [milepostSymbolLayer, clickPointSymbolLayer, strokeSymbolLayer],
+	symbolLayers: [
+		{
+			...cimVectorMarker,
+			markerPlacement: {
+				type: "CIMMarkerPlacementAtExtremities",
+				extremityPlacement: "JustEnd",
+				angleToLine: false,
+			},
+		},
+		clickPointSymbolLayer,
+		strokeSymbolLayer,
+	],
 };
 const cimSymbol = new CIMSymbol({
 	data: {
+		primitiveOverrides,
 		type: "CIMSymbolReference",
 		symbol: cimLineSymbol,
 	},

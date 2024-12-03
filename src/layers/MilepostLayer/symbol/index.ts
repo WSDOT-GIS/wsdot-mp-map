@@ -1,6 +1,6 @@
 import CIMSymbol from "@arcgis/core/symbols/CIMSymbol";
 
-const primitiveOverrides: __esri.PrimitiveOverride[] = [
+export const primitiveOverrides: __esri.PrimitiveOverride[] = [
 	{
 		primitiveName: "milepostLabel",
 		propertyName: "textString",
@@ -64,7 +64,7 @@ const cimMarkerGraphic: __esri.CIMMarkerGraphic = {
 	symbol: cimTextSymbol,
 	textString: "000SPABCDEF\n0000.00B",
 };
-const cimVectorMarker: __esri.CIMVectorMarker = {
+export const cimVectorMarker: __esri.CIMVectorMarker = {
 	type: "CIMVectorMarker",
 	enable: true,
 	anchorPointUnits: "Relative",
