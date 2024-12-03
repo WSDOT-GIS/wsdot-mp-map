@@ -1,4 +1,8 @@
 import CIMSymbol from "@arcgis/core/symbols/CIMSymbol";
+import {
+	highwaySignBackgroundColor,
+	highwaySignTextColor,
+} from "../../../colors";
 
 const textGraphic: __esri.CIMMarkerGraphic = {
 	type: "CIMMarkerGraphic",
@@ -21,7 +25,7 @@ const textGraphic: __esri.CIMMarkerGraphic = {
 				{
 					type: "CIMSolidFill",
 					enable: true,
-					color: [255, 255, 255, 255],
+					color: highwaySignTextColor.toJSON(),
 				},
 			],
 		},
@@ -29,25 +33,26 @@ const textGraphic: __esri.CIMMarkerGraphic = {
 	},
 	textString: "1",
 };
+const textSymbolLayer: __esri.CIMVectorMarker = {
+	type: "CIMVectorMarker",
+	enable: true,
+	size: 32,
+	colorLocked: true,
+	anchorPointUnits: "Relative",
+	frame: {
+		xmin: -5,
+		ymin: -5,
+		xmax: 5,
+		ymax: 5,
+	},
+	markerGraphics: [textGraphic],
+	scaleSymbolsProportionally: true,
+	respectFrame: true,
+};
 const cimPointSymbol: __esri.CIMPointSymbol = {
 	type: "CIMPointSymbol",
 	symbolLayers: [
-		{
-			type: "CIMVectorMarker",
-			enable: true,
-			size: 32,
-			colorLocked: true,
-			anchorPointUnits: "Relative",
-			frame: {
-				xmin: -5,
-				ymin: -5,
-				xmax: 5,
-				ymax: 5,
-			},
-			markerGraphics: [textGraphic],
-			scaleSymbolsProportionally: true,
-			respectFrame: true,
-		},
+		textSymbolLayer,
 		{
 			type: "CIMVectorMarker",
 			enable: true,
@@ -115,7 +120,7 @@ const cimPointSymbol: __esri.CIMPointSymbol = {
 							{
 								type: "CIMSolidFill",
 								enable: true,
-								color: [39, 129, 153, 255],
+								color: highwaySignBackgroundColor.toJSON(),
 							},
 						],
 					},
@@ -126,7 +131,7 @@ const cimPointSymbol: __esri.CIMPointSymbol = {
 		},
 		{
 			type: "CIMVectorMarker",
-			enable: true,
+			enable: false,
 			anchorPoint: {
 				x: 0,
 				y: 0,
