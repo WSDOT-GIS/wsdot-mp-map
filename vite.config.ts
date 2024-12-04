@@ -1,9 +1,11 @@
 /// <reference types="vite/client" />
 /// <reference types="vitest" />
 import browserslistToEsbuild from "browserslist-to-esbuild";
-import type { ExternalOption } from "rollup";
-import { defineConfig } from "vite";
+import { type BuildEnvironmentOptions, defineConfig } from "vite";
 
+type ExternalOption = NonNullable<
+	BuildEnvironmentOptions["rollupOptions"]
+>["external"];
 type ExternalFunction = Exclude<ExternalOption, string | RegExp | unknown[]>;
 
 /**

@@ -1,15 +1,10 @@
 import type SpatialReference from "@arcgis/core/geometry/SpatialReference";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer";
-import { SimpleMarkerSymbol } from "@arcgis/core/symbols";
 import { createPopupTemplate, fields } from "..";
 import waExtent from "../../../WAExtent";
-import {
-	highwaySignBackgroundColor,
-	highwaySignTextColor,
-} from "../../../colors";
 import { objectIdFieldName } from "../../../elc/types";
-import labelClass from "../labelClass";
+import { milepostSymbol } from "../symbol";
 
 /**
  * Creates the {@link FeatureLayer} that displays located mileposts.
@@ -21,7 +16,6 @@ export function createMilepostPointLayer(spatialReference: SpatialReference) {
 	 * This is the symbol for the point on the route.
 	 */
 	const milepostLayer = new FeatureLayer({
-		labelingInfo: [labelClass],
 		title: "Mileposts",
 		id: "mileposts",
 		listMode: "hide",
@@ -42,19 +36,10 @@ export function createMilepostPointLayer(spatialReference: SpatialReference) {
 
 	return milepostLayer;
 }
-function createRenderer() {
-	const actualMPSymbol = new SimpleMarkerSymbol({
-		color: highwaySignBackgroundColor,
-		size: 12,
-		style: "circle",
-		outline: {
-			width: 1,
-			color: highwaySignTextColor,
-		},
-	});
 
+function createRenderer() {
 	const renderer = new SimpleRenderer({
-		symbol: actualMPSymbol,
+		symbol: milepostSymbol,
 	});
 	return renderer;
 }
