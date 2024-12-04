@@ -74,7 +74,7 @@ const regExpMap = new Map<UrlParamMapKey, KeyValueRegExpTuple>(
 		key,
 		[
 			value,
-			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			// biome-ignore lint/style/noNonNullAssertion: We know it's not null.
 			valueRegExps.get(key)!,
 		],
 	]),

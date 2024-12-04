@@ -38,11 +38,11 @@
 		"@biomejs/biome": "1.9.4",
 		"@types/arcgis-rest-api": "^10.4.8",
 		"@types/browser-update": "^3.3.3",
-		"@types/node": "^22.9.4",
-		"@vitest/coverage-istanbul": "^2.1.5",
-		"@vitest/coverage-v8": "^2.1.5",
+		"@types/node": "^22.10.1",
+		"@vitest/coverage-istanbul": "^2.1.8",
+		"@vitest/coverage-v8": "^2.1.8",
 		"browserslist-to-esbuild": "^2.1.1",
-		"cspell": "^8.16.0",
+		"cspell": "^8.16.1",
 		"jsdom": "^25.0.1",
 		"msw": "^2.6.6",
 		"optionator": "^0.9.4",
@@ -50,8 +50,8 @@
 		"svgson": "^5.3.1",
 		"tsx": "^4.19.2",
 		"typescript": "^5.7.2",
-		"vite": "^5.4.11",
-		"vitest": "^2.1.5"
+		"vite": "^6.0.2",
+		"vitest": "^2.1.8"
 	},
 	"repository": {
 		"url": "https://github.com/WSDOT-GIS/wsdot-mp-map.git",
@@ -68,5 +68,5 @@
 	],
 	"author": "Jeff Jacobson",
 	"license": "Unlicense",
-	"packageManager": "pnpm@9.14.2+sha512.6e2baf77d06b9362294152c851c4f278ede37ab1eba3a55fda317a4a17b209f4dbb973fb250a77abc463a341fcb1f17f17cfa24091c4eb319cda0d9b84278387"
+	"packageManager": "pnpm@9.14.4+sha512.c8180b3fbe4e4bca02c94234717896b5529740a6cbadf19fa78254270403ea2f27d4e1d46a08a0f56c89b63dc8ebfd3ee53326da720273794e6200fcf0d184ab"
 }

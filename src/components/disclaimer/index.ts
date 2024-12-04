@@ -9,30 +9,31 @@ export function setupDisclaimerLink(
 	link: HTMLElement,
 	dialog?: HTMLCalciteDialogElement,
 ) {
-	if (!dialog) {
-		dialog =
+	let dialogElement = dialog;
+	if (!dialogElement) {
+		dialogElement =
 			document.body.querySelector<HTMLCalciteDialogElement>(
 				"#disclaimer-dialog",
 			) ?? undefined;
 	}
-	if (!dialog) {
+	if (!dialogElement) {
 		throw new Error("Could not find disclaimer dialog.");
 	}
 	if (/WSDOT-FOOTER/i.test(link.tagName)) {
 		// Setup disclaimer modal
 		link.addEventListener("disclaimer-link-clicked", () => {
-			dialog.open = true;
+			dialogElement.open = true;
 		});
 	} else {
 		// Setup disclaimer modal
 		link.addEventListener("click", (e) => {
-			dialog.open = true;
+			dialogElement.open = true;
 			e.preventDefault();
 		});
 	}
 
 	return {
-		modal: dialog,
+		modal: dialogElement,
 		link,
 	};
 }
