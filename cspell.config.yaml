@@ -1,6 +1,7 @@
 version: "0.2"
 useGitignore: true
-ignorePaths: []
+ignorePaths:
+  - pnpm-lock.yaml
 allowCompoundWords: true
 features:
   weighted-suggestions: true
