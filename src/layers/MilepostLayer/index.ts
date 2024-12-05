@@ -3,64 +3,13 @@ import type FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import type Field from "@arcgis/core/layers/support/Field";
 import FieldInfo from "@arcgis/core/popup/FieldInfo";
 import ActionButton from "@arcgis/core/support/actions/ActionButton";
-import { objectIdFieldName } from "../../elc/types";
 import type { MilepostExpressionInfo } from "./arcade";
 import {
 	expressions as arcadeExpressions,
 	locationLinksContent,
 } from "./arcade";
 
-type FieldProperties = Required<ConstructorParameters<typeof Field>>[0];
-
-export enum fieldNames {
-	Route = "Route",
-	Srmp = "Srmp",
-	Back = "Back",
-	Direction = "Direction",
-}
-
-export const fields = [
-	{
-		name: objectIdFieldName,
-		type: "oid",
-		valueType: "unique-identifier",
-	},
-	{
-		name: fieldNames.Route,
-		type: "string",
-		valueType: "name-or-title",
-	},
-	{
-		name: fieldNames.Direction,
-		type: "string",
-		domain: {
-			type: "coded-value",
-			codedValues: [
-				{
-					code: "I",
-					name: "Increase",
-				},
-				{
-					code: "D",
-					name: "Decrease",
-				},
-			],
-			name: "Direction",
-		},
-		defaultValue: "I",
-		valueType: "type-or-category",
-	},
-	{
-		name: fieldNames.Srmp,
-		type: "double",
-		valueType: "measurement",
-	},
-	{
-		name: fieldNames.Back,
-		type: "string",
-		valueType: "binary",
-	},
-] as FieldProperties[];
+export type FieldProperties = Required<ConstructorParameters<typeof Field>>[0];
 
 const actionButtonProperties: __esri.ActionButtonProperties[] = [
 	{

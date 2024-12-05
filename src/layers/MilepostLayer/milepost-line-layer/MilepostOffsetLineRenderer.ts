@@ -1,6 +1,7 @@
 import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer";
 import CIMSymbol from "@arcgis/core/symbols/CIMSymbol";
-import { cimVectorMarker, primitiveOverrides } from "../symbol";
+import { cimVectorMarker } from "../symbol";
+import { primitiveOverrides } from "../symbol/primitiveOverrides";
 
 const clickPointSymbolLayer: __esri.CIMVectorMarker = {
 	type: "CIMVectorMarker",
