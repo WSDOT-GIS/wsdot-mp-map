@@ -32,7 +32,7 @@ import type {
 	ValidRouteLocationForMPInput,
 } from "./types";
 
-type UrlParamMapKey = "sr" | "rrt" | "rrq" | "dir" | "mp";
+type UrlParamMapKey = "sr" | "rrt" | "rrq" | "dir" | "mp" | "endMP";
 
 /**
  * Regular expression patterns to validate URL parameters.
@@ -43,8 +43,10 @@ const keyRegExps = new Map([
 	["rrq", /^R{1,2}Q/i],
 	["dir", /^D(?:IR)?/i],
 	["mp", /^(?:SR)?MP/i],
+	["endMP", /^E(ND)?(SR)?MP/i],
 ] as const);
 
+const milepostAndBackIndicatorRegex = /^(?<mp>\d+(?:\.\d+)?)(?<back>B)?$/i;
 /**
  * Regular expression patterns to validate URL parameter values.
  */
@@ -64,7 +66,8 @@ const valueRegExps = new Map([
 	 * @example
 	 * // matches "123", "123.45", "123B", "123.45B"
 	 */
-	["mp", /^(?<mp>\d+(?:\.\d+)?)(?<back>B)?$/i],
+	["mp", milepostAndBackIndicatorRegex],
+	["endMP", milepostAndBackIndicatorRegex],
 ] as const);
 
 type KeyValueRegExpTuple = [keyRegexp: RegExp, valueRegexp: RegExp];
@@ -91,6 +94,8 @@ export function getUrlSearchParameter(
 	urlParams: URLSearchParams,
 	key: UrlParamMapKey,
 ) {
+	let output: string | null = null;
+
 	// Retrieve the regular expression tuple from the regExpMap based on the key.
 	const reTuple = regExpMap.get(key);
 	if (!reTuple) {
@@ -105,7 +110,6 @@ export function getUrlSearchParameter(
 	}
 
 	const [keyRe, valueRe] = reTuple;
-	let output: string | null = null;
 
 	// Iterate over each key-value pair in the URL search parameters.
 	for (const [k, v] of urlParams.entries()) {
@@ -160,7 +164,6 @@ export function* enumerateUrlParameters(
 		} else if (Array.isArray(value)) {
 			outValue = JSON.stringify(value);
 		} else {
-			// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 			outValue = `${value}`;
 		}
 		yield [key, outValue];
@@ -245,7 +248,7 @@ function parseSrmp(mp: string): { srmp: number; back: boolean } {
  */
 export function getElcParamsFromUrl(
 	url: string | URL | URLSearchParams = window.location.href,
-): ValidRouteLocationForMPInput<Date, RouteGeometry> | null {
+) {
 	// If the URL is a URL object, use its search params.
 	let searchParams: URLSearchParams;
 	if (url instanceof URL) {
@@ -281,14 +284,22 @@ export function getElcParamsFromUrl(
 
 	const route = `${sr}${rrt}${rrq}`;
 
-	return {
+	const emp = getUrlSearchParameter(searchParams, "endMP");
+
+	const { srmp: endSrmp, back: endBack } = emp
+		? parseSrmp(emp)
+		: { srmp: null, back: null };
+	const output = {
 		Route: route,
 		Srmp: srmp,
 		Back: back,
 		Decrease: /dD/i.test(direction),
 		ReferenceDate: today,
 		ResponseDate: today,
-	};
+		EndSrmp: endSrmp,
+		EndBack: endBack,
+	} as ValidRouteLocationForMPInput<Date, RouteGeometry>;
+	return output;
 }
 
 /**
@@ -301,6 +312,7 @@ export function getElcParamsFromUrl(
  */
 export async function callElcFromUrl(
 	milepostLayer: __esri.FeatureLayer,
+	lineMilepostLayer: __esri.FeatureLayer,
 	options: Pick<FindRouteLocationParameters, "outSR"> = { outSR: 3857 },
 ) {
 	const routeLocation = getElcParamsFromUrl();
@@ -325,5 +337,10 @@ export async function callElcFromUrl(
 
 	const graphic = routeLocationToGraphic(location);
 
-	return addGraphicsToLayer(milepostLayer, [graphic]);
+	const layer =
+		graphic.geometry.type === "polyline" ? lineMilepostLayer : milepostLayer;
+
+	const addedGraphics = addGraphicsToLayer(layer, [graphic]);
+
+	return addedGraphics;
 }

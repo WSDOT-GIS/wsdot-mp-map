@@ -1,18 +1,17 @@
-import TextSymbol from "@arcgis/core/symbols/TextSymbol";
-import { convertToCIMSymbol } from "@arcgis/core/symbols/support/cimConversionUtils";
-import {
-	highwaySignBackgroundColor,
-	highwaySignTextColor,
-} from "../src/colors";
+/**
+ * This script creates a CIM symbol for a milepost marker.
+ * @example
+ * ```
+ * node --import=tsx ./tools/create-cim.ts > milepost.cim.json
+ * ```
+ * or
+ * ```
+ * tsx ./tools/create-cim.ts > milepost.cim.json
+ */
 
-const simpleSymbol = new TextSymbol({
-	color: highwaySignTextColor,
-	backgroundColor: highwaySignBackgroundColor,
-	text: "000SPABCDEF\n0000.00B",
-});
+import { createMilepostCimSymbol } from "../src/layers/MilepostLayer/create-cim.ts";
 
-const cimSymbol = convertToCIMSymbol(
-	simpleSymbol as unknown as __esri.SimpleMarkerSymbol,
-);
+// Create a text symbol with a background.
+const cimSymbol = createMilepostCimSymbol();
 
-console.log(JSON.stringify(cimSymbol.toJSON()));
+console.log(JSON.stringify(cimSymbol.toJSON(), null, 2));

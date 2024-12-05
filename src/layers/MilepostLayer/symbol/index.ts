@@ -1,17 +1,28 @@
 import CIMSymbol from "@arcgis/core/symbols/CIMSymbol";
+import {
+	endMilepostLabelPrimitiveOverride,
+	milepostLabelPrimitiveOverride,
+} from "./primitiveOverrides";
 
-export const primitiveOverrides: __esri.PrimitiveOverride[] = [
-	{
-		primitiveName: "milepostLabel",
-		propertyName: "textString",
-		type: "CIMPrimitiveOverride",
-		valueExpressionInfo: {
-			expression: "`${$feature.Route}\\n${$feature.SRMP}${$feature.Back}`",
-			type: "CIMExpressionInfo",
-			returnType: "String",
-		},
+const cimCallout: __esri.CIMBackgroundCallout = {
+	type: "CIMBackgroundCallout",
+	backgroundSymbol: {
+		type: "CIMPolygonSymbol",
+		symbolLayers: [
+			{
+				type: "CIMSolidFill",
+				color: [1, 115, 92, 255],
+				enable: true,
+			},
+			{
+				type: "CIMSolidStroke",
+				color: [255, 255, 255, 255],
+				width: 1,
+				enable: true,
+			},
+		],
 	},
-];
+};
 const cimTextSymbol: __esri.CIMTextSymbol = {
 	type: "CIMTextSymbol",
 	angle: 0,
@@ -37,33 +48,22 @@ const cimTextSymbol: __esri.CIMTextSymbol = {
 		symbolLayers: [{ type: "CIMSolidFill", enable: true, color: [0, 0, 0, 0] }],
 	},
 	verticalAlignment: "Baseline",
-	callout: {
-		type: "CIMBackgroundCallout",
-		backgroundSymbol: {
-			type: "CIMPolygonSymbol",
-			symbolLayers: [
-				{
-					type: "CIMSolidFill",
-					color: [1, 115, 92, 255],
-					enable: true,
-				},
-				{
-					type: "CIMSolidStroke",
-					color: [0, 0, 0, 0],
-					width: 1,
-					enable: true,
-				},
-			],
-		},
-	},
+	callout: cimCallout,
 };
 const cimMarkerGraphic: __esri.CIMMarkerGraphic = {
 	type: "CIMMarkerGraphic",
 	geometry: { x: 0, y: 0 },
 	primitiveName: "milepostLabel",
 	symbol: cimTextSymbol,
-	textString: "000SPABCDEF\n0000.00B",
+	textString: " ",
 };
+
+const segmentEndpointCimMarkerGraphic: __esri.CIMMarkerGraphic = {
+	...cimMarkerGraphic,
+	primitiveName: "endMilepostLabel",
+	textString: " ",
+};
+
 export const cimVectorMarker: __esri.CIMVectorMarker = {
 	type: "CIMVectorMarker",
 	enable: true,
@@ -74,18 +74,57 @@ export const cimVectorMarker: __esri.CIMVectorMarker = {
 	scaleSymbolsProportionally: true,
 	respectFrame: true,
 };
+
+export const segmentStartpointCimVectorMarker: __esri.CIMVectorMarker = {
+	...cimVectorMarker,
+	markerGraphics: [cimMarkerGraphic],
+	markerPlacement: {
+		type: "CIMMarkerPlacementAtExtremities",
+		extremityPlacement: "JustBegin",
+	},
+};
+
+export const segmentEndpointCimVectorMarker: __esri.CIMVectorMarker = {
+	...cimVectorMarker,
+	markerGraphics: [segmentEndpointCimMarkerGraphic],
+	markerPlacement: {
+		type: "CIMMarkerPlacementAtExtremities",
+		extremityPlacement: "JustEnd",
+	},
+};
+
 const cimPointSymbol: __esri.CIMPointSymbol = {
 	type: "CIMPointSymbol",
 	symbolLayers: [cimVectorMarker],
 	scaleX: 1,
 	angleAlignment: "Display",
 };
+
+const endpointCimPointSymbol: __esri.CIMPointSymbol = {
+	...cimPointSymbol,
+	symbolLayers: [segmentEndpointCimVectorMarker],
+};
+
 export const milepostSymbol = new CIMSymbol({
 	data: {
-		primitiveOverrides,
+		primitiveOverrides: [milepostLabelPrimitiveOverride],
 		type: "CIMSymbolReference",
 		symbol: cimPointSymbol,
 	},
 });
 
-export default milepostSymbol;
+export const endpointMilepostSymbol = new CIMSymbol({
+	data: {
+		primitiveOverrides: [
+			milepostLabelPrimitiveOverride,
+			endMilepostLabelPrimitiveOverride,
+		],
+		type: "CIMSymbolReference",
+		symbol: endpointCimPointSymbol,
+	},
+});
+
+/* __PURE__ */ console.debug(
+	"endMilepostSymbol",
+	endpointMilepostSymbol.toJSON(),
+);

@@ -1,10 +1,10 @@
-function webMercatorToWgs1984(geom) {
-  // Web Mercator coordinates
-  var xWebMercator = geom.x;
-  var yWebMercator = geom.y;
+// Constants
+var R_MAJOR = 6378137.0;
 
-  // Constants
-  var R_MAJOR = 6378137.0;
+function xyWebMercatorToWgs1984(xy) {
+
+  var xWebMercator = xy[0];
+  var yWebMercator = xy[1];
 
   // Convert Web Mercator (x) to longitude (WGS 1984)
   var lonWGS84 = (xWebMercator / R_MAJOR) * (180 / PI);
@@ -13,8 +13,22 @@ function webMercatorToWgs1984(geom) {
   var latWGS84 =
     (Atan(Exp(yWebMercator / R_MAJOR)) * 2 - PI / 2) * (180 / PI);
 
-  return {
-    x: lonWGS84,
-    y: latWGS84,
-  };
+  return [lonWGS84, latWGS84];
+}
+
+function webMercatorToWgs1984(geom) {
+  if (geom.type == "Point") {
+    // Web Mercator coordinates
+    var xWebMercator = geom.x;
+    var yWebMercator = geom.y;
+
+    var wgsXY = xyWebMercatorToWgs1984([xWebMercator, yWebMercator]);
+
+    return {
+      x: wgsXY[0],
+      y: wgsXY[1],
+    };
+  }
+
+  return null;
 }
