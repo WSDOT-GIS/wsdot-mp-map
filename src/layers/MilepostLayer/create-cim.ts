@@ -88,7 +88,7 @@ function setPrimitiveNameOfFirstTextSymbol(
  *
  * @returns A CIM symbol for a milepost marker.
  */
-function createMilepostCimSymbol(
+export function createMilepostCimSymbol(
 	textSymbolProperties: __esri.TextSymbolProperties = {
 		color: highwaySignTextColor,
 		borderLineColor: highwaySignTextColor,
