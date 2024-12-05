@@ -5,10 +5,7 @@
 
 import TextSymbol from "@arcgis/core/symbols/TextSymbol";
 import { convertToCIMSymbol } from "@arcgis/core/symbols/support/cimConversionUtils";
-import {
-	highwaySignBackgroundColor,
-	highwaySignTextColor,
-} from "../src/colors";
+import { highwaySignBackgroundColor, highwaySignTextColor } from "../../colors";
 
 /**
  * The name of the text symbol that will have its
@@ -129,8 +126,3 @@ function createMilepostCimSymbol(
 
 	return cimSymbol;
 }
-
-// Create a text symbol with a background.
-const cimSymbol = createMilepostCimSymbol();
-
-console.log(JSON.stringify(cimSymbol.toJSON(), null, 2));
