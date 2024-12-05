@@ -10,44 +10,127 @@ import {
 	highwaySignTextColor,
 } from "../src/colors";
 
-const simpleSymbol = new TextSymbol({
-	color: highwaySignTextColor,
-	backgroundColor: highwaySignBackgroundColor,
-	text: "000SPABCDEF\n0000.00B",
-});
+/**
+ * The name of the text symbol that will have its
+ * text replaced by feature attributes.
+ */
+const defaultPrimitiveName = "milepostLabel";
 
-const cimSymbol = convertToCIMSymbol(
-	simpleSymbol as unknown as __esri.SimpleMarkerSymbol,
-);
+/**
+ * Type guard function to check if a CIMSymbolLayer is a CIMVectorMarker.
+ * @param l - The CIMSymbolLayer to check.
+ * @returns A boolean indicating whether the provided layer is a CIMVectorMarker.
+ */
+function isVectorMarker(l: __esri.CIMSymbolLayer): l is __esri.CIMVectorMarker {
+	return l.type === "CIMVectorMarker";
+}
 
-cimSymbol.data.primitiveOverrides = [
-	{
-		primitiveName: "milepostLabel",
-		propertyName: "textString",
-		valueExpressionInfo: {
-			expression: "`${$feature.Route}\\n${$feature.SRMP}${$feature.Back}`",
-			type: "CIMExpressionInfo",
-			returnType: "String",
-		},
-	},
-];
+/**
+ * Type for a CIMMarkerGraphic that has a CIMTextSymbol.
+ */
+type CIMMarkerGraphicWithTextSymbol = __esri.CIMMarkerGraphic & {
+	symbol: __esri.CIMTextSymbol;
+};
 
-if (cimSymbol.data.symbol?.symbolLayers) {
-	let found = false;
-	for (const layer of cimSymbol.data.symbol.symbolLayers.filter(
-		(l) => l.type === "CIMVectorMarker",
-	)) {
-		for (const markerGraphic of layer.markerGraphics.filter(
-			(g) => g.symbol.type === "CIMTextSymbol",
+/**
+ * Type guard function to check if a {@link __esri.CIMMarkerGraphic|CIMMarkerGraphic} is a {@link __esri.CIMTextSymbol|CIMTextSymbol}.
+ * @param g - The {@link __esri.CIMMarkerGraphic|CIMMarkerGraphic} to check.
+ * @returns A boolean indicating whether the provided graphic is a {@link __esri.CIMTextSymbol|CIMTextSymbol}.
+ */
+function isMarkerGraphicWithTextSymbol(
+	g: __esri.CIMMarkerGraphic,
+): g is CIMMarkerGraphicWithTextSymbol {
+	return g.symbol.type === "CIMTextSymbol";
+}
+
+/**
+ * Sets the primitive name of the first {@link __esri.CIMTextSymbol|CIMTextSymbol} found within the
+ * {@link __esri.CIMSymbol|CIMSymbol}'s vector marker layers to the specified primitive name.
+ *
+ * @param cimSymbol - The {@link __esri.CIMSymbol|CIMSymbol} object containing symbol layers to search.
+ * @param primitiveName - The new primitive name to assign to the first
+ *                        {@link __esri.CIMTextSymbol|CIMTextSymbol} found.
+ * @throws {TypeError} Will throw an error if the symbol has no symbol layers.
+ * @returns The modified {@link __esri.CIMMarkerGraphic|CIMMarkerGraphic} if a {@link __esri.CIMTextSymbol|CIMTextSymbol} is found,
+ *          otherwise null.
+ */
+function setPrimitiveNameOfFirstTextSymbol(
+	cimSymbol: __esri.CIMSymbol,
+	primitiveName: string,
+) {
+	const symbolLayers = cimSymbol.data.symbol?.symbolLayers;
+	if (!symbolLayers) {
+		throw new TypeError("Symbol has no symbol layers");
+	}
+
+	let textSymbol: CIMMarkerGraphicWithTextSymbol | null = null;
+
+	// Find the text symbol and set its primitive name.
+	for (const layer of symbolLayers.filter(isVectorMarker)) {
+		const markerGraphics = layer.markerGraphics;
+		for (const markerGraphic of markerGraphics.filter(
+			isMarkerGraphicWithTextSymbol,
 		)) {
-			markerGraphic.primitiveName = "milepostLabel";
-			found = true;
+			markerGraphic.primitiveName = primitiveName;
+			textSymbol = markerGraphic;
 			break;
 		}
-		if (found) {
+		if (textSymbol) {
 			break;
 		}
 	}
+
+	return textSymbol;
 }
+
+/**
+ * Creates a CIM symbol for a milepost marker.
+ * The symbol is a text symbol with white text on a green background.
+ * The text of the symbol is a placeholder that can be replaced
+ * with feature attributes by overriding "milepostLabel" primitive name.
+ *
+ * @returns A CIM symbol for a milepost marker.
+ */
+function createMilepostCimSymbol(
+	textSymbolProperties: __esri.TextSymbolProperties = {
+		color: highwaySignTextColor,
+		borderLineColor: highwaySignTextColor,
+		borderLineSize: 1,
+		backgroundColor: highwaySignBackgroundColor,
+		// cspell:disable-next-line
+		text: "ROUTE\nMILE.POSTB",
+	},
+	primitiveName: string = defaultPrimitiveName,
+) {
+	const simpleSymbol = new TextSymbol(textSymbolProperties);
+
+	// Convert the text symbol into a CIM symbol.
+	const cimSymbol = convertToCIMSymbol(
+		// Since this function doesn't officially support TextSymbols,
+		// you have to pretend its one of the supported types.
+		simpleSymbol as unknown as __esri.SimpleMarkerSymbol,
+	);
+
+	// Set the primitive name of the first text symbol to "milepostLabel".
+	setPrimitiveNameOfFirstTextSymbol(cimSymbol, primitiveName);
+
+	// Add primitive overrides to the symbol.
+	cimSymbol.data.primitiveOverrides = [
+		{
+			primitiveName: primitiveName,
+			propertyName: "textString",
+			valueExpressionInfo: {
+				expression: "`${$feature.Route}\\n${$feature.SRMP}${$feature.Back}`",
+				type: "CIMExpressionInfo",
+				returnType: "String",
+			},
+		},
+	];
+
+	return cimSymbol;
+}
+
+// Create a text symbol with a background.
+const cimSymbol = createMilepostCimSymbol();
 
 console.log(JSON.stringify(cimSymbol.toJSON(), null, 2));
