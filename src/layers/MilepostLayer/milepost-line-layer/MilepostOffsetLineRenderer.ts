@@ -1,98 +1,41 @@
-import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer";
+import UniqueValueRenderer from "@arcgis/core/renderers/UniqueValueRenderer";
 import CIMSymbol from "@arcgis/core/symbols/CIMSymbol";
-import { cimVectorMarker, primitiveOverrides } from "../symbol";
+import SimpleMarkerSymbol from "@arcgis/core/symbols/SimpleMarkerSymbol";
+import { convertToCIMSymbol } from "@arcgis/core/symbols/support/cimConversionUtils";
+import { highwaySignBackgroundColor } from "../../../colors";
+import { isCimVectorMarker } from "../create-cim";
+import { cimVectorMarker, segmentEndpointCimVectorMarker } from "../symbol";
+import {
+	endMilepostLabelPrimitiveOverride,
+	milepostLabelPrimitiveOverride,
+} from "../symbol/primitiveOverrides";
 
-const clickPointSymbolLayer: __esri.CIMVectorMarker = {
-	type: "CIMVectorMarker",
-	enable: true,
-	colorLocked: true,
-	anchorPointUnits: "Relative",
-	size: 10,
-	markerPlacement: {
-		type: "CIMMarkerPlacementAtExtremities",
-		angleToLine: true,
-		extremityPlacement: "JustBegin",
-	},
-	frame: {
-		xmin: -5,
-		ymin: -5,
-		xmax: 5,
-		ymax: 5,
-	},
-	markerGraphics: [
-		{
-			type: "CIMMarkerGraphic",
-			geometry: {
-				rings: [
-					[
-						[0, 5],
-						[0.87, 4.92],
-						[1.71, 4.7],
-						[2.5, 4.33],
-						[3.21, 3.83],
-						[3.83, 3.21],
-						[4.33, 2.5],
-						[4.7, 1.71],
-						[4.92, 0.87],
-						[5, 0],
-						[4.92, -0.87],
-						[4.7, -1.71],
-						[4.33, -2.5],
-						[3.83, -3.21],
-						[3.21, -3.83],
-						[2.5, -4.33],
-						[1.71, -4.7],
-						[0.87, -4.92],
-						[0, -5],
-						[-0.87, -4.92],
-						[-1.71, -4.7],
-						[-2.5, -4.33],
-						[-3.21, -3.83],
-						[-3.83, -3.21],
-						[-4.33, -2.5],
-						[-4.7, -1.71],
-						[-4.92, -0.87],
-						[-5, 0],
-						[-4.92, 0.87],
-						[-4.7, 1.71],
-						[-4.33, 2.5],
-						[-3.83, 3.21],
-						[-3.21, 3.83],
-						[-2.5, 4.33],
-						[-1.71, 4.7],
-						[-0.87, 4.92],
-						[0, 5],
-					],
-				],
-			},
-			symbol: {
-				type: "CIMPolygonSymbol",
-				symbolLayers: [
-					{
-						type: "CIMSolidStroke",
-						enable: true,
-						capStyle: "Round",
-						joinStyle: "Round",
-						// lineStyle3D: "Strip",
-						miterLimit: 10,
-						width: 0,
-						// // height3D: 1,
-						// // anchor3D: "Center",
-						color: [110, 110, 110, 255],
-					},
-					{
-						type: "CIMSolidFill",
-						enable: true,
-						color: [255, 100, 100, 255],
-					},
-				],
-				// angleAlignment: "Map",
-			},
+function createClickPointSymbolLayer() {
+	const clickPointSymbol = new SimpleMarkerSymbol({
+		style: "circle",
+		color: [255, 100, 100, 255],
+		outline: {
+			color: "white",
+			width: 1,
 		},
-	],
-	scaleSymbolsProportionally: true,
-	respectFrame: true,
-};
+	});
+
+	console.debug("clickPointSymbol", clickPointSymbol.toJSON());
+
+	const clickPointCimSymbol = convertToCIMSymbol(clickPointSymbol);
+	console.debug("cimClickPointSymbol", clickPointCimSymbol.toJSON());
+
+	const clickPointSymbolLayer =
+		clickPointCimSymbol.data.symbol?.symbolLayers?.filter(isCimVectorMarker)[0];
+
+	if (!clickPointSymbolLayer) {
+		throw new Error("clickPointSymbolLayer not found");
+	}
+	return clickPointSymbolLayer;
+}
+
+const clickPointSymbolLayer = createClickPointSymbolLayer();
+
 const strokeSymbolLayer: __esri.CIMSolidStroke = {
 	type: "CIMSolidStroke",
 	effects: [
@@ -101,21 +44,17 @@ const strokeSymbolLayer: __esri.CIMSolidStroke = {
 			dashTemplate: [5, 3],
 			lineDashEnding: "NoConstraint",
 			offsetAlongLine: 0,
-			// controlPointEnding: "NoConstraint",
 		},
 	],
 	enable: true,
 	colorLocked: true,
 	capStyle: "Butt",
 	joinStyle: "Round",
-	// lineStyle3D: "Strip",
 	miterLimit: 4,
 	width: 2,
-	// height3D: 1,
-	// anchor3D: "Center",
 	color: [255, 100, 100, 255],
 };
-const cimLineSymbol: __esri.CIMLineSymbol = {
+const cimOffsetAndMilepostLineSymbol: __esri.CIMLineSymbol = {
 	type: "CIMLineSymbol",
 	symbolLayers: [
 		{
@@ -130,17 +69,53 @@ const cimLineSymbol: __esri.CIMLineSymbol = {
 		strokeSymbolLayer,
 	],
 };
-const cimSymbol = new CIMSymbol({
+
+const cimLineSegmentLineSymbol: __esri.CIMLineSymbol = {
+	type: "CIMLineSymbol",
+	symbolLayers: [
+		cimVectorMarker,
+		segmentEndpointCimVectorMarker,
+		{
+			type: "CIMSolidStroke",
+			color: highwaySignBackgroundColor.toJSON(),
+			enable: true,
+			width: 3,
+		},
+	],
+};
+
+const offsetAndMilepostCimSymbol = new CIMSymbol({
 	data: {
-		primitiveOverrides,
+		primitiveOverrides: [milepostLabelPrimitiveOverride],
 		type: "CIMSymbolReference",
-		symbol: cimLineSymbol,
+		symbol: cimOffsetAndMilepostLineSymbol,
+	},
+});
+
+const lineSegmentCimSymbol = new CIMSymbol({
+	data: {
+		type: "CIMSymbolReference",
+		primitiveOverrides: [
+			milepostLabelPrimitiveOverride,
+			endMilepostLabelPrimitiveOverride,
+		],
+		symbol: cimLineSegmentLineSymbol,
 	},
 });
 
 /**
  * Simple Renderer using a CIM symbol.
  */
-export default new SimpleRenderer({
-	symbol: cimSymbol,
+export default new UniqueValueRenderer({
+	defaultSymbol: offsetAndMilepostCimSymbol,
+	defaultLabel: "Clicked Milepost",
+	valueExpression: "IIF($feature.EndSrmp != null, '1', '0')",
+	valueExpressionTitle: "Has an End Milepost",
+	uniqueValueInfos: [
+		{
+			label: "Route Segment",
+			symbol: lineSegmentCimSymbol,
+			value: "1",
+		},
+	],
 });

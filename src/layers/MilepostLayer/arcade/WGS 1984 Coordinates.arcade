@@ -1,3 +1,9 @@
 // import fromWebMercatorFunction from "./parts/fromWebMercator.function.arcade"
 
-webMercatorToWgs1984(Geometry($feature))
+var featureGeometry = Geometry($feature);
+
+if (TypeOf(featureGeometry) == "Point") {
+    webMercatorToWgs1984(Geometry($feature))
+} else {
+    webMercatorToWgs1984(Point($userInput))
+}

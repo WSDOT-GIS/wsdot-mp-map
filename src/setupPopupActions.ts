@@ -47,7 +47,6 @@ export function setupPopupActions(view: __esri.MapView) {
 		navigator.clipboard
 			.writeText([y, x].join(","))
 			.then(() => {
-				/* __PURE__ */ console.debug("Copied coordinates to clipboard.");
 				alert.open = true;
 			})
 			.catch((error: unknown) => {
@@ -61,7 +60,6 @@ export function setupPopupActions(view: __esri.MapView) {
 
 	const popupTriggerActionEventHandler: __esri.PopupTriggerActionEventHandler =
 		(event) => {
-			/* __PURE__ */ console.debug("trigger-action", event);
 			if (event.action.id === "copy") {
 				const feature = view.popup.selectedFeature;
 				if (isPoint(feature.geometry)) {

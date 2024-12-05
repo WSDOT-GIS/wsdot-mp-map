@@ -122,6 +122,9 @@ export interface RouteLocation<D extends DateType, G extends RouteGeometry> {
 	RouteGeometry?: G;
 	Srmp?: number;
 	LocatingError?: string | null;
+	EndArm?: number;
+	EndSrmp?: number;
+	EndBack?: boolean;
 }
 
 export type ArmRouteLocation<
@@ -133,6 +136,12 @@ export type SrmpRouteLocation<
 	D extends DateType,
 	G extends RouteGeometry,
 > = RouteLocation<D, G> & Required<Pick<RouteLocation<D, G>, "Srmp" & "Back">>;
+
+export type SrmpRouteLineLocation<
+	D extends DateType,
+	G extends RouteGeometry,
+> = RouteLocation<D, G> &
+	Required<Pick<RouteLocation<D, G>, "EndSrmp" & "EndBack">>;
 
 export type ValidRouteLocationForMPInput<
 	D extends DateType,
@@ -176,13 +185,7 @@ export interface ElcAttributes
 	Srmp: number;
 }
 
-export interface LayerFeatureAttributes
-	extends ElcAttributes,
-		AttributesObject {
-	"Township Subdivision": string | null;
-	County: string | null;
-	City: string | null;
-}
+export type LayerFeatureAttributes = ElcAttributes & AttributesObject;
 
 /**
  * A milepost point {@link Graphic}.
