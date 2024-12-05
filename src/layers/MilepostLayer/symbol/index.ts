@@ -107,5 +107,3 @@ export const endpointMilepostSymbol = new CIMSymbol({
 		symbol: endpointCimPointSymbol,
 	},
 });
-
-export default milepostSymbol;
