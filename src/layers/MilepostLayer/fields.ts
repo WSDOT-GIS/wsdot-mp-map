@@ -62,7 +62,7 @@ export const fields: FieldProperties[] = [
 /**
  * Field definitions for the route segments layer
  */
-export const segmentFields = [
+export const segmentFields: typeof fields = [
 	...fields,
 	{
 		name: fieldNames.EndSrmp,
