@@ -2,7 +2,7 @@ import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import { createPopupTemplate } from "..";
 import waExtent from "../../../WAExtent";
 import { objectIdFieldName } from "../../../elc/types";
-import { fields } from "../fields";
+import { segmentFields as fields } from "../fields";
 import MilepostOffsetLineRenderer from "./MilepostOffsetLineRenderer";
 
 /**
