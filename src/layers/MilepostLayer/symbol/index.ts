@@ -16,7 +16,7 @@ const cimCallout: __esri.CIMBackgroundCallout = {
 			},
 			{
 				type: "CIMSolidStroke",
-				color: [0, 0, 0, 0],
+				color: [255, 255, 255, 255],
 				width: 1,
 				enable: true,
 			},
@@ -55,13 +55,13 @@ const cimMarkerGraphic: __esri.CIMMarkerGraphic = {
 	geometry: { x: 0, y: 0 },
 	primitiveName: "milepostLabel",
 	symbol: cimTextSymbol,
-	textString: "ROUTE\nMILE.POSTB",
+	textString: " ",
 };
 
 const endpointCimMarkerGraphic: __esri.CIMMarkerGraphic = {
 	...cimMarkerGraphic,
 	primitiveName: "endMilepostLabel",
-	textString: "ROUTE\nEND.MILEPOSTB",
+	textString: " ",
 };
 
 export const cimVectorMarker: __esri.CIMVectorMarker = {

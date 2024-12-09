@@ -18,7 +18,9 @@ const defaultPrimitiveName = "milepostLabel";
  * @param l - The CIMSymbolLayer to check.
  * @returns A boolean indicating whether the provided layer is a CIMVectorMarker.
  */
-function isVectorMarker(l: __esri.CIMSymbolLayer): l is __esri.CIMVectorMarker {
+export function isCimVectorMarker(
+	l: __esri.CIMSymbolLayer,
+): l is __esri.CIMVectorMarker {
 	return l.type === "CIMVectorMarker";
 }
 
@@ -34,7 +36,7 @@ type CIMMarkerGraphicWithTextSymbol = __esri.CIMMarkerGraphic & {
  * @param g - The {@link __esri.CIMMarkerGraphic|CIMMarkerGraphic} to check.
  * @returns A boolean indicating whether the provided graphic is a {@link __esri.CIMTextSymbol|CIMTextSymbol}.
  */
-function isMarkerGraphicWithTextSymbol(
+function isCimMarkerGraphicWithTextSymbol(
 	g: __esri.CIMMarkerGraphic,
 ): g is CIMMarkerGraphicWithTextSymbol {
 	return g.symbol.type === "CIMTextSymbol";
@@ -63,10 +65,10 @@ function setPrimitiveNameOfFirstTextSymbol(
 	let textSymbol: CIMMarkerGraphicWithTextSymbol | null = null;
 
 	// Find the text symbol and set its primitive name.
-	for (const layer of symbolLayers.filter(isVectorMarker)) {
+	for (const layer of symbolLayers.filter(isCimVectorMarker)) {
 		const markerGraphics = layer.markerGraphics;
 		for (const markerGraphic of markerGraphics.filter(
-			isMarkerGraphicWithTextSymbol,
+			isCimMarkerGraphicWithTextSymbol,
 		)) {
 			markerGraphic.primitiveName = primitiveName;
 			textSymbol = markerGraphic;
