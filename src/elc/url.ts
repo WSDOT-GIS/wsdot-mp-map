@@ -163,7 +163,6 @@ export function* enumerateUrlParameters(
 		} else if (Array.isArray(value)) {
 			outValue = JSON.stringify(value);
 		} else {
-			// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 			outValue = `${value}`;
 		}
 		yield [key, outValue];
