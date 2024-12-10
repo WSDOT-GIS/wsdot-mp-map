@@ -29,10 +29,11 @@ import type {
 	FindNearestRouteLocationParameters,
 	FindRouteLocationParameters,
 	RouteGeometry,
+	RouteGeometryPolyline,
 	ValidRouteLocationForMPInput,
 } from "./types";
 
-type UrlParamMapKey = "sr" | "rrt" | "rrq" | "dir" | "mp";
+type UrlParamMapKey = "sr" | "rrt" | "rrq" | "dir" | "mp" | "endMP";
 
 /**
  * Regular expression patterns to validate URL parameters.
@@ -43,6 +44,7 @@ const keyRegExps = new Map([
 	["rrq", /^R{1,2}Q/i],
 	["dir", /^D(?:IR)?/i],
 	["mp", /^(?:SR)?MP/i],
+	["endMP", /^E(ND)MP/i],
 ] as const);
 
 /**
@@ -65,6 +67,7 @@ const valueRegExps = new Map([
 	 * // matches "123", "123.45", "123B", "123.45B"
 	 */
 	["mp", /^(?<mp>\d+(?:\.\d+)?)(?<back>B)?$/i],
+	["endMP", /^(?<mp>\d+(?:\.\d+)?)(?<back>B)?$/i],
 ] as const);
 
 type KeyValueRegExpTuple = [keyRegexp: RegExp, valueRegexp: RegExp];
@@ -281,6 +284,19 @@ export function getElcParamsFromUrl(
 
 	const route = `${sr}${rrt}${rrq}`;
 
+	const emp = getUrlSearchParameter(searchParams, "endMP");
+
+	if (!emp) {
+		return {
+			Route: route,
+			Srmp: srmp,
+			Back: back,
+			Decrease: /dD/i.test(direction),
+			ReferenceDate: today,
+			ResponseDate: today,
+		};
+	}
+	const { srmp: endSrmp, back: endBack } = parseSrmp(emp);
 	return {
 		Route: route,
 		Srmp: srmp,
@@ -288,7 +304,9 @@ export function getElcParamsFromUrl(
 		Decrease: /dD/i.test(direction),
 		ReferenceDate: today,
 		ResponseDate: today,
-	};
+		EndSrmp: endSrmp,
+		EndBack: endBack,
+	} as ValidRouteLocationForMPInput<Date, RouteGeometryPolyline>;
 }
 
 /**
