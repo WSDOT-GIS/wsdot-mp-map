@@ -5,7 +5,7 @@
 	"description": "Milepost map written with ArcGIS Maps API for JavaScript",
 	"type": "module",
 	"scripts": {
-		"prepare": "tsx tools/copy-wsdot-webstyles.ts && tsx tools/copy-calcite-assets.ts",
+		"prepare": "tsx tools/copy-wsdot-webstyles.ts",
 		"build": "vite build",
 		"watch": "vite build -- --watch",
 		"preview": "vite preview",
