@@ -46,23 +46,6 @@ export function getRoutes(
 }
 
 /**
- * Gets the appropriate icon name for the route shield.
- * @param shield - The shield of the route.
- * @returns The appropriate icon name for the route shield.
- */
-function getRouteShieldIconName(
-	shield: NonNullable<InstanceType<typeof RouteDescription>["shield"]>,
-): `${`${"wa" | "us"}-route` | "interstate"}-shield` {
-	if (/^I/i.test(shield)) {
-		return "interstate-shield";
-	}
-	if (/^US$/i.test(shield)) {
-		return "us-route-shield";
-	}
-	return "wa-route-shield";
-}
-
-/**
  * Generates a generator function that yields a sequence of calcite-combobox-item elements
  * based on the provided routes map. Each calcite-combobox-item element contains a routeId
  * and a empty-string-separated string of directions associated with that routeId.
@@ -81,9 +64,6 @@ export function* getComboboxItems(routes: Map<string, string[]>) {
 			shield += " ";
 		}
 
-		const icon = routeDescription.shield
-			? getRouteShieldIconName(routeDescription.shield)
-			: null;
 		element.description = `${shield}${Number.parseInt(routeDescription.sr)}`;
 		if (routeDescription.rrt) {
 			element.description += ` ${routeDescription.rrtDescription}`;
@@ -92,21 +72,17 @@ export function* getComboboxItems(routes: Map<string, string[]>) {
 			}
 		}
 
-		if (icon) {
-			element.icon = icon;
-		}
 		element.guid = routeId;
 		element.value = routeId;
 		element.heading = routeId;
 		element.label = routeId;
 		/*
-    Use "text-label" instead of "shortHeading".
-    "shortHeading" will add an extra column
-    to the calcite-combobox-item that we don't
-    want.
-    */
+		Use "text-label" instead of "shortHeading".
+		"shortHeading" will add an extra column
+		to the calcite-combobox-item that we don't
+		want.
+		*/
 		element.setAttribute("text-label", routeId);
-		// element.shortHeading = routeId;
 		element.dataset.directions = directions.join("");
 		yield element;
 	}

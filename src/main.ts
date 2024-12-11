@@ -71,11 +71,15 @@ import("./setupAnalytics")
 // Note that the method described in
 // https://developers.arcgis.com/calcite-design-system/get-started/#custom-elements
 // does not seem to work.
-const calciteAssetPath = `${import.meta.env.BASE_URL}/calcite/assets`;
-defineCustomElements(window, { resourcesUrl: calciteAssetPath });
+// const calciteAssetPath = `${import.meta.env.BASE_URL}/calcite/assets`;
+// defineCustomElements(window, { resourcesUrl: calciteAssetPath });
 
 // Setup interceptors for non-Calcite icons.
 // E.g., https://js.arcgis.com/calcite-components/2.13.0/assets/icon/usRouteShield16.json
+
+defineCustomElements(window, {
+	resourcesUrl: "https://js.arcgis.com/calcite-components/2.13.2/assets",
+});
 
 /**
  * Determines the host environment based on the location hostname.
