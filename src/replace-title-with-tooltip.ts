@@ -11,36 +11,23 @@
  * @param parent - The parent element to search for Calcite elements.
  */
 export function replaceTitleWithTooltip(parent = document.body) {
-	/* __PURE__ */ console.group("replaceTitleWithTooltip");
-	try {
-		const elementsWithTitles = parent.querySelectorAll<HTMLElement>("[title]");
-		/* __PURE__ */ console.debug(
-			`Found ${elementsWithTitles.length} elements with titles`,
-			elementsWithTitles,
-		);
-		for (const element of elementsWithTitles) {
-			// Skip non-calcite elements.
-			if (
-				!/^calcite-/i.test(element.tagName) ||
-				element.tagName === "CALCITE-COMBOBOX"
-			) {
-				/* __PURE__ */ console.debug(
-					`Skipping non calcite element: ${element.tagName}`,
-					element,
-				);
-				continue;
-			}
-
-			const { title } = element;
-
-			const tooltip = document.createElement("calcite-tooltip");
-			tooltip.referenceElement = element;
-			tooltip.append(title);
-			element.removeAttribute("title");
-			parent.append(tooltip);
+	const elementsWithTitles = parent.querySelectorAll<HTMLElement>("[title]");
+	for (const element of elementsWithTitles) {
+		// Skip non-calcite elements.
+		if (
+			!/^calcite-/i.test(element.tagName) ||
+			element.tagName === "CALCITE-COMBOBOX"
+		) {
+			continue;
 		}
-	} finally {
-		/* __PURE__ */ console.groupEnd();
+
+		const { title } = element;
+
+		const tooltip = document.createElement("calcite-tooltip");
+		tooltip.referenceElement = element;
+		tooltip.append(title);
+		element.removeAttribute("title");
+		parent.append(tooltip);
 	}
 }
 

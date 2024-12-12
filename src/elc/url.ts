@@ -96,47 +96,42 @@ export function getUrlSearchParameter(
 ) {
 	let output: string | null = null;
 
-	/* __PURE__ */ console.group(getUrlSearchParameter.name, { urlParams, key });
-	try {
-		// Retrieve the regular expression tuple from the regExpMap based on the key.
-		const reTuple = regExpMap.get(key);
-		if (!reTuple) {
-			const keyList = [...regExpMap.keys()].map((k) => `"${k}"`).join(", ");
-			const valueReList = [...regExpMap.values()]
-				.map(([k]) => k.source)
-				.join(", ");
-			// If the key is not found, throw a ReferenceError with the key.
-			throw new ReferenceError(
-				`Invalid URL parameter key: ${key}. Valid values are ${keyList}. Alternative values are ${valueReList}.`,
-			);
+	// Retrieve the regular expression tuple from the regExpMap based on the key.
+	const reTuple = regExpMap.get(key);
+	if (!reTuple) {
+		const keyList = [...regExpMap.keys()].map((k) => `"${k}"`).join(", ");
+		const valueReList = [...regExpMap.values()]
+			.map(([k]) => k.source)
+			.join(", ");
+		// If the key is not found, throw a ReferenceError with the key.
+		throw new ReferenceError(
+			`Invalid URL parameter key: ${key}. Valid values are ${keyList}. Alternative values are ${valueReList}.`,
+		);
+	}
+
+	const [keyRe, valueRe] = reTuple;
+
+	// Iterate over each key-value pair in the URL search parameters.
+	for (const [k, v] of urlParams.entries()) {
+		// If the key does not match the regular expression, continue to the next iteration.
+		if (!keyRe.test(k)) {
+			continue;
 		}
 
-		const [keyRe, valueRe] = reTuple;
+		// Execute the value regular expression on the value.
+		const valueMatch = valueRe.exec(v);
 
-		// Iterate over each key-value pair in the URL search parameters.
-		for (const [k, v] of urlParams.entries()) {
-			// If the key does not match the regular expression, continue to the next iteration.
-			if (!keyRe.test(k)) {
-				continue;
-			}
-
-			// Execute the value regular expression on the value.
-			const valueMatch = valueRe.exec(v);
-
-			// If there is a match, assign the value to the output variable and break the loop.
-			if (valueMatch) {
-				output = valueMatch[0];
-				break;
-			}
-			// Throw error if there is no match.
-			throw new FormatError(
-				v,
-				valueRe,
-				`Invalid URL parameter value for key: ${k}: ${v}.\nValue needs to match ${valueRe}.`,
-			);
+		// If there is a match, assign the value to the output variable and break the loop.
+		if (valueMatch) {
+			output = valueMatch[0];
+			break;
 		}
-	} finally {
-		/* __PURE__ */ console.groupEnd();
+		// Throw error if there is no match.
+		throw new FormatError(
+			v,
+			valueRe,
+			`Invalid URL parameter value for key: ${k}: ${v}.\nValue needs to match ${valueRe}.`,
+		);
 	}
 
 	// Return the output value.
@@ -304,7 +299,6 @@ export function getElcParamsFromUrl(
 		EndSrmp: endSrmp,
 		EndBack: endBack,
 	} as ValidRouteLocationForMPInput<Date, RouteGeometry>;
-	/* __PURE__ */ console.debug("output", output);
 	return output;
 }
 
@@ -321,49 +315,32 @@ export async function callElcFromUrl(
 	lineMilepostLayer: __esri.FeatureLayer,
 	options: Pick<FindRouteLocationParameters, "outSR"> = { outSR: 3857 },
 ) {
-	/* __PURE__ */ console.group(callElcFromUrl.name, { milepostLayer, options });
-	try {
-		const routeLocation = getElcParamsFromUrl();
-		/* __PURE__ */ console.debug("routeLocation", routeLocation);
+	const routeLocation = getElcParamsFromUrl();
 
-		if (!routeLocation) {
-			return null;
-		}
-
-		const elcResults = await findRouteLocations({
-			locations: [routeLocation],
-			outSR: options.outSR,
-		});
-
-		/* __PURE__ */ console.debug("elcResults", elcResults);
-
-		if (elcResults.length < 1) {
-			return null;
-		}
-
-		const location = elcResults[0];
-		if (location instanceof ElcError) {
-			/* __PURE__ */ console.error("ElcError", location);
-			throw location;
-		}
-
-		const graphic = routeLocationToGraphic(location);
-
-		/* __PURE__ */ console.debug("graphic", graphic.toJSON());
-
-		const layer =
-			graphic.geometry.type === "polyline" ? lineMilepostLayer : milepostLayer;
-
-		/* __PURE__ */ console.debug(
-			layer === lineMilepostLayer ? "line layer" : "point layer",
-		);
-
-		const addedGraphics = addGraphicsToLayer(layer, [graphic]);
-
-		/* __PURE__ */ console.debug("added graphics", addedGraphics);
-
-		return addedGraphics;
-	} finally {
-		/* __PURE__ */ console.groupEnd();
+	if (!routeLocation) {
+		return null;
 	}
+
+	const elcResults = await findRouteLocations({
+		locations: [routeLocation],
+		outSR: options.outSR,
+	});
+
+	if (elcResults.length < 1) {
+		return null;
+	}
+
+	const location = elcResults[0];
+	if (location instanceof ElcError) {
+		throw location;
+	}
+
+	const graphic = routeLocationToGraphic(location);
+
+	const layer =
+		graphic.geometry.type === "polyline" ? lineMilepostLayer : milepostLayer;
+
+	const addedGraphics = addGraphicsToLayer(layer, [graphic]);
+
+	return addedGraphics;
 }

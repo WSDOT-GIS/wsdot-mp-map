@@ -1,9 +1,9 @@
-import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer";
+import UniqueValueRenderer from "@arcgis/core/renderers/UniqueValueRenderer";
 import CIMSymbol from "@arcgis/core/symbols/CIMSymbol";
 import SimpleMarkerSymbol from "@arcgis/core/symbols/SimpleMarkerSymbol";
 import { convertToCIMSymbol } from "@arcgis/core/symbols/support/cimConversionUtils";
 import { isCimVectorMarker } from "../create-cim";
-import { cimVectorMarker } from "../symbol";
+import { cimVectorMarker, segmentEndpointCimVectorMarker } from "../symbol";
 import {
 	endMilepostLabelPrimitiveOverride,
 	milepostLabelPrimitiveOverride,
@@ -53,7 +53,7 @@ const strokeSymbolLayer: __esri.CIMSolidStroke = {
 	width: 2,
 	color: [255, 100, 100, 255],
 };
-const cimLineSymbol: __esri.CIMLineSymbol = {
+const cimOffsetAndMilepostLineSymbol: __esri.CIMLineSymbol = {
 	type: "CIMLineSymbol",
 	symbolLayers: [
 		{
@@ -68,20 +68,48 @@ const cimLineSymbol: __esri.CIMLineSymbol = {
 		strokeSymbolLayer,
 	],
 };
-const cimSymbol = new CIMSymbol({
+
+const cimLineSegmentLineSymbol: __esri.CIMLineSymbol = {
+	type: "CIMLineSymbol",
+	symbolLayers: [
+		cimVectorMarker,
+		segmentEndpointCimVectorMarker,
+		strokeSymbolLayer,
+	],
+};
+
+const offsetAndMilepostCimSymbol = new CIMSymbol({
 	data: {
+		primitiveOverrides: [milepostLabelPrimitiveOverride],
+		type: "CIMSymbolReference",
+		symbol: cimOffsetAndMilepostLineSymbol,
+	},
+});
+
+const lineSegmentCimSymbol = new CIMSymbol({
+	data: {
+		type: "CIMSymbolReference",
 		primitiveOverrides: [
 			milepostLabelPrimitiveOverride,
 			endMilepostLabelPrimitiveOverride,
 		],
-		type: "CIMSymbolReference",
-		symbol: cimLineSymbol,
+		symbol: cimLineSegmentLineSymbol,
 	},
 });
 
 /**
  * Simple Renderer using a CIM symbol.
  */
-export default new SimpleRenderer({
-	symbol: cimSymbol,
+export default new UniqueValueRenderer({
+	defaultSymbol: offsetAndMilepostCimSymbol,
+	defaultLabel: "Clicked Milepost",
+	valueExpression: "IIF($feature.EndSrmp != null, '1', '0')",
+	valueExpressionTitle: "Has an End Milepost",
+	uniqueValueInfos: [
+		{
+			label: "Route Segment",
+			symbol: lineSegmentCimSymbol,
+			value: "1",
+		},
+	],
 });

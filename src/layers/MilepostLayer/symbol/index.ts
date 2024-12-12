@@ -58,7 +58,7 @@ const cimMarkerGraphic: __esri.CIMMarkerGraphic = {
 	textString: " ",
 };
 
-const endpointCimMarkerGraphic: __esri.CIMMarkerGraphic = {
+const segmentEndpointCimMarkerGraphic: __esri.CIMMarkerGraphic = {
 	...cimMarkerGraphic,
 	primitiveName: "endMilepostLabel",
 	textString: " ",
@@ -75,9 +75,22 @@ export const cimVectorMarker: __esri.CIMVectorMarker = {
 	respectFrame: true,
 };
 
-export const endpointCimVectorMarker: __esri.CIMVectorMarker = {
+export const segmentStartpointCimVectorMarker: __esri.CIMVectorMarker = {
 	...cimVectorMarker,
-	markerGraphics: [endpointCimMarkerGraphic],
+	markerGraphics: [cimMarkerGraphic],
+	markerPlacement: {
+		type: "CIMMarkerPlacementAtExtremities",
+		extremityPlacement: "JustBegin",
+	},
+};
+
+export const segmentEndpointCimVectorMarker: __esri.CIMVectorMarker = {
+	...cimVectorMarker,
+	markerGraphics: [segmentEndpointCimMarkerGraphic],
+	markerPlacement: {
+		type: "CIMMarkerPlacementAtExtremities",
+		extremityPlacement: "JustEnd",
+	},
 };
 
 const cimPointSymbol: __esri.CIMPointSymbol = {
@@ -89,7 +102,7 @@ const cimPointSymbol: __esri.CIMPointSymbol = {
 
 const endpointCimPointSymbol: __esri.CIMPointSymbol = {
 	...cimPointSymbol,
-	symbolLayers: [endpointCimVectorMarker],
+	symbolLayers: [segmentEndpointCimVectorMarker],
 };
 
 export const milepostSymbol = new CIMSymbol({
@@ -110,3 +123,8 @@ export const endpointMilepostSymbol = new CIMSymbol({
 		symbol: endpointCimPointSymbol,
 	},
 });
+
+/* __PURE__ */ console.debug(
+	"endMilepostSymbol",
+	endpointMilepostSymbol.toJSON(),
+);

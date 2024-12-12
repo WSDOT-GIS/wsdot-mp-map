@@ -57,7 +57,6 @@ let analytics: AnalyticsInstance | null = null;
 
 import("./setupAnalytics")
 	.then(({ default: a }) => {
-		/* __PURE__ */ console.debug("Tag Manager loaded", a);
 		analytics = a;
 		analytics?.page();
 	})
@@ -112,10 +111,8 @@ const updateNonProductionTitle = () => {
 	const environment = getHostEnvironment();
 	// Exit if non-production environment was not detected.
 	if (!environment) {
-		/* __PURE__ */ console.debug("No non-production environment detected.");
 		return environment;
 	}
-	/* __PURE__ */ console.debug(`Non production environment: ${environment}`);
 
 	const suffix = ` - ${environment}`;
 	document.title += suffix;
@@ -161,9 +158,67 @@ import("@arcgis/core/kernel")
 import("@arcgis/core/config")
 	.then(({ default: config }) => {
 		config.applicationName = import.meta.env.VITE_TITLE;
-		config.log.level = "error";
-		// TODO: Once all production environment issues have been fixed, replace above line 👆 with the one below 👇.
-		// config.log.level = import.meta.env.DEV ? "info" : "error";
+		config.log.level = import.meta.env.DEV
+			? "info"
+			: import.meta.env.PROD
+				? "none"
+				: "warn";
+
+		if (!config.log.interceptors) {
+			config.log.interceptors = [];
+		}
+
+		config.log.interceptors.push((level, module, ...args) => {
+			let logFunction:
+				| typeof console.log
+				| typeof console.error
+				| typeof console.warn;
+			switch (level) {
+				case "error":
+					logFunction = console.error;
+					break;
+				case "warn":
+					logFunction = console.warn;
+					break;
+				default:
+					logFunction = console.log;
+					break;
+			}
+			/* __PURE__ */ logFunction("intercepted log", { level, module, args });
+
+			if (
+				level === "error" &&
+				module === "esri.widgets.Feature.support.arcadeFeatureUtils"
+			) {
+				console.group(module);
+				const [errorType, errorInfo] = args as [
+					string,
+					Record<string, unknown> & {
+						error: Error;
+						expressionInfo: __esri.ExpressionInfo;
+						graphic: __esri.Graphic;
+					},
+				];
+
+				const { error, expressionInfo, graphic } = errorInfo;
+
+				const { name: expressionName, expression } = expressionInfo;
+
+				console.error(errorType, {
+					...errorInfo,
+					error: error.message,
+					errorName: error.name,
+					expressionName,
+					expression,
+					graphic: graphic.toJSON(),
+				});
+				console.log(expression);
+				console.groupEnd();
+				return true;
+			}
+
+			return false;
+		});
 	})
 	.catch((reason: unknown) => {
 		console.error("Failed to setup app config", reason);
