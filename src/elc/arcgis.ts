@@ -1,6 +1,7 @@
 import Graphic from "@arcgis/core/Graphic";
 import Point from "@arcgis/core/geometry/Point";
-import { hasXAndY } from "../types";
+import Polyline from "@arcgis/core/geometry/Polyline";
+import { hasPaths, hasXAndY } from "../types";
 import { ElcError } from "./errors";
 import type {
 	DateType,
@@ -39,12 +40,23 @@ export function routeLocationToGraphic<
 	if (routeLocation instanceof ElcError) {
 		throw routeLocation;
 	}
-	let geometry: __esri.Point | undefined;
-	if (routeLocation.RouteGeometry && hasXAndY(routeLocation.RouteGeometry)) {
-		const { x, y, spatialReference } = routeLocation.RouteGeometry;
-		geometry = new Point({ x, y, spatialReference });
+	let geometry: __esri.Point | __esri.Polyline | undefined;
+	if (routeLocation.RouteGeometry) {
+		if (hasXAndY(routeLocation.RouteGeometry)) {
+			const { x, y, spatialReference } = routeLocation.RouteGeometry;
+			geometry = new Point({ x, y, spatialReference });
+		} else if (hasPaths(routeLocation.RouteGeometry)) {
+			const { paths, spatialReference } = routeLocation.RouteGeometry;
+			geometry = new Polyline({
+				paths,
+				spatialReference,
+			});
+		}
 	} else {
-		console.warn("Input does not have valid point geometry.", routeLocation);
+		console.warn(
+			"Input does not have valid point or polyline geometry.",
+			routeLocation,
+		);
 	}
 	let attributes:
 		| (Record<string, unknown> & {
@@ -53,17 +65,18 @@ export function routeLocationToGraphic<
 				Direction: "D" | "I";
 				Srmp?: number;
 				Back: "B" | "";
-				"Township Subdivision": null;
-				City: null;
-				County: null;
+				EndSrmp?: number;
+				EndBack?: "B" | "";
 		  })
 		| undefined;
 	if (hasValidSrmpData(routeLocation)) {
 		const {
 			Route,
+			Decrease,
 			Srmp,
 			Back,
-			Decrease,
+			EndSrmp,
+			EndBack,
 			// Angle,
 			// Arm,
 			// ArmCalcReturnCode,
@@ -82,9 +95,8 @@ export function routeLocationToGraphic<
 			Direction: Decrease ? "D" : "I",
 			Srmp,
 			Back: Back ? "B" : "",
-			"Township Subdivision": null,
-			City: null,
-			County: null,
+			EndSrmp: EndSrmp,
+			EndBack: EndBack ? "B" : "",
 		};
 		oid++;
 	} else {

@@ -44,9 +44,10 @@ const keyRegExps = new Map([
 	["rrq", /^R{1,2}Q/i],
 	["dir", /^D(?:IR)?/i],
 	["mp", /^(?:SR)?MP/i],
-	["endMP", /^E(ND)MP/i],
+	["endMP", /^E(ND)?(SR)?MP/i],
 ] as const);
 
+const milepostAndBackIndicatorRegex = /^(?<mp>\d+(?:\.\d+)?)(?<back>B)?$/i;
 /**
  * Regular expression patterns to validate URL parameter values.
  */
@@ -66,8 +67,8 @@ const valueRegExps = new Map([
 	 * @example
 	 * // matches "123", "123.45", "123B", "123.45B"
 	 */
-	["mp", /^(?<mp>\d+(?:\.\d+)?)(?<back>B)?$/i],
-	["endMP", /^(?<mp>\d+(?:\.\d+)?)(?<back>B)?$/i],
+	["mp", milepostAndBackIndicatorRegex],
+	["endMP", milepostAndBackIndicatorRegex],
 ] as const);
 
 type KeyValueRegExpTuple = [keyRegexp: RegExp, valueRegexp: RegExp];
@@ -94,43 +95,49 @@ export function getUrlSearchParameter(
 	urlParams: URLSearchParams,
 	key: UrlParamMapKey,
 ) {
-	// Retrieve the regular expression tuple from the regExpMap based on the key.
-	const reTuple = regExpMap.get(key);
-	if (!reTuple) {
-		const keyList = [...regExpMap.keys()].map((k) => `"${k}"`).join(", ");
-		const valueReList = [...regExpMap.values()]
-			.map(([k]) => k.source)
-			.join(", ");
-		// If the key is not found, throw a ReferenceError with the key.
-		throw new ReferenceError(
-			`Invalid URL parameter key: ${key}. Valid values are ${keyList}. Alternative values are ${valueReList}.`,
-		);
-	}
-
-	const [keyRe, valueRe] = reTuple;
 	let output: string | null = null;
 
-	// Iterate over each key-value pair in the URL search parameters.
-	for (const [k, v] of urlParams.entries()) {
-		// If the key does not match the regular expression, continue to the next iteration.
-		if (!keyRe.test(k)) {
-			continue;
+	/* __PURE__ */ console.group(getUrlSearchParameter.name, { urlParams, key });
+	try {
+		// Retrieve the regular expression tuple from the regExpMap based on the key.
+		const reTuple = regExpMap.get(key);
+		if (!reTuple) {
+			const keyList = [...regExpMap.keys()].map((k) => `"${k}"`).join(", ");
+			const valueReList = [...regExpMap.values()]
+				.map(([k]) => k.source)
+				.join(", ");
+			// If the key is not found, throw a ReferenceError with the key.
+			throw new ReferenceError(
+				`Invalid URL parameter key: ${key}. Valid values are ${keyList}. Alternative values are ${valueReList}.`,
+			);
 		}
 
-		// Execute the value regular expression on the value.
-		const valueMatch = valueRe.exec(v);
+		const [keyRe, valueRe] = reTuple;
 
-		// If there is a match, assign the value to the output variable and break the loop.
-		if (valueMatch) {
-			output = valueMatch[0];
-			break;
+		// Iterate over each key-value pair in the URL search parameters.
+		for (const [k, v] of urlParams.entries()) {
+			// If the key does not match the regular expression, continue to the next iteration.
+			if (!keyRe.test(k)) {
+				continue;
+			}
+
+			// Execute the value regular expression on the value.
+			const valueMatch = valueRe.exec(v);
+
+			// If there is a match, assign the value to the output variable and break the loop.
+			if (valueMatch) {
+				output = valueMatch[0];
+				break;
+			}
+			// Throw error if there is no match.
+			throw new FormatError(
+				v,
+				valueRe,
+				`Invalid URL parameter value for key: ${k}: ${v}.\nValue needs to match ${valueRe}.`,
+			);
 		}
-		// Throw error if there is no match.
-		throw new FormatError(
-			v,
-			valueRe,
-			`Invalid URL parameter value for key: ${k}: ${v}.\nValue needs to match ${valueRe}.`,
-		);
+	} finally {
+		/* __PURE__ */ console.groupEnd();
 	}
 
 	// Return the output value.
@@ -247,7 +254,7 @@ function parseSrmp(mp: string): { srmp: number; back: boolean } {
  */
 export function getElcParamsFromUrl(
 	url: string | URL | URLSearchParams = window.location.href,
-): ValidRouteLocationForMPInput<Date, RouteGeometry> | null {
+) {
 	// If the URL is a URL object, use its search params.
 	let searchParams: URLSearchParams;
 	if (url instanceof URL) {
@@ -285,18 +292,10 @@ export function getElcParamsFromUrl(
 
 	const emp = getUrlSearchParameter(searchParams, "endMP");
 
-	if (!emp) {
-		return {
-			Route: route,
-			Srmp: srmp,
-			Back: back,
-			Decrease: /dD/i.test(direction),
-			ReferenceDate: today,
-			ResponseDate: today,
-		};
-	}
-	const { srmp: endSrmp, back: endBack } = parseSrmp(emp);
-	return {
+	const { srmp: endSrmp, back: endBack } = emp
+		? parseSrmp(emp)
+		: { srmp: null, back: null };
+	const output = {
 		Route: route,
 		Srmp: srmp,
 		Back: back,
@@ -305,7 +304,9 @@ export function getElcParamsFromUrl(
 		ResponseDate: today,
 		EndSrmp: endSrmp,
 		EndBack: endBack,
-	} as ValidRouteLocationForMPInput<Date, RouteGeometryPolyline>;
+	} as ValidRouteLocationForMPInput<Date, RouteGeometry>;
+	/* __PURE__ */ console.debug("output", output);
+	return output;
 }
 
 /**
@@ -320,27 +321,42 @@ export async function callElcFromUrl(
 	milepostLayer: __esri.FeatureLayer,
 	options: Pick<FindRouteLocationParameters, "outSR"> = { outSR: 3857 },
 ) {
-	const routeLocation = getElcParamsFromUrl();
+	/* __PURE__ */ console.group(callElcFromUrl.name, { milepostLayer, options });
+	try {
+		const routeLocation = getElcParamsFromUrl();
+		/* __PURE__ */ console.debug("routeLocation", routeLocation);
 
-	if (!routeLocation) {
-		return null;
+		if (!routeLocation) {
+			return null;
+		}
+
+		const elcResults = await findRouteLocations({
+			locations: [routeLocation],
+			outSR: options.outSR,
+		});
+
+		/* __PURE__ */ console.debug("elcResults", elcResults);
+
+		if (elcResults.length < 1) {
+			return null;
+		}
+
+		const location = elcResults[0];
+		if (location instanceof ElcError) {
+			/* __PURE__ */ console.error("ElcError", location);
+			throw location;
+		}
+
+		const graphic = routeLocationToGraphic(location);
+
+		/* __PURE__ */ console.debug("graphic", graphic);
+
+		const addedGraphics = addGraphicsToLayer(milepostLayer, [graphic]);
+
+		/* __PURE__ */ console.debug("added graphics", addedGraphics);
+
+		return addedGraphics;
+	} finally {
+		/* __PURE__ */ console.groupEnd();
 	}
-
-	const elcResults = await findRouteLocations({
-		locations: [routeLocation],
-		outSR: options.outSR,
-	});
-
-	if (elcResults.length < 1) {
-		return null;
-	}
-
-	const location = elcResults[0];
-	if (location instanceof ElcError) {
-		throw location;
-	}
-
-	const graphic = routeLocationToGraphic(location);
-
-	return addGraphicsToLayer(milepostLayer, [graphic]);
 }
