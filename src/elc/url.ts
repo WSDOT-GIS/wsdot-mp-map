@@ -319,6 +319,7 @@ export function getElcParamsFromUrl(
  */
 export async function callElcFromUrl(
 	milepostLayer: __esri.FeatureLayer,
+	lineMilepostLayer: __esri.FeatureLayer,
 	options: Pick<FindRouteLocationParameters, "outSR"> = { outSR: 3857 },
 ) {
 	/* __PURE__ */ console.group(callElcFromUrl.name, { milepostLayer, options });
@@ -349,9 +350,16 @@ export async function callElcFromUrl(
 
 		const graphic = routeLocationToGraphic(location);
 
-		/* __PURE__ */ console.debug("graphic", graphic);
+		/* __PURE__ */ console.debug("graphic", graphic.toJSON());
 
-		const addedGraphics = addGraphicsToLayer(milepostLayer, [graphic]);
+		const layer =
+			graphic.geometry.type === "polyline" ? lineMilepostLayer : milepostLayer;
+
+		/* __PURE__ */ console.debug(
+			layer === lineMilepostLayer ? "line layer" : "point layer",
+		);
+
+		const addedGraphics = addGraphicsToLayer(layer, [graphic]);
 
 		/* __PURE__ */ console.debug("added graphics", addedGraphics);
 

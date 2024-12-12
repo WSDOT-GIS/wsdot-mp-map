@@ -628,39 +628,42 @@ if (!testWebGL2Support()) {
 			});
 	}
 
-	// Once the milepost layerview has been created, check for ELC data from the URL
-	// and, if present, add the location to the map.
-	milepostPointLayer.on("layerview-create", () => {
-		/**
-		 * Calls the ELC API to retrieve graphics from the URL and adds them to the milepost layer.
-		 * @returns A promise that resolves when the graphics have been added to the layer and the view has been updated.
-		 */
-		const callElc = async () => {
-			const elcGraphics = await callElcFromUrl(milepostPointLayer);
-			if (elcGraphics) {
-				const addedFeatures = await addGraphicsToLayer(
+	Promise.all([milepostPointLayer.when(), milepostLineLayer.when()]).then(
+		() => {
+			/**
+			 * Calls the ELC API to retrieve graphics from the URL and adds them to the milepost layer.
+			 * @returns A promise that resolves when the graphics have been added to the layer and the view has been updated.
+			 */
+			const callElc = async () => {
+				const elcGraphics = await callElcFromUrl(
 					milepostPointLayer,
-					elcGraphics,
+					milepostLineLayer,
 				);
-				const scale = Number.parseFloat(import.meta.env.VITE_ZOOM_SCALE);
-				const viewpoint = new Viewpoint({
-					scale,
-					targetGeometry: addedFeatures.at(0)?.geometry,
-				});
-				await view.goTo(viewpoint, {
-					animate: false,
-				});
-				view
-					.openPopup({
-						features: addedFeatures,
-					})
-					.catch((reason: unknown) => {
-						console.error("Failed to open popup", reason);
+				if (elcGraphics) {
+					const addedFeatures = await addGraphicsToLayer(
+						milepostPointLayer,
+						elcGraphics,
+					);
+					const scale = Number.parseFloat(import.meta.env.VITE_ZOOM_SCALE);
+					const viewpoint = new Viewpoint({
+						scale,
+						targetGeometry: addedFeatures.at(0)?.geometry,
 					});
-			}
-		};
-		callElc().catch((reason: unknown) => {
-			emitErrorEvent(reason);
-		});
-	});
+					await view.goTo(viewpoint, {
+						animate: false,
+					});
+					view
+						.openPopup({
+							features: addedFeatures,
+						})
+						.catch((reason: unknown) => {
+							console.error("Failed to open popup", reason);
+						});
+				}
+			};
+			callElc().catch((reason: unknown) => {
+				emitErrorEvent(reason);
+			});
+		},
+	);
 }
