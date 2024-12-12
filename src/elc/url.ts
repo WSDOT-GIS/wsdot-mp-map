@@ -29,7 +29,6 @@ import type {
 	FindNearestRouteLocationParameters,
 	FindRouteLocationParameters,
 	RouteGeometry,
-	RouteGeometryPolyline,
 	ValidRouteLocationForMPInput,
 } from "./types";
 
