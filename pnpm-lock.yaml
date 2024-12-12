@@ -33,8 +33,8 @@ importers:
         specifier: github:WSDOT-GIS/land-use
         version: https://codeload.github.com/WSDOT-GIS/land-use/tar.gz/0ed447fa99cd05a5480cec5e2e94b1b06cbd02b5(typescript@5.7.2)
       '@wsdot/web-styles':
-        specifier: github:WSDOT-GIS/wsdot-web-styles
-        version: https://codeload.github.com/WSDOT-GIS/wsdot-web-styles/tar.gz/3398615915f71ee72e1dfef9d6d2c1035df16b17
+        specifier: github:WSDOT-GIS/wsdot-web-styles#v1.0.1
+        version: https://codeload.github.com/WSDOT-GIS/wsdot-web-styles/tar.gz/7d4f6d074709d8fdd3a4c20ba85a35c707613a3b
       analytics:
         specifier: ^0.8.14
         version: 0.8.14(@types/dlv@1.1.5)
@@ -1251,8 +1251,8 @@ packages:
     peerDependencies:
       typescript: ^5.0.0
 
-  '@wsdot/web-styles@https://codeload.github.com/WSDOT-GIS/wsdot-web-styles/tar.gz/3398615915f71ee72e1dfef9d6d2c1035df16b17':
-    resolution: {tarball: https://codeload.github.com/WSDOT-GIS/wsdot-web-styles/tar.gz/3398615915f71ee72e1dfef9d6d2c1035df16b17}
+  '@wsdot/web-styles@https://codeload.github.com/WSDOT-GIS/wsdot-web-styles/tar.gz/7d4f6d074709d8fdd3a4c20ba85a35c707613a3b':
+    resolution: {tarball: https://codeload.github.com/WSDOT-GIS/wsdot-web-styles/tar.gz/7d4f6d074709d8fdd3a4c20ba85a35c707613a3b}
     version: 1.0.1
 
   '@zip.js/zip.js@2.7.54':
@@ -3467,7 +3467,7 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@wsdot/web-styles@https://codeload.github.com/WSDOT-GIS/wsdot-web-styles/tar.gz/3398615915f71ee72e1dfef9d6d2c1035df16b17':
+  '@wsdot/web-styles@https://codeload.github.com/WSDOT-GIS/wsdot-web-styles/tar.gz/7d4f6d074709d8fdd3a4c20ba85a35c707613a3b':
     optionalDependencies:
       '@fontsource/inconsolata': 5.1.0
       '@fontsource/lato': 5.1.0

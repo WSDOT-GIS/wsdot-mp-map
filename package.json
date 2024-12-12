@@ -28,7 +28,7 @@
 		"@fontsource/overpass": "^5.1.1",
 		"@types/geojson": "^7946.0.15",
 		"@wsdot/land-use-codes": "github:WSDOT-GIS/land-use",
-		"@wsdot/web-styles": "github:WSDOT-GIS/wsdot-web-styles",
+		"@wsdot/web-styles": "github:WSDOT-GIS/wsdot-web-styles#v1.0.1",
 		"analytics": "^0.8.14",
 		"browser-update": "^3.3.55",
 		"dms-conversion": "^3.1.3",
