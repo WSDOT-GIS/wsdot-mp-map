@@ -2,6 +2,7 @@ import UniqueValueRenderer from "@arcgis/core/renderers/UniqueValueRenderer";
 import CIMSymbol from "@arcgis/core/symbols/CIMSymbol";
 import SimpleMarkerSymbol from "@arcgis/core/symbols/SimpleMarkerSymbol";
 import { convertToCIMSymbol } from "@arcgis/core/symbols/support/cimConversionUtils";
+import { highwaySignBackgroundColor } from "../../../colors";
 import { isCimVectorMarker } from "../create-cim";
 import { cimVectorMarker, segmentEndpointCimVectorMarker } from "../symbol";
 import {
@@ -74,7 +75,12 @@ const cimLineSegmentLineSymbol: __esri.CIMLineSymbol = {
 	symbolLayers: [
 		cimVectorMarker,
 		segmentEndpointCimVectorMarker,
-		strokeSymbolLayer,
+		{
+			type: "CIMSolidStroke",
+			color: highwaySignBackgroundColor.toJSON(),
+			enable: true,
+			width: 3,
+		},
 	],
 };
 

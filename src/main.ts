@@ -690,23 +690,41 @@ if (!testWebGL2Support()) {
 			 * @returns A promise that resolves when the graphics have been added to the layer and the view has been updated.
 			 */
 			const callElc = async () => {
-				const elcGraphics = await callElcFromUrl(
+				// Call the features from the URL and add them to the layer.
+				const addedFeatures = await callElcFromUrl(
 					milepostPointLayer,
 					milepostLineLayer,
 				);
-				if (elcGraphics) {
-					const addedFeatures = await addGraphicsToLayer(
-						milepostPointLayer,
-						elcGraphics,
-					);
-					const scale = Number.parseFloat(import.meta.env.VITE_ZOOM_SCALE);
-					const viewpoint = new Viewpoint({
-						scale,
-						targetGeometry: addedFeatures.at(0)?.geometry,
-					});
-					await view.goTo(viewpoint, {
-						animate: false,
-					});
+				if (addedFeatures) {
+					// Zoom to the first feature (if any are in the array).
+					// Only expecting to ever be a single feature present.
+					const feature = addedFeatures.at(0);
+					if (feature) {
+						const targetGeometry = feature?.geometry;
+
+						/**
+						 * The zoom target.
+						 *
+						 * Geometry Type           | Zoom Target
+						 * ------------------------|-----------------------------------
+						 * point                   | A viewpoint with a specified scale
+						 * polyline (or non-point) | The feature itself.
+						 */
+						let goToTarget2D: Graphic | __esri.Viewpoint = feature;
+
+						if (targetGeometry?.type === "point") {
+							const scale = Number.parseFloat(import.meta.env.VITE_ZOOM_SCALE);
+							goToTarget2D = new Viewpoint({
+								scale,
+								targetGeometry: targetGeometry,
+							});
+						}
+
+						await view.goTo(goToTarget2D, {
+							animate: false,
+						});
+					}
+
 					view
 						.openPopup({
 							features: addedFeatures,
