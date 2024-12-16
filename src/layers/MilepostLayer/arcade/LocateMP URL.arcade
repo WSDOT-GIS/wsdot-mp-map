@@ -6,6 +6,7 @@ var urlBase = "";
 
 // Split the Route ID into SR, RRT, and RRQ parts.
 var routeParts = splitRouteId($feature.Route);
+var attributes = Dictionary($feature)["attributes"];
 
 // Construct the key value pairs for the query string.
 var parts = [
@@ -15,6 +16,14 @@ var parts = [
   ["DIR", $feature.Direction],
   ["SRMP", Text($feature.SRMP,"#.##") + IIf($feature.Back == "B", "B", "")]
 ];
+
+if (HasKey(attributes, "EndSrmp")) {
+  var mpText = Text(attributes.EndSrmp,"#.##");
+  if (HasKey(attributes, "EndBack") && attributes.EndBack == "B") {
+    mpText += "B";
+  }
+  Push(parts,["EMP", mpText]);
+}
 
 /**
  * Detects if a tuple's value (element at index 1) is neither null nor empty.
