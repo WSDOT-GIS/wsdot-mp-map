@@ -2,12 +2,8 @@ import ExpressionInfo from "@arcgis/core/popup/ExpressionInfo";
 import ExpressionContent from "@arcgis/core/popup/content/ExpressionContent";
 import { isInternal } from "../../../urls/isIntranet";
 import AccessControlArcade from "./Access Control.arcade?raw";
-// import BingMapsArcade from "./Bing Maps.arcade?raw";
 import CityArcade from "./City.arcade?raw";
 import CountyArcade from "./County.arcade?raw";
-// import GeoHackArcade from "./GeoHack.arcade?raw";
-import GeoURIArcade from "./GeoURI.arcade?raw";
-// import GoogleStreetViewArcade from "./Google Street View.arcade?raw";
 import LocateMPUrlArcade from "./LocateMP URL.arcade?raw";
 import LocationLinksArcade from "./Location Links.arcade?raw";
 import MilepostLabelArcade from "./Milepost Label.arcade?raw";
@@ -75,25 +71,6 @@ const expressionInfoProperties = [
 		expression: [splitRouteIdFunction, RegionArcade].join("\n"),
 		returnType: "string",
 	},
-	// {
-	//   name: "bingMaps",
-	//   title: "Bing Maps",
-	//   expression: [webMercatorToWgs1984, BingMapsArcade].join("\n"),
-	//   returnType: "string",
-	// },
-	// {
-	//   name: "geoHack",
-	//   title: "GeoHack",
-	//   expression: [webMercatorToWgs1984, GeoHackArcade].join("\n"),
-	//   returnType: "string",
-	// },
-
-	// {
-	//   name: "googleStreetView",
-	//   title: "Google Street View",
-	//   expression: [webMercatorToWgs1984, GoogleStreetViewArcade].join("\n"),
-	//   returnType: "string",
-	// },
 	{
 		name: "srViewURL",
 		title: "SRView URL",
@@ -116,12 +93,6 @@ const expressionInfoProperties = [
 				`"${urlBase}"`,
 			),
 		].join("\n"),
-		returnType: "string",
-	},
-	{
-		name: "geoURI",
-		title: "GeoURI",
-		expression: [webMercatorToWgs1984, GeoURIArcade].join("\n"),
 		returnType: "string",
 	},
 ] as const;

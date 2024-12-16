@@ -1,3 +1,7 @@
+/**
+ * webMercatorToWgs1984.function.arcade
+ */
+
 // Constants
 var R_MAJOR = 6378137.0;
 
@@ -17,18 +21,30 @@ function xyWebMercatorToWgs1984(xy) {
 }
 
 function webMercatorToWgs1984(geom) {
+  var point = null;
   if (geom.type == "Point") {
-    // Web Mercator coordinates
-    var xWebMercator = geom.x;
-    var yWebMercator = geom.y;
-
-    var wgsXY = xyWebMercatorToWgs1984([xWebMercator, yWebMercator]);
-
-    return {
-      x: wgsXY[0],
-      y: wgsXY[1],
-    };
+    point = geom
+  } else if (geom.type == "Polyline") {
+    point = geom.paths[0][0]
+  } else if (geom.type == "Polygon") {
+    point = geom.rings[0][0]
+  } else if (geom.type == "Multipoint") {
+    point = geom.points[0]
   }
 
-  return null;
+  if (point == null) {
+    return null;
+  }
+
+  // Web Mercator coordinates
+  var xWebMercator = point.x;
+  var yWebMercator = point.y;
+
+  var wgsXY = xyWebMercatorToWgs1984([xWebMercator, yWebMercator]);
+
+  return {
+    x: wgsXY[0],
+    y: wgsXY[1],
+  };
 }
+

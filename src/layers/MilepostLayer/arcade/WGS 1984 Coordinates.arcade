@@ -1,9 +1,11 @@
+/**
+ * WGS 1984 Coordinates.arcade
+ */
+
 // import fromWebMercatorFunction from "./parts/fromWebMercator.function.arcade"
 
 var featureGeometry = Geometry($feature);
 
 if (TypeOf(featureGeometry) == "Point") {
-    webMercatorToWgs1984(Geometry($feature))
-} else {
-    webMercatorToWgs1984(Point($userInput))
+    webMercatorToWgs1984(featureGeometry)
 }

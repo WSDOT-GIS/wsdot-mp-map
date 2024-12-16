@@ -1,1 +1,5 @@
+/**
+ * LRS Date.arcade
+ */
+
 DateOnly($feature.LRS_Date, "YMMDD");
