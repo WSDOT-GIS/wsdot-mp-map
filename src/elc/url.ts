@@ -288,7 +288,7 @@ export function getElcParamsFromUrl(
 
 	const { srmp: endSrmp, back: endBack } = emp
 		? parseSrmp(emp)
-		: { srmp: null, back: null };
+		: { srmp: undefined, back: undefined };
 	const output = {
 		Route: route,
 		Srmp: srmp,
