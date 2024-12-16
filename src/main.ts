@@ -278,26 +278,39 @@ function openPopup(hits: __esri.GraphicHit[], view: MapView) {
 	}
 	// Get the features that were hit by the hit test.
 	const features = hits.map(extractGraphic);
-	const updateUrlSearch = () => {
-		const routeLocation = features
-			.map(
-				(f) =>
-					f.attributes as Record<string, string | number | undefined | null> & {
-						Back: string;
-						Route: string;
-						Srmp: number;
-						Direction: string;
-					},
-			)
-			.at(0);
+	function updateUrlSearch() {
+		/* __PURE__ */ console.group(
+			"updateUrlSearch",
+			features.map((f) => f.toJSON()),
+		);
+		try {
+			const routeLocation = features
+				.map(
+					(f) =>
+						f.attributes as Record<
+							string,
+							string | number | undefined | null
+						> & {
+							Back: string;
+							Route: string;
+							Srmp: number;
+							Direction: string;
+							EndSrmp: number;
+							EndBack: string;
+						},
+				)
+				.at(0);
 
-		if (!routeLocation) {
-			console.error("Could not find route location");
-			return;
+			if (!routeLocation) {
+				console.error("Could not find route location");
+				return;
+			}
+
+			updateUrlSearchParams(routeLocation);
+		} finally {
+			/* __PURE__ */ console.groupEnd();
 		}
-
-		updateUrlSearchParams(routeLocation);
-	};
+	}
 	/* __PURE__ */ console.debug("about to open popup", {
 		features: features.map((f) => f.toJSON() as unknown),
 	});

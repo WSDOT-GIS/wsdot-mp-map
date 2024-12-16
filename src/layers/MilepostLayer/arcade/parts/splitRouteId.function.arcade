@@ -1,4 +1,8 @@
 /**
+ * splitRouteId.function.arcade
+ */
+
+/**
  * Splits a WSDOT Route ID into its component
  * SR, RRT, and RRQ parts.
  * If the route ID has no RRT and/or RRQ, these values will be null.

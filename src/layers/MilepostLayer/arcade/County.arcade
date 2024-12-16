@@ -1,3 +1,7 @@
+/**
+ * County.arcade
+ */
+
 var agolId = "12712f465fc44fb58328c6e0255ca27e";
 var p = Portal("https://wsdot.maps.arcgis.com");
 
@@ -18,5 +22,3 @@ var match = Top(
 for (var f in match) {
   return f.JURISDICT_LABEL_NM
 }
-
-// return $userInput;

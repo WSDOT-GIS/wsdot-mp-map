@@ -1,3 +1,7 @@
+/**
+ * City.arcade
+ */
+
 var agolId = "0d96ba84b802425aa1d2b9a99e422c5d";
 var p = Portal("https://wsdot.maps.arcgis.com");
 var layerId = 1;

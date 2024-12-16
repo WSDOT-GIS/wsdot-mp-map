@@ -9,6 +9,8 @@ type RouteLocationAttributes = Record<
 	Route: string;
 	Srmp: number;
 	Direction: string;
+	EndSrmp?: number;
+	EndBack?: string;
 };
 
 /**
@@ -17,36 +19,51 @@ type RouteLocationAttributes = Record<
  * @returns - The updated URL.
  */
 export function updateUrlSearchParams(routeLocation: RouteLocationAttributes) {
-	const srmp = `${routeLocation.Srmp}${routeLocation.Back}`;
-	const { sr, rrt, rrq } = new RouteDescription(routeLocation.Route);
-	const direction = routeLocation.Direction;
+	/* __PURE__ */ console.group(updateUrlSearchParams.name, { routeLocation });
+	try {
+		const srmp = `${routeLocation.Srmp}${routeLocation.Back}`;
+		const { sr, rrt, rrq } = new RouteDescription(routeLocation.Route);
+		const direction = routeLocation.Direction;
+		const endMp =
+			routeLocation.EndSrmp != null
+				? `${routeLocation.EndSrmp}${routeLocation.EndBack}`
+				: undefined;
 
-	const currentUrl = new URL(window.location.href);
+		/* __PURE__ */ console.debug({ sr, rrt, rrq, srmp, direction, endMp });
 
-	/**
-	 * Map of the search params and their values.
-	 */
-	const argsMap = new Map([
-		["SR", sr],
-		["RRT", rrt],
-		["RRQ", rrq],
-		["MP", srmp],
-		["DIR", direction],
-	] as const);
+		const currentUrl = new URL(window.location.href);
 
-	// Update the URL search parameters.
-	for (const [key, value] of argsMap) {
-		if (value) {
-			currentUrl.searchParams.set(key, value);
-		} else {
-			currentUrl.searchParams.delete(key);
+		/**
+		 * Map of the search params and their values.
+		 */
+		const argsMap = new Map([
+			["SR", sr],
+			["RRT", rrt],
+			["RRQ", rrq],
+			["MP", srmp],
+			["DIR", direction],
+			["EMP", endMp],
+		] as const);
+
+		/* __PURE__ */ console.debug("Argument map", argsMap);
+
+		// Update the URL search parameters.
+		for (const [key, value] of argsMap) {
+			if (value) {
+				currentUrl.searchParams.set(key, value);
+			} else {
+				currentUrl.searchParams.delete(key);
+			}
 		}
+
+		/* __PURE__ */ console.debug("Updated URL", currentUrl);
+
+		// Update the browser's URL.
+		window.history.replaceState(null, "", currentUrl.toString());
+
+		return currentUrl;
+	} finally {
 	}
-
-	// Update the browser's URL.
-	window.history.replaceState(null, "", currentUrl.toString());
-
-	return currentUrl;
 }
 
 const urlSearchRe = /(?<key>[^?=&]+)(?:=(?<value>[^&]*))?/g;
