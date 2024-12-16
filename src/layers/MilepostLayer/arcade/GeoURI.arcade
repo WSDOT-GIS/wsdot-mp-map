@@ -1,8 +1,0 @@
-/**
- * GeoURI.arcade
- */
-
-var xy = webMercatorToWgs1984(Geometry($feature));
-var x = xy.x;
-var y = xy.y;
-"geo:" + y + "," + x
