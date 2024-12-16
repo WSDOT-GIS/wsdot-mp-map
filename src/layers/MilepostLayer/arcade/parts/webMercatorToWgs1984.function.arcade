@@ -1,3 +1,7 @@
+/**
+ * webMercatorToWgs1984.function.arcade
+ */
+
 // Constants
 var R_MAJOR = 6378137.0;
 

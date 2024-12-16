@@ -1,3 +1,7 @@
+/**
+ * LocateMP URL.arcade
+ */
+
 var urlBase = "";
 
 // Split the Route ID into SR, RRT, and RRQ parts.

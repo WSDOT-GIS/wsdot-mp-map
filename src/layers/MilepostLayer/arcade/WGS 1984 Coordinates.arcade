@@ -1,3 +1,7 @@
+/**
+ * WGS 1984 Coordinates.arcade
+ */
+
 // import fromWebMercatorFunction from "./parts/fromWebMercator.function.arcade"
 
 var featureGeometry = Geometry($feature);

@@ -1,3 +1,7 @@
+/**
+ * Google Street View.arcade
+ */
+
 // Create links to Google Street View Images. 
 var xy = webMercatorToWgs1984(Geometry($feature));
 var lon = xy.x;

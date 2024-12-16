@@ -1,4 +1,8 @@
 /**
+ * Milepost Label.arcade
+ */
+
+/**
  * Creates the label text for an SRMP point.
  * - Rounds SRMP to three digits.
  * - Appends an "S" for spurs (RRT = "SP")
