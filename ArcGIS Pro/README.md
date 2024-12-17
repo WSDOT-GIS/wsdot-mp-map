@@ -1,0 +1,1 @@
+This folder is for ArcGIS Pro files used to create symbology for this app.
