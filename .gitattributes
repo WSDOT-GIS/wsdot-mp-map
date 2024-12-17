@@ -1,12 +1,9 @@
 # Common settings that generally should always be used with your language specific settings
-
 # Auto detect text files and perform LF normalization
 *          text=auto
-
 #
 # The above will handle all files NOT found below
 #
-
 # Documents
 *.bibtex   text diff=bibtex
 *.doc      diff=astextplain
@@ -31,7 +28,6 @@
 *.txt      text
 *.sql      text
 *.epub     diff=astextplain
-
 # Graphics
 *.png      binary
 *.jpg      binary
@@ -46,7 +42,6 @@
 # use the following line instead.
 # *.svg    binary
 *.eps      binary
-
 # Scripts
 *.bash     text eol=lf
 *.fish     text eol=lf
@@ -57,14 +52,12 @@
 *.bat      text eol=crlf
 *.cmd      text eol=crlf
 *.ps1      text eol=crlf
-
 # Serialisation
 *.json     text
 *.toml     text
 *.xml      text
 *.yaml     text
 *.yml      text
-
 # Archives
 *.7z       binary
 *.bz       binary
@@ -85,23 +78,17 @@
 *.Z        binary
 *.zip      binary
 *.zst      binary
-
 # Text files where line endings should be preserved
 *.patch    -text
-
 #
 # Exclude files from exporting
 #
-
 .gitattributes export-ignore
 .gitignore     export-ignore
 .gitkeep       export-ignore
-
 # Apply override to all files in the directory
 *.md linguist-detectable
-
 # Basic .gitattributes for a PowerShell repo.
-
 # Source files
 # ============
 *.ps1      text eol=crlf
@@ -112,7 +99,6 @@
 *.pssc     text eol=crlf
 *.psrc     text eol=crlf
 *.cdxml    text eol=crlf
-
 ## GITATTRIBUTES FOR WEB PROJECTS
 #
 # These settings are for any web project.
@@ -123,13 +109,11 @@
 #
 # Note that binary is a macro for -text -diff.
 ######################################################################
-
 # Auto detect
 ##   Handle line endings automatically for files detected as
 ##   text and leave all files detected as binary untouched.
 ##   This will handle all files NOT defined below.
 *                 text=auto
-
 # Source code
 *.bash            text eol=lf
 *.bat             text eol=crlf
@@ -167,10 +151,8 @@
 *.tsx             text
 *.xml             text
 *.xhtml           text diff=html
-
 # Docker
 Dockerfile        text
-
 # Documentation
 *.ipynb           text eol=lf
 *.markdown        text diff=markdown
@@ -196,7 +178,6 @@ NEWS              text
 readme            text
 *README*          text
 TODO              text
-
 # Templates
 *.dot             text
 *.ejs             text
@@ -215,7 +196,6 @@ TODO              text
 *.tpl             text
 *.twig            text
 *.vue             text
-
 # Configs
 *.cnf             text
 *.conf            text
@@ -239,10 +219,8 @@ Makefile          text
 makefile          text
 # Fixes syntax highlighting on GitHub to allow comments
 tsconfig.json     linguist-language=JSON-with-Comments
-
 # Heroku
 Procfile          text
-
 # Graphics
 *.ai              binary
 *.bmp             binary
@@ -270,7 +248,6 @@ Procfile          text
 *.tiff            binary
 *.wbmp            binary
 *.webp            binary
-
 # Audio
 *.kar             binary
 *.m4a             binary
@@ -279,7 +256,6 @@ Procfile          text
 *.mp3             binary
 *.ogg             binary
 *.ra              binary
-
 # Video
 *.3gpp            binary
 *.3gp             binary
@@ -299,7 +275,6 @@ Procfile          text
 *.swc             binary
 *.swf             binary
 *.webm            binary
-
 # Archives
 *.7z              binary
 *.gz              binary
@@ -307,26 +282,25 @@ Procfile          text
 *.rar             binary
 *.tar             binary
 *.zip             binary
-
 # Fonts
 *.ttf             binary
 *.eot             binary
 *.otf             binary
 *.woff            binary
 *.woff2           binary
-
 # Executables
 *.exe             binary
 *.pyc             binary
 # Prevents massive diffs caused by vendored, minified files
 **/.yarn/releases/**   binary
 **/.yarn/plugins/**    binary
-
 # RC files (like .babelrc or .eslintrc)
 *.*rc             text
-
 # Ignore files (like .npmignore or .gitignore)
 *.*ignore         text
-
 # Prevents massive diffs from built files
 dist/*            binary
+
+
+
+*.stylx filter=lfs diff=lfs merge=lfs -text
