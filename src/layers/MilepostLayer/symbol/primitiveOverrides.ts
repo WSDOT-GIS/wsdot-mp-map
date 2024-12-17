@@ -1,9 +1,12 @@
+import beginOverride from "./beginOverride.arcade?raw";
+import endOverride from "./endOverride.arcade?raw";
+
 /**
  * The expression info for the primitive override for the milepost label symbol.
  * This will be used on the milepost line layer.
  */
 const beginMilepostExpressionInfo = {
-	expression: "`${$feature.Route}\\n${$feature.SRMP}${$feature.Back}`",
+	expression: beginOverride,
 	type: "CIMExpressionInfo",
 	returnType: "String",
 } as const;
@@ -14,7 +17,7 @@ const beginMilepostExpressionInfo = {
  */
 const endMilepostExpressionInfo = {
 	...beginMilepostExpressionInfo,
-	expression: "`${$feature.Route}\\n${$feature.EndSrmp}${$feature.EndBack}`",
+	expression: endOverride,
 } as const;
 
 /**

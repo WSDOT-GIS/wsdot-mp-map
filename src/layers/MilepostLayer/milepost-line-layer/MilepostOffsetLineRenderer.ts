@@ -109,7 +109,7 @@ const lineSegmentCimSymbol = new CIMSymbol({
 export default new UniqueValueRenderer({
 	defaultSymbol: offsetAndMilepostCimSymbol,
 	defaultLabel: "Clicked Milepost",
-	valueExpression: "IIF($feature.EndSrmp != null, '1', '0')",
+	valueExpression: "IIf($feature.EndSrmp != null, '1', '0')",
 	valueExpressionTitle: "Has an End Milepost",
 	uniqueValueInfos: [
 		{
