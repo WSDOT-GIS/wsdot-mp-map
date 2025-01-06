@@ -482,6 +482,12 @@ if (!testWebGL2Support()) {
 		popupEnabled: false,
 	});
 
+	if (import.meta.env.DEV) {
+		view.watch("scale", (scale) => {
+			console.debug("scale changed", scale);
+		});
+	}
+
 	import("./setupPopupActions")
 		.then(({ setupPopupActions }) => {
 			setupPopupActions(view);
