@@ -1,0 +1,26 @@
+{
+	"features": [
+		{
+			"id": 1,
+			"geometry": {
+				"coordinates": [
+					[-117.41114857985451, 47.66097488626905],
+					[-117.41126943265623, 47.66086873628804],
+					[-117.41128445651663, 47.66084316207008]
+				],
+				"type": "LineString"
+			},
+			"properties": {
+				"OBJECTID": 1,
+				"Route": "002COBROWNE",
+				"Direction": "I",
+				"Srmp": 287.45,
+				"Back": "",
+				"EndSrmp": 287.46,
+				"EndBack": ""
+			},
+			"type": "Feature"
+		}
+	],
+	"type": "FeatureCollection"
+}

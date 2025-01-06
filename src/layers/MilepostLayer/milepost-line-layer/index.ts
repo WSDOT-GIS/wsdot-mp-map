@@ -1,9 +1,41 @@
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
+import LabelClass from "@arcgis/core/layers/support/LabelClass";
+import { TextSymbol } from "@arcgis/core/symbols";
 import { createPopupTemplate } from "..";
 import waExtent from "../../../WAExtent";
+import { highwaySignTextColor } from "../../../colors";
 import { objectIdFieldName } from "../../../elc/types";
 import { segmentFields as fields } from "../fields";
 import MilepostOffsetLineRenderer from "./MilepostOffsetLineRenderer";
+
+const lineSegmentLabelClass = new LabelClass({
+	where: "EndSrmp IS NOT NULL",
+	labelExpressionInfo: {
+		expression:
+			"`${$feature.Route}: ${$feature.SRMP}${$feature.Back} to ${$feature.EndSrmp}${$feature.EndBack}`",
+		title: "Route SRMP Range",
+	},
+	labelPlacement: "above-along",
+	labelPosition: "curved",
+	minScale: 2256.9943525,
+	allowOverrun: true,
+	repeatLabel: false,
+	symbol: new TextSymbol({
+		color: highwaySignTextColor,
+		verticalAlignment: "baseline",
+		haloColor: "black",
+		haloSize: 2.5,
+		// // The background only shows up when zoomed out enough that the label overruns its polyline feature.
+		// backgroundColor: highwaySignBackgroundColor,
+		// borderLineColor: highwaySignTextColor,
+		// borderLineSize: 1,
+		font: {
+			family: "Arial",
+			size: 10,
+			weight: "bold",
+		},
+	}),
+});
 
 /**
  * Creates a new feature layer that displays mileposts as lines.
@@ -30,6 +62,7 @@ export function createMilepostLineLayer(
 		source: [],
 		popupEnabled: true,
 		hasM: true,
+		labelingInfo: [lineSegmentLabelClass],
 	};
 
 	const lineLayer = new FeatureLayer(lineLayerProperties);
