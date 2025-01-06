@@ -1,20 +1,18 @@
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import LabelClass from "@arcgis/core/layers/support/LabelClass";
+import ExpressionInfo from "@arcgis/core/popup/ExpressionInfo";
 import { TextSymbol } from "@arcgis/core/symbols";
 import { createPopupTemplate } from "..";
 import waExtent from "../../../WAExtent";
 import { highwaySignTextColor } from "../../../colors";
 import { objectIdFieldName } from "../../../elc/types";
+import { routeSegmentLabelExpressionInfo } from "../arcade";
 import { segmentFields as fields } from "../fields";
 import MilepostOffsetLineRenderer from "./MilepostOffsetLineRenderer";
 
 const lineSegmentLabelClass = new LabelClass({
 	where: "EndSrmp IS NOT NULL",
-	labelExpressionInfo: {
-		expression:
-			"`${$feature.Route}: ${$feature.SRMP}${$feature.Back} to ${$feature.EndSrmp}${$feature.EndBack}`",
-		title: "Route SRMP Range",
-	},
+	labelExpressionInfo: routeSegmentLabelExpressionInfo,
 	labelPlacement: "above-along",
 	labelPosition: "curved",
 	minScale: 2256.9943525,
@@ -66,7 +64,15 @@ export function createMilepostLineLayer(
 	};
 
 	const lineLayer = new FeatureLayer(lineLayerProperties);
-	lineLayer.popupTemplate = createPopupTemplate(lineLayer);
+	const popupTemplate = createPopupTemplate(lineLayer);
+	popupTemplate.expressionInfos.push(
+		new ExpressionInfo({
+			name: "routeSegmentLabel",
+			...routeSegmentLabelExpressionInfo,
+		}),
+	);
+	popupTemplate.title = "{expression/routeSegmentLabel}";
+	lineLayer.popupTemplate = popupTemplate;
 
 	return lineLayer;
 }

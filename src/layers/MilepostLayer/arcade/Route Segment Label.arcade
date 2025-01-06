@@ -1,1 +1,31 @@
-`${$feature.Route}: ${$feature.SRMP}${$feature.Back} to ${$feature.EndSrmp}${$feature.EndBack}`
+/**
+ * Formats to return as string containing
+ route, direction, begin and end SRMPs with
+ their "B" back indicator when applicable.
+
+ Example response:
+ "002COBROWNE (I) : 287.45 — 287.46"
+ */
+
+/**
+ * @param {number} srmp - SRMP
+ * @param {string} abIndicator - "B" or "b" for back mileage. Any other value is assumed to be ahead.
+ * @returns {string|null} - SRMP with "B" back indicator if the {@link srmp} is not null and is not NaN
+ */
+function formatSrmp(srmp, abIndicator) {
+  return Text(srmp, "#.##") + IIf(Upper(abIndicator) == "B", "B", "")
+}
+
+Console("Begin SRMP", $feature.Srmp)
+Console("Back", $feature.Back)
+Console("End SRMP", $feature.EndSrmp)
+Console("End Back", $feature.EndBack)
+Console("Direction", $feature.Direction)
+
+var beginSrmp = formatSrmp($feature.Srmp, $feature.Back)
+var dir = $feature.Direction
+if (HasKey($feature, "EndSrmp")) {
+  var endSrmp = formatSrmp($feature.EndSrmp, $feature.EndBack)
+  return `${$feature.Route} (${dir}): ${beginSrmp} — ${endSrmp}`
+}
+return `${$feature.Route} (${dir}) @ ${beginSrmp}`;
