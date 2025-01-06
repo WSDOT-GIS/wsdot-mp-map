@@ -687,7 +687,7 @@ if (!testWebGL2Support()) {
 				const { createExportButton } = await import("./widgets/ExportButton");
 
 				const button = createExportButton({
-					layer: milepostPointLayer,
+					layer: milepostLineLayer,
 				});
 				view.ui.add(button, UIAddPositions.bottomTrailing);
 			})
