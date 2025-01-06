@@ -1,3 +1,4 @@
+import type LabelClass from "@arcgis/core/layers/support/LabelClass";
 import ExpressionInfo from "@arcgis/core/popup/ExpressionInfo";
 import ExpressionContent from "@arcgis/core/popup/content/ExpressionContent";
 import { isInternal } from "../../../urls/isIntranet";
@@ -21,6 +22,12 @@ export const locationLinksContent = new ExpressionContent({
 		title: "Location Links",
 	},
 });
+
+export const routeSegmentLabelExpressionInfo: LabelClass["labelExpressionInfo"] =
+	{
+		title: "Route Segment Label",
+		expression: routeSegmentLabelArcade,
+	} as const;
 
 function replaceVariableValueInArcadeExpression(
 	arcade: string,
@@ -96,12 +103,6 @@ const expressionInfoProperties = [
 		].join("\n"),
 		returnType: "string",
 	},
-	{
-		name: "routeSegmentLabel",
-		title: "Route Segment Label",
-		expression: routeSegmentLabelArcade,
-		returnType: "string",
-	},
 ] as const; // When editing, temporarily set type to __esri.ExpressionInfoProperties[]
 
 export type expressionNames = (typeof expressionInfoProperties)[number]["name"];
@@ -125,6 +126,11 @@ export type MilepostExpressionInfo = InstanceType<typeof ExpressionInfo> &
 export const expressions = expressionInfoProperties.map(
 	(info) => new ExpressionInfo(info) as MilepostExpressionInfo,
 );
+
+export const routeSegmentExpressions = [
+	{ name: "routeSegmentLabel", ...routeSegmentLabelExpressionInfo },
+	...expressions,
+];
 
 /**
  * Removes the SR View URL expression.
