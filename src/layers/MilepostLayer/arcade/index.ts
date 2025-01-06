@@ -8,6 +8,7 @@ import LocateMPUrlArcade from "./LocateMP URL.arcade?raw";
 import LocationLinksArcade from "./Location Links.arcade?raw";
 import MilepostLabelArcade from "./Milepost Label.arcade?raw";
 import RegionArcade from "./Region.arcade?raw";
+import routeSegmentLabelArcade from "./Route Segment Label.arcade?raw";
 import SRViewURLArcade from "./SRView URL.arcade?raw";
 import TownshipSectionArcade from "./Township Section.arcade?raw";
 import Wgs1984CoordinatesArcade from "./WGS 1984 Coordinates.arcade?raw";
@@ -95,7 +96,13 @@ const expressionInfoProperties = [
 		].join("\n"),
 		returnType: "string",
 	},
-] as const;
+	{
+		name: "routeSegmentLabel",
+		title: "Route Segment Label",
+		expression: routeSegmentLabelArcade,
+		returnType: "string",
+	},
+] as const; // When editing, temporarily set type to __esri.ExpressionInfoProperties[]
 
 export type expressionNames = (typeof expressionInfoProperties)[number]["name"];
 

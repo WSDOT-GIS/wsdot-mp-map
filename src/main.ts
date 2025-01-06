@@ -482,6 +482,12 @@ if (!testWebGL2Support()) {
 		popupEnabled: false,
 	});
 
+	if (import.meta.env.DEV) {
+		view.watch("scale", (scale) => {
+			console.debug("scale changed", scale);
+		});
+	}
+
 	import("./setupPopupActions")
 		.then(({ setupPopupActions }) => {
 			setupPopupActions(view);
@@ -687,7 +693,7 @@ if (!testWebGL2Support()) {
 				const { createExportButton } = await import("./widgets/ExportButton");
 
 				const button = createExportButton({
-					layer: milepostPointLayer,
+					layer: milepostLineLayer,
 				});
 				view.ui.add(button, UIAddPositions.bottomTrailing);
 			})

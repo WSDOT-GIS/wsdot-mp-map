@@ -1,14 +1,12 @@
 import UniqueValueRenderer from "@arcgis/core/renderers/UniqueValueRenderer";
+import { SimpleLineSymbol } from "@arcgis/core/symbols";
 import CIMSymbol from "@arcgis/core/symbols/CIMSymbol";
 import SimpleMarkerSymbol from "@arcgis/core/symbols/SimpleMarkerSymbol";
 import { convertToCIMSymbol } from "@arcgis/core/symbols/support/cimConversionUtils";
 import { highwaySignBackgroundColor } from "../../../colors";
 import { isCimVectorMarker } from "../create-cim";
-import { cimVectorMarker, segmentEndpointCimVectorMarker } from "../symbol";
-import {
-	endMilepostLabelPrimitiveOverride,
-	milepostLabelPrimitiveOverride,
-} from "../symbol/primitiveOverrides";
+import { cimVectorMarker } from "../symbol";
+import { milepostLabelPrimitiveOverride } from "../symbol/primitiveOverrides";
 
 function createClickPointSymbolLayer() {
 	const clickPointSymbol = new SimpleMarkerSymbol({
@@ -70,20 +68,6 @@ const cimOffsetAndMilepostLineSymbol: __esri.CIMLineSymbol = {
 	],
 };
 
-const cimLineSegmentLineSymbol: __esri.CIMLineSymbol = {
-	type: "CIMLineSymbol",
-	symbolLayers: [
-		cimVectorMarker,
-		segmentEndpointCimVectorMarker,
-		{
-			type: "CIMSolidStroke",
-			color: highwaySignBackgroundColor.toJSON(),
-			enable: true,
-			width: 3,
-		},
-	],
-};
-
 const offsetAndMilepostCimSymbol = new CIMSymbol({
 	data: {
 		primitiveOverrides: [milepostLabelPrimitiveOverride],
@@ -92,29 +76,29 @@ const offsetAndMilepostCimSymbol = new CIMSymbol({
 	},
 });
 
-const lineSegmentCimSymbol = new CIMSymbol({
-	data: {
-		type: "CIMSymbolReference",
-		primitiveOverrides: [
-			milepostLabelPrimitiveOverride,
-			endMilepostLabelPrimitiveOverride,
-		],
-		symbol: cimLineSegmentLineSymbol,
+const lineSegmentSymbol = new SimpleLineSymbol({
+	color: highwaySignBackgroundColor,
+	width: 3,
+	marker: {
+		color: highwaySignBackgroundColor,
+		style: "square",
+		placement: "begin-end",
 	},
 });
 
+export const arcadeHasEndSrmp = "IIf($feature.EndSrmp != null, '1', '0')";
 /**
  * Simple Renderer using a CIM symbol.
  */
 export default new UniqueValueRenderer({
 	defaultSymbol: offsetAndMilepostCimSymbol,
 	defaultLabel: "Clicked Milepost",
-	valueExpression: "IIf($feature.EndSrmp != null, '1', '0')",
+	valueExpression: arcadeHasEndSrmp,
 	valueExpressionTitle: "Has an End Milepost",
 	uniqueValueInfos: [
 		{
 			label: "Route Segment",
-			symbol: lineSegmentCimSymbol,
+			symbol: lineSegmentSymbol,
 			value: "1",
 		},
 	],
