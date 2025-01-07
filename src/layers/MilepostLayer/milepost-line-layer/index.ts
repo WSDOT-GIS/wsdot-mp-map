@@ -15,7 +15,7 @@ const lineSegmentLabelClass = new LabelClass({
 	labelExpressionInfo: routeSegmentLabelExpressionInfo,
 	labelPlacement: "above-along",
 	labelPosition: "curved",
-	minScale: 2256.9943525,
+	minScale: 144447.638572,
 	allowOverrun: true,
 	repeatLabel: false,
 	symbol: new TextSymbol({
