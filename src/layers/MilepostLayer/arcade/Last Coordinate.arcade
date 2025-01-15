@@ -1,0 +1,65 @@
+/**
+ * @fileoverview
+ * This Arcade script will return the last point in the input geometry,
+ * converted to 3857 (Web Mercator Auxiliary Sphere) spatial reference,
+ * as a comma-separated string of [lat, lon] coordinates.
+ */
+
+/**
+ * Returns the last point in the input geometry, or in the case of a
+ * Point, that same point will be returned.
+ * @returns {Point|null} - If input was point, that same point will be returned.
+ * If input was polyline or polygon, the last point will be returned.
+ */
+function getPoint() {
+    var g = Geometry($feature);
+    var gType = TypeOf(g);
+    if (gType == "Point") {
+        return g;
+    }
+
+    /**
+     * The output point. If a point can't be found, this value
+     * will remain at its initial null value.
+     * @type {Point|null}
+     */
+    var p = null;
+
+    if (gType == "Polyline") {
+        var paths = Array(g.paths);
+        var path = Pop(paths);
+        p = Pop(Array(path));
+    }
+
+    // Untested
+    if (gType == "Polygon") {
+        var rings = Array(g.rings)
+        var ring = Pop(rings)
+        var line = Pop(Array(ring))
+        p = Pop(Array(line))
+    }
+
+    Console(`Error: Unable to find last point in input geometry: ${g}`)
+
+    return p;
+}
+
+/**
+ * Create a function to convert meters to lat, long
+ * @param {Point} g - A point with 3857 (Web Mercator Auxiliary Sphere) spatial reference
+ * @returns {[number, number]} - an array with two number elements, [y,x].
+ */
+function MetersToLatLon(g) {
+    if (IsEmpty(g)) {
+        return null;
+    }
+    var originShift = 2.0 * PI * 6378137.0 / 2.0;
+    var lon = g.x / originShift * 180.0;
+    var lat = g.y / originShift * 180.0;
+    lat = 180.0 / PI * (2.0 * Atan(Exp(lat * PI / 180.0)) - PI / 2.0);
+    return [lat, lon];
+}
+
+var p = MetersToLatLon(getPoint());
+
+return Concatenate(p, ",");

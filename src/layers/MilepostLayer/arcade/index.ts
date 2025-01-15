@@ -5,6 +5,7 @@ import { isInternal } from "../../../urls/isIntranet";
 import AccessControlArcade from "./Access Control.arcade?raw";
 import CityArcade from "./City.arcade?raw";
 import CountyArcade from "./County.arcade?raw";
+import lastCoordinateArcade from "./Last Coordinate.arcade?raw";
 import LocateMPUrlArcade from "./LocateMP URL.arcade?raw";
 import LocationLinksArcade from "./Location Links.arcade?raw";
 import MilepostLabelArcade from "./Milepost Label.arcade?raw";
@@ -12,9 +13,7 @@ import RegionArcade from "./Region.arcade?raw";
 import routeSegmentLabelArcade from "./Route Segment Label.arcade?raw";
 import SRViewURLArcade from "./SRView URL.arcade?raw";
 import TownshipSectionArcade from "./Township Section.arcade?raw";
-import Wgs1984CoordinatesArcade from "./WGS 1984 Coordinates.arcade?raw";
 import splitRouteIdFunction from "./parts/splitRouteId.function.arcade?raw";
-import webMercatorToWgs1984 from "./parts/webMercatorToWgs1984.function.arcade?raw";
 
 export const locationLinksContent = new ExpressionContent({
 	expressionInfo: {
@@ -88,7 +87,8 @@ const expressionInfoProperties = [
 	{
 		name: "webMercatorToWgs1984",
 		title: "GPS Coordinates",
-		expression: [webMercatorToWgs1984, Wgs1984CoordinatesArcade].join("\n"),
+		expression: lastCoordinateArcade,
+		returnType: "string",
 	},
 	{
 		name: "locateMPUrl",

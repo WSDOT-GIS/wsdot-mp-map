@@ -38,6 +38,10 @@ export function createMilepostPointLayer(spatialReference: SpatialReference) {
 	return milepostLayer;
 }
 
+/**
+ * Creates the {@link SimpleRenderer} for the milepost layer.
+ * @returns - The renderer
+ */
 function createRenderer() {
 	const renderer = new SimpleRenderer({
 		symbol: milepostSymbol,

@@ -54,5 +54,8 @@
 	},
 	"[html]": {
 		"editor.defaultFormatter": "vscode.html-language-features"
+	},
+	"files.associations": {
+		"*.{lxp,arcade}": "javascript"
 	}
 }
