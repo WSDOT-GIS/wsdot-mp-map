@@ -79,14 +79,9 @@ const offsetAndMilepostCimSymbol = new CIMSymbol({
 const lineSegmentSymbol = new SimpleLineSymbol({
 	color: highwaySignBackgroundColor,
 	width: 3,
-	marker: {
-		color: highwaySignBackgroundColor,
-		style: "square",
-		placement: "begin-end",
-	},
 });
 
-export const arcadeHasEndSrmp = "IIf($feature.EndSrmp != null, '1', '0')";
+const arcadeHasEndSrmp = "IIf($feature.EndSrmp != null, '1', '0')";
 /**
  * Simple Renderer using a CIM symbol.
  */

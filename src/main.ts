@@ -482,11 +482,12 @@ if (!testWebGL2Support()) {
 		popupEnabled: false,
 	});
 
-	if (import.meta.env.DEV) {
-		view.watch("scale", (scale) => {
-			console.debug("scale changed", scale);
-		});
-	}
+	// Uncomment this section to debug scale changes 👇
+	// if (import.meta.env.DEV) {
+	// 	view.watch("scale", (scale) => {
+	// 		console.debug("scale changed", scale);
+	// 	});
+	// }
 
 	import("./setupPopupActions")
 		.then(({ setupPopupActions }) => {
