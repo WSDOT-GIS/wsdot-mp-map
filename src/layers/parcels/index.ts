@@ -4,7 +4,9 @@ import { parcelsLayer as waTechParcelsLayer } from "./watech";
 
 /**
  * Creates a group layer for parcels.
- * @returns A promise that resolves to the created group layer.
+ * The group layer lets the user to choose between the WA Tech Parcels layer
+ * and its fallback, the Regrid Parcels layer.
+ * @returns A group layer containing the WA Tech and Regrid Parcels layers
  */
 export function createParcelsGroupLayer(): GroupLayer {
 	const groupLayer = new GroupLayer({
@@ -14,6 +16,8 @@ export function createParcelsGroupLayer(): GroupLayer {
 	});
 	waTechParcelsLayer.visible = true;
 
+	// Setup up an error handler for the frequently-failing WA Tech Parcels layer.
+	// Once the error has been logged to the console, remove the error handler.
 	const waTechErrorHandler = waTechParcelsLayer.on(
 		"layerview-create-error",
 		(event) => {
