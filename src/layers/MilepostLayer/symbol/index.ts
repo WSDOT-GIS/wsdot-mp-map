@@ -123,8 +123,3 @@ export const endpointMilepostSymbol = new CIMSymbol({
 		symbol: endpointCimPointSymbol,
 	},
 });
-
-/* __PURE__ */ console.debug(
-	"endMilepostSymbol",
-	endpointMilepostSymbol.toJSON(),
-);

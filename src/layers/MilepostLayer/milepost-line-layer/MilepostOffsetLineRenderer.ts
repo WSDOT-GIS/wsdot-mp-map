@@ -18,10 +18,7 @@ function createClickPointSymbolLayer() {
 		},
 	});
 
-	console.debug("clickPointSymbol", clickPointSymbol.toJSON());
-
 	const clickPointCimSymbol = convertToCIMSymbol(clickPointSymbol);
-	console.debug("cimClickPointSymbol", clickPointCimSymbol.toJSON());
 
 	const clickPointSymbolLayer =
 		clickPointCimSymbol.data.symbol?.symbolLayers?.filter(isCimVectorMarker)[0];

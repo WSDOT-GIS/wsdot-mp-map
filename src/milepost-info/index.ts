@@ -83,7 +83,6 @@ export async function getRouteList() {
 		]);
 		const url = new URL(`?${search.toString()}`, milepostsUrl);
 		const response = await fetch(url);
-		console.debug(response);
 		results = ((await response.json()) as FeatureSet).features.map(
 			(feature) => feature.attributes,
 		);

@@ -458,6 +458,21 @@ if (!testWebGL2Support()) {
 		}),
 	});
 
+	/**
+	 * Removes all reference layers from the given basemap and adds them to its
+	 * base layers.
+	 * @param basemap The basemap whose reference layers should be moved.
+	 */
+	const moveReferenceLayersToBaseLayers = (basemap: Basemap) => {
+		const refLayers = basemap.referenceLayers.removeAll();
+		basemap.baseLayers.addMany(refLayers);
+	};
+
+	// Move each basemap's reference layers to its base layers once they are loaded.
+	for (const bm of [imageryHybridBasemap, grayBasemap]) {
+		bm.when(moveReferenceLayersToBaseLayers);
+	}
+
 	const map = new EsriMap({
 		basemap: grayBasemap,
 		layers: [
