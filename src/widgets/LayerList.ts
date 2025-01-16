@@ -41,8 +41,9 @@ export async function setupLayerList(
 		Required<Pick<__esri.LayerListProperties, "view">>,
 ) {
 	const { default: LayerList } = await import("@arcgis/core/widgets/LayerList");
-	const defaultLLProperties = {
+	const defaultLLProperties: __esri.LayerListProperties = {
 		listItemCreatedFunction: setupLayerListItems,
+		visibilityAppearance: "checkbox",
 		visibleElements: {
 			errors: true,
 			statusIndicators: true,
