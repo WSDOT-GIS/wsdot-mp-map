@@ -1,11 +1,12 @@
 import UniqueValueRenderer from "@arcgis/core/renderers/UniqueValueRenderer";
+import { SimpleLineSymbol } from "@arcgis/core/symbols";
 import CIMSymbol from "@arcgis/core/symbols/CIMSymbol";
 import SimpleMarkerSymbol from "@arcgis/core/symbols/SimpleMarkerSymbol";
 import { convertToCIMSymbol } from "@arcgis/core/symbols/support/cimConversionUtils";
+import { highwaySignBackgroundColor } from "../../../colors";
 import { isCimVectorMarker } from "../create-cim";
 import { cimVectorMarker } from "../symbol";
 import { milepostLabelPrimitiveOverride } from "../symbol/primitiveOverrides";
-import routeSegmentCimSymbol from "./route-segment-cim-symbol.ts";
 
 function createClickPointSymbolLayer() {
 	const clickPointSymbol = new SimpleMarkerSymbol({
@@ -75,13 +76,17 @@ const offsetAndMilepostCimSymbol = new CIMSymbol({
 	},
 });
 
-/**
- * An Arcade expression to determine if a feature has an end milepost.
- * The Arcade expression will return "1" if the feature has an end milepost, and "0" otherwise.
- * This is used by the renderer to determine which symbol to use.
- */
-export const arcadeHasEndSrmp = "IIf($feature.EndSrmp != null, '1', '0')";
+const lineSegmentSymbol = new SimpleLineSymbol({
+	color: highwaySignBackgroundColor,
+	width: 3,
+	marker: {
+		color: highwaySignBackgroundColor,
+		style: "square",
+		placement: "begin-end",
+	},
+});
 
+export const arcadeHasEndSrmp = "IIf($feature.EndSrmp != null, '1', '0')";
 /**
  * Simple Renderer using a CIM symbol.
  */
@@ -93,7 +98,7 @@ export default new UniqueValueRenderer({
 	uniqueValueInfos: [
 		{
 			label: "Route Segment",
-			symbol: routeSegmentCimSymbol,
+			symbol: lineSegmentSymbol,
 			value: "1",
 		},
 	],
