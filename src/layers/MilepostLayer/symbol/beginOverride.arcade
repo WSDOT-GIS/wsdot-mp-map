@@ -7,8 +7,9 @@ var showEnd = HasKey($feature, "EndSrmp") && $feature.EndSrmp != null && $featur
 var srmp = IIf(showEnd, $feature.EndSrmp, $feature.Srmp);
 var back = IIf(showEnd, $feature.EndBack, $feature.Back);
 
+var output = `${$feature.Route}\n${Text(srmp, "#.##")}${back}`;
 
-var output = `${Text(srmp, "#.##")}${back}`;
+
 
 Console("beginOverride.arcade ends")
 return output;
