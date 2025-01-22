@@ -1,15 +1,15 @@
-Console("beginOverride.arcade begins")
-
-Console($feature);
-
+// Determine if the route segment has an end SRMP attribute.
+// Locations located by user click will not have an end SRMP attribute.
+// If the end SRMP is greater than the begin SRMP, then the
+// mileposts displayed at the route ends need to be reversed.
 var showEnd = HasKey($feature, "EndSrmp") && $feature.EndSrmp != null && $feature.Srmp > $feature.EndSrmp;
 
+// Get the appropriate SRMP and back indicator values based on the showEnd flag.
 var srmp = IIf(showEnd, $feature.EndSrmp, $feature.Srmp);
+// The Back attribute should always be either a "B" or an empty string.
 var back = IIf(showEnd, $feature.EndBack, $feature.Back);
 
+// Create the label string
 var output = `${$feature.Route}\n${Text(srmp, "#.##")}${back}`;
 
-
-
-Console("beginOverride.arcade ends")
 return output;

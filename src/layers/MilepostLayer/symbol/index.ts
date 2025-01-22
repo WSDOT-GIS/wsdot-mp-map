@@ -1,8 +1,5 @@
 import CIMSymbol from "@arcgis/core/symbols/CIMSymbol";
-import {
-	endMilepostLabelPrimitiveOverride,
-	milepostLabelPrimitiveOverride,
-} from "./primitiveOverrides";
+import { milepostLabelPrimitiveOverride } from "./primitiveOverrides";
 
 const cimCallout: __esri.CIMBackgroundCallout = {
 	type: "CIMBackgroundCallout",
@@ -100,26 +97,10 @@ const cimPointSymbol: __esri.CIMPointSymbol = {
 	angleAlignment: "Display",
 };
 
-const endpointCimPointSymbol: __esri.CIMPointSymbol = {
-	...cimPointSymbol,
-	symbolLayers: [segmentEndpointCimVectorMarker],
-};
-
 export const milepostSymbol = new CIMSymbol({
 	data: {
 		primitiveOverrides: [milepostLabelPrimitiveOverride],
 		type: "CIMSymbolReference",
 		symbol: cimPointSymbol,
-	},
-});
-
-export const endpointMilepostSymbol = new CIMSymbol({
-	data: {
-		primitiveOverrides: [
-			milepostLabelPrimitiveOverride,
-			endMilepostLabelPrimitiveOverride,
-		],
-		type: "CIMSymbolReference",
-		symbol: endpointCimPointSymbol,
 	},
 });
