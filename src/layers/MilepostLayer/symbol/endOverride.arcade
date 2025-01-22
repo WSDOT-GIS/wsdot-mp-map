@@ -1,9 +1,0 @@
-if (!HasKey($feature, "EndSrmp") || $feature.EndSrmp != null) {
-    return null;
-}
-
-IIf(
-    $feature.SRMP > $feature.EndSrmp,
-    `${$feature.Route}\n${$feature.SRMP}${$feature.Back}`,
-    `${$feature.Route}\n${$feature.EndSrmp}${$feature.EndBack}`
-)
