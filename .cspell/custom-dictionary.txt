@@ -28,6 +28,7 @@ nojekyll
 noopener
 noreferrer
 NOSONAR
+Noto
 osmzoom
 RDWY
 Rrts
