@@ -497,6 +497,10 @@ if (!testWebGL2Support()) {
 		popupEnabled: false,
 	});
 
+	import("./widgets/ScreenshotButton").then(({ setupScreenshotButton }) => {
+		setupScreenshotButton(view);
+	});
+
 	// Uncomment this section to debug scale changes 👇
 	// if (import.meta.env.DEV) {
 	// 	view.watch("scale", (scale) => {
