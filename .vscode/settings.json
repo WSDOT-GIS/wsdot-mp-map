@@ -57,5 +57,8 @@
 	},
 	"files.associations": {
 		"*.{lxp,arcade}": "javascript"
+	},
+	"[css]": {
+		"editor.defaultFormatter": "biomejs.biome"
 	}
 }

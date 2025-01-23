@@ -501,13 +501,6 @@ if (!testWebGL2Support()) {
 		setupScreenshotButton(view);
 	});
 
-	// Uncomment this section to debug scale changes 👇
-	// if (import.meta.env.DEV) {
-	// 	view.watch("scale", (scale) => {
-	// 		console.debug("scale changed", scale);
-	// 	});
-	// }
-
 	import("./setupPopupActions")
 		.then(({ setupPopupActions }) => {
 			setupPopupActions(view);
@@ -576,6 +569,13 @@ if (!testWebGL2Support()) {
 		view,
 	});
 	view.ui.add(sb, UIAddPositions.bottomLeading);
+
+	if (import.meta.env.DEV) {
+		import("./widgets/addNumericalToScaleBar").then(
+			({ default: addNumericalScaleToScaleBar }) =>
+				addNumericalScaleToScaleBar(sb),
+		);
+	}
 
 	view.popup.defaultPopupTemplateEnabled = true;
 
