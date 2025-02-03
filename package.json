@@ -26,7 +26,8 @@
 		"@fontsource/inconsolata": "^5.1.1",
 		"@fontsource/lato": "^5.1.1",
 		"@fontsource/overpass": "^5.1.2",
-		"@types/geojson": "^7946.0.15",
+		"@terraformer/arcgis": "^2.1.2",
+		"@types/geojson": "^7946.0.16",
 		"@wsdot/land-use-codes": "github:WSDOT-GIS/land-use",
 		"@wsdot/web-styles": "github:WSDOT-GIS/wsdot-web-styles#v1.0.1",
 		"analytics": "^0.8.16",
@@ -38,11 +39,12 @@
 		"@biomejs/biome": "1.9.4",
 		"@types/arcgis-rest-api": "^10.4.8",
 		"@types/browser-update": "^3.3.3",
-		"@types/node": "^22.10.9",
-		"@vitest/coverage-istanbul": "^3.0.4",
-		"@vitest/coverage-v8": "^3.0.4",
+		"@types/node": "^22.13.1",
+		"@types/terraformer__arcgis": "^2.0.5",
+		"@vitest/coverage-istanbul": "^3.0.5",
+		"@vitest/coverage-v8": "^3.0.5",
 		"browserslist-to-esbuild": "^2.1.1",
-		"cspell": "^8.17.2",
+		"cspell": "^8.17.3",
 		"jsdom": "^26.0.0",
 		"msw": "^2.7.0",
 		"optionator": "^0.9.4",
@@ -50,8 +52,8 @@
 		"svgson": "^5.3.1",
 		"tsx": "^4.19.2",
 		"typescript": "^5.7.3",
-		"vite": "^6.0.11",
-		"vitest": "^3.0.4"
+		"vite": "^6.1.0",
+		"vitest": "^3.0.5"
 	},
 	"repository": {
 		"url": "https://github.com/WSDOT-GIS/wsdot-mp-map.git",
@@ -68,5 +70,5 @@
 	],
 	"author": "Jeff Jacobson",
 	"license": "Unlicense",
-	"packageManager": "pnpm@9.15.4+sha512.b2dc20e2fc72b3e18848459b37359a32064663e5627a51e4c74b2c29dd8e8e0491483c3abb40789cfd578bf362fb6ba8261b05f0387d76792ed6e23ea3b1b6a0"
+	"packageManager": "pnpm@10.2.0+sha512.0d27364e0139c6aadeed65ada153135e0ca96c8da42123bd50047f961339dc7a758fc2e944b428f52be570d1bd3372455c1c65fa2e7aa0bfbf931190f9552001"
 }

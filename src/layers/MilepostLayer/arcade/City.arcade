@@ -2,22 +2,83 @@
  * City.arcade
  */
 
+// The ArcGIS Online item ID for the City Limits service.
 var agolId = "0d96ba84b802425aa1d2b9a99e422c5d";
+// The portal URL for that service.
 var p = Portal("https://wsdot.maps.arcgis.com");
+// The ID of the layer within that service.
 var layerId = 1;
 
+// Specify the fields that we are interested in.
 var fields = ["CityName", "LastUpdate"];
 
-var cityFeature = First(
-  Within($userInput, FeatureSetByPortalItem(p, agolId, layerId, fields, false))
+/* 
+It is more efficient to do all these operations in the same statement
+rather than storing each result in a variable.
+*/
+var cityFeatures = Intersects(
+  $feature,
+  FeatureSetByPortalItem(
+    p, agolId, layerId, fields, false
+  )
 );
 
-if (!IsEmpty(cityFeature)) {
+var featureCount = Count(cityFeatures);
+Console("feature count", featureCount);
+
+if (featureCount == 0) {
+  return "Not within any city limits";
+}
+
+function formatFeature(cityFeature) {
   var output = cityFeature.CityName;
-  if (cityFeature.LastUpdate != null) {
+  if (!IsEmpty(cityFeature.LastUpdate)) {
     output += `${TextFormatting.NewLine} as of ${Text(cityFeature.LastUpdate, "MMM D, Y")}`
   }
   return output;
-} else {
-  return "Not within any city limits"
 }
+
+if (featureCount == 1) {
+  var cityFeature = First(cityFeatures);
+  return formatFeature(cityFeature);
+}
+
+var output = {}
+
+
+for (var f in cityFeatures) {
+  var cityName = f.CityName;
+  var lastUpdate = IIf(!IsEmpty(f.LastUpdate), DateOnly(f.LastUpdate), f.LastUpdate);
+  output[cityName] = lastUpdate;
+}
+
+return output;
+
+
+// /*
+// It is more efficient to do all these operations in the same statement
+// rather than storing each result in a variable.
+// */
+// var cityFeature = First(
+//   Intersects(
+//     $feature,
+//     FeatureSetByPortalItem(
+//       p, agolId, layerId, fields, false
+//     )
+//   )
+// );
+
+// // Proceed only if a feature was found.
+// if (!IsEmpty(cityFeature)) {
+//   // Create the output string, initially containing only the city name.
+//   var output = cityFeature.CityName;
+//   // If a non-null last update date was found, append it to the output string.
+//   if (cityFeature.LastUpdate != null) {
+//     output += `${TextFormatting.NewLine} as of ${Text(cityFeature.LastUpdate, "MMM D, Y")}`
+//   }
+//   // Return the output string.
+//   return output;
+// }
+
+// // Default return output.
+// return "Not within any city limits"

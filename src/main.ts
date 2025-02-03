@@ -233,21 +233,6 @@ import("browser-update")
 		console.error("Failed to setup browser update", reason);
 	});
 
-if (import.meta.hot) {
-	import.meta.hot.accept("./addWsdotLogo", (mod) => {
-		if (mod) {
-			console.log("hot module replacement", mod);
-		}
-		document.querySelector(".wsdot-logo")?.remove();
-	});
-
-	import.meta.hot.accept("./history-api/url-search", (mod) => {
-		if (mod) {
-			console.log("hot module replacement", mod);
-		}
-	});
-}
-
 window.addEventListener("elc-error", (event) => {
 	const reason = event.detail;
 	createErrorAlert(reason);
@@ -708,18 +693,15 @@ if (!testWebGL2Support()) {
 		});
 
 	if (import.meta.env.DEV) {
-		milepostPointLayer
-			.when(async () => {
-				const { createExportButton } = await import("./widgets/ExportButton");
-
-				const button = createExportButton({
-					layer: milepostLineLayer,
-				});
-				view.ui.add(button, UIAddPositions.bottomTrailing);
-			})
-			.catch((reason: unknown) => {
-				console.error("failed to create export button", reason);
+		(async (...layers: __esri.FeatureLayer[]) => {
+			await Promise.all(layers.map((l) => l.when()));
+			const { createExportButton } = await import("./widgets/ExportButton");
+			const button = await createExportButton(layers);
+			view.ui.add(button, {
+				index: 6,
+				position: "top-leading",
 			});
+		})(milepostLineLayer, milepostPointLayer);
 	}
 
 	Promise.all([milepostPointLayer.when(), milepostLineLayer.when()]).then(
