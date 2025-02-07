@@ -68,12 +68,12 @@ export function createPopupTemplate(milepostLayer: FeatureLayer) {
 	for (const xi of arcadeExpressions) {
 		const fieldInfo = createAndAddFieldInfoForExpression(xi);
 		// Hide the GeoURI and SRViewURL fields.
-		if (["geoURI"].includes(xi.name)) {
+		if (["geoURI", "popupTitle"].includes(xi.name)) {
 			fieldInfo.visible = false;
 		}
 		popupTemplate.fieldInfos.push(fieldInfo);
 	}
-	popupTemplate.title = "{Route} ({Direction}) @ {expression/milepostLabel}";
+	popupTemplate.title = "{expression/popupTitle}";
 
 	if (Array.isArray(popupTemplate.content)) {
 		popupTemplate.content = [locationLinksContent, ...popupTemplate.content];

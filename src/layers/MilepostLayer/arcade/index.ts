@@ -14,6 +14,7 @@ import routeSegmentLabelArcade from "./Route Segment Label.arcade?raw";
 import SRViewURLArcade from "./SRView URL.arcade?raw";
 import TownshipSectionArcade from "./Township Section.arcade?raw";
 import splitRouteIdFunction from "./parts/splitRouteId.function.arcade?raw";
+import PopupTitle from "./Popup Title.arcade?raw";
 
 export const locationLinksContent = new ExpressionContent({
 	expressionInfo: {
@@ -103,6 +104,12 @@ const expressionInfoProperties = [
 		].join("\n"),
 		returnType: "string",
 	},
+	{
+		name: "popupTitle",
+		title: "Popup Title",
+		expression: PopupTitle,
+		returnType: "string",
+	}
 ] as const; // When editing, temporarily set type to __esri.ExpressionInfoProperties[]
 
 export type expressionNames = (typeof expressionInfoProperties)[number]["name"];

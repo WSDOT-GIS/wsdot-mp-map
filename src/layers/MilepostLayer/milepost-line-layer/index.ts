@@ -44,7 +44,7 @@ export function createMilepostLineLayer(
 			...routeSegmentLabelExpressionInfo,
 		}),
 	);
-	popupTemplate.title = "{expression/routeSegmentLabel}";
+	popupTemplate.title = "{expression/popupTitle}";
 	lineLayer.popupTemplate = popupTemplate;
 
 	return lineLayer;
