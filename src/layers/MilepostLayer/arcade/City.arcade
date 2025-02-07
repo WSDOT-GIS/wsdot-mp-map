@@ -53,32 +53,3 @@ for (var f in cityFeatures) {
 }
 
 return output;
-
-
-// /*
-// It is more efficient to do all these operations in the same statement
-// rather than storing each result in a variable.
-// */
-// var cityFeature = First(
-//   Intersects(
-//     $feature,
-//     FeatureSetByPortalItem(
-//       p, agolId, layerId, fields, false
-//     )
-//   )
-// );
-
-// // Proceed only if a feature was found.
-// if (!IsEmpty(cityFeature)) {
-//   // Create the output string, initially containing only the city name.
-//   var output = cityFeature.CityName;
-//   // If a non-null last update date was found, append it to the output string.
-//   if (cityFeature.LastUpdate != null) {
-//     output += `${TextFormatting.NewLine} as of ${Text(cityFeature.LastUpdate, "MMM D, Y")}`
-//   }
-//   // Return the output string.
-//   return output;
-// }
-
-// // Default return output.
-// return "Not within any city limits"

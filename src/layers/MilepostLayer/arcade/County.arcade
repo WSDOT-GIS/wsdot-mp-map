@@ -5,20 +5,28 @@
 var agolId = "12712f465fc44fb58328c6e0255ca27e";
 var p = Portal("https://wsdot.maps.arcgis.com");
 
-var match = Top(
-  Within(
-    $feature,
-    FeatureSetByPortalItem(
-      p,
-      agolId,
-      11,
-      ["JURISDICT_LABEL_NM"],
-      false
-    )
-  ),
-  1
+var match = Intersects(
+  $feature,
+  FeatureSetByPortalItem(
+    p,
+    agolId,
+    11,
+    ["JURISDICT_LABEL_NM"],
+    false
+  )
 )
 
+var counties = []
+
+
 for (var f in match) {
-  return f.JURISDICT_LABEL_NM
+  Push(counties, f.JURISDICT_LABEL_NM)
 }
+
+var countyCounts = Count(counties)
+
+if (countyCounts == 1) {
+  return counties[0]
+}
+
+return counties
