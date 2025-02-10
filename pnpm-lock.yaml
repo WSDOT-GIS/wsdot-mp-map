@@ -13,10 +13,10 @@ importers:
         version: 0.6.0
       '@arcgis/core':
         specifier: ^4.31.6
-        version: 4.31.6(@floating-ui/utils@0.2.8)
+        version: 4.31.6(@floating-ui/utils@0.2.9)
       '@esri/calcite-components':
-        specifier: ^2.13.2
-        version: 2.13.2(@floating-ui/utils@0.2.8)
+        specifier: ^3.0.0
+        version: 3.0.0
       '@fontsource/inconsolata':
         specifier: ^5.1.1
         version: 5.1.1
@@ -136,8 +136,17 @@ packages:
   '@analytics/type-utils@0.6.2':
     resolution: {integrity: sha512-TD+xbmsBLyYy/IxFimW/YL/9L2IEnM7/EoV9Aeh56U64Ify8o27HJcKjo38XY9Tcn0uOq1AX3thkKgvtWvwFQg==}
 
+  '@arcgis/components-controllers@4.32.0-next.132':
+    resolution: {integrity: sha512-soFXW9Mwp9bqZewYx6LPa+SrCiSj0unjMM+baXgM79krWskzHTYLf+X9StsRw+VHV2S2n5/EGgQSKGeJgw0tzA==}
+
+  '@arcgis/components-utils@4.32.0-next.132':
+    resolution: {integrity: sha512-AHx1ksbT+gZ1CODNyroG+02yVIryDdt5jz3M5f3WFOepTuBdIv3YnusR+vRiDBkV3agGWYcIDnBgn2IK0AjnqQ==}
+
   '@arcgis/core@4.31.6':
     resolution: {integrity: sha512-+NSYtEJy/wRQcEX+f5OHBhg4MX26HeZFYghd7+VMTasalHUAD3y9PPiakLIfhahX/4EiSLuy25m1P93BBlybXg==}
+
+  '@arcgis/lumina@4.32.0-next.132':
+    resolution: {integrity: sha512-vjHu5TTm7+s6b/fdjzKoBAqGhsae13LMLQReAdaCavBqwyUVOh5XnXT3tFYouQvM+62Tq2IypTzCgnTEXeX3oQ==}
 
   '@asamuzakjp/css-color@2.8.3':
     resolution: {integrity: sha512-GIc76d9UI1hCvOATjZPyHFmE5qhRccp3/zGfMPapK3jBi+yocEzp6BBB0UnfRYP9NP4FANqUZYb0hnfs3TM3hw==}
@@ -822,18 +831,28 @@ packages:
   '@esri/calcite-components@2.13.2':
     resolution: {integrity: sha512-90v4H8zs2wEzUXQGmZ+joHhP7ulFUHmQjDlIwXylJiDvoChhnEm38iv7eeG+X8im06biIHEDGRB8LLszlQQ7jw==}
 
+  '@esri/calcite-components@3.0.0':
+    resolution: {integrity: sha512-7iUBnxGkLWAn2E9ETAHE1s/XfLYu5NYPE7eWUWekeIkeAnQN0NcSduzldxd8YJRSThx0tyn8mdWPc/7oD42ZZw==}
+
   '@esri/calcite-ui-icons@3.32.0':
     resolution: {integrity: sha512-2UEddEeSnpXVWp/uNrgym3mrb8lZ5+vXFbtmvXv5NiE32nQGw2MFZD52L5Z+FsxqHJ9vVrtl/X6pTIgkd0c8jA==}
     hasBin: true
 
-  '@floating-ui/core@1.6.8':
-    resolution: {integrity: sha512-7XJ9cPU+yI2QeLS+FCSlqNFZJq8arvswefkZrYI1yQBbftw6FyrZOxYSh+9S7z7TpeWlRt9zJ5IhM1WIL334jA==}
+  '@esri/calcite-ui-icons@4.0.0':
+    resolution: {integrity: sha512-LcL35NydvXI93u/pU6fXXg/kY2LXR5zWEvOytDoqgu1GPL7xgvrYuIutkvuDJpDh3PhcGXsCX4Axw5i6sCEXsA==}
+    hasBin: true
+
+  '@floating-ui/core@1.6.9':
+    resolution: {integrity: sha512-uMXCuQ3BItDUbAMhIXw7UPXRfAlOAvZzdK9BWpE60MCn+Svt3aLn9jsPTi/WNGlRUu2uI0v5S7JiIUsbsvh3fw==}
 
   '@floating-ui/dom@1.6.11':
     resolution: {integrity: sha512-qkMCxSR24v2vGkhYDo/UzxfJN3D4syqSjyuTFz6C7XcpU1pASPRieNI0Kj5VP3/503mOfYiGY891ugBX1GlABQ==}
 
-  '@floating-ui/utils@0.2.8':
-    resolution: {integrity: sha512-kym7SodPp8/wloecOpcmSnWJsK7M0E5Wg8UcFA+uO4B9s5d0ywXOEro/8HM9x0rW+TljRzul/14UYz3TleT3ig==}
+  '@floating-ui/dom@1.6.13':
+    resolution: {integrity: sha512-umqzocjDgNRGTuO7Q8CU32dkHkECqI8ZdMZ5Swb6QAM0t5rnlrN3lGo1hdpscRd3WS8T6DKYK4ephgIH9iRh3w==}
+
+  '@floating-ui/utils@0.2.9':
+    resolution: {integrity: sha512-MDWhGtE+eHw5JW7lq4qhc5yRLS11ERl1c7Z6Xd0a58DozHES6EnNNwUWbMiG4J9Cgj053Bhk8zvlhFYKVhULwg==}
 
   '@fontsource/inconsolata@5.1.1':
     resolution: {integrity: sha512-jLLMagEJURTae5J30gehIsXRv96vjQ0XlALGxZC7DERWPqsJTa0oSsZR8k6IJfizU4ZeRl/aKWpZca2Lo3TvSg==}
@@ -893,8 +912,18 @@ packages:
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
 
-  '@lit-labs/ssr-dom-shim@1.2.1':
-    resolution: {integrity: sha512-wx4aBmgeGvFmOKucFKY+8VFJSYZxs9poN3SDNQFF6lT6NrQUnHiPB2PWz2sc4ieEcAaYYzN+1uWahEeTq2aRIQ==}
+  '@lit-labs/ssr-client@1.1.7':
+    resolution: {integrity: sha512-VvqhY/iif3FHrlhkzEPsuX/7h/NqnfxLwVf0p8ghNIlKegRyRqgeaJevZ57s/u/LiFyKgqksRP5n+LmNvpxN+A==}
+
+  '@lit-labs/ssr-dom-shim@1.3.0':
+    resolution: {integrity: sha512-nQIWonJ6eFAvUUrSlwyHDm/aE8PBDu5kRpL0vHMg6K8fK3Diq1xdPjTnsJSwxABhaZ+5eBi1btQB5ShUTKo4nQ==}
+
+  '@lit-labs/ssr@3.3.0':
+    resolution: {integrity: sha512-OGlPfWfJIC2CXQLuXXRtbWlgidryVI8VOEFUPc++Vk7gQ4aapAJwHJFi7Mi614ekebNLzhkpA/10IZy5g+nGcQ==}
+    engines: {node: '>=13.9.0'}
+
+  '@lit/context@1.1.3':
+    resolution: {integrity: sha512-Auh37F4S0PZM93HTDfZWs97mmzaQ7M3vnTc9YvxAGyP3UItSK/8Fs0vTOGT+njuvOwbKio/l8Cx/zWL4vkutpQ==}
 
   '@lit/reactive-element@2.0.4':
     resolution: {integrity: sha512-GFn91inaUa2oHLak8awSIigYz0cU0Payr1rcFsrkf5OJ5eSPxElyZfKh0f2p9FsTiZWXQdWGJeXZICEfXXYSXQ==}
@@ -914,6 +943,9 @@ packages:
 
   '@open-wc/dedupe-mixin@1.4.0':
     resolution: {integrity: sha512-Sj7gKl1TLcDbF7B6KUhtvr+1UCxdhMbNY5KxdU5IfMFWqL8oy1ZeAcCANjoB1TL0AJTcPmcCFsCbHf8X2jGDUA==}
+
+  '@parse5/tools@0.3.0':
+    resolution: {integrity: sha512-zxRyTHkqb7WQMV8kTNBKWb1BeOFUKXBXTBWuxg9H9hfvQB3IwP6Iw2U75Ia5eyRxPNltmY7E8YAlz6zWwUnjKg==}
 
   '@pkgjs/parseargs@0.11.0':
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
@@ -1047,6 +1079,9 @@ packages:
   '@types/color@3.0.6':
     resolution: {integrity: sha512-NMiNcZFRUAiUUCCf7zkAelY8eV3aKqfbzyFQlXpPIEeoNDbsEHGpb854V3gzTsGKYj830I5zPuOwU/TP5/cW6A==}
 
+  '@types/color@4.2.0':
+    resolution: {integrity: sha512-6+xrIRImMtGAL2X3qYkd02Mgs+gFGs+WsK0b7VVMaO4mYRISwyTjcqNrO0mNSmYEoq++rSLDB2F5HDNmqfOe+A==}
+
   '@types/cookie@0.6.0':
     resolution: {integrity: sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==}
 
@@ -1058,6 +1093,9 @@ packages:
 
   '@types/geojson@7946.0.16':
     resolution: {integrity: sha512-6C8nqWur3j98U6+lXDfTUWIfgvZU+EumvpHKcYjujKH7woYyLj2sUmff0tRhrqM7BohUw7Pz3ZB1jj2gW9Fvmg==}
+
+  '@types/node@16.18.126':
+    resolution: {integrity: sha512-OTcgaiwfGFBKacvfwuHzzn1KLxH/er8mluiy8/uM3sGXHaRe73RrSIj01jow9t4kJEW633Ov+cOexXeiApTyAw==}
 
   '@types/node@22.13.1':
     resolution: {integrity: sha512-jK8uzQlrvXqEU91UxiK5J7pKHyzgnI1Qnl0QDHIgVGuolJhRb9EEl28Cj9b3rGR8B2lhFCtvIm5os8lFnO/1Ew==}
@@ -1410,6 +1448,13 @@ packages:
     resolution: {integrity: sha512-9+vem03dMXG7gDmZ62uqmRiMRNtinIZ9ZyuF6BdxzfOD+FdN5hretzynkn0ReS2DO2GSw76RWHs0UmJPI2zUjw==}
     engines: {node: '>=18'}
 
+  csstype@3.1.3:
+    resolution: {integrity: sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==}
+
+  data-uri-to-buffer@4.0.1:
+    resolution: {integrity: sha512-0R9ikRb668HB7QDxT1vkpuUBtqc53YyAwMwGeUFKRojY/NWKvdZ+9UYtRfGmhqNbRkTSVpMbmyhXipFFv2cb/A==}
+    engines: {node: '>= 12'}
+
   data-urls@5.0.0:
     resolution: {integrity: sha512-ZYP5VBHshaDAiVZxjbRVcFJpc+4xGgT0bK3vzy1HLN8jTO975HEbuYzZJcHoQEY5K1a0z8YayJkyVETa08eNTg==}
     engines: {node: '>=18'}
@@ -1475,6 +1520,10 @@ packages:
   emoji-regex@9.2.2:
     resolution: {integrity: sha512-L18DaJsXSUk2+42pv8mLs5jJT2hqFkFE4j21wOmgbUqsZ2hL72NsUU785g9RXgo3s0ZNgVl42TiHp3ZtOv/Vyg==}
 
+  enhanced-resolve@5.18.1:
+    resolution: {integrity: sha512-ZSW3ma5GkcQBIpwZTSRAI8N71Uuwgs93IezB7mf7R60tC8ZbJideoDNKjHn2O9KIlx6rkGTTEk1xUCK2E1Y2Yg==}
+    engines: {node: '>=10.13.0'}
+
   entities@4.5.0:
     resolution: {integrity: sha512-V0hjH4dGPh9Ao5p0MoRY6BVqtwCjhz6vI5LT8AJ55H+4g9/4vbHx1I54fS0XuclLhDHArPQCiMjDxjaL8fPxhw==}
     engines: {node: '>=0.12'}
@@ -1533,6 +1582,10 @@ packages:
       picomatch:
         optional: true
 
+  fetch-blob@3.2.0:
+    resolution: {integrity: sha512-7yAQpD2UMJzLi1Dqv7qFYnPbaPx7ZfFK6PiIxQ4PfkGPyNyl2Ugx+a/umUonmKqjhM4DnfbMvdX6otXq83soQQ==}
+    engines: {node: ^12.20 || >= 14.13}
+
   file-entry-cache@9.1.0:
     resolution: {integrity: sha512-/pqPFG+FdxWQj+/WSuzXSDaNzxgTLr/OrR1QuqfEZzDakpdYE70PwUxL7BPUa8hpjbvY1+qvCl8k+8Tq34xJgg==}
     engines: {node: '>=18'}
@@ -1555,6 +1608,9 @@ packages:
   focus-trap@7.6.0:
     resolution: {integrity: sha512-1td0l3pMkWJLFipobUcGaf+5DTY4PLDDrcqoSaKP8ediO/CoWCCYk/fT/Y2A4e6TNB+Sh6clRJCjOPPnKoNHnQ==}
 
+  focus-trap@7.6.4:
+    resolution: {integrity: sha512-xx560wGBk7seZ6y933idtjJQc1l+ck+pI3sKvhKozdBV1dRZoKhkW5xoCaFv9tQiX5RH1xfSxjuNu6g+lmN/gw==}
+
   foreground-child@3.3.0:
     resolution: {integrity: sha512-Ld2g8rrAyMYFXBhEqMz8ZAHBi4J4uS1i/CxGMDnjyFWddMXLVcDp051DZfu+t7+ab7Wv6SMqpWmyFIj5UbfFvg==}
     engines: {node: '>=14'}
@@ -1562,6 +1618,10 @@ packages:
   form-data@4.0.1:
     resolution: {integrity: sha512-tzN8e4TX8+kkxGPK8D5u0FNmjPUjw3lwC9lSLxxoB/+GtsJG91CO8bSWy73APlgAZzZbXEYZJuxjkHH2w+Ezhw==}
     engines: {node: '>= 6'}
+
+  formdata-polyfill@4.0.10:
+    resolution: {integrity: sha512-buewHzMvYL29jdeQTVILecSaZKnt/RJWjoZCF5OW60Z67/GmSLBkOFM7qh1PI3zFNtJbaZL5eQu1vLfazOwj4g==}
+    engines: {node: '>=12.20.0'}
 
   fsevents@2.3.3:
     resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
@@ -1598,6 +1658,9 @@ packages:
   globals@11.12.0:
     resolution: {integrity: sha512-WOBp/EEGUiIsJSp7wcv/y6MO+lV9UoncWqxuFfm8eBwzWNgyfBd6Gz+IeKQ9jCmyhoH99g15M3T+QaVHFjizVA==}
     engines: {node: '>=4'}
+
+  graceful-fs@4.2.11:
+    resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
 
   graphql@16.10.0:
     resolution: {integrity: sha512-AjqGKbDGUFRKIRCP9tCKiIGHyriz2oHEbPIbEtcSLSs4YjReZOIPQQWek4+6hjw62H9QShXHyaGivGiYVLeYFQ==}
@@ -1830,6 +1893,14 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
+  node-domexception@1.0.0:
+    resolution: {integrity: sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==}
+    engines: {node: '>=10.5.0'}
+
+  node-fetch@3.3.2:
+    resolution: {integrity: sha512-dRB78srN/l6gqWulah9SrxeYnxeddIG30+GOqK/9OlLVyLg3HPnr6SqOWTWOXKRwC2eGYCkZ59NNuSgvSrpgOA==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+
   node-releases@2.0.19:
     resolution: {integrity: sha512-xxOWJsBKtzAq7DY0J+DTzuz58K8e7sJbdgwkbMWQe8UYB6ekmsQ45q0M/tJDsGaZmbC+l7n57UV8Hl5tHxO9uw==}
 
@@ -2035,12 +2106,20 @@ packages:
   tabbable@6.2.0:
     resolution: {integrity: sha512-Cat63mxsVJlzYvN51JmVXIgNoUokrIaT2zLclCXjRd8boZ0004U4KCs/sToJ75C6sdlByWxpYnb5Boif1VSFew==}
 
+  tapable@2.2.1:
+    resolution: {integrity: sha512-GNzQvQTOIP6RyTfE2Qxb8ZVlNmw0n88vp1szwWRimP02mnTsx3Wtn5qRdqY9w2XduFNUgvOwhNnQsjwCp+kqaQ==}
+    engines: {node: '>=6'}
+
   test-exclude@7.0.1:
     resolution: {integrity: sha512-pFYqmTw68LXVjeWJMST4+borgQP2AyMNbg1BpZh9LbyhUeNkeaPF9gzfPGUAnSMV3qPYdWUwDIjjCLiSDOl7vg==}
     engines: {node: '>=18'}
 
   timezone-groups@0.10.2:
     resolution: {integrity: sha512-01G9JdlIybA9Njp0wJcGenXKWAw+woWbv6W/oMexWyPs7Nr/S2p2n1NRrMHbHaFzdf+PNNStQp1WILdnAGjYXQ==}
+    engines: {node: '>=18.12.0'}
+
+  timezone-groups@0.10.4:
+    resolution: {integrity: sha512-AnkJYrbb7uPkDCEqGeVJiawZNiwVlSkkeX4jZg1gTEguClhyX+/Ezn07KB6DT29tG3UN418ldmS/W6KqGOTDjg==}
     engines: {node: '>=18.12.0'}
 
   tinybench@2.9.0:
@@ -2088,6 +2167,9 @@ packages:
     resolution: {integrity: sha512-tk2G5R2KRwBd+ZN0zaEXpmzdKyOYksXwywulIX95MBODjSzMIuQnQ3m8JxgbhnL1LeVo7lqQKsYa1O3Htl7K5g==}
     engines: {node: '>=18'}
 
+  tslib@2.8.1:
+    resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
+
   tsx@4.19.2:
     resolution: {integrity: sha512-pOUl6Vo2LUq/bSa8S5q7b91cgNSjctn9ugq/+Mvow99qW6x/UZYwzxy/3NmqoT66eHYfCVvFvACC58UBPFf28g==}
     engines: {node: '>=18.0.0'}
@@ -2107,6 +2189,10 @@ packages:
 
   type-fest@4.31.0:
     resolution: {integrity: sha512-yCxltHW07Nkhv/1F6wWBr8kz+5BGMfP+RbRSYFnegVb0qV/UMT0G0ElBloPVerqn4M2ZV80Ir1FtCcYv1cT6vQ==}
+    engines: {node: '>=16'}
+
+  type-fest@4.34.1:
+    resolution: {integrity: sha512-6kSc32kT0rbwxD6QL1CYe8IqdzN/J/ILMrNK+HMQCKH3insCDRY/3ITb0vcBss0a3t72fzh2YSzj8ko1HgwT3g==}
     engines: {node: '>=16'}
 
   typescript@5.7.3:
@@ -2212,6 +2298,10 @@ packages:
   w3c-xmlserializer@5.0.0:
     resolution: {integrity: sha512-o8qghlI8NZHU1lLPrpi2+Uq7abh4GGPpYANlalzWxyWteJOCsr/P+oPBA49TOLu5FTZO4d3F9MnWJfiMo4BkmA==}
     engines: {node: '>=18'}
+
+  web-streams-polyfill@3.3.3:
+    resolution: {integrity: sha512-d2JWLCivmZYTSIoge9MsgFCZrt571BikcWGYkjC1khllbTeDlGqZ2D8vD8E/lJa8WGWbb7Plm8/XJYV7IJHZZw==}
+    engines: {node: '>= 8'}
 
   webidl-conversions@7.0.0:
     resolution: {integrity: sha512-VwddBukDzu71offAQR975unBIGqfKZpM+8ZX6ySk8nYhVoo5CYaZyzt3YBvYtRtO+aoGlqxPg/B87NGVZ/fu6g==}
@@ -2359,11 +2449,20 @@ snapshots:
 
   '@analytics/type-utils@0.6.2': {}
 
-  '@arcgis/core@4.31.6(@floating-ui/utils@0.2.8)':
+  '@arcgis/components-controllers@4.32.0-next.132':
+    dependencies:
+      '@arcgis/components-utils': 4.32.0-next.132
+      tslib: 2.8.1
+
+  '@arcgis/components-utils@4.32.0-next.132':
+    dependencies:
+      tslib: 2.8.1
+
+  '@arcgis/core@4.31.6(@floating-ui/utils@0.2.9)':
     dependencies:
       '@esri/arcgis-html-sanitizer': 4.1.0
       '@esri/calcite-colors': 6.1.0
-      '@esri/calcite-components': 2.13.2(@floating-ui/utils@0.2.8)
+      '@esri/calcite-components': 2.13.2(@floating-ui/utils@0.2.9)
       '@vaadin/grid': 24.5.5
       '@zip.js/zip.js': 2.7.54
       luxon: 3.5.0
@@ -2371,6 +2470,17 @@ snapshots:
       sortablejs: 1.15.6
     transitivePeerDependencies:
       - '@floating-ui/utils'
+
+  '@arcgis/lumina@4.32.0-next.132':
+    dependencies:
+      '@arcgis/components-controllers': 4.32.0-next.132
+      '@arcgis/components-utils': 4.32.0-next.132
+      '@lit-labs/ssr': 3.3.0
+      '@lit-labs/ssr-client': 1.1.7
+      '@lit/context': 1.1.3
+      csstype: 3.1.3
+      lit: 3.2.1
+      tslib: 2.8.1
 
   '@asamuzakjp/css-color@2.8.3':
     dependencies:
@@ -2912,7 +3022,7 @@ snapshots:
 
   '@esri/calcite-colors@6.1.0': {}
 
-  '@esri/calcite-components@2.13.2(@floating-ui/utils@0.2.8)':
+  '@esri/calcite-components@2.13.2(@floating-ui/utils@0.2.9)':
     dependencies:
       '@esri/calcite-ui-icons': 3.32.0
       '@floating-ui/dom': 1.6.11
@@ -2920,7 +3030,7 @@ snapshots:
       '@types/color': 3.0.6
       '@types/sortablejs': 1.15.8
       color: 4.2.3
-      composed-offset-position: 0.0.6(@floating-ui/utils@0.2.8)
+      composed-offset-position: 0.0.6(@floating-ui/utils@0.2.9)
       dayjs: 1.11.13
       focus-trap: 7.6.0
       interactjs: 1.10.27
@@ -2931,18 +3041,45 @@ snapshots:
     transitivePeerDependencies:
       - '@floating-ui/utils'
 
+  '@esri/calcite-components@3.0.0':
+    dependencies:
+      '@arcgis/components-controllers': 4.32.0-next.132
+      '@arcgis/components-utils': 4.32.0-next.132
+      '@arcgis/lumina': 4.32.0-next.132
+      '@esri/calcite-ui-icons': 4.0.0
+      '@floating-ui/dom': 1.6.13
+      '@floating-ui/utils': 0.2.9
+      '@types/color': 4.2.0
+      '@types/sortablejs': 1.15.8
+      color: 4.2.3
+      composed-offset-position: 0.0.6(@floating-ui/utils@0.2.9)
+      dayjs: 1.11.13
+      focus-trap: 7.6.4
+      interactjs: 1.10.27
+      lodash-es: 4.17.21
+      sortablejs: 1.15.6
+      timezone-groups: 0.10.4
+      type-fest: 4.34.1
+
   '@esri/calcite-ui-icons@3.32.0': {}
 
-  '@floating-ui/core@1.6.8':
+  '@esri/calcite-ui-icons@4.0.0': {}
+
+  '@floating-ui/core@1.6.9':
     dependencies:
-      '@floating-ui/utils': 0.2.8
+      '@floating-ui/utils': 0.2.9
 
   '@floating-ui/dom@1.6.11':
     dependencies:
-      '@floating-ui/core': 1.6.8
-      '@floating-ui/utils': 0.2.8
+      '@floating-ui/core': 1.6.9
+      '@floating-ui/utils': 0.2.9
 
-  '@floating-ui/utils@0.2.8': {}
+  '@floating-ui/dom@1.6.13':
+    dependencies:
+      '@floating-ui/core': 1.6.9
+      '@floating-ui/utils': 0.2.9
+
+  '@floating-ui/utils@0.2.9': {}
 
   '@fontsource/inconsolata@5.1.1': {}
 
@@ -3006,11 +3143,35 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
-  '@lit-labs/ssr-dom-shim@1.2.1': {}
+  '@lit-labs/ssr-client@1.1.7':
+    dependencies:
+      '@lit/reactive-element': 2.0.4
+      lit: 3.2.1
+      lit-html: 3.2.1
+
+  '@lit-labs/ssr-dom-shim@1.3.0': {}
+
+  '@lit-labs/ssr@3.3.0':
+    dependencies:
+      '@lit-labs/ssr-client': 1.1.7
+      '@lit-labs/ssr-dom-shim': 1.3.0
+      '@lit/reactive-element': 2.0.4
+      '@parse5/tools': 0.3.0
+      '@types/node': 16.18.126
+      enhanced-resolve: 5.18.1
+      lit: 3.2.1
+      lit-element: 4.1.1
+      lit-html: 3.2.1
+      node-fetch: 3.3.2
+      parse5: 7.2.1
+
+  '@lit/context@1.1.3':
+    dependencies:
+      '@lit/reactive-element': 2.0.4
 
   '@lit/reactive-element@2.0.4':
     dependencies:
-      '@lit-labs/ssr-dom-shim': 1.2.1
+      '@lit-labs/ssr-dom-shim': 1.3.0
 
   '@mswjs/interceptors@0.37.3':
     dependencies:
@@ -3031,6 +3192,10 @@ snapshots:
   '@open-draft/until@2.1.0': {}
 
   '@open-wc/dedupe-mixin@1.4.0': {}
+
+  '@parse5/tools@0.3.0':
+    dependencies:
+      parse5: 7.2.1
 
   '@pkgjs/parseargs@0.11.0':
     optional: true
@@ -3120,6 +3285,10 @@ snapshots:
     dependencies:
       '@types/color-convert': 2.0.4
 
+  '@types/color@4.2.0':
+    dependencies:
+      '@types/color-convert': 2.0.4
+
   '@types/cookie@0.6.0': {}
 
   '@types/dlv@1.1.5': {}
@@ -3127,6 +3296,8 @@ snapshots:
   '@types/estree@1.0.6': {}
 
   '@types/geojson@7946.0.16': {}
+
+  '@types/node@16.18.126': {}
 
   '@types/node@22.13.1':
     dependencies:
@@ -3478,9 +3649,9 @@ snapshots:
       has-own-prop: 2.0.0
       repeat-string: 1.6.1
 
-  composed-offset-position@0.0.6(@floating-ui/utils@0.2.8):
+  composed-offset-position@0.0.6(@floating-ui/utils@0.2.9):
     dependencies:
-      '@floating-ui/utils': 0.2.8
+      '@floating-ui/utils': 0.2.9
 
   convert-source-map@2.0.0: {}
 
@@ -3619,6 +3790,10 @@ snapshots:
       '@asamuzakjp/css-color': 2.8.3
       rrweb-cssom: 0.8.0
 
+  csstype@3.1.3: {}
+
+  data-uri-to-buffer@4.0.1: {}
+
   data-urls@5.0.0:
     dependencies:
       whatwg-mimetype: 4.0.0
@@ -3672,6 +3847,11 @@ snapshots:
   emoji-regex@8.0.0: {}
 
   emoji-regex@9.2.2: {}
+
+  enhanced-resolve@5.18.1:
+    dependencies:
+      graceful-fs: 4.2.11
+      tapable: 2.2.1
 
   entities@4.5.0: {}
 
@@ -3756,6 +3936,11 @@ snapshots:
     optionalDependencies:
       picomatch: 4.0.2
 
+  fetch-blob@3.2.0:
+    dependencies:
+      node-domexception: 1.0.0
+      web-streams-polyfill: 3.3.3
+
   file-entry-cache@9.1.0:
     dependencies:
       flat-cache: 5.0.0
@@ -3777,6 +3962,10 @@ snapshots:
     dependencies:
       tabbable: 6.2.0
 
+  focus-trap@7.6.4:
+    dependencies:
+      tabbable: 6.2.0
+
   foreground-child@3.3.0:
     dependencies:
       cross-spawn: 7.0.6
@@ -3787,6 +3976,10 @@ snapshots:
       asynckit: 0.4.0
       combined-stream: 1.0.8
       mime-types: 2.1.35
+
+  formdata-polyfill@4.0.10:
+    dependencies:
+      fetch-blob: 3.2.0
 
   fsevents@2.3.3:
     optional: true
@@ -3817,6 +4010,8 @@ snapshots:
       ini: 4.1.1
 
   globals@11.12.0: {}
+
+  graceful-fs@4.2.11: {}
 
   graphql@16.10.0: {}
 
@@ -3994,7 +4189,7 @@ snapshots:
 
   lit-element@4.1.1:
     dependencies:
-      '@lit-labs/ssr-dom-shim': 1.2.1
+      '@lit-labs/ssr-dom-shim': 1.3.0
       '@lit/reactive-element': 2.0.4
       lit-html: 3.2.1
 
@@ -4089,6 +4284,14 @@ snapshots:
   mute-stream@2.0.0: {}
 
   nanoid@3.3.8: {}
+
+  node-domexception@1.0.0: {}
+
+  node-fetch@3.3.2:
+    dependencies:
+      data-uri-to-buffer: 4.0.1
+      fetch-blob: 3.2.0
+      formdata-polyfill: 4.0.10
 
   node-releases@2.0.19: {}
 
@@ -4283,6 +4486,8 @@ snapshots:
 
   tabbable@6.2.0: {}
 
+  tapable@2.2.1: {}
+
   test-exclude@7.0.1:
     dependencies:
       '@istanbuljs/schema': 0.1.3
@@ -4290,6 +4495,8 @@ snapshots:
       minimatch: 9.0.5
 
   timezone-groups@0.10.2: {}
+
+  timezone-groups@0.10.4: {}
 
   tinybench@2.9.0: {}
 
@@ -4331,6 +4538,8 @@ snapshots:
     dependencies:
       punycode: 2.3.1
 
+  tslib@2.8.1: {}
+
   tsx@4.19.2:
     dependencies:
       esbuild: 0.23.1
@@ -4347,6 +4556,8 @@ snapshots:
   type-fest@4.18.2: {}
 
   type-fest@4.31.0: {}
+
+  type-fest@4.34.1: {}
 
   typescript@5.7.3: {}
 
@@ -4443,6 +4654,8 @@ snapshots:
   w3c-xmlserializer@5.0.0:
     dependencies:
       xml-name-validator: 5.0.0
+
+  web-streams-polyfill@3.3.3: {}
 
   webidl-conversions@7.0.0: {}
 
