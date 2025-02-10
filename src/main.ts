@@ -43,7 +43,6 @@ import PortalItem from "@arcgis/core/portal/PortalItem";
 import MapView from "@arcgis/core/views/MapView";
 import Expand from "@arcgis/core/widgets/Expand";
 import Home from "@arcgis/core/widgets/Home";
-import ScaleBar from "@arcgis/core/widgets/ScaleBar";
 import setupSearch from "./widgets/setupSearch";
 import "@esri/calcite-components";
 import "@esri/calcite-components/dist/calcite/calcite.css";
@@ -549,18 +548,11 @@ if (!testWebGL2Support()) {
 		},
 	);
 
-	const sb = new ScaleBar({
-		unit: "dual",
-		view,
-	});
-	view.ui.add(sb, UIAddPositions.bottomLeading);
-
-	if (import.meta.env.DEV) {
-		import("./widgets/addNumericalToScaleBar").then(
-			({ default: addNumericalScaleToScaleBar }) =>
-				addNumericalScaleToScaleBar(sb),
-		);
-	}
+	// Setup scalebar.
+	(async () => {
+		const { setupScalebar } = await import("./widgets/setup-scalebar");
+		await setupScalebar(view);
+	})();
 
 	view.popup.defaultPopupTemplateEnabled = true;
 
