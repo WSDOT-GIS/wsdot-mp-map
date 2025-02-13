@@ -1,0 +1,128 @@
+GET
+http://localhost:5173/data/tools/LocateMP/node_modules/.vite/deps/Popup-JPUQCPFM.js?v=8a54d12c
+[HTTP/1.1 200 OK 0ms]
+
+GET
+http://localhost:5173/data/tools/LocateMP/node_modules/.vite/deps/chunk-BAH6SSVW.js?v=8a54d12c
+[HTTP/1.1 200 OK 0ms]
+
+GET
+http://localhost:5173/data/tools/LocateMP/node_modules/.vite/deps/chunk-LSDCBZXC.js?v=8a54d12c
+[HTTP/1.1 200 OK 0ms]
+
+GET
+http://localhost:5173/data/tools/LocateMP/node_modules/.vite/deps/chunk-VCNCMGOA.js?v=8a54d12c
+[HTTP/1.1 200 OK 0ms]
+
+GET
+http://localhost:5173/data/tools/LocateMP/node_modules/.vite/deps/chunk-6RT73RKU.js?v=8a54d12c
+[HTTP/1.1 200 OK 0ms]
+
+GET
+http://localhost:5173/data/tools/LocateMP/node_modules/.vite/deps/chunk-EYUNJ4ZO.js?v=8a54d12c
+[HTTP/1.1 200 OK 0ms]
+
+GET
+http://localhost:5173/data/tools/LocateMP/node_modules/.vite/deps/chunk-R4APG44S.js?v=8a54d12c
+[HTTP/1.1 200 OK 0ms]
+
+GET
+http://localhost:5173/data/tools/LocateMP/node_modules/.vite/deps/chunk-SWXTN2EK.js?v=8a54d12c
+[HTTP/1.1 200 OK 0ms]
+
+updateUrlSearchParams 
+Object { routeLocation: {} }
+url-search.ts:4:11
+Failed to update URL search params. 
+Object { error: TypeError, feature: {…} }
+url-search.ts:71:15
+GET
+http://localhost:5173/data/tools/LocateMP/node_modules/.vite/deps/apng-BPUYHAT2.js?v=8a54d12c
+[HTTP/1.1 200 OK 0ms]
+
+Referrer Policy: Ignoring the less restricted referrer policy “no-referrer-when-downgrade” for the cross-site request: https://js.arcgis.com/calcite-components/2.3.0/p-041a823f.entry.js p-041a823f.entry.js
+Referrer Policy: Ignoring the less restricted referrer policy “no-referrer-when-downgrade” for the cross-site request: https://js.arcgis.com/calcite-components/2.3.0/p-320ba65f.entry.js p-320ba65f.entry.js
+GET
+https://js.arcgis.com/calcite-components/2.3.0/p-041a823f.entry.js
+[HTTP/2 200  0ms]
+
+GET
+https://js.arcgis.com/calcite-components/2.3.0/p-320ba65f.entry.js
+[HTTP/2 200  0ms]
+
+Referrer Policy: Ignoring the less restricted referrer policy “no-referrer-when-downgrade” for the cross-site request: https://js.arcgis.com/calcite-components/2.3.0/p-88059d1b.js p-88059d1b.js
+Referrer Policy: Ignoring the less restricted referrer policy “no-referrer-when-downgrade” for the cross-site request: https://js.arcgis.com/calcite-components/2.3.0/p-53968f27.js p-53968f27.js
+GET
+http://localhost:5173/data/tools/LocateMP/node_modules/.vite/deps/chunk-CKCJG52T.js?v=8a54d12c
+[HTTP/1.1 200 OK 0ms]
+
+GET
+https://js.arcgis.com/calcite-components/2.3.0/p-88059d1b.js
+[HTTP/2 200  0ms]
+
+GET
+https://js.arcgis.com/calcite-components/2.3.0/p-53968f27.js
+[HTTP/2 200  0ms]
+
+WebGL warning: texSubImage: Texture has not been initialized prior to a partial upload, forcing the browser to clear it. This may be slow.
+WebGL warning: texSubImage: Tex image TEXTURE_2D level 0 is incurring lazy initialization.
+GET
+https://js.arcgis.com/4.31/@arcgis/core/assets/esri/core/workers/chunks/61c5881bd481bd1e33d6.js
+[HTTP/2 304  25ms]
+
+WebGL warning: texSubImage: Texture has not been initialized prior to a partial upload, forcing the browser to clear it. This may be slow.
+WebGL warning: texSubImage: Tex image TEXTURE_2D level 0 is incurring lazy initialization.
+WebGL warning: texSubImage: Texture has not been initialized prior to a partial upload, forcing the browser to clear it. This may be slow.
+WebGL warning: texSubImage: Tex image TEXTURE_2D level 0 is incurring lazy initialization.
+GET
+http://localhost:5173/data/tools/LocateMP/node_modules/.vite/deps/editingSupport-B546BMKJ.js?v=8a54d12c
+[HTTP/1.1 200 OK 0ms]
+
+callFindNearestRouteLocation main.ts:235:13
+routeLocationToGraphic 
+Object { routeLocation: {…} }
+arcgis.ts:14:11
+output graphic 
+Object { aggregateGeometries: null, geometry: {…}, symbol: null, attributes: {…}, popupTemplate: null }
+arcgis.ts:73:13
+location graphic 
+Object { aggregateGeometries: null, geometry: {…}, symbol: null, attributes: {…}, popupTemplate: null }
+main.ts:262:13
+GET
+https://js.arcgis.com/4.31/@arcgis/core/assets/esri/core/workers/chunks/579221498820fa0fb527.js
+[HTTP/2 304  35ms]
+
+GET
+https://js.arcgis.com/4.31/@arcgis/core/assets/esri/core/workers/chunks/20c6eea4d1c3bf8d6ac5.js
+[HTTP/2 200  0ms]
+
+addResults returned by addGraphicsToLayer 
+Array [ {…} ]
+main.ts:264:15
+unreachable code after return statement acb9cb3801c4543d9111.js line 1 > Function:45:2
+callFindNearestRouteLocation main.ts:235:13
+routeLocationToGraphic 
+Object { routeLocation: {…} }
+arcgis.ts:14:11
+output graphic 
+Object { aggregateGeometries: null, geometry: {…}, symbol: null, attributes: {…}, popupTemplate: null }
+arcgis.ts:73:13
+location graphic 
+Object { aggregateGeometries: null, geometry: {…}, symbol: null, attributes: {…}, popupTemplate: null }
+main.ts:262:13
+addResults returned by addGraphicsToLayer 
+Array [ {…} ]
+main.ts:264:15
+callFindNearestRouteLocation main.ts:235:13
+routeLocationToGraphic 
+Object { routeLocation: {…} }
+arcgis.ts:14:11
+output graphic 
+Object { aggregateGeometries: null, geometry: {…}, symbol: null, attributes: {…}, popupTemplate: null }
+arcgis.ts:73:13
+location graphic 
+Object { aggregateGeometries: null, geometry: {…}, symbol: null, attributes: {…}, popupTemplate: null }
+main.ts:262:13
+addResults returned by addGraphicsToLayer 
+Array [ {…} ]
+main.ts:264:15

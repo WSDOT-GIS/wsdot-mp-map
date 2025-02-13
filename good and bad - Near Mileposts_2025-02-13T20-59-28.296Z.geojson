@@ -1,0 +1,65 @@
+{
+	"type": "FeatureCollection",
+	"features": [
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[-122.46281601074215, 47.21511557045143],
+					[-122.46284516620835, 47.215082897600595]
+				]
+			},
+			"properties": {
+				"OBJECTID": 1,
+				"Route": "005",
+				"Direction": "D",
+				"Srmp": 131.28,
+				"Back": "",
+				"EndSrmp": null,
+				"EndBack": ""
+			},
+			"id": 1
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[-122.46350265624997, 47.2221111447985],
+					[-122.46355074087884, 47.222120886217795]
+				]
+			},
+			"properties": {
+				"OBJECTID": 2,
+				"Route": "005",
+				"Direction": "D",
+				"Srmp": 131.77,
+				"Back": "",
+				"EndSrmp": null,
+				"EndBack": ""
+			},
+			"id": 2
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[-122.46247268798824, 47.228406372571584],
+					[-122.46199221063637, 47.22828020844164]
+				]
+			},
+			"properties": {
+				"OBJECTID": 3,
+				"Route": "005",
+				"Direction": "I",
+				"Srmp": 132.21,
+				"Back": "",
+				"EndSrmp": null,
+				"EndBack": ""
+			},
+			"id": 3
+		}
+	]
+}
