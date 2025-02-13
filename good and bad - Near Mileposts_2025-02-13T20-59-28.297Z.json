@@ -1,0 +1,139 @@
+{
+	"features": [
+		{
+			"aggregateGeometries": null,
+			"geometry": {
+				"spatialReference": { "wkid": 4326 },
+				"paths": [
+					[
+						[-122.46281601074215, 47.21511557045143],
+						[-122.46284516620835, 47.215082897600595]
+					]
+				]
+			},
+			"symbol": null,
+			"attributes": {
+				"OBJECTID": 1,
+				"Route": "005",
+				"Direction": "D",
+				"Srmp": 131.28,
+				"Back": "",
+				"EndSrmp": null,
+				"EndBack": ""
+			},
+			"popupTemplate": null
+		},
+		{
+			"aggregateGeometries": null,
+			"geometry": {
+				"spatialReference": { "wkid": 4326 },
+				"paths": [
+					[
+						[-122.46350265624997, 47.2221111447985],
+						[-122.46355074087884, 47.222120886217795]
+					]
+				]
+			},
+			"symbol": null,
+			"attributes": {
+				"OBJECTID": 2,
+				"Route": "005",
+				"Direction": "D",
+				"Srmp": 131.77,
+				"Back": "",
+				"EndSrmp": null,
+				"EndBack": ""
+			},
+			"popupTemplate": null
+		},
+		{
+			"aggregateGeometries": null,
+			"geometry": {
+				"spatialReference": { "wkid": 4326 },
+				"paths": [
+					[
+						[-122.46247268798824, 47.228406372571584],
+						[-122.46199221063637, 47.22828020844164]
+					]
+				]
+			},
+			"symbol": null,
+			"attributes": {
+				"OBJECTID": 3,
+				"Route": "005",
+				"Direction": "I",
+				"Srmp": 132.21,
+				"Back": "",
+				"EndSrmp": null,
+				"EndBack": ""
+			},
+			"popupTemplate": null
+		}
+	],
+	"fields": [
+		{
+			"alias": "OBJECTID",
+			"editable": true,
+			"name": "OBJECTID",
+			"nullable": true,
+			"type": "esriFieldTypeOID"
+		},
+		{
+			"alias": "Route",
+			"editable": true,
+			"length": 255,
+			"name": "Route",
+			"nullable": true,
+			"type": "esriFieldTypeString"
+		},
+		{
+			"alias": "Direction",
+			"defaultValue": "I",
+			"domain": {
+				"name": "Direction",
+				"type": "codedValue",
+				"codedValues": [
+					{ "name": "Increase", "code": "I" },
+					{ "name": "Decrease", "code": "D" }
+				]
+			},
+			"editable": true,
+			"length": 255,
+			"name": "Direction",
+			"nullable": true,
+			"type": "esriFieldTypeString"
+		},
+		{
+			"alias": "Srmp",
+			"editable": true,
+			"name": "Srmp",
+			"nullable": true,
+			"type": "esriFieldTypeDouble"
+		},
+		{
+			"alias": "Back",
+			"editable": true,
+			"length": 255,
+			"name": "Back",
+			"nullable": true,
+			"type": "esriFieldTypeString"
+		},
+		{
+			"alias": "EndSrmp",
+			"editable": true,
+			"name": "EndSrmp",
+			"nullable": true,
+			"type": "esriFieldTypeDouble"
+		},
+		{
+			"alias": "EndBack",
+			"editable": true,
+			"length": 255,
+			"name": "EndBack",
+			"nullable": true,
+			"type": "esriFieldTypeString"
+		}
+	],
+	"geometryType": "esriGeometryPolyline",
+	"spatialReference": { "wkid": 4326 }
+}
