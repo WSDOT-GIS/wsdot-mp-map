@@ -66,7 +66,7 @@ interface FeatureSet extends Record<string, unknown> {
 }
 
 export const milepostsUrl =
-	"https://data.wsdot.wa.gov/arcgis/rest/services/Shared/MilepostValues/FeatureServer/3/query/";
+	"https://data.wsdot.wa.gov/arcgis/rest/services/Shared/AllStateRoutePoints/MapServer/0/query/";
 /**
  * Retrieves a list of all route IDs and their minimum and maximum SRMP values.
  * @returns - A list of route IDs and their minimum and maximum SRMP values.
