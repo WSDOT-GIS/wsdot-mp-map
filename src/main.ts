@@ -357,6 +357,7 @@ if (!testWebGL2Support()) {
 		const locations = await findNearestRouteLocations({
 			coordinates: [x, y],
 			inSR: spatialReference.wkid,
+			outSR: spatialReference.wkid,
 			referenceDate: new Date(),
 			routeFilter: elcMainlinesOnlyFilter,
 			searchRadius: defaultSearchRadius,
@@ -368,6 +369,12 @@ if (!testWebGL2Support()) {
 		}
 
 		const locationGraphic = routeLocationToGraphic(location);
+
+		if (locationGraphic == null) {
+			console.error("null location graphic", {event, locations, location});
+			throw new TypeError(`${callFindNearestRouteLocation.name}: location graphic is null`)
+		}
+
 		if (hasXAndY(locationGraphic.geometry)) {
 			const { x: routeX, y: routeY } = locationGraphic.geometry;
 			locationGraphic.geometry = new Polyline({
@@ -389,7 +396,7 @@ if (!testWebGL2Support()) {
 			.then((addResults) => {
 				/* __PURE__ */ console.debug(
 					"addResults returned by addGraphicsToLayer",
-					addResults,
+					addResults.map((g) => g.toJSON()),
 				);
 			})
 			.catch((error: unknown) => {
