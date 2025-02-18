@@ -40,80 +40,60 @@ export function routeLocationToGraphic<
 	if (routeLocation instanceof ElcError) {
 		throw routeLocation;
 	}
-	/* __PURE__ */ console.group(routeLocationToGraphic.name, { routeLocation });
-	let outputGraphic: Graphic | undefined;
-	try {
-		let geometry: __esri.Point | __esri.Polyline | undefined;
-		if (routeLocation.RouteGeometry) {
-			if (hasXAndY(routeLocation.RouteGeometry)) {
-				const { x, y, spatialReference } = routeLocation.RouteGeometry;
-				geometry = new Point({ x, y, spatialReference });
-			} else if (hasPaths(routeLocation.RouteGeometry)) {
-				const { paths, spatialReference } = routeLocation.RouteGeometry;
-				geometry = new Polyline({
-					paths,
-					spatialReference,
-				});
-			}
-		} else {
-			console.warn(
-				"Input does not have valid point or polyline geometry.",
-				routeLocation,
-			);
-		}
-		let attributes:
-			| (Record<string, unknown> & {
-					OBJECTID: typeof oid;
-					Route?: string;
-					Direction: "D" | "I";
-					Srmp?: number;
-					Back: "B" | "";
-					EndSrmp?: number;
-					EndBack?: "B" | "";
-			  })
-			| undefined;
-		if (hasValidSrmpData(routeLocation)) {
-			const {
-				Route,
-				Decrease,
-				Srmp,
-				Back,
-				EndSrmp,
-				EndBack,
-				// Angle,
-				// Arm,
-				// ArmCalcReturnCode,
-				// ArmCalcReturnMessage,
-				// Distance,
-				// EventPoint,
-				// Id,
-				// RealignmentDate,
-				// ReferenceDate,
-				// ResponseDate,
-				// RouteGeometry,
-			} = routeLocation;
-			attributes = {
-				OBJECTID: oid,
-				Route,
-				Direction: Decrease ? "D" : "I",
-				Srmp,
-				Back: Back ? "B" : "",
-				EndSrmp: EndSrmp,
-				EndBack: EndBack ? "B" : "",
-			};
-			oid++;
-			outputGraphic = new Graphic({
-				geometry,
-				attributes,
+	let geometry: __esri.Point | __esri.Polyline | undefined;
+	if (routeLocation.RouteGeometry) {
+		if (hasXAndY(routeLocation.RouteGeometry)) {
+			const { x, y, spatialReference } = routeLocation.RouteGeometry;
+			geometry = new Point({ x, y, spatialReference });
+		} else if (hasPaths(routeLocation.RouteGeometry)) {
+			const { paths, spatialReference } = routeLocation.RouteGeometry;
+			geometry = new Polyline({
+				paths,
+				spatialReference,
 			});
-		} else {
-			console.warn("Input does not have valid SRMP attributes.", routeLocation);
 		}
-		/* __PURE__ */ console.debug("output graphic", outputGraphic?.toJSON());
-	} catch (e) {
-		console.error(e);
-	} finally {
-		/* __PURE__ */ console.groupEnd();
+	} else {
+		console.warn(
+			"Input does not have valid point or polyline geometry.",
+			routeLocation,
+		);
 	}
+
+	if (!hasValidSrmpData(routeLocation)) {
+		throw TypeError("does not have valid SRMP data", routeLocation);
+	}
+	const {
+		Route,
+		Decrease,
+		Srmp,
+		Back,
+		EndSrmp,
+		EndBack,
+		// Angle,
+		// Arm,
+		// ArmCalcReturnCode,
+		// ArmCalcReturnMessage,
+		// Distance,
+		// EventPoint,
+		// Id,
+		// RealignmentDate,
+		// ReferenceDate,
+		// ResponseDate,
+		// RouteGeometry,
+	} = routeLocation;
+	const attributes = {
+		OBJECTID: oid,
+		Route,
+		Direction: Decrease ? "D" : "I",
+		Srmp,
+		Back: Back ? "B" : "",
+		EndSrmp: EndSrmp,
+		EndBack: EndBack ? "B" : "",
+	};
+	oid++;
+	const outputGraphic = new Graphic({
+		geometry,
+		attributes,
+	});
 	return outputGraphic;
 }
