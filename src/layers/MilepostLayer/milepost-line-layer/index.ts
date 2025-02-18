@@ -47,5 +47,13 @@ export function createMilepostLineLayer(
 	popupTemplate.title = "{expression/popupTitle}";
 	lineLayer.popupTemplate = popupTemplate;
 
+	if (import.meta.env.DEV) {
+		lineLayer.when().then(async (layer) => {
+			console.log("debugging module", { layer });
+			const { nearestGraphic } = await import("./debug-graphic");
+			console.log("nearestGraphic", nearestGraphic.toJSON());
+		});
+	}
+
 	return lineLayer;
 }
