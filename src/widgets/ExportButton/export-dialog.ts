@@ -19,7 +19,24 @@ const reviver: Parameters<typeof JSON.parse>[1] = function (
 	return value;
 };
 
+/**
+ * Generator function that yields a list of {@link HTMLLIElement} elements for each
+ * provided layer. Each element contains a link element with a download attribute set
+ * to a filename that includes the layer's title and the current date and time.
+ * The link element also has its `href` attribute set to a blob URL of the GeoJSON
+ * representation of the FeatureSet.
+ *
+ * @param layers - An iterable of FeatureLayers to query for features.
+ * @yields A promise that resolves to an {@link HTMLLIElement} element for each layer.
+ */
 function* queryLayers(layers: Iterable<FeatureLayer>) {
+	/**
+	 * Execute a query on the provided layer and generate a list of links that
+	 * download the results in GeoJSON and JSON formats.
+	 *
+	 * @param layer - The layer to query.
+	 * @param listItem - An {@link HTMLLIElement} element that will be populated with the links.
+	 */
 	async function executeQuery(layer: FeatureLayer, listItem: HTMLLIElement) {
 		const { default: SpatialReference } = await import(
 			"@arcgis/core/geometry/SpatialReference"
@@ -83,12 +100,19 @@ function* queryLayers(layers: Iterable<FeatureLayer>) {
 	function createLinkListItem(layer: FeatureLayer) {
 		// Create the list item.
 		const listItem = document.createElement("li");
+
 		// Add its text: the layer title.
-		listItem.append(layer.title);
+		// "title" could possibly be nullish; in that case, use the layer id.
+		const title = layer.title ?? layer.id;
+		listItem.append(title);
+
 		// Create a progress meter and append it.
 		const progress = document.createElement("progress");
-		progress.textContent = `Generating GeoJSON for ${layer.title}...`;
+		progress.textContent = `Generating GeoJSON for ${title}...`;
 		listItem.append(progress);
+
+		// The list item will show a progress meter until the promise is resolved.
+		// after which the progress meter will be replaced with the link.
 
 		// Execute the query to get all features from the layer.
 		executeQuery(layer, listItem).catch((reason: unknown) => {
@@ -117,11 +141,9 @@ export function createExportDialog(layers: Iterable<FeatureLayer>) {
 	dialog.modal = true;
 
 	const dialogOpenHandler = (ev: CalciteDialogCustomEvent<void>) => {
-		(async () => {
-			const ul = document.createElement("ul");
-			ev.target.append(ul);
-			ul.append(...queryLayers(layers));
-		})();
+		const ul = document.createElement("ul");
+		ev.target.append(ul);
+		ul.append(...queryLayers(layers));
 	};
 	dialog.addEventListener("calciteDialogOpen", dialogOpenHandler);
 
