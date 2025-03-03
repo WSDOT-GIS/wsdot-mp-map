@@ -38,13 +38,17 @@ export function createMilepostLineLayer(
 
 	const lineLayer = new FeatureLayer(lineLayerProperties);
 	const popupTemplate = createPopupTemplate(lineLayer);
-	popupTemplate.expressionInfos.push(
-		new ExpressionInfo({
-			name: "routeSegmentLabel",
-			...routeSegmentLabelExpressionInfo,
-		}),
-	);
-	popupTemplate.title = "{expression/popupTitle}";
+	if (popupTemplate) {
+		popupTemplate.expressionInfos?.push(
+			new ExpressionInfo({
+				name: "routeSegmentLabel",
+				expression: routeSegmentLabelExpressionInfo.expression ?? undefined,
+				returnType: "string",
+				title: "Route Segment Label",
+			}),
+		);
+		popupTemplate.title = "{expression/popupTitle}";
+	}
 	lineLayer.popupTemplate = popupTemplate;
 
 	if (import.meta.env.DEV) {
