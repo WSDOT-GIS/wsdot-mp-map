@@ -23,7 +23,7 @@ export const locationLinksContent = new ExpressionContent({
 	},
 });
 
-export const routeSegmentLabelExpressionInfo: LabelClass["labelExpressionInfo"] =
+export const routeSegmentLabelExpressionInfo: NonNullable<LabelClass["labelExpressionInfo"]> =
 	{
 		title: "Route Segment Label",
 		expression: routeSegmentLabelArcade,
