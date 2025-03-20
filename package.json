@@ -21,8 +21,8 @@
 	},
 	"dependencies": {
 		"@analytics/google-tag-manager": "^0.6.0",
-		"@arcgis/core": "^4.32.8",
-		"@esri/calcite-components": "^3.0.3",
+		"@arcgis/core": "<4.32",
+		"@esri/calcite-components": "3.0.3",
 		"@fontsource/inconsolata": "^5.2.5",
 		"@fontsource/lato": "^5.2.5",
 		"@fontsource/overpass": "^5.2.5",
@@ -41,8 +41,8 @@
 		"@types/browser-update": "^3.3.3",
 		"@types/node": "^22.13.10",
 		"@types/terraformer__arcgis": "^2.0.5",
-		"@vitest/coverage-istanbul": "^3.0.8",
-		"@vitest/coverage-v8": "^3.0.8",
+		"@vitest/coverage-istanbul": "^3.0.9",
+		"@vitest/coverage-v8": "^3.0.9",
 		"browserslist-to-esbuild": "^2.1.1",
 		"cspell": "^8.17.5",
 		"jsdom": "^26.0.0",
@@ -52,8 +52,8 @@
 		"svgson": "^5.3.1",
 		"tsx": "^4.19.3",
 		"typescript": "^5.8.2",
-		"vite": "^6.2.1",
-		"vitest": "^3.0.8"
+		"vite": "^6.2.2",
+		"vitest": "^3.0.9"
 	},
 	"repository": {
 		"url": "https://github.com/WSDOT-GIS/wsdot-mp-map.git",
