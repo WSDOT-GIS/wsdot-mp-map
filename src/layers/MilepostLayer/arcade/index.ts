@@ -1,4 +1,3 @@
-import type LabelClass from "@arcgis/core/layers/support/LabelClass";
 import ExpressionInfo from "@arcgis/core/popup/ExpressionInfo";
 import ExpressionContent from "@arcgis/core/popup/content/ExpressionContent";
 import { isInternal } from "../../../urls/isIntranet";
@@ -23,11 +22,10 @@ export const locationLinksContent = new ExpressionContent({
 	},
 });
 
-export const routeSegmentLabelExpressionInfo: NonNullable<LabelClass["labelExpressionInfo"]> =
-	{
-		title: "Route Segment Label",
-		expression: routeSegmentLabelArcade,
-	} as const;
+export const routeSegmentLabelExpressionInfo = {
+	title: "Route Segment Label",
+	expression: routeSegmentLabelArcade,
+};
 
 function replaceVariableValueInArcadeExpression(
 	arcade: string,
@@ -109,7 +107,7 @@ const expressionInfoProperties = [
 		title: "Popup Title",
 		expression: PopupTitle,
 		returnType: "string",
-	}
+	},
 ] as const; // When editing, temporarily set type to __esri.ExpressionInfoProperties[]
 
 export type expressionNames = (typeof expressionInfoProperties)[number]["name"];
