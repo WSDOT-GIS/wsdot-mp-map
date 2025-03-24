@@ -1,0 +1,27 @@
+{
+	"Angle": 183.80722046210906,
+	"Arm": 131.11,
+	"ArmCalcReturnCode": 0,
+	"ArmCalcReturnMessage": "",
+	"Back": false,
+	"Decrease": false,
+	"Distance": 36.75849137392915,
+	"EventPoint": {
+		"x": -13632440.991654959,
+		"y": 5976712.752417208
+	},
+	"Id": 0,
+	"RealignmentDate": "1/1/2019",
+	"ReferenceDate": "2/24/2025",
+	"ResponseDate": "12/31/2023",
+	"Route": "005",
+	"RouteGeometry": {
+		"__type": "Point:#Wsdot.Geometry.Contracts",
+		"spatialReference": {
+			"wkid": 3857
+		},
+		"x": -13632408.200191956,
+		"y": 5976715.76476734
+	},
+	"Srmp": 131.05
+}

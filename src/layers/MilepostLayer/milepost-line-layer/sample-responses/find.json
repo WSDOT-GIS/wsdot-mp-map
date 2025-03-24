@@ -1,0 +1,21 @@
+{
+	"Arm": 131.11,
+	"ArmCalcReturnCode": 0,
+	"ArmCalcReturnMessage": "",
+	"Back": false,
+	"Decrease": false,
+	"Id": 0,
+	"RealignmentDate": "1/1/2019",
+	"ReferenceDate": "2/24/2025",
+	"ResponseDate": "12/31/2023",
+	"Route": "005",
+	"RouteGeometry": {
+		"__type": "Point:#Wsdot.Geometry.Contracts",
+		"spatialReference": {
+			"wkid": 3857
+		},
+		"x": -13632425.1012673,
+		"y": 5976719.793571933
+	},
+	"Srmp": 131.05
+}
