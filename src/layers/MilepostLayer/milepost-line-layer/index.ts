@@ -54,8 +54,20 @@ export function createMilepostLineLayer(
 	if (import.meta.env.DEV) {
 		lineLayer.when().then(async (layer) => {
 			console.log("debugging module", { layer });
-			const { nearestGraphic } = await import("./debug-graphic");
-			console.log("nearestGraphic", nearestGraphic.toJSON());
+			if (!(layer instanceof FeatureLayer)) {
+				throw TypeError("layer is not a FeatureLayer");
+			}
+			const { createDebugGraphic } = await import("./debug-graphic");
+			const nearestGraphic = await createDebugGraphic();
+			/* __PURE__ */  console.log("nearestGraphic", nearestGraphic.toJSON());
+			const editResults = await layer.applyEdits({
+				addFeatures: [nearestGraphic],
+			}).catch((err: unknown) => {
+				console.error("error applying edits", err);
+			})
+			return editResults;
+		}).catch(err => {
+			console.error("Error loading nearest graphic", err);
 		});
 	}
 
