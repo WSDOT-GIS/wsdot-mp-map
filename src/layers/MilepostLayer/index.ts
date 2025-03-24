@@ -57,6 +57,10 @@ export function createPopupTemplate(milepostLayer: FeatureLayer) {
 		visibleFieldNames: new Set(),
 	});
 
+	if (!popupTemplate) {
+		throw new TypeError("Popup template is not defined.");
+	}
+
 	const actions = createActionButtons();
 	popupTemplate.actions = actions;
 
@@ -70,6 +74,9 @@ export function createPopupTemplate(milepostLayer: FeatureLayer) {
 		// Hide the GeoURI and SRViewURL fields.
 		if (["geoURI", "popupTitle"].includes(xi.name)) {
 			fieldInfo.visible = false;
+		}
+		if (!popupTemplate.fieldInfos) {
+			popupTemplate.fieldInfos = [];
 		}
 		popupTemplate.fieldInfos.push(fieldInfo);
 	}
