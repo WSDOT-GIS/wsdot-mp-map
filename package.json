@@ -21,7 +21,7 @@
 	},
 	"dependencies": {
 		"@analytics/google-tag-manager": "^0.6.0",
-		"@arcgis/core": "<4.32",
+		"@arcgis/core": "<4.33",
 		"@esri/calcite-components": "3.0.3",
 		"@fontsource/inconsolata": "^5.2.5",
 		"@fontsource/lato": "^5.2.5",
@@ -39,7 +39,7 @@
 		"@biomejs/biome": "1.9.4",
 		"@types/arcgis-rest-api": "^10.4.8",
 		"@types/browser-update": "^3.3.3",
-		"@types/node": "^22.13.10",
+		"@types/node": "^22.13.13",
 		"@types/terraformer__arcgis": "^2.0.5",
 		"@vitest/coverage-istanbul": "^3.0.9",
 		"@vitest/coverage-v8": "^3.0.9",
@@ -52,7 +52,7 @@
 		"svgson": "^5.3.1",
 		"tsx": "^4.19.3",
 		"typescript": "^5.8.2",
-		"vite": "^6.2.2",
+		"vite": "^6.2.3",
 		"vitest": "^3.0.9"
 	},
 	"repository": {
