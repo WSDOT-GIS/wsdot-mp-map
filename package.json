@@ -21,8 +21,8 @@
 	},
 	"dependencies": {
 		"@analytics/google-tag-manager": "^0.6.0",
-		"@arcgis/core": "<4.32",
-		"@esri/calcite-components": "3.0.3",
+		"@arcgis/core": "<4.33",
+		"@esri/calcite-components": "3.1.0",
 		"@fontsource/inconsolata": "^5.2.5",
 		"@fontsource/lato": "^5.2.5",
 		"@fontsource/overpass": "^5.2.5",
@@ -39,12 +39,12 @@
 		"@biomejs/biome": "1.9.4",
 		"@types/arcgis-rest-api": "^10.4.8",
 		"@types/browser-update": "^3.3.3",
-		"@types/node": "^22.13.13",
+		"@types/node": "^22.13.14",
 		"@types/terraformer__arcgis": "^2.0.5",
-		"@vitest/coverage-istanbul": "^3.0.9",
-		"@vitest/coverage-v8": "^3.0.9",
+		"@vitest/coverage-istanbul": "^3.1.1",
+		"@vitest/coverage-v8": "^3.1.1",
 		"browserslist-to-esbuild": "^2.1.1",
-		"cspell": "^8.17.5",
+		"cspell": "^8.18.1",
 		"jsdom": "^26.0.0",
 		"msw": "^2.7.3",
 		"optionator": "^0.9.4",
@@ -52,8 +52,8 @@
 		"svgson": "^5.3.1",
 		"tsx": "^4.19.3",
 		"typescript": "^5.8.2",
-		"vite": "^6.2.3",
-		"vitest": "^3.0.9"
+		"vite": "^6.2.4",
+		"vitest": "^3.1.1"
 	},
 	"repository": {
 		"url": "https://github.com/WSDOT-GIS/wsdot-mp-map.git",
