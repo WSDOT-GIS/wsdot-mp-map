@@ -18,9 +18,11 @@
     See https://blog.jim-nielsen.com/2019/conditional-syntax-highlighting-in-dark-mode-with-css-imports/
      -->
   <link media="screen and (prefers-color-scheme: light)" rel="stylesheet"
-    href="https://js.arcgis.com/4.32/@arcgis/core/assets/esri/themes/light/main.css" />
+    href="https://js.arcgis.com/4.32/@arcgis/core/assets/esri/themes/light/main.css">
   <link rel="stylesheet" media="screen and (prefers-color-scheme: dark)"
-    href="https://js.arcgis.com/4.32/@arcgis/core/assets/esri/themes/dark/main.css" />
+    href="https://js.arcgis.com/4.32/@arcgis/core/assets/esri/themes/dark/main.css">
+
+  <link rel="stylesheet" href="https://js.arcgis.com/map-components/4.32/arcgis-map-components.css">
   <title>%VITE_TITLE%</title>
 </head>
 
@@ -86,7 +88,41 @@
       </calcite-panel>
     </calcite-shell-panel>
 
-    <div id="viewDiv"></div>
+    <!-- <div id="viewDiv"></div> -->
+    <!-- This is the map. It is set to be centered on WA. -->
+    <arcgis-map basemap="hybrid" center="-120.85,47.295" zoom="7">
+
+      <!--
+    Add map components.
+    Small components (e.g., ones that are just single buttons) are placed
+    directly on the map.
+    Ones that are more complex are placed in an "arcgis-expand" component.
+    -->
+
+      <!-- Top-leading -->
+      <arcgis-zoom position="top-leading"> </arcgis-zoom>
+      <arcgis-home position="top-leading"></arcgis-home>
+      <arcgis-locate position="top-leading"></arcgis-locate>
+
+
+      <!-- Top-trailing -->
+      <arcgis-expand position="top-trailing">
+        <arcgis-search></arcgis-search>
+      </arcgis-expand>
+      <arcgis-expand position="top-trailing">
+        <arcgis-layer-list></arcgis-layer-list>
+      </arcgis-expand>
+      <arcgis-expand position="top-trailing">
+        <arcgis-legend />
+      </arcgis-expand>
+      <arcgis-expand position="top-trailing">
+        <arcgis-basemap-gallery></arcgis-basemap-gallery>
+      </arcgis-expand>
+
+      <!-- Bottom-leading -->
+      <arcgis-scale-bar position="bottom-leading" unit="dual"></arcgis-scale-bar>
+
+    </arcgis-map>
     <wsdot-footer slot="footer"></wsdot-footer>
     <calcite-dialog slot="dialogs" id="disclaimer-dialog" modal kind="info" placement="center"
       heading="Disclaimer of warranties and limitations of liabilities"
