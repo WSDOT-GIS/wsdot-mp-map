@@ -21,8 +21,8 @@
 	},
 	"dependencies": {
 		"@analytics/google-tag-manager": "^0.6.0",
-		"@arcgis/core": "^4.32.8",
-		"@arcgis/map-components": "^4.32.11",
+		"@arcgis/core": "^4.32.9",
+		"@arcgis/map-components": "^4.32.13",
 		"@esri/calcite-components": "^3.1.0",
 		"@fontsource/inconsolata": "^5.2.5",
 		"@fontsource/lato": "^5.2.5",
