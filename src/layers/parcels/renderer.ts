@@ -1,7 +1,7 @@
-import Color from "@arcgis/core/Color";
-import ClassBreaksRenderer from "@arcgis/core/renderers/ClassBreaksRenderer";
-import ClassBreakInfo from "@arcgis/core/renderers/support/ClassBreakInfo";
-import SimpleFillSymbol from "@arcgis/core/symbols/SimpleFillSymbol";
+const Color = await $arcgis.import("@arcgis/core/Color");
+const ClassBreaksRenderer = await $arcgis.import("@arcgis/core/renderers/ClassBreaksRenderer");
+const ClassBreakInfo = await $arcgis.import("@arcgis/core/renderers/support/ClassBreakInfo");
+const SimpleFillSymbol = await $arcgis.import("@arcgis/core/symbols/SimpleFillSymbol");
 import { rangeDomainProperties } from "@wsdot/land-use-codes";
 import { landUseCategoryToColorMapping } from "./colors";
 

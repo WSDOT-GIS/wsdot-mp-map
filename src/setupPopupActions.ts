@@ -1,7 +1,10 @@
-import { on } from "@arcgis/core/core/reactiveUtils";
 import type Geometry from "@arcgis/core/geometry/Geometry";
-import Point from "@arcgis/core/geometry/Point";
-import { webMercatorToGeographic } from "@arcgis/core/geometry/support/webMercatorUtils";
+
+const [Point, {webMercatorToGeographic}, {on}] = await $arcgis.import([
+	"@arcgis/core/geometry/Point",
+	"@arcgis/core/geometry/support/webMercatorUtils",
+	"@arcgis/core/core/reactiveUtils",
+] as const);
 
 /**
  * Creates a calcite-alert element.

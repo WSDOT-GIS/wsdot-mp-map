@@ -1,6 +1,6 @@
 // https://wadnr.maps.arcgis.com/home/item.html?id=ae861d2304da4d099e0f7841fcbfa860
-import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
-import PortalItem from "@arcgis/core/portal/PortalItem";
+const FeatureLayer = await $arcgis.import("@arcgis/core/layers/FeatureLayer");
+const PortalItem = await $arcgis.import("@arcgis/core/portal/PortalItem");
 
 const displayField = "LEGAL_DESC_NM";
 

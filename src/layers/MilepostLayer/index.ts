@@ -1,8 +1,8 @@
-import Collection from "@arcgis/core/core/Collection";
+const Collection = await $arcgis.import("@arcgis/core/core/Collection");
 import type FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import type Field from "@arcgis/core/layers/support/Field";
-import FieldInfo from "@arcgis/core/popup/FieldInfo";
-import ActionButton from "@arcgis/core/support/actions/ActionButton";
+const FieldInfo = await $arcgis.import("@arcgis/core/popup/FieldInfo");
+const ActionButton = await $arcgis.import("@arcgis/core/support/actions/ActionButton");
 import type { MilepostExpressionInfo } from "./arcade";
 import {
 	expressions as arcadeExpressions,

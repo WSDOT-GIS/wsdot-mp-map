@@ -1,6 +1,4 @@
 import { createParcelsGroupLayer } from "./layers/parcels";
-import "@esri/calcite-components";
-import "@esri/calcite-components/dist/calcite/calcite.css";
 import "@fontsource/inconsolata";
 import "@fontsource/lato";
 import "@wsdot/web-styles/css/wsdot-colors.css";
@@ -8,16 +6,11 @@ import type { AnalyticsInstance } from "analytics";
 import isInternal from "./urls/isIntranet";
 import { createErrorAlert } from "./createElcErrorAlert";
 import type MapView from "@arcgis/core/views/MapView";
-import Graphic from "@arcgis/core/Graphic";
 import {
 	setupMPUrlParamsUpdate,
 	updateUrlSearchParams,
 } from "./history-api/url-search";
 import { findNearestRouteLocations } from "./elc";
-import { whenOnce } from "@arcgis/core/core/reactiveUtils";
-import Polyline from "@arcgis/core/geometry/Polyline";
-import Viewpoint from "@arcgis/core/Viewpoint";
-import config from "@arcgis/core/config";
 import { addGraphicsToLayer } from "./addGraphicsToLayer";
 import { routeLocationToGraphic } from "./elc/arcgis";
 import { callElcFromUrl } from "./elc/url";
@@ -28,7 +21,15 @@ import { tempLayer } from "./layers/TempLayer";
 import { hasXAndY, UIAddPositions, isGraphicHit } from "./types";
 import waExtent from "./WAExtent";
 import { setupSidebarCollapseButton } from "./widgets/CollapseButton";
-import SpatialReference from "@arcgis/core/geometry/SpatialReference";
+
+const [{ whenOnce }, Graphic, Polyline, Viewpoint, config] =
+	await $arcgis.import([
+		"@arcgis/core/core/reactiveUtils",
+		"@arcgis/core/Graphic",
+		"@arcgis/core/geometry/Polyline",
+		"@arcgis/core/Viewpoint",
+		"@arcgis/core/config",
+	] as const);
 
 (async () => {
 	let analytics: AnalyticsInstance | null = null;
@@ -120,7 +121,8 @@ import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 			// Update title to show user is using a non-production environment.
 			updateNonProductionTitle();
 
-			import("@arcgis/core/kernel")
+			$arcgis
+				.import("@arcgis/core/kernel")
 				.then(({ fullVersion }) => {
 					console.debug(
 						`ArcGIS Maps SDK for JavaScript version ${fullVersion}`,
@@ -130,8 +132,9 @@ import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 					console.warn("Failed to get ArcGIS JS API version", reason);
 				});
 
-			import("@arcgis/core/config")
-				.then(({ default: config }) => {
+			$arcgis
+				.import("@arcgis/core/config")
+				.then((config) => {
 					config.applicationName = import.meta.env.VITE_TITLE;
 					config.log.level = import.meta.env.DEV
 						? "info"
@@ -236,7 +239,7 @@ import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 				/* __PURE__ */ console.debug("openPopup", {
 					hits: hits.map((h) => h.graphic.toJSON() as unknown),
 				});
-				function extractGraphic(graphicHit: __esri.GraphicHit): Graphic {
+				function extractGraphic(graphicHit: __esri.GraphicHit): __esri.Graphic {
 					const { graphic } = graphicHit;
 					return graphic;
 				}
@@ -353,6 +356,17 @@ import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 					}
 
 					const locationGraphic = routeLocationToGraphic(location);
+
+					if (locationGraphic.geometry == null) {
+						throw new TypeError(
+							"locationGraphic.geometry should not be null or undefined",
+						);
+					}
+					/*
+					A point geometry will be converted to a polyline geometry,
+					with the start point being the click location and the end point
+					being the milepost location.
+					*/
 					if (hasXAndY(locationGraphic.geometry)) {
 						const { x: routeX, y: routeY } = locationGraphic.geometry;
 						locationGraphic.geometry = new Polyline({
@@ -364,11 +378,12 @@ import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 							],
 							spatialReference,
 						});
+					} else if (!locationGraphic.geometry) {
+						throw new TypeError("locationGraphic.geometry should not be null");
 					}
-					const layer =
-						locationGraphic.geometry.type === "point"
-							? milepostPointLayer
-							: milepostLineLayer;
+
+					const layer = milepostLineLayer;
+
 					/* __PURE__ */ console.debug(
 						"location graphic",
 						locationGraphic.toJSON(),
@@ -491,19 +506,6 @@ import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 					console.error("Failed to setup sidebar collapse button.", error);
 				}
 
-				import("@arcgis/core/widgets/Legend")
-					.then(({ default: Legend }) => {
-						// We can ignore SonarLint warning. Creating the new Legend also adds it to the UI,
-						// so we don't need to assign it to a variable or do anything else with it.
-						new Legend({
-							view: view,
-							container: "legend",
-						});
-					})
-					.catch((error: unknown) => {
-						console.error("Failed to import Legend module.", error);
-					});
-
 				whenOnce(() => map.initialized)
 					.then(() => {
 						const shell = document.querySelector<HTMLElement>("calcite-shell");
@@ -540,12 +542,6 @@ import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 						console.error("Failed to add loading indicator", reason);
 					},
 				);
-
-				// Setup scalebar.
-				(async () => {
-					const { setupScalebar } = await import("./widgets/setup-scalebar");
-					await setupScalebar(view);
-				})();
 
 				// When the view's popup has been created, enable the default popup template.
 				whenOnce(() => view.popup).then((popup) => {
@@ -726,7 +722,7 @@ import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 									 * point                   | A viewpoint with a specified scale
 									 * polyline (or non-point) | The feature itself.
 									 */
-									let goToTarget2D: Graphic | __esri.Viewpoint = feature;
+									let goToTarget2D: __esri.Graphic | __esri.Viewpoint = feature;
 
 									if (targetGeometry?.type === "point") {
 										const scale = Number.parseFloat(
@@ -759,15 +755,4 @@ import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 				);
 			}
 		});
-
-	await Promise.all([
-		import("@arcgis/map-components/components/arcgis-map"),
-		import("@arcgis/map-components/components/arcgis-zoom"),
-		import("@arcgis/map-components/components/arcgis-basemap-gallery"),
-		import("@arcgis/map-components/components/arcgis-expand"),
-		import("@arcgis/map-components/components/arcgis-search"),
-		import("@arcgis/map-components/components/arcgis-legend"),
-		import("@arcgis/map-components/components/arcgis-scale-bar"),
-		import("@arcgis/map-components/components/arcgis-layer-list"),
-	]);
 })();

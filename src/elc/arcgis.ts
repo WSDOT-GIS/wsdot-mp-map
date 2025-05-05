@@ -1,6 +1,6 @@
-import Graphic from "@arcgis/core/Graphic";
-import Point from "@arcgis/core/geometry/Point";
-import Polyline from "@arcgis/core/geometry/Polyline";
+const Graphic = await $arcgis.import("@arcgis/core/Graphic");
+const Point = await $arcgis.import("@arcgis/core/geometry/Point");
+const Polyline = await $arcgis.import("@arcgis/core/geometry/Polyline");
 import { hasPaths, hasXAndY } from "../types";
 import { ElcError } from "./errors";
 import type {
@@ -28,6 +28,8 @@ function hasValidSrmpData<D extends DateType, G extends RouteGeometry>(
 	return routeLocation.Route != null && routeLocation.Srmp != null;
 }
 
+type EsriRouteGeometryTypes = __esri.Point | __esri.Polyline;
+
 /**
  * Creates a {@link Graphic} from a {@link RouteLocation}
  * @param routeLocation - A route location
@@ -40,7 +42,7 @@ export function routeLocationToGraphic<
 	if (routeLocation instanceof ElcError) {
 		throw routeLocation;
 	}
-	let geometry: __esri.Point | __esri.Polyline | undefined;
+	let geometry: EsriRouteGeometryTypes | undefined;
 	if (routeLocation.RouteGeometry) {
 		if (hasXAndY(routeLocation.RouteGeometry)) {
 			const { x, y, spatialReference } = routeLocation.RouteGeometry;

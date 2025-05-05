@@ -1,5 +1,5 @@
-import Graphic from "@arcgis/core/Graphic";
-import Point from "@arcgis/core/geometry/Point";
+const Graphic = await $arcgis.import("@arcgis/core/Graphic");
+const Point = await $arcgis.import("@arcgis/core/geometry/Point");
 import { describe, test } from "vitest";
 import { findNearestRouteLocations, getRoutes } from "../src/elc";
 import { routeLocationToGraphic } from "../src/elc/arcgis";

@@ -1,6 +1,6 @@
 import type LabelClass from "@arcgis/core/layers/support/LabelClass";
-import ExpressionInfo from "@arcgis/core/popup/ExpressionInfo";
-import ExpressionContent from "@arcgis/core/popup/content/ExpressionContent";
+const ExpressionInfo = await $arcgis.import("@arcgis/core/popup/ExpressionInfo");
+const ExpressionContent = await $arcgis.import("@arcgis/core/popup/content/ExpressionContent");
 import { isInternal } from "../../../urls/isIntranet";
 import AccessControlArcade from "./Access Control.arcade?raw";
 import CityArcade from "./City.arcade?raw";

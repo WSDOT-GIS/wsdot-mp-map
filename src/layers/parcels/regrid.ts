@@ -1,5 +1,5 @@
-import TileLayer from "@arcgis/core/layers/TileLayer";
-import PortalItem from "@arcgis/core/portal/PortalItem";
+const TileLayer = await $arcgis.import("@arcgis/core/layers/TileLayer");
+const PortalItem = await $arcgis.import("@arcgis/core/portal/PortalItem");
 
 const arcGisOnlineId = "a2050b09baff493aa4ad7848ba2fac00";
 

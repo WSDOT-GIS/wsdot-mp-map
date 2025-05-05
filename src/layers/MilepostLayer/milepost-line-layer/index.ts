@@ -1,5 +1,5 @@
-import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
-import ExpressionInfo from "@arcgis/core/popup/ExpressionInfo";
+const FeatureLayer = await $arcgis.import("@arcgis/core/layers/FeatureLayer");
+const ExpressionInfo = await $arcgis.import("@arcgis/core/popup/ExpressionInfo");
 import { createPopupTemplate } from "..";
 import waExtent from "../../../WAExtent";
 import { objectIdFieldName } from "../../../elc/types";

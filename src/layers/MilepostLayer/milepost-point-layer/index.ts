@@ -1,6 +1,6 @@
 import type SpatialReference from "@arcgis/core/geometry/SpatialReference";
-import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
-import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer";
+const FeatureLayer = await $arcgis.import("@arcgis/core/layers/FeatureLayer");
+const SimpleRenderer = await $arcgis.import("@arcgis/core/renderers/SimpleRenderer");
 import { createPopupTemplate } from "..";
 import waExtent from "../../../WAExtent";
 import { objectIdFieldName } from "../../../elc/types";

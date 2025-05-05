@@ -2,10 +2,10 @@
 import waExtent from "./WAExtent";
 import "./components/wsdot-footer";
 import "./components/wsdot-header";
-import WebMap from "@arcgis/core/WebMap";
-import esriConfig from "@arcgis/core/config";
-import PortalItem from "@arcgis/core/portal/PortalItem";
-import MapView from "@arcgis/core/views/MapView";
+const WebMap = await $arcgis.import("@arcgis/core/WebMap");
+const esriConfig = await $arcgis.import("@arcgis/core/config");
+const PortalItem = await $arcgis.import("@arcgis/core/portal/PortalItem");
+const MapView = await $arcgis.import("@arcgis/core/views/MapView");
 import "@fontsource/lato";
 
 // In ArcGIS Online, you must create a file named .env.local

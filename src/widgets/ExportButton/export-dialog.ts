@@ -38,7 +38,7 @@ function* queryLayers(layers: Iterable<FeatureLayer>) {
 	 * @param listItem - An {@link HTMLLIElement} element that will be populated with the links.
 	 */
 	async function executeQuery(layer: FeatureLayer, listItem: HTMLLIElement) {
-		const { default: SpatialReference } = await import(
+		const SpatialReference = await $arcgis.import(
 			"@arcgis/core/geometry/SpatialReference"
 		);
 		const { arcgisToGeoJSON } = await import("@terraformer/arcgis");
