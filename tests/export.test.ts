@@ -1,4 +1,4 @@
-import FeatureSet from "@arcgis/core/rest/support/FeatureSet";
+const FeatureSet = await $arcgis.import("@arcgis/core/rest/support/FeatureSet");
 import { describe, test } from "vitest";
 import { convertArcGisFeatureSetToGeoJson } from "../src/export";
 import arcgisSample from "./mileposts-sample.arcgis.json";

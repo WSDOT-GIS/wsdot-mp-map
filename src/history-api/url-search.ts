@@ -1,5 +1,5 @@
-import { watch } from "@arcgis/core/core/reactiveUtils";
 import { RouteDescription } from "wsdot-route-utils";
+const {watch} = await $arcgis.import("@arcgis/core/core/reactiveUtils");
 
 type RouteLocationAttributes = Record<
 	string,

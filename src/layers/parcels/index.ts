@@ -1,4 +1,4 @@
-import GroupLayer from "@arcgis/core/layers/GroupLayer";
+const GroupLayer = await $arcgis.import("@arcgis/core/layers/GroupLayer");
 import { parcelsLayer as regridLayer } from "./regrid";
 import { parcelsLayer as waTechParcelsLayer } from "./watech";
 

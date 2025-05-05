@@ -1,6 +1,4 @@
 import type Graphic from "@arcgis/core/Graphic";
-import Viewpoint from "@arcgis/core/Viewpoint";
-import Point from "@arcgis/core/geometry/Point";
 import type FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import type MapView from "@arcgis/core/views/MapView";
 import { addGraphicsToLayer } from "./addGraphicsToLayer";
@@ -12,6 +10,11 @@ import {
 	type RouteInputEvent,
 	createSrmpInputForm,
 } from "./widgets/route-input/SrmpInputForm";
+
+const [ Viewpoint, Point ] = await $arcgis.import([
+	"@arcgis/core/Viewpoint",
+	"@arcgis/core/geometry/Point",
+])
 
 /**
  * Sets up the form for user input and adds event listener to capture SRMP input.
@@ -98,7 +101,7 @@ async function addSrmpFromForm(
 
 	const routeLocations = await findRouteLocations({
 		locations: [{ Route: routeId, Srmp: mp, Back: back, Decrease: decrease }],
-		outSR: view.spatialReference.wkid,
+		outSR: view.spatialReference.wkid || 3857,
 		referenceDate,
 	});
 
