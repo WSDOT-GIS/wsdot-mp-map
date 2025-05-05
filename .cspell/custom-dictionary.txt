@@ -38,6 +38,7 @@ SRMP
 svgson
 trivago
 tseslint
+vaadin
 Vite
 Voxel
 watech
