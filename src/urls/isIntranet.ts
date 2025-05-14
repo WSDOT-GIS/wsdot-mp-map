@@ -18,7 +18,7 @@ function isInternalUrl(url: Location | URL = location): boolean {
  * @param testUrl - The URL to test
  * @returns `true` if the user can access the URL, `false` otherwise.
  */
-async function canAccessIntranet(
+export async function canAccessIntranet(
 	testUrl = new URL("https://wwwi.wsdot.wa.gov/"),
 ) {
 	const response = await fetch(testUrl, { method: "HEAD" });

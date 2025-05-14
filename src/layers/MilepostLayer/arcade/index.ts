@@ -1,7 +1,7 @@
 import type LabelClass from "@arcgis/core/layers/support/LabelClass";
 const ExpressionInfo = await $arcgis.import("@arcgis/core/popup/ExpressionInfo");
 const ExpressionContent = await $arcgis.import("@arcgis/core/popup/content/ExpressionContent");
-import { isInternal } from "../../../urls/isIntranet";
+import { canAccessIntranet } from "../../../urls/isIntranet";
 import AccessControlArcade from "./Access Control.arcade?raw";
 import CityArcade from "./City.arcade?raw";
 import CountyArcade from "./County.arcade?raw";
@@ -150,7 +150,7 @@ const removeSrView = () => {
 };
 
 // Remove the SR View URL expression if we are not on the intranet.
-if (!isInternal()) {
+if (!canAccessIntranet()) {
 	removeSrView();
 }
 
