@@ -1,4 +1,4 @@
-const arcGisOnlineId = "96bd481859444ddd9c9f2a4d0d729570";
+const arcGisOnlineId = "569bb6050d634ff7a7f2462378ca974c";
 const parcelIdField = "PARCEL_ID_NR";
 
 const [
@@ -17,7 +17,7 @@ const [
 
 /**
  * Parcels layer
- * @see {@link https://wsdot.maps.arcgis.com/home/item.html?id=96bd481859444ddd9c9f2a4d0d729570}
+ * @see {@link https://wsdot.maps.arcgis.com/home/item.html?id=569bb6050d634ff7a7f2462378ca974c}
  */
 export const parcelsLayer = new FeatureLayer({
 	id: "parcels",
