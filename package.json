@@ -22,7 +22,7 @@
 	"dependencies": {
 		"@analytics/google-tag-manager": "^0.6.0",
 		"@arcgis/core": "^4.32.10",
-		"@esri/calcite-components": "3.1.0",
+		"@esri/calcite-components": "3.2.0",
 		"@fontsource/inconsolata": "^5.2.5",
 		"@fontsource/lato": "^5.2.5",
 		"@fontsource/overpass": "^5.2.5",
